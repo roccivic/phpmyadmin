@@ -10,7 +10,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.3.1 - Documentation</title>
+    <title>phpMyAdmin 3.3.2-rc1 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -18,7 +18,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.3.1 
+        3.3.2-rc1 
         Documentation
     </h1>
 </div>
@@ -1103,7 +1103,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_view">$cfg['Servers'][$i]['tracking_version_drop_view']</span> boolean
     </dt>
     <dd>
-        Whether a DROP VIEW IF EXISTS statement will added as first line to the log when creating a view. Default value is true.
+        Whether a DROP VIEW IF EXISTS statement will be added as first line to the log when creating a view. Default value is true.
         <br/><br/>       
     </dd>
 
@@ -1112,7 +1112,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_table">$cfg['Servers'][$i]['tracking_version_drop_table']</span> boolean
     </dt>
     <dd>
-        Whether a DROP TABLE IF EXISTS statement will added as first line to the log when creating a table. Default value is true.
+        Whether a DROP TABLE IF EXISTS statement will be added as first line to the log when creating a table. Default value is true.
         <br/><br/>
     </dd>
 
@@ -1120,7 +1120,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_database">$cfg['Servers'][$i]['tracking_version_drop_database']</span> boolean
     </dt>
     <dd>
-        Whether a DROP DATABASE IF EXISTS statement will added as first line to the log when creating a database. Default value is true.
+        Whether a DROP DATABASE IF EXISTS statement will be added as first line to the log when creating a database. Default value is true.
         <br/><br/>
     </dd>
 
@@ -4326,20 +4326,23 @@ chmod o+rwx tmp
 
 <p> The following method is preferred for new developers:</p>
 
-<ol><li>fetch the current SVN tree over anonymous SVN:<br />
-    <tt>svn co https://phpmyadmin.svn.sourceforge.net/svnroot/phpmyadmin/trunk/phpMyAdmin</tt><br />
+<ol><li>fetch the current git repository over anonymous git:<br />
+    <tt>git clone
+        git://phpmyadmin.git.sourceforge.net/gitroot/phpmyadmin/phpmyadmin</tt><br />
     </li>
     <li>add your stuff</li>
     <li>generate patch with your changes:
-    <tt>svn diff</tt><br />
+    <tt>git diff &gt; xxx.diff</tt><br />
     </li>
-    <li>put the patch inside the <a
+    <li>submit your patch via the <a
         href="https://sourceforge.net/tracker/?group_id=23067&amp;atid=377410">patch
         tracker of the phpMyAdmin project</a>.
     </li>
 </ol>
 
-<p> Write access to the SVN tree is granted only to experienced developers who
+<p>More details on git are available on <a href="http://wiki.phpmyadmin.net/pma/Devel:Git">our wiki</a>.</p>
+
+<p> Write access to the repository is granted only to experienced developers who
     have already contributed something useful to phpMyAdmin.<br />
     Also, have a look at the <a href="#developers">Developers section</a>.</p>
 
