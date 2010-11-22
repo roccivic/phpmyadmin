@@ -1,15 +1,18 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * function used in table data manipulation pages
+ * @fileoverview    function used in table data manipulation pages
  *
- * @version $Id$
+ * @requires    jQuery
+ * @requires    jQueryUI
+ * @requires    js/functions.js
+ *
  */
 
 /**
  * Modify from controls when the "NULL" checkbox is selected
  *
  * @param   string   the MySQL field type
- * @param   string   the urlencoded field name - OBSOLETE 
+ * @param   string   the urlencoded field name - OBSOLETE
  * @param   string   the md5 hashed field name
  * @param   string   the multi_edit row sequence number
  *
@@ -56,6 +59,173 @@ function nullify(theType, urlField, md5Field, multi_edit)
 
 
 /**
+ * javascript DateTime format validation.
+ * its used to prevent adding default (0000-00-00 00:00:00) to database when user enter wrong values
+ * Start of validation part
+ */
+//function checks the number of days in febuary
+function daysInFebruary (year){
+    return (((year % 4 == 0) && ( (!(year % 100 == 0)) || (year % 400 == 0))) ? 29 : 28 );
+}
+//function to convert single digit to double digit
+function fractionReplace(num)
+{
+    num=parseInt(num);
+    var res="00";
+    switch(num)
+    {
+        case 1:res= "01";break;
+        case 2:res= "02";break;
+        case 3:res= "03";break;
+        case 4:res= "04";break;
+        case 5:res= "05";break;
+        case 6:res= "06";break;
+        case 7:res= "07";break;
+        case 8:res= "08";break;
+        case 9:res= "09";break;
+        }
+    return res;
+}
+
+/* function to check the validity of date
+* The following patterns are accepted in this validation (accepted in mysql as well)
+* 1) 2001-12-23
+* 2) 2001-1-2
+* 3) 02-12-23
+* 4) And instead of using '-' the following punctuations can be used (+,.,*,^,@,/) All these are accepted by mysql as well. Therefore no issues
+*/
+function isDate(val,tmstmp)
+{
+    val=val.replace(/[.|*|^|+|//|@]/g,'-');
+    var arrayVal=val.split("-");
+    for(var a=0;a<arrayVal.length;a++)
+    {
+        if(arrayVal[a].length==1)
+            arrayVal[a]=fractionReplace(arrayVal[a]);
+    }
+    val=arrayVal.join("-");
+    var pos=2;
+            dtexp=new RegExp(/^([0-9]{4})-(((01|03|05|07|08|10|12)-((0[0-9])|([1-2][0-9])|(3[0-1])))|((02|04|06|09|11)-((0[0-9])|([1-2][0-9])|30)))$/);
+        if(val.length==8)
+        {
+            dtexp=new RegExp(/^([0-9]{2})-(((01|03|05|07|08|10|12)-((0[0-9])|([1-2][0-9])|(3[0-1])))|((02|04|06|09|11)-((0[0-9])|([1-2][0-9])|30)))$/);
+            pos=0;
+        }
+        if(dtexp.test(val))
+        {
+            var month=parseInt(val.substring(pos+3,pos+5));
+            var day=parseInt(val.substring(pos+6,pos+8));
+            var year=parseInt(val.substring(0,pos+2));
+            if(month==2&&day>daysInFebruary(year))
+                return false;
+            if(val.substring(0,pos+2).length==2)
+            {
+                if(val.substring(0,pos+2).length==2)
+                    year=parseInt("20"+val.substring(0,pos+2));
+                else
+                    year=parseInt("19"+val.substring(0,pos+2));
+            }
+            if(tmstmp==true)
+            {
+                if(year<1978) return false;
+                if(year>2038||(year>2037&&day>19&&month>=1)||(year>2037&&month>1)) return false;
+                }
+        }
+        else
+            return false;
+        return true;
+}
+
+/* function to check the validity of time
+* The following patterns are accepted in this validation (accepted in mysql as well)
+* 1) 2:3:4
+* 2) 2:23:43
+*/
+function isTime(val)
+{
+    var arrayVal=val.split(":");
+    for(var a=0;a<arrayVal.length;a++)
+    {
+        if(arrayVal[a].length==1)
+            arrayVal[a]=fractionReplace(arrayVal[a]);
+    }
+    val=arrayVal.join(":");
+    tmexp=new RegExp(/^(([0-1][0-9])|(2[0-3])):((0[0-9])|([1-5][0-9])):((0[0-9])|([1-5][0-9]))$/);
+        if(!tmexp.test(val))
+            return false;
+        return true;
+}
+//validate the datetime and integer
+function Validator(urlField, multi_edit,theType){
+    var rowForm = document.forms['insertForm'];
+    var evt = window.event || arguments.callee.caller.arguments[0];
+    var target = evt.target || evt.srcElement;
+    unNullify(urlField, multi_edit);
+
+    if(target.name.substring(0,6)=="fields")
+    {
+        var dt=rowForm.elements['fields[multi_edit][' + multi_edit + '][' + urlField + ']'];
+        // validate for date time
+        if(theType=="datetime"||theType=="time"||theType=="date"||theType=="timestamp")
+        {
+            if(theType=="date"){
+                if(!isDate(dt.value))
+                    {
+                        dt.className="invalid_value";
+                        return false;
+                    }
+            }
+            else if(theType=="time")
+            {
+                if(!isTime(dt.value))
+                {
+                    dt.className="invalid_value";
+                    return false;
+                }
+            }
+            else if(theType=="datetime"||theType=="timestamp")
+            {
+                tmstmp=false;
+                if(dt.value=="CURRENT_TIMESTAMP")
+                {
+                    dt.className="";
+                    return true;
+                }
+                if(theType=="timestamp")
+                {
+                    tmstmp=true;
+                }
+                if(dt.value=="0000-00-00 00:00:00")
+                    return true;
+                var dv=dt.value.indexOf(" ");
+                if(dv==-1)
+                {
+                    dt.className="invalid_value";
+                    return false;
+                }
+                else
+                {
+                    if(!(isDate(dt.value.substring(0,dv),tmstmp)&&isTime(dt.value.substring(dv+1))))
+                    {
+                        dt.className="invalid_value";
+                        return false;
+                    }
+                }
+            }
+        }
+        //validate for integer type
+        if(theType.substring(0,3)=="int"){
+
+            if(isNaN(dt.value)){
+                    dt.className="invalid_value";
+                    return false;
+            }
+        }
+    }
+ }
+ /* End of datetime validation*/
+
+/**
  * Unchecks the "NULL" control when a function has been selected or a value
  * entered
  *
@@ -79,280 +249,215 @@ function unNullify(urlField, multi_edit)
     return true;
 } // end of the 'unNullify()' function
 
-var day;
-var month;
-var year;
-var hour;
-var minute;
-var second;
-var clock_set = 0;
-
 /**
- * Opens calendar window.
+ * Ajax handlers for Change Table page
  *
- * @param   string      calendar.php parameters
- * @param   string      form name
- * @param   string      id of field name
- * @param   string      edit type - date/timestamp
- * @param   string      id of the corresponding checkbox for NULL 
+ * Actions Ajaxified here:
+ * Submit Data to be inserted into the table
+ * Restart insertion with 'N' rows.
  */
-function openCalendar(params, form, field, type, fieldNull) {
-    window.open("./calendar.php?" + params, "calendar", "width=400,height=200,status=yes");
-    dateField = eval("document." + form + "." + field);
-    dateType = type;
-    if (fieldNull != '') {
-        dateFieldNull = eval("document." + form + "." + fieldNull);
-    }
-}
+$(document).ready(function() {
 
-/**
- * Formats number to two digits.
- *
- * @param   int number to format.
- * @param   string type of number
- */
-function formatNum2(i, valtype) {
-    f = (i < 10 ? '0' : '') + i;
-    if (valtype && valtype != '') {
-        switch(valtype) {
-            case 'month':
-                f = (f > 12 ? 12 : f);
-                break;
+    /**
+     * Handles all current checkboxes for Null 
+     * 
+     */
+    $('.checkbox_null').bind('click', function(e) {
+            nullify(
+                // use hidden fields populated by tbl_change.php
+                $(this).siblings('.nullify_code').val(),
+                $(this).closest('tr').find('input:hidden').first().val(), 
+                $(this).siblings('.hashed_field').val(),
+                $(this).siblings('.multi_edit').val()
+            );
+    });
 
-            case 'day':
-                f = (f > 31 ? 31 : f);
-                break;
+    /**
+     * Submission of data to be inserted or updated 
+     * 
+     * @uses    PMA_ajaxShowMessage()
+     */
+    $("#insertForm").live('submit', function(event) {
 
-            case 'hour':
-                f = (f > 24 ? 24 : f);
-                break;
+        /**
+         * @var the_form    Object referring to the insertion form
+         */
+        var $form = $(this);
+        event.preventDefault();
 
-            default:
-            case 'second':
-            case 'minute':
-                f = (f > 59 ? 59 : f);
-                break;
+        PMA_ajaxShowMessage();
+        if (! $form.find('input:hidden').is('#ajax_request_hidden')) {
+            $form.append('<input type="hidden" id="ajax_request_hidden" name="ajax_request" value="true" />');
         }
-    }
 
-    return f;
-}
+        $.post($form.attr('action'), $form.serialize(), function(data) {
+            if (typeof data.success != 'undefined') {
+                if(data.success == true) {
+                    PMA_ajaxShowMessage(data.message);
 
-/**
- * Formats number to two digits.
- *
- * @param   int number to format.
- * @param   int default value
- * @param   string type of number
- */
-function formatNum2d(i, default_v, valtype) {
-    i = parseInt(i, 10);
-    if (isNaN(i)) return default_v;
-    return formatNum2(i, valtype)
-}
+                    $("#topmenucontainer")
+                    .next('div')
+                    .remove()
+                    .end()
+                    .after(data.sql_query);
 
-/**
- * Formats number to four digits.
- *
- * @param   int number to format.
- */
-function formatNum4(i) {
-    i = parseInt(i, 10)
-    return (i < 1000 ? i < 100 ? i < 10 ? '000' : '00' : '0' : '') + i;
-}
-
-/**
- * Initializes calendar window.
- */
-function initCalendar() {
-    if (!year && !month && !day) {
-        /* Called for first time */
-        if (window.opener.dateField.value) {
-            value = window.opener.dateField.value;
-            if (window.opener.dateType == 'datetime' || window.opener.dateType == 'date') {
-                if (window.opener.dateType == 'datetime') {
-                    parts   = value.split(' ');
-                    value   = parts[0];
-
-                    if (parts[1]) {
-                        time    = parts[1].split(':');
-                        hour    = parseInt(time[0],10);
-                        minute  = parseInt(time[1],10);
-                        second  = parseInt(time[2],10);
+                    //Remove the empty notice div generated due to a NULL query passed to PMA_showMessage()
+                    var $notice_class = $("#topmenucontainer").next("div").find('.notice');
+                    if ($notice_class.text() == '') {
+                        $notice_class.remove();
                     }
+
+                    var submit_type = $form.find("select[name='submit_type']").val();
+                    if ('insert' == submit_type || 'insertignore' == submit_type) {
+                        //Clear the data in the forms
+                        $form.find('input:reset').trigger('click');
+                    }
+                } else {
+                    PMA_ajaxShowMessage(PMA_messages['strErrorProcessingRequest'] + " : "+data.error, "7000");
                 }
-                date        = value.split("-");
-                day         = parseInt(date[2],10);
-                month       = parseInt(date[1],10) - 1;
-                year        = parseInt(date[0],10);
             } else {
-                year        = parseInt(value.substr(0,4),10);
-                month       = parseInt(value.substr(4,2),10) - 1;
-                day         = parseInt(value.substr(6,2),10);
-                hour        = parseInt(value.substr(8,2),10);
-                minute      = parseInt(value.substr(10,2),10);
-                second      = parseInt(value.substr(12,2),10);
+                //happens for example when no change was done while editing
+                $('#insertForm').remove();
+                $('#topmenucontainer').after('<div id="sqlqueryresults"></div>');
+                $('#sqlqueryresults').html(data);
+            }
+        })
+    }) // end submission of data to be inserted into table
+
+    /**
+     * Continue Insertion form
+     */
+    $("#insert_rows").live('change', function(event) {
+        event.preventDefault();
+
+        /**
+         * @var curr_rows   Number of current insert rows already on page
+         */
+        var curr_rows = $(".insertRowTable").length;
+        /**
+         * @var target_rows Number of rows the user wants
+         */
+        var target_rows = $("#insert_rows").val();
+
+        if(curr_rows < target_rows ) {
+            while( curr_rows < target_rows ) {
+
+                /**
+                 * @var last_row    Object referring to the last row
+                 */
+                var last_row = $("#insertForm").find(".insertRowTable:last");
+
+                //Clone the insert tables
+                $(last_row)
+                .clone()
+                .insertBefore("#insertForm > fieldset")
+                .find('input[name*=multi_edit],select[name*=multi_edit]')
+                .each(function() {
+
+                    /**
+                     * Extract the index from the name attribute for all input/select fields and increment it
+                     * name is of format funcs[multi_edit][10][<long random string of alphanum chars>]
+                     */
+
+                    /**
+                     * @var this_name   String containing name of the input/select elements
+                     */
+                    var this_name = $(this).attr('name');
+                    /** split {@link this_name} at [10], so we have the parts that can be concatenated later */
+                    var name_parts = this_name.split(/\[\d+\]/);
+                    /** extract the [10] from  {@link name_parts} */
+                    var old_row_index_string = this_name.match(/\[\d+\]/)[0];
+                    /** extract 10 - had to split into two steps to accomodate double digits */
+                    var old_row_index = parseInt(old_row_index_string.match(/\d+/)[0]);
+
+                    /** calculate next index i.e. 11 */
+                    var new_row_index = old_row_index + 1;
+                    /** generate the new name i.e. funcs[multi_edit][11][foobarbaz] */
+                    var new_name = name_parts[0] + '[' + new_row_index + ']' + name_parts[1];
+
+                    var hashed_field = name_parts[1].match(/\[(.+)\]/)[1];
+                    $(this).attr('name', new_name);
+
+                    $(this).filter('.textfield')
+                        .attr('value', '')
+                        .unbind('change')
+                        .attr('onchange', null)
+                        .bind('change', function(e) {
+                            Validator(
+                                hashed_field, 
+                                new_row_index, 
+                                $(this).closest('tr').find('span.column_type').html()
+                                );
+                        })
+                        .end();
+
+                    $(this).filter('.checkbox_null')
+                        .bind('click', function(e) {
+                                nullify(
+                                    $(this).siblings('.nullify_code').val(),
+                                    $(this).closest('tr').find('input:hidden').first().val(), 
+                                    hashed_field, 
+                                    '[multi_edit][' + new_row_index + ']'
+                                    );
+                        }) 
+                        .end();
+
+                });
+
+                //Insert/Clone the ignore checkboxes
+                if(curr_rows == 1 ) {
+                    $('<input id="insert_ignore_1" type="checkbox" name="insert_ignore_1" checked="checked" />')
+                    .insertBefore(".insertRowTable:last")
+                    .after('<label for="insert_ignore_1">' + PMA_messages['strIgnore'] + '</label>');
+                }
+                else {
+
+                    /**
+                     * @var last_checkbox   Object reference to the last checkbox in #insertForm
+                     */
+                    var last_checkbox = $("#insertForm").children('input:checkbox:last');
+
+                    /** name of {@link last_checkbox} */
+                    var last_checkbox_name = $(last_checkbox).attr('name');
+                    /** index of {@link last_checkbox} */
+                    var last_checkbox_index = parseInt(last_checkbox_name.match(/\d+/));
+                    /** name of new {@link last_checkbox} */
+                    var new_name = last_checkbox_name.replace(/\d+/,last_checkbox_index+1);
+
+                    $(last_checkbox)
+                    .clone()
+                    .attr({'id':new_name, 'name': new_name, 'checked': true})
+                    .add('label[for^=insert_ignore]:last')
+                    .clone()
+                    .attr('for', new_name)
+                    .before('<br />')
+                    .insertBefore(".insertRowTable:last");
+                }
+                curr_rows++;
+            }
+        // recompute tabindex for text fields and other controls at footer;
+        // IMO it's not really important to handle the tabindex for
+        // function and Null
+        var tabindex = 0;
+        $('.textfield') 
+        .each(function() {
+                tabindex++;
+                $(this).attr('tabindex', tabindex);
+            });
+        $('.control_at_footer')
+        .each(function() {
+                tabindex++;
+                $(this).attr('tabindex', tabindex);
+            });
+        }
+        else if( curr_rows > target_rows) {
+            while(curr_rows > target_rows) {
+                $("input[id^=insert_ignore]:last")
+                .nextUntil("fieldset")
+                .andSelf()
+                .remove();
+                curr_rows--;
             }
         }
-        if (isNaN(year) || isNaN(month) || isNaN(day) || day == 0) {
-            dt      = new Date();
-            year    = dt.getFullYear();
-            month   = dt.getMonth();
-            day     = dt.getDate();
-        }
-        if (isNaN(hour) || isNaN(minute) || isNaN(second)) {
-            dt      = new Date();
-            hour    = dt.getHours();
-            minute  = dt.getMinutes();
-            second  = dt.getSeconds();
-        }
-    } else {
-        /* Moving in calendar */
-        if (month > 11) {
-            month = 0;
-            year++;
-        }
-        if (month < 0) {
-            month = 11;
-            year--;
-        }
-    }
-
-    if (document.getElementById) {
-        cnt = document.getElementById("calendar_data");
-    } else if (document.all) {
-        cnt = document.all["calendar_data"];
-    }
-
-    cnt.innerHTML = "";
-
-    str = ""
-
-    //heading table
-    str += '<table class="calendar"><tr><th width="50%">';
-    str += '<form method="NONE" onsubmit="return 0">';
-    str += '<a href="javascript:month--; initCalendar();">&laquo;</a> ';
-    str += '<select id="select_month" name="monthsel" onchange="month = parseInt(document.getElementById(\'select_month\').value); initCalendar();">';
-    for (i =0; i < 12; i++) {
-        if (i == month) selected = ' selected="selected"';
-        else selected = '';
-        str += '<option value="' + i + '" ' + selected + '>' + month_names[i] + '</option>';
-    }
-    str += '</select>';
-    str += ' <a href="javascript:month++; initCalendar();">&raquo;</a>';
-    str += '</form>';
-    str += '</th><th width="50%">';
-    str += '<form method="NONE" onsubmit="return 0">';
-    str += '<a href="javascript:year--; initCalendar();">&laquo;</a> ';
-    str += '<select id="select_year" name="yearsel" onchange="year = parseInt(document.getElementById(\'select_year\').value); initCalendar();">';
-    for (i = year - 25; i < year + 25; i++) {
-        if (i == year) selected = ' selected="selected"';
-        else selected = '';
-        str += '<option value="' + i + '" ' + selected + '>' + i + '</option>';
-    }
-    str += '</select>';
-    str += ' <a href="javascript:year++; initCalendar();">&raquo;</a>';
-    str += '</form>';
-    str += '</th></tr></table>';
-
-    str += '<table class="calendar"><tr>';
-    for (i = 0; i < 7; i++) {
-        str += "<th>" + day_names[i] + "</th>";
-    }
-    str += "</tr>";
-
-    var firstDay = new Date(year, month, 1).getDay();
-    var lastDay = new Date(year, month + 1, 0).getDate();
-
-    str += "<tr>";
-
-    dayInWeek = 0;
-    for (i = 0; i < firstDay; i++) {
-        str += "<td>&nbsp;</td>";
-        dayInWeek++;
-    }
-    for (i = 1; i <= lastDay; i++) {
-        if (dayInWeek == 7) {
-            str += "</tr><tr>";
-            dayInWeek = 0;
-        }
-
-        dispmonth = 1 + month;
-
-        if (window.opener.dateType == 'datetime' || window.opener.dateType == 'date') {
-            actVal = "" + formatNum4(year) + "-" + formatNum2(dispmonth, 'month') + "-" + formatNum2(i, 'day');
-        } else {
-            actVal = "" + formatNum4(year) + formatNum2(dispmonth, 'month') + formatNum2(i, 'day');
-        }
-        if (i == day) {
-            style = ' class="selected"';
-            current_date = actVal;
-        } else {
-            style = '';
-        }
-        str += "<td" + style + "><a href=\"javascript:returnDate('" + actVal + "');\">" + i + "</a></td>"
-        dayInWeek++;
-    }
-    for (i = dayInWeek; i < 7; i++) {
-        str += "<td>&nbsp;</td>";
-    }
-
-    str += "</tr></table>";
-
-    cnt.innerHTML = str;
-
-    // Should we handle time also?
-    if (window.opener.dateType != 'date' && !clock_set) {
-
-        if (document.getElementById) {
-            cnt = document.getElementById("clock_data");
-        } else if (document.all) {
-            cnt = document.all["clock_data"];
-        }
-
-        str = '';
-        init_hour = hour;
-        init_minute = minute;
-        init_second = second;
-        str += '<fieldset>';
-        str += '<form method="NONE" class="clock" onsubmit="returnDate(\'' + current_date + '\')">';
-        str += '<input id="hour"    type="text" size="2" maxlength="2" onblur="this.value=formatNum2d(this.value, init_hour, \'hour\'); init_hour = this.value;" value="' + formatNum2(hour, 'hour') + '" />:';
-        str += '<input id="minute"  type="text" size="2" maxlength="2" onblur="this.value=formatNum2d(this.value, init_minute, \'minute\'); init_minute = this.value;" value="' + formatNum2(minute, 'minute') + '" />:';
-        str += '<input id="second"  type="text" size="2" maxlength="2" onblur="this.value=formatNum2d(this.value, init_second, \'second\'); init_second = this.value;" value="' + formatNum2(second, 'second') + '" />';
-        str += '&nbsp;&nbsp;';
-        str += '<input type="submit" value="' + submit_text + '"/>';
-        str += '</form>';
-        str += '</fieldset>';
-
-        cnt.innerHTML = str;
-        clock_set = 1;
-    }
-
-}
-
-/**
- * Returns date from calendar.
- *
- * @param   string     date text
- */
-function returnDate(d) {
-    txt = d;
-    if (window.opener.dateType != 'date') {
-        // need to get time
-        h = parseInt(document.getElementById('hour').value,10);
-        m = parseInt(document.getElementById('minute').value,10);
-        s = parseInt(document.getElementById('second').value,10);
-        if (window.opener.dateType == 'datetime') {
-            txt += ' ' + formatNum2(h, 'hour') + ':' + formatNum2(m, 'minute') + ':' + formatNum2(s, 'second');
-        } else {
-            // timestamp
-            txt += formatNum2(h, 'hour') + formatNum2(m, 'minute') + formatNum2(s, 'second');
-        }
-    }
-
-    window.opener.dateField.value = txt;
-    if (typeof(window.opener.dateFieldNull) != 'undefined') {
-        window.opener.dateFieldNull.checked = false;
-    }
-    window.close();
-}
+    })
+}, 'top.frame_content'); //end $(document).ready()

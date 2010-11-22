@@ -2,7 +2,6 @@
 /**
  * common functions used for communicating between main, navigation and querywindow
  *
- * @version $Id$
  */
 
 /**
@@ -205,7 +204,7 @@ function refreshNavigation() {
 function addClass(element, classname)
 {
     if (element != null) {
-        element.className += ' ' + classname;
+        $("#"+element).addClass(classname);
         //alert('set class: ' + classname + ', now: ' + element.className);
     }
 }
@@ -216,9 +215,7 @@ function addClass(element, classname)
 function removeClass(element, classname)
 {
     if (element != null) {
-        element.className = element.className.replace(' ' + classname, '');
-        // if there is no other class anem there is no leading space
-        element.className = element.className.replace(classname, '');
+        $("#"+element).removeClass(classname);
         //alert('removed class: ' + classname + ', now: ' + element.className);
     }
 }

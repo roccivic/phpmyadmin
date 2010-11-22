@@ -3,9 +3,7 @@
 /**
  * Test for supporting foreign key
  *
- * @author Michal Biniek <michal@bystrzyca.pl>
  * @package phpMyAdmin-test
- * @version $Id$
  */
 
 /**

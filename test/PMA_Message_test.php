@@ -3,8 +3,6 @@
 /**
  * Test for PMA_Message class
  *
- * @author Michal Biniek <michal@bystrzyca.pl>
- * @version $Id$
  */
 
 /**
@@ -68,7 +66,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     {
         $this->object = new PMA_Message('test<&>', PMA_Message::SUCCESS);
         $this->assertEquals($this->object, PMA_Message::success('test<&>'));
-        $this->assertEquals('strSuccess', PMA_Message::success()->getString());
+        $this->assertEquals('Your SQL query has been executed successfully', PMA_Message::success()->getString());
     }
 
     /**
@@ -78,7 +76,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     {
         $this->object = new PMA_Message('test<&>', PMA_Message::ERROR);
         $this->assertEquals($this->object, PMA_Message::error('test<&>'));
-        $this->assertEquals('strError', PMA_Message::error()->getString());
+        $this->assertEquals('Error', PMA_Message::error()->getString());
     }
 
     /**
@@ -113,7 +111,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * test rawWarning method
      */
-    public function testRawWarning() 
+    public function testRawWarning()
     {
         $this->object = new PMA_Message('', PMA_Message::WARNING);
         $this->object->setMessage('test<&>');
@@ -124,7 +122,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * test rawNotice method
      */
-    public function testRawNotice() 
+    public function testRawNotice()
     {
         $this->object = new PMA_Message('', PMA_Message::NOTICE);
         $this->object->setMessage('test<&>');
@@ -135,7 +133,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * test rawSuccess method
      */
-    public function testRawSuccess() 
+    public function testRawSuccess()
     {
         $this->object = new PMA_Message('', PMA_Message::SUCCESS);
         $this->object->setMessage('test<&>');
@@ -146,7 +144,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing isSuccess method
      */
-    public function testIsSuccess() 
+    public function testIsSuccess()
     {
         $this->assertFalse($this->object->isSuccess());
         $this->assertTrue($this->object->isSuccess(true));
@@ -155,7 +153,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing isNotice method
      */
-    public function testIsNotice() 
+    public function testIsNotice()
     {
         $this->assertTrue($this->object->isNotice());
         $this->object->isWarning(true);
@@ -166,7 +164,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing isWarning method
      */
-    public function testIsWarning() 
+    public function testIsWarning()
     {
         $this->assertFalse($this->object->isWarning());
         $this->assertTrue($this->object->isWarning(true));
@@ -175,7 +173,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing isError method
      */
-    public function testIsError() 
+    public function testIsError()
     {
         $this->assertFalse($this->object->isError());
         $this->assertTrue($this->object->isError(true));
@@ -184,7 +182,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testign setter of message
      */
-    public function testSetMessage() 
+    public function testSetMessage()
     {
         $this->object->setMessage('test&<>', false);
         $this->assertEquals('test&<>', $this->object->getMessage());
@@ -195,7 +193,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing setter of string
      */
-    public function testSetString() 
+    public function testSetString()
     {
         $this->object->setString('test&<>', false);
         $this->assertEquals('test&<>', $this->object->getString());
@@ -206,7 +204,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing add param method
      */
-    public function testAddParam() 
+    public function testAddParam()
     {
         $this->object->addParam(PMA_Message::notice('test'));
         $this->assertEquals(array(PMA_Message::notice('test')), $this->object->getParams());
@@ -219,7 +217,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing add string method
      */
-    public function testAddString() 
+    public function testAddString()
     {
         $this->object->addString('test', '*');
         $this->assertEquals(array('*', PMA_Message::notice('test')), $this->object->getAddedMessages());
@@ -230,7 +228,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing add messages method
      */
-    public function testAddMessages() 
+    public function testAddMessages()
     {
         $this->object->addMessages(array('test', PMA_Message::rawWarning('test')), '&');
         $this->assertEquals(array('&', PMA_Message::rawNotice('test'), '&', PMA_Message::rawWarning('test')), $this->object->getAddedMessages());
@@ -239,7 +237,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing add message method
      */
-    public function testAddMessage() 
+    public function testAddMessage()
     {
         $this->object->addMessage('test', '');
         $this->assertEquals(array(PMA_Message::rawNotice('test')), $this->object->getAddedMessages());
@@ -252,7 +250,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing setter of params
      */
-    public function testSetParams() 
+    public function testSetParams()
     {
         $this->object->setParams('test&<>');
         $this->assertEquals('test&<>', $this->object->getParams());
@@ -263,14 +261,14 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing sanitize method
      */
-    public function testSanitize() 
+    public function testSanitize()
     {
         $this->object->setString('test&string<>', false);
         $this->assertEquals('test&amp;string&lt;&gt;', PMA_Message::sanitize($this->object));
         $this->assertEquals(array('test&amp;string&lt;&gt;', 'test&amp;string&lt;&gt;'), PMA_Message::sanitize(array($this->object, $this->object)));
     }
 
-    public function decodeBBDataProvider() 
+    public function decodeBBDataProvider()
     {
         return array(
             array('[i]test[/i][i]aa[i/][em]test[/em]', '<em>test</em><em>aa[i/]<em>test</em>'),
@@ -285,27 +283,27 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
      * @dataProvider decodeBBDataProvider
      */
 
-    public function testDecodeBB($actual, $expected) 
+    public function testDecodeBB($actual, $expected)
     {
-        $this->assertEquals($expected, PMA_Message::decodeBB($actual));   
+        $this->assertEquals($expected, PMA_Message::decodeBB($actual));
     }
 
     /**
      * testing format method
      */
-    public function testFormat() 
+    public function testFormat()
     {
         $this->assertEquals('test string', PMA_Message::format('test string'));
         $this->assertEquals('test string', PMA_Message::format('test string', 'a'));
         $this->assertEquals('test string', PMA_Message::format('test string', array()));
         $this->assertEquals('test string', PMA_Message::format('%s string', array('test')));
-        
+
     }
 
     /**
      * testing getHash method
      */
-    public function testGetHash() 
+    public function testGetHash()
     {
         $this->object->setString('<&>test', false);
         $this->object->setMessage('<&>test', false);
@@ -316,7 +314,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
      * getMessage test - with empty message and with non-empty string - not key in globals
      * additional params are defined
      */
-    public function testGetMessageWithoutMessageWithStringWithParams() 
+    public function testGetMessageWithoutMessageWithStringWithParams()
     {
         $this->object->setMessage('');
         $this->object->setString('test string %s %s');
@@ -328,7 +326,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * getMessage test - with empty message and with empty string
      */
-    public function testGetMessageWithoutMessageWithEmptyString() 
+    public function testGetMessageWithoutMessageWithEmptyString()
     {
         $this->object->setMessage('');
         $this->object->setString('');
@@ -339,7 +337,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
      * getMessage test - with empty message and with string, which is key to GLOBALS
      * additional messages are defined
      */
-    public function testGetMessageWithoutMessageWithGlobalStringWithAddMessages() 
+    public function testGetMessageWithoutMessageWithGlobalStringWithAddMessages()
     {
         $GLOBALS['key'] = 'test message';
         $this->object->setMessage('');
@@ -354,7 +352,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
      * getMessage test - message is defined
      * message with BBCode defined
      */
-    public function testGetMessageWithMessageWithBBCode() 
+    public function testGetMessageWithMessageWithBBCode()
     {
         $this->object->setMessage('[kbd]test[/kbd] [a@./Documentation.html#cfg_Example@_blank]test[/a]');
         $this->assertEquals('<kbd>test</kbd> <a href="./Documentation.html#cfg_Example" target="_blank">test</a>', $this->object->getMessage());
@@ -363,7 +361,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * getLevel test
      */
-    public function testGetLevel() 
+    public function testGetLevel()
     {
         $this->assertEquals('notice', $this->object->getLevel());
         $this->object->setNumber(PMA_Message::SUCCESS);
@@ -377,7 +375,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * testing display method (output string and _is_displayed varible)
      */
-    public function testDisplay() 
+    public function testDisplay()
     {
         $this->assertFalse($this->object->isDisplayed());
         $this->object->setMessage('Test Message');
@@ -391,7 +389,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * getDisplay test
      */
-    public function testGetDisplay() 
+    public function testGetDisplay()
     {
         $this->object->setMessage('Test Message');
         $this->assertEquals('<div class="notice">Test Message</div>', $this->object->getDisplay());
@@ -400,7 +398,7 @@ class PMA_Message_test extends PHPUnit_Extensions_OutputTestCase
     /**
      * isDisplayed test
      */
-    public function testIsDisplayed() 
+    public function testIsDisplayed()
     {
         $this->assertFalse($this->object->isDisplayed(false));
         $this->assertTrue($this->object->isDisplayed(true));

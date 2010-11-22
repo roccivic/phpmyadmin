@@ -3,7 +3,6 @@
 /**
  * Simple script to set correct charset for changelog
  *
- * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -55,7 +54,7 @@ $replaces = array(
 
     // linking files
     '/(\s+)([\\/a-z_0-9\.]+\.(?:php3?|html|pl|js|sh))/i'
-    => '\\1<a href="http://phpmyadmin.svn.sourceforge.net/viewvc/phpmyadmin/trunk/phpMyAdmin/\\2?annotate=HEAD">\\2</a>',
+    => '\\1<a href="http://phpmyadmin.git.sourceforge.net/git/gitweb.cgi?p=phpmyadmin/phpmyadmin;a=history;f=\\2;hb=HEAD">\\2</a>',
 
     // FAQ entries
     '/FAQ ([0-9]+)\.([0-9a-z]+)/i'
@@ -74,10 +73,10 @@ $replaces = array(
     => '<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=\\1">\\1</a>',
 
     // Highlight releases (with links)
-    '/((    ### )(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+) (.*)))/'
-    => '<a name="\\4_\\5_\\6_\\7"></a>\\2<a href="http://svn.sourceforge.net/viewvc/phpmyadmin/tags/RELEASE_\\4_\\5_\\6_\\7/phpMyAdmin">\\4.\\5.\\6.\\7 \\8</a>',
-    '/((    ### )(([0-9]+)\.([0-9]+)\.([0-9]+) (.*)))/'
-    => '<a name="\\4_\\5_\\6_\\7"></a>\\2<a href="http://svn.sourceforge.net/viewvc/phpmyadmin/tags/RELEASE_\\4_\\5_\\6/phpMyAdmin">\\4.\\5.\\6 \\7</a>',
+    '/([0-9]+)\.([0-9]+)\.([0-9]+)\.0 (\([0-9-]+\))/'
+    => '<a name="\\1_\\2_\\3"></a><a href="http://phpmyadmin.git.sourceforge.net/git/gitweb.cgi?p=phpmyadmin/phpmyadmin;a=shortlog;h=refs/tags/RELEASE_\\1_\\2_\\3">\\1.\\2.\\3.0 \\4</a>',
+    '/([0-9]+)\.([0-9]+)\.([0-9]+)\.([1-9][0-9]*) (\([0-9-]+\))/'
+    => '<a name="\\1_\\2_\\3_\\4"></a><a href="http://phpmyadmin.git.sourceforge.net/git/gitweb.cgi?p=phpmyadmin/phpmyadmin;a=shortlog;h=refs/tags/RELEASE_\\1_\\2_\\3_\\4">\\1.\\2.\\3.\\4 \\5</a>',
 
     // Highlight releases (not linkable)
     '/(    ### )(.*)/'

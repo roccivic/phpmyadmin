@@ -5,7 +5,6 @@
  *
  * @uses    libraries/common.inc.php        global fnctions
  * @package phpMyAdmin-test
- * @version $Id$
  */
 
 chdir('..');
@@ -15,7 +14,7 @@ chdir('..');
  */
 require_once './libraries/common.inc.php';
 
-$lang_iso_code = $GLOBALS['available_languages'][$GLOBALS['lang']][2];
+$lang_iso_code = $GLOBALS['available_languages'][$GLOBALS['lang']][1];
 
 // start output
 header('Content-Type: text/html; charset=' . $GLOBALS['charset']);
@@ -32,7 +31,7 @@ header('Content-Type: text/html; charset=' . $GLOBALS['charset']);
     <meta http-equiv="Content-Type"
         content="text/html; charset=<?php echo $GLOBALS['charset']; ?>" />
     <link rel="stylesheet" type="text/css"
-        href="../phpmyadmin.css.php?<?php echo PMA_generate_common_url(); ?>&amp;js_frame=right&amp;nocache=<?php echo $_SESSION['PMA_Config']->getThemeUniqueValue(); ?>" />
+        href="../phpmyadmin.css.php?<?php echo PMA_generate_common_url(); ?>&amp;js_frame=right&amp;nocache=<?php echo $GLOBALS['PMA_Config']->getThemeUniqueValue(); ?>" />
     <link rel="stylesheet" type="text/css" media="print"
         href="../print.css" />
     <script src="../js/functions.js" type="text/javascript"></script>
@@ -54,7 +53,7 @@ printf($item,
         $GLOBALS['cfg']['DefaultTabServer'],
         PMA_generate_common_url(),
         'Server',
-        $GLOBALS['strServer'],
+        __('Server'),
         's_host.png');
 
 echo $separator;
@@ -62,7 +61,7 @@ printf($item,
         $GLOBALS['cfg']['DefaultTabDatabase'],
         '',
         'Database',
-        $GLOBALS['strDatabase'],
+        __('Database'),
         's_db.png');
 
 echo $separator;
@@ -71,8 +70,8 @@ printf($item,
         '',
         'Table',
         (isset($GLOBALS['tbl_is_view']) && $GLOBALS['tbl_is_view']
-            ? $GLOBALS['strView']
-            : $GLOBALS['strTable']),
+            ? __('View')
+            : __('Table')),
         (isset($GLOBALS['tbl_is_view']) && $GLOBALS['tbl_is_view']
             ? 'b_views'
             : 's_tbl') . '.png');
@@ -90,35 +89,35 @@ $tabs = array();
 
 $tabs['databases']['icon'] = '../../../../' . $pmaThemeImage . 's_db.png';
 $tabs['databases']['link'] = 'server_databases.php';
-$tabs['databases']['text'] = $strDatabases;
+$tabs['databases']['text'] = __('Databases');
 
 $tabs['sql']['icon'] = '../../../../' . $pmaThemeImage . 'b_sql.png';
 $tabs['sql']['link'] = 'server_sql.php';
-$tabs['sql']['text'] = $strSQL;
+$tabs['sql']['text'] = __('SQL');
 
 $tabs['status']['icon'] = '../../../../' . $pmaThemeImage . 's_status.png';
 $tabs['status']['link'] = 'server_status.php';
-$tabs['status']['text'] = $strStatus;
+$tabs['status']['text'] = __('Status');
 
 $tabs['vars']['icon'] = '../../../../' . $pmaThemeImage . 's_vars.png';
 $tabs['vars']['link'] = 'server_variables.php';
-$tabs['vars']['text'] = $strServerTabVariables;
+$tabs['vars']['text'] = __('Variables');
 
 $tabs['charset']['icon'] = '../../../../' . $pmaThemeImage . 's_asci.png';
 $tabs['charset']['link'] = 'server_collations.php';
-$tabs['charset']['text'] = $strCharsets;
+$tabs['charset']['text'] = __('Charsets');
 
 $tabs['engine']['icon'] = '../../../../' . $pmaThemeImage . 'b_engine.png';
 $tabs['engine']['link'] = 'server_engines.php';
-$tabs['engine']['text'] = $strEngines;
+$tabs['engine']['text'] = __('Engines');
 
 $tabs['rights']['icon'] = '../../../../' . $pmaThemeImage . 's_rights.png';
 $tabs['rights']['link'] = 'server_privileges.php';
-$tabs['rights']['text'] = $strPrivileges;
+$tabs['rights']['text'] = __('Privileges');
 
 $tabs['binlog']['icon'] = '../../../../' . $pmaThemeImage . 's_tbl.png';
 $tabs['binlog']['link'] = 'server_binlog.php';
-$tabs['binlog']['text'] = $strBinaryLog;
+$tabs['binlog']['text'] = __('Binary log');
 
 $tabs['process']['icon'] = '../../../../' . $pmaThemeImage . 's_process.png';
 $tabs['process']['link'] = 'server_processlist.php';
@@ -149,7 +148,7 @@ if (@file_exists($pmaThemeImage . 'logo_right.png')) {
 ?>
 <h1>
 <?php
-echo sprintf($strWelcome,
+echo sprintf(__('Welcome to %s'),
     '<bdo dir="ltr" xml:lang="en">phpMyAdmin ' . PMA_VERSION . '</bdo>');
 ?>
 </h1>
@@ -158,7 +157,7 @@ echo sprintf($strWelcome,
 
 <form method="post" action="theme.php" target="_parent">
 <fieldset>
-    <legend><?php echo $strTheme; ?></legend>
+    <legend><?php echo __('Theme / Style'); ?></legend>
 <?php
     echo $_SESSION['PMA_Theme_Manager']->getHtmlSelectBox(false);
 ?>

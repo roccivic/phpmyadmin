@@ -12,7 +12,6 @@
  *       our current sql.php.
  *       Of course the interface would need a way to pass calling parameters.
  *       Also, support DEFINER (like we do in export).
- * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
@@ -22,9 +21,9 @@ if (! defined('PHPMYADMIN')) {
 $routines = PMA_DBI_fetch_result('SELECT SPECIFIC_NAME,ROUTINE_NAME,ROUTINE_TYPE,DTD_IDENTIFIER FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA= \'' . PMA_sqlAddslashes($db,true) . '\';');
 
 if ($routines) {
-    PMA_generate_slider_effect('routines', $strRoutines);
+    PMA_generate_slider_effect('routines', __('Routines'));
     echo '<fieldset>' . "\n";
-    echo ' <legend>' . $strRoutines . '</legend>' . "\n";
+    echo ' <legend>' . __('Routines') . '</legend>' . "\n";
     echo '<table border="0">';
     echo sprintf('<tr>
                       <th>%s</th>
@@ -33,9 +32,9 @@ if ($routines) {
                       <th>%s</th>
                       <th>%s</th>
                 </tr>',
-          $strName,
-          $strType,
-          $strRoutineReturnType);
+          __('Name'),
+          __('Type'),
+          __('Return type'));
     $ct=0;
     $delimiter = '//';
     foreach ($routines as $routine) {
@@ -71,13 +70,15 @@ if ($routines) {
                           <td>%s</td>
                           <td>%s</td>
                           <td>%s</td>
+                          <input type="hidden" class="drop_procedure_sql" value="%s" />
                      </tr>',
                      ($ct%2 == 0) ? 'even' : 'odd',
                      $routine['ROUTINE_NAME'],
                      ! empty($definition) ? PMA_linkOrButton('db_sql.php?' . $url_query . '&amp;sql_query=' . urlencode($definition) . '&amp;show_query=1&amp;db_query_force=1&amp;delimiter=' . urlencode($delimiter), $titles['Structure']) : '&nbsp;',
-                     '<a href="sql.php?' . $url_query . '&amp;sql_query=' . urlencode($sqlDropProc) . '" onclick="return confirmLink(this, \'' . PMA_jsFormat($sqlDropProc, false) . '\')">' . $titles['Drop'] . '</a>',
+                     '<a class="drop_procedure_anchor" href="sql.php?' . $url_query . '&amp;sql_query=' . urlencode($sqlDropProc) . '" >' . $titles['Drop'] . '</a>',
                      $routine['ROUTINE_TYPE'],
-                     $routine['DTD_IDENTIFIER']);
+                     $routine['DTD_IDENTIFIER'],
+                    $sqlDropProc);
         $ct++;
     }
     echo '</table>';

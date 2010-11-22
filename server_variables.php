@@ -2,7 +2,6 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -32,7 +31,7 @@ require './libraries/server_links.inc.php';
  */
 echo '<h2>' . "\n"
    . ($cfg['MainPageIconic'] ? '<img class="icon" src="' . $pmaThemeImage . 's_vars.png" width="16" height="16" alt="" />' : '')
-   . '' . $strServerVars . "\n"
+   . '' . __('Server variables and settings') . "\n"
    . '</h2>' . "\n";
 
 
@@ -49,10 +48,10 @@ $serverVarsGlobal = PMA_DBI_fetch_result('SHOW GLOBAL VARIABLES;', 0, 1);
 ?>
 <table class="data">
 <thead>
-<tr><th><?php echo $strVar; ?></th>
+<tr><th><?php echo __('Variable'); ?></th>
     <th>
 <?php
-echo $strSessionValue . ' / ' . $strGlobalValue;
+echo __('Session value') . ' / ' . __('Global value');
 ?>
     </th>
 </tr>
@@ -86,7 +85,7 @@ foreach ($serverVars as $name => $value) {
 <tr class="<?php
     echo $odd_row ? 'odd' : 'even';
     ?> marked">
-    <td>(<?php echo $strGlobalValue; ?>)</td>
+    <td>(<?php echo __('Global value'); ?>)</td>
     <td class="value"><?php
     if ($is_numeric) {
         echo PMA_formatNumber($serverVarsGlobal[$name], 0);
@@ -108,6 +107,6 @@ foreach ($serverVars as $name => $value) {
 /**
  * Sends the footer
  */
-require_once './libraries/footer.inc.php';
+require './libraries/footer.inc.php';
 
 ?>

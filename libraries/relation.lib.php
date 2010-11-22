@@ -3,17 +3,11 @@
 /**
  * Set of functions used with the relation and pdf feature
  *
- * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
 }
-
-/**
- *
- */
-require_once './libraries/Table.class.php';
 
 /**
  * Executes a query as controluser if possible, otherwise as normal user
@@ -25,7 +19,6 @@ require_once './libraries/Table.class.php';
  *
  * @access  public
  *
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
  */
 function PMA_query_as_controluser($sql, $show_error = true, $options = 0)
 {
@@ -73,18 +66,6 @@ function PMA_getRelationsParam($verbose = false)
  *
  * @uses    $GLOBALS['server']
  * @uses    $GLOBALS['controllink']
- * @uses    $GLOBALS['strNotOK']
- * @uses    $GLOBALS['strDocu']
- * @uses    $GLOBALS['strGeneralRelationFeat']
- * @uses    $GLOBALS['strDisabled']
- * @uses    $GLOBALS['strEnabled']
- * @uses    $GLOBALS['strDisplayFeat']
- * @uses    $GLOBALS['strCreatePdfFeat']
- * @uses    $GLOBALS['strColComFeat']
- * @uses    $GLOBALS['strBookmarkQuery']
- * @uses    $GLOBALS['strUpdComTab']
- * @uses    $GLOBALS['strQuerySQLHistory']
- * @uses    $GLOBALS['strDesigner']
  * @uses    $cfg['Server']['pmadb']
  * @uses    sprintf()
  * @uses    PMA_printDiagMessageForFeature()
@@ -93,20 +74,20 @@ function PMA_getRelationsParam($verbose = false)
  */
 function PMA_printRelationsParamDiagnostic($cfgRelation)
 {
-    $messages['error'] = '<font color="red"><strong>' . $GLOBALS['strNotOK']
+    $messages['error'] = '<font color="red"><strong>' . __('not OK')
                    . '</strong></font> [ <a href="Documentation.html#%s" target="documentation">'
-                   . $GLOBALS['strDocu'] . '</a> ]';
+                   . __('Documentation') . '</a> ]';
 
-    $messages['ok'] = '<font color="green"><strong>' . $GLOBALS['strOK'] . '</strong></font>';
-    $messages['enabled']  = '<font color="green">' . $GLOBALS['strEnabled'] . '</font>';
-    $messages['disabled'] = '<font color="red">'   . $GLOBALS['strDisabled'] . '</font>';
+    $messages['ok'] = '<font color="green"><strong>' . __('OK') . '</strong></font>';
+    $messages['enabled']  = '<font color="green">' . __('Enabled') . '</font>';
+    $messages['disabled'] = '<font color="red">'   . __('Disabled') . '</font>';
 
     if (false === $GLOBALS['cfg']['Server']['pmadb']) {
         echo 'PMA Database ... '
              . sprintf($messages['error'], 'pmadb')
              . '<br />' . "\n"
-             . $GLOBALS['strGeneralRelationFeat']
-             . ' <font color="green">' . $GLOBALS['strDisabled']
+             . __('General relation features')
+             . ' <font color="green">' . __('Disabled')
              . '</font>' . "\n";
         return;
     }
@@ -117,45 +98,57 @@ function PMA_printRelationsParamDiagnostic($cfgRelation)
 
     PMA_printDiagMessageForParameter('relation', isset($cfgRelation['relation']), $messages, 'relation');
 
-    PMA_printDiagMessageForFeature('strGeneralRelationFeat', 'relwork', $messages);
+    PMA_printDiagMessageForFeature(__('General relation features'), 'relwork', $messages);
 
     PMA_printDiagMessageForParameter('table_info', isset($cfgRelation['table_info']), $messages, 'table_info');
 
-    PMA_printDiagMessageForFeature('strDisplayFeat', 'displaywork', $messages);
+    PMA_printDiagMessageForFeature(__('Display Features'), 'displaywork', $messages);
 
     PMA_printDiagMessageForParameter('table_coords', isset($cfgRelation['table_coords']), $messages, 'table_coords');
 
     PMA_printDiagMessageForParameter('pdf_pages', isset($cfgRelation['pdf_pages']), $messages, 'table_coords');
 
-    PMA_printDiagMessageForFeature('strCreatePdfFeat', 'pdfwork', $messages);
+    PMA_printDiagMessageForFeature(__('Creation of PDFs'), 'pdfwork', $messages);
 
     PMA_printDiagMessageForParameter('column_info', isset($cfgRelation['column_info']), $messages, 'col_com');
 
-    PMA_printDiagMessageForFeature('strColComFeat', 'commwork', $messages, false);
+    PMA_printDiagMessageForFeature(__('Displaying Column Comments'), 'commwork', $messages, false);
 
-    PMA_printDiagMessageForFeature('strMIME_transformation', 'mimework', $messages);
+    PMA_printDiagMessageForFeature(__('Browser transformation'), 'mimework', $messages);
 
     if ($cfgRelation['commwork'] && ! $cfgRelation['mimework']) {
-        echo '<tr><td colspan=2 align="left">' . $GLOBALS['strUpdComTab'] . '</td></tr>' . "\n";
+        echo '<tr><td colspan=2 align="left">' . __('Please see the documentation on how to update your column_comments table') . '</td></tr>' . "\n";
     }
 
     PMA_printDiagMessageForParameter('bookmarktable', isset($cfgRelation['bookmark']), $messages, 'bookmark');
 
-    PMA_printDiagMessageForFeature('strBookmarkQuery', 'bookmarkwork', $messages);
+    PMA_printDiagMessageForFeature(__('Bookmarked SQL query'), 'bookmarkwork', $messages);
 
     PMA_printDiagMessageForParameter('history', isset($cfgRelation['history']), $messages, 'history');
 
-    PMA_printDiagMessageForFeature('strQuerySQLHistory', 'historywork', $messages);
+    PMA_printDiagMessageForFeature(__('SQL history'), 'historywork', $messages);
 
     PMA_printDiagMessageForParameter('designer_coords', isset($cfgRelation['designer_coords']), $messages, 'designer_coords');
 
-    PMA_printDiagMessageForFeature('strDesigner', 'designerwork', $messages);
+    PMA_printDiagMessageForFeature(__('Designer'), 'designerwork', $messages);
 
     PMA_printDiagMessageForParameter('tracking', isset($cfgRelation['tracking']), $messages, 'tracking');
 
-    PMA_printDiagMessageForFeature('strTracking', 'trackingwork', $messages);
+    PMA_printDiagMessageForFeature(__('Tracking'), 'trackingwork', $messages);
+
+    PMA_printDiagMessageForParameter('userconfig', isset($cfgRelation['userconfig']), $messages, 'userconfig');
+
+    PMA_printDiagMessageForFeature(__('User preferences'), 'userconfigwork', $messages);
 
     echo '</table>' . "\n";
+
+    echo '<p>' . __('Quick steps to setup advanced features:') . '</p>';
+    echo '<ul>';
+    echo '<li>' . __('Create the needed tables with the <code>script/create_tables.sql</code>.') . ' ' . PMA_showDocu('linked-tables') . '</li>';
+    echo '<li>' . __('Create a pma user and give access to these tables.') . ' ' . PMA_showDocu('pmausr') . '</li>';
+    echo '<li>' . __('Enable advanced features in configuration file (<code>config.inc.php</code>), for example by starting from <code>config.sample.inc.php</code>.') . ' ' . PMA_showDocu('quick_install') . '</li>';
+    echo '<li>' . __('Re-login to phpMyAdmin to load the updated configuration file.') . '</li>';
+    echo '</ul>';
 }
 
 /**
@@ -168,7 +161,7 @@ function PMA_printRelationsParamDiagnostic($cfgRelation)
  */
 function PMA_printDiagMessageForFeature($feature_name, $relation_parameter, $messages, $skip_line=true)
 {
-    echo '    <tr><td colspan=2 align="right">' . $GLOBALS[$feature_name] . ': '
+    echo '    <tr><td colspan=2 align="right">' . $feature_name . ': '
          . ($GLOBALS['cfgRelation'][$relation_parameter] ? $messages['enabled'] : $messages['disabled'])
          . '</td></tr>' . "\n";
     if ($skip_line) {
@@ -209,7 +202,6 @@ function PMA_printDiagMessageForParameter($parameter, $relation_parameter_set, $
  * @uses    PMA_DBI_fetch_row()
  * @uses    PMA_DBI_free_result()
  * @access  protected
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
  * @return  array    the relation parameters for the current user
  */
 function PMA__getRelationsParam()
@@ -224,6 +216,7 @@ function PMA__getRelationsParam()
     $cfgRelation['historywork'] = false;
     $cfgRelation['trackingwork'] = false;
     $cfgRelation['designerwork'] = false;
+    $cfgRelation['userconfigwork'] = false;
     $cfgRelation['allworks']    = false;
     $cfgRelation['user']        = null;
     $cfgRelation['db']          = null;
@@ -274,6 +267,8 @@ function PMA__getRelationsParam()
             $cfgRelation['history'] = $curr_table[0];
         } elseif ($curr_table[0] == $GLOBALS['cfg']['Server']['tracking']) {
             $cfgRelation['tracking'] = $curr_table[0];
+        } elseif ($curr_table[0] == $GLOBALS['cfg']['Server']['userconfig']) {
+            $cfgRelation['userconfig'] = $curr_table[0];
         }
     } // end while
     PMA_DBI_free_result($tab_rs);
@@ -328,6 +323,10 @@ function PMA__getRelationsParam()
         $cfgRelation['trackingwork']     = true;
     }
 
+    if (isset($cfgRelation['userconfig'])) {
+        $cfgRelation['userconfigwork']   = true;
+    }
+
     // we do not absolutely need that the internal relations or the PDF
     // schema feature be activated
     if (isset($cfgRelation['designer_coords'])) {
@@ -341,7 +340,7 @@ function PMA__getRelationsParam()
     if ($cfgRelation['relwork'] && $cfgRelation['displaywork']
      && $cfgRelation['pdfwork'] && $cfgRelation['commwork']
      && $cfgRelation['mimework'] && $cfgRelation['historywork']
-     && $cfgRelation['trackingwork']
+     && $cfgRelation['trackingwork'] && $cfgRelation['userconfigwork']
      && $cfgRelation['bookmarkwork'] && $cfgRelation['designerwork']) {
         $cfgRelation['allworks'] = true;
     }
@@ -353,8 +352,6 @@ function PMA__getRelationsParam()
  * Gets all Relations to foreign tables for a given table or
  * optionally a given column in a table
  *
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
- * @author  Marc Delisle
  * @access  public
  * @uses    $GLOBALS['controllink']
  * @uses    $GLOBALS['information_schema_relations']
@@ -463,7 +460,6 @@ function PMA_getForeigners($db, $table, $column = '', $source = 'both')
  * Gets the display field of a table
  *
  * @access  public
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
  * @uses    $GLOBALS['controllink']
  * @uses    PMA_getRelationsParam()
  * @uses    PMA_backquote()
@@ -514,8 +510,6 @@ function PMA_getDisplayField($db, $table)
 /**
  * Gets the comments for all rows of a table or the db itself
  *
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
- * @author  lem9
  * @access  public
  * @uses    PMA_DBI_get_fields()
  * @uses    PMA_getDbComment()
@@ -547,8 +541,6 @@ function PMA_getComments($db, $table = '')
 /**
  * Gets the comment for a db
  *
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
- * @author  lem9
  * @access  public
  * @uses    PMA_DBI_QUERY_STORE
  * @uses    PMA_DBI_num_rows()
@@ -590,8 +582,6 @@ function PMA_getDbComment($db)
 /**
  * Gets the comment for a db
  *
- * @author  Mike Beck <mikebeck@users.sourceforge.net>
- * @author  lem9
  * @access  public
  * @uses    PMA_DBI_QUERY_STORE
  * @uses    PMA_DBI_num_rows()
@@ -968,7 +958,6 @@ function PMA_foreignDropdown($disp_row, $foreign_field, $foreign_display, $data,
 
 /**
  * Gets foreign keys in preparation for a drop-down selector
- * Thanks to <markus@noga.de>
  *
  * @uses    PMA_Table::countRecords()
  * @uses    PMA_backquote()
@@ -1158,7 +1147,6 @@ function PMA_REL_renameField($db, $table, $field, $new_name)
 /**
  * Create a PDF page
  *
- * @uses    $GLOBALS['strNoDescription']
  * @uses    PMA_backquote()
  * @uses    $GLOBALS['cfgRelation']['db']
  * @uses    PMA_sqlAddslashes()
@@ -1173,7 +1161,7 @@ function PMA_REL_renameField($db, $table, $field, $new_name)
  */
 function PMA_REL_create_page($newpage, $cfgRelation, $db, $query_default_option) {
     if (! isset($newpage) || $newpage == '') {
-        $newpage = $GLOBALS['strNoDescription'];
+        $newpage = __('no description');
     }
     $ins_query   = 'INSERT INTO ' . PMA_backquote($GLOBALS['cfgRelation']['db']) . '.' . PMA_backquote($cfgRelation['pdf_pages'])
                  . ' (db_name, page_descr)'

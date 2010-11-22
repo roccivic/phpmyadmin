@@ -3,8 +3,6 @@
 /**
  * Holds class PMA_Message
  *
- * @author Sebastian Mendel <info@sebastianmendel.de>
- * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -183,13 +181,13 @@ class PMA_Message
      * @static
      * @uses    PMA_Message as returned object
      * @uses    PMA_Message::SUCCESS
-     * @param   string $string a localized string e.g. 'strSuccess'
+     * @param   string $string a localized string e.g. __('Your SQL query has been executed successfully')
      * @return  PMA_Message
      */
     static public function success($string = '')
     {
         if (empty($string)) {
-            $string = 'strSuccess';
+            $string = __('Your SQL query has been executed successfully');
         }
 
         return new PMA_Message($string, PMA_Message::SUCCESS);
@@ -203,13 +201,13 @@ class PMA_Message
      * @static
      * @uses    PMA_Message as returned object
      * @uses    PMA_Message::ERROR
-     * @param   string $string a localized string e.g. 'strError'
+     * @param   string $string a localized string e.g. __('Error')
      * @return  PMA_Message
      */
     static public function error($string = '')
     {
         if (empty($string)) {
-            $string = 'strError';
+            $string = __('Error');
         }
 
         return new PMA_Message($string, PMA_Message::ERROR);
@@ -239,7 +237,7 @@ class PMA_Message
      * @static
      * @uses    PMA_Message as returned object
      * @uses    PMA_Message::NOTICE
-     * @param   string  $string a localized string e.g. 'strRelationNotWorking'
+     * @param   string  $string a localized string e.g. __('The additional features for working with linked tables have been deactivated. To find out why click %shere%s.')
      * @return  PMA_Message
      */
     static public function notice($string)
@@ -264,6 +262,63 @@ class PMA_Message
         $r = new PMA_Message('', $type);
         $r->setMessage($message);
         return $r;
+    }
+
+    /**
+     * get PMA_Message for number of affected rows
+     *
+     * shorthand for getting a customized message
+     *
+     * @static
+     * @uses    PMA_Message as returned object
+     * @uses    PMA_Message::success()
+     * @uses    PMA_Message::addParam()
+     * @param   integer   $rows Number of rows
+     * @return  PMA_Message
+     */
+    static public function affected_rows($rows)
+    {
+        $message = PMA_Message::success(_ngettext('%1$d row affected.', '%1$d rows affected.', $rows));
+        $message->addParam($rows);
+        return $message;
+    }
+
+    /**
+     * get PMA_Message for number of deleted rows
+     *
+     * shorthand for getting a customized message
+     *
+     * @static
+     * @uses    PMA_Message as returned object
+     * @uses    PMA_Message::success()
+     * @uses    PMA_Message::addParam()
+     * @param   integer   $rows Number of rows
+     * @return  PMA_Message
+     */
+    static public function deleted_rows($rows)
+    {
+        $message = PMA_Message::success(_ngettext('%1$d row deleted.', '%1$d rows deleted.', $rows));
+        $message->addParam($rows);
+        return $message;
+    }
+
+    /**
+     * get PMA_Message for number of inserted rows
+     *
+     * shorthand for getting a customized message
+     *
+     * @static
+     * @uses    PMA_Message as returned object
+     * @uses    PMA_Message::success()
+     * @uses    PMA_Message::addParam()
+     * @param   integer   $rows Number of rows
+     * @return  PMA_Message
+     */
+    static public function inserted_rows($rows)
+    {
+        $message = PMA_Message::success(_ngettext('%1$d row inserted.', '%1$d rows inserted.', $rows));
+        $message->addParam($rows);
+        return $message;
     }
 
     /**

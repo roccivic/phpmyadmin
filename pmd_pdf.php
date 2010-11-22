@@ -2,19 +2,18 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id$
  * @package phpMyAdmin-Designer
  */
 
-/**
- *
- */
 include_once 'pmd_common.php';
+
+/**
+ * If called directly from the designer, first save the positions 
+ */
 if (! isset($scale)) {
     $no_die_save_pos = 1;
     include_once 'pmd_save_pos.php';
 }
-require_once './libraries/relation.lib.php';
 
 if (isset($scale) && ! isset($createpage)) {
     if (empty($pdf_page_number)) {
@@ -47,8 +46,9 @@ if (isset($scale) && ! isset($createpage)) {
         AND pdf_page_number = ' . $pdf_page_number_q . ';', TRUE, PMA_DBI_QUERY_STORE);     
     }
 
-    die("<script>alert('$strModifications');history.go(-2);</script>");
+    die("<script>alert('__('Modifications have been saved')');history.go(-2);</script>");
 }
+
 if (isset($createpage)) {
     /*
      * @see pdf_pages.php
@@ -56,7 +56,13 @@ if (isset($createpage)) {
     $query_default_option = PMA_DBI_QUERY_STORE;
 
     $pdf_page_number = PMA_REL_create_page($newpage, $cfgRelation, $db, $query_default_option);
+    if ($pdf_page_number > 0) {
+        $message = PMA_Message::success(__('Page has been created'));
+    } else {
+        $message = PMA_Message::error(__('Page creation failed'));
+    }
 }
+
 // no need to use pmd/styles
 require_once './libraries/header_meta_style.inc.php';
 ?>
@@ -64,25 +70,31 @@ require_once './libraries/header_meta_style.inc.php';
 <body>
 <br>
 <div>
+<?php 
+    if (!empty($message)) { 
+        $message->display();
+    }
+?>
   <form name="form1" method="post" action="pmd_pdf.php">
 <?php echo PMA_generate_common_hidden_inputs($db); ?>
     <div>
-    <fieldset><legend><?php echo $GLOBALS['strExport'] . '/' . $GLOBALS['strImport']; ?></legend>
-    <p><?php echo $strExportImportToScale; ?>:
+    <fieldset><legend><?php echo __('Export') . '/' . __('Import'); ?></legend>
+    <p><?php echo __('Export/Import to scale'); ?>:
       <select name="scale">
         <option value="1">1:1</option>
         <option value="2">1:2</option>
-    <option value="3" selected>1:3 (<?php echo $strRecommended; ?>)</option>
+        <option value="3" selected>1:3 (<?php echo __('recommended'); ?>)</option>
         <option value="4">1:4</option>
         <option value="5">1:5</option>
         </select>
       </p>
-  <p><?php echo $strToFromPage; ?>:
+      <p><?php echo __('to/from page'); ?>:
 
       <select name="pdf_page_number">
       <?php
-      $table_info_result = PMA_query_as_controluser('SELECT * FROM '.PMA_backquote($GLOBALS['cfgRelation']['db']) . '.' . PMA_backquote($cfgRelation['pdf_pages']).'
-                                             WHERE db_name = \'' . PMA_sqlAddslashes($db) . '\'');
+        $table_info_result = PMA_query_as_controluser('SELECT * FROM ' 
+            . PMA_backquote($GLOBALS['cfgRelation']['db']) . '.' . PMA_backquote($cfgRelation['pdf_pages'])
+            . ' WHERE db_name = \'' . PMA_sqlAddslashes($db) . '\'');
       while($page = PMA_DBI_fetch_assoc($table_info_result))
       {
       ?>
@@ -91,15 +103,15 @@ require_once './libraries/header_meta_style.inc.php';
       }
       ?>
       </select>
-  <input type="submit" name="exp" value="<?php echo $strExport; ?>">
-  <input type="submit" name="imp" value="<?php echo $strImport; ?>">
+      <input type="submit" name="exp" value="<?php echo __('Export'); ?>">
+      <input type="submit" name="imp" value="<?php echo __('Import'); ?>">
     </fieldset>
     </div>
     <div>
-    <fieldset><legend><?php echo $GLOBALS['strCreatePage']; ?></legend>
+    <fieldset><legend><?php echo __('Create a page'); ?></legend>
         <input type="text" name="newpage" />
-        <input type="submit" name="createpage" value="<?php echo $strGo; ?>">
-        </fieldset>
+        <input type="submit" name="createpage" value="<?php echo __('Go'); ?>">
+    </fieldset>
     </div>
   </form>
 </div>

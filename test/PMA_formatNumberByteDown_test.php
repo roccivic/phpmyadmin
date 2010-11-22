@@ -3,7 +3,6 @@
 /**
  * Test for format number and byte
  *
- * @author Michal Biniek <michal@bystrzyca.pl>
  * @package phpMyAdmin-test
  * @version $Id: PMA_formatNumberByteDown_test.php
  */
@@ -44,7 +43,7 @@ class PMA_formatNumberByteDown_test extends PHPUnit_Framework_TestCase
 
         $this->tmpGlobals = $GLOBALS;
         $this->tmpSession = $_SESSION;
-        
+
     }
 
     /**
@@ -80,9 +79,6 @@ class PMA_formatNumberByteDown_test extends PHPUnit_Framework_TestCase
      */
 
     public function testFormatNumber($a, $b, $c, $e) {
-        $GLOBALS['number_thousands_separator'] = ' ';
-        $GLOBALS['number_decimal_separator'] = ',';
-
         $this->assertEquals($e, (string)PMA_formatNumber($a, $b, $c, false));
     }
 
@@ -108,11 +104,6 @@ class PMA_formatNumberByteDown_test extends PHPUnit_Framework_TestCase
      */
 
     public function testFormatByteDown($a, $b, $c, $e) {
-        $GLOBALS['byteUnits'] = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
-        $GLOBALS['number_thousands_separator'] = ' ';
-        $GLOBALS['number_decimal_separator'] = ',';
-        
-
         $result = PMA_formatByteDown($a, $b, $c);
         $result[0] = trim($result[0]);
         $this->assertEquals($e, $result);

@@ -3,7 +3,6 @@
 /**
  * runs all defined tests
  *
- * @version $Id$
  * @package phpMyAdmin-test
  */
 
@@ -52,6 +51,7 @@ require_once './test/PMA_foreignKeySupported_test.php';
 require_once './test/PMA_headerLocation_test.php';
 require_once './test/PMA_Message_test.php';
 require_once './test/PMA_whichCrlf_test.php';
+require_once './test/PMA_SQL_parser_data_test.php';
 
 class AllTests
 {

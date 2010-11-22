@@ -9,7 +9,6 @@
  *
  * 2002/2/22 - by Yukihiro Kawada <kawada@den.fujifilm.co.jp>
  *
- * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
@@ -138,12 +137,17 @@ function PMA_kanji_file_conv($file, $enc, $kana) {
  */
 function PMA_set_enc_form($spaces) {
     return "\n"
-           . $spaces . '<input type="radio" name="knjenc" value="" checked="checked" />non' . "\n"
-           . $spaces . '<input type="radio" name="knjenc" value="EUC-JP" />EUC' . "\n"
-           . $spaces . '<input type="radio" name="knjenc" value="SJIS" />SJIS' . "\n"
-           . $spaces . '&nbsp;' . $GLOBALS['strEncto'] . '<br />' . "\n"
-           . $spaces . '<input type="checkbox" name="xkana" value="kana" />' . "\n"
-           . $spaces . '&nbsp;' . $GLOBALS['strXkana'] . '<br />' . "\n";
+             /* l10n: This is currently used only in Japanese locales */
+           . $spaces . '<ul>' . "\n" . '<li>'
+           . $spaces . '<input type="radio" name="knjenc" value="" checked="checked" id="kj-none" /><label for="kj-none">' . _pgettext('None encoding conversion', 'None') . "</label>\n"
+           . $spaces . '<input type="radio" name="knjenc" value="EUC-JP" id="kj-euc" /><label for="kj-euc">EUC</label>' . "\n"
+           . $spaces . '<input type="radio" name="knjenc" value="SJIS" id="kj-sjis" /><label for="kj-sjis">SJIS</label>' . "\n"
+           . $spaces . '</li>' . "\n" . '<li>'
+           . $spaces . '<input type="checkbox" name="xkana" value="kana" id="kj-kana" />' . "\n"
+           /* l10n: This is currently used only in Japanese locales */
+           . $spaces . '<label for="kj-kana">' . __('Convert to Kana') . '</label><br />' . "\n"
+           . $spaces . '</li>' . "\n" . '</ul>'
+           ;
 } // end of the 'PMA_set_enc_form' function
 
 

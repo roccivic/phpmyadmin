@@ -88,7 +88,7 @@ function PMA_setFrameSize()
 {
     pma_navi_width = PMA_getCookie('pma_navi_width');
     //alert('from cookie: ' + typeof(pma_navi_width) + ' : ' + pma_navi_width);
-    if (pma_navi_width != null) {
+    if (pma_navi_width != null && parent.document != document) {
         if (parent.text_dir == 'ltr') {
             parent.document.getElementById('mainFrameset').cols = pma_navi_width + ',*';
         } else {
@@ -172,3 +172,27 @@ function fast_filter(value){
 	}
 	document.getElementById('fast_filter').disabled=false;
 }
+
+/**
+ * Clears fast filter.
+ */
+function clear_fast_filter() {
+    var elm = $('#NavFilter input');
+    elm.val('');
+    fast_filter('');
+    elm.focus();
+}
+
+/* Performed on load */
+$(document).ready(function(){
+    /* Display filter */
+    $('#NavFilter').css('display', 'inline');
+    $('input[id="fast_filter"]').focus(function() {
+        if($(this).attr("value") === "filter tables by name") {
+            clear_fast_filter();
+        }
+    });
+    $('#clear_fast_filter').click(clear_fast_filter);
+    $('#fast_filter').focus(function (evt) {evt.target.select();});
+    $('#fast_filter').keyup(function (evt) {fast_filter(evt.target.value);});
+});

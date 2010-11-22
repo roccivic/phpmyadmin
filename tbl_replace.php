@@ -5,7 +5,6 @@
  *
  * usally called as form action from tbl_change.php to insert or update table rows
  *
- * @version $Id$
  *
  * @todo 'edit_next' tends to not work as expected if used ... at least there is no order by
  *       it needs the original query and the row number and than replace the LIMIT clause
@@ -54,7 +53,7 @@ if (! defined('PMA_NO_VARIABLES_IMPORT')) {
  * Gets some core libraries
  */
 require_once './libraries/common.inc.php';
-$blob_streaming_active = $_SESSION['PMA_Config']->get('BLOBSTREAMING_PLUGINS_EXIST');
+$blob_streaming_active = $GLOBALS['PMA_Config']->get('BLOBSTREAMING_PLUGINS_EXIST');
 
 // Check parameters
 PMA_checkParameters(array('db', 'table', 'goto'));
@@ -96,7 +95,7 @@ if (isset($_REQUEST['after_insert'])
                 // must find a unique condition based on unique key,
                 // not a combination of all fields
                 list($unique_condition, $clause_is_unique) = PMA_getUniqueCondition($res, count($meta), $meta, $row, true);
-                if (! empty($unique_condition)) { 
+                if (! empty($unique_condition)) {
                     $_SESSION['edit_next'] = $unique_condition;
                 }
                 unset($unique_condition, $clause_is_unique);
@@ -138,7 +137,8 @@ if (isset($_REQUEST['where_clause'])) {
     // we were editing something => use the WHERE clause
     $loop_array = (is_array($_REQUEST['where_clause']) ? $_REQUEST['where_clause'] : array($_REQUEST['where_clause']));
     $using_key  = true;
-    $is_insert  = ($_REQUEST['submit_type'] == $GLOBALS['strInsertAsNewRow']);
+    $is_insert  = ($_REQUEST['submit_type'] == 'insert') || ($_REQUEST['submit_type'] == 'showinsert') || ($_REQUEST['submit_type'] == 'insertignore');
+    $is_insertignore  = ($_REQUEST['submit_type'] == 'insertignore');
 } else {
     // new row => use indexes
     $loop_array = array();
@@ -147,6 +147,7 @@ if (isset($_REQUEST['where_clause'])) {
     }
     $using_key  = false;
     $is_insert  = true;
+    $is_insertignore = false;
 }
 
 $query = array();
@@ -209,10 +210,6 @@ foreach ($loop_array as $rowcount => $where_clause) {
         ? $_REQUEST['auto_increment']['multi_edit'][$rowcount]
         : null;
 
-    if ($blob_streaming_active) {
-        $primary_field = PMA_BS_GetPrimaryField($GLOBALS['db'], $GLOBALS['table']);
-    }
-
     // Fetch the current values of a row to use in case we have a protected field
     // @todo possibly move to ./libraries/tbl_replace_fields.inc.php
     if ($is_insert && $using_key && isset($me_fields_type) && is_array($me_fields_type) && isset($where_clause)) {
@@ -224,35 +221,39 @@ foreach ($loop_array as $rowcount => $where_clause) {
 
         require './libraries/tbl_replace_fields.inc.php';
 
-        // rajk - for blobstreaming
-	if ($blob_streaming_active && (NULL != $primary_field || strlen($primary_field) > 0)) {
+        // for blobstreaming
+        if ($blob_streaming_active) {
             $remove_blob_repo = isset($_REQUEST['remove_blob_repo_' . $key]) ? $_REQUEST['remove_blob_repo_' . $key] : NULL;
             $upload_blob_repo = isset($_REQUEST['upload_blob_repo_' . $key]) ? $_REQUEST['upload_blob_repo_' . $key] : NULL;
 
             // checks if an existing blob repository reference should be removed
-            if (isset($remove_blob_repo) && !isset($upload_blob_repo)) {
-		$remove_blob_reference = $_REQUEST['remove_blob_ref_' . $key];
-		if (isset($remove_blob_reference)) {
-                    $val = "''";
-		}
-
-		// checks if this field requires a bs reference attached to it
-		if (isset($upload_blob_repo)) {
-			// get the most recent BLOB reference
-                    $bs_reference = PMA_File::getRecentBLOBReference();
-
-                    // if the most recent BLOB reference exists, set it as a field value
-                    if (!is_null($bs_reference)) {
-			$val = "'" . PMA_sqlAddslashes($bs_reference) . "'";
-                    }
-		}
+            if (isset($remove_blob_repo) && ! isset($upload_blob_repo)) {
+                $remove_blob_reference = $_REQUEST['remove_blob_ref_' . $key];
+                if (isset($remove_blob_reference)) {
+                    $val = "NULL";
+                }
             }
-	}
+
+            // checks if this field requires a bs reference attached to it
+            if (isset($upload_blob_repo)) {
+                // get the most recent BLOB reference
+                $bs_reference = PMA_File::getRecentBLOBReference();
+
+                // if the most recent BLOB reference exists, set it as a field value
+                if (!is_null($bs_reference)) {
+                    $val = "'" . PMA_sqlAddslashes($bs_reference) . "'";
+                }
+            }
+        }
 
         if (empty($me_funcs[$key])) {
             $cur_value = $val;
         } elseif ('UNIX_TIMESTAMP' === $me_funcs[$key] && $val != "''") {
             $cur_value = $me_funcs[$key] . '(' . $val . ')';
+        } elseif ('UUID' === $me_funcs[$key]) {
+            /* This way user will know what UUID new row has */
+            $uuid = PMA_DBI_fetch_value('SELECT UUID()');
+            $cur_value = "'" . $uuid . "'";
         } elseif (in_array($me_funcs[$key], $func_no_param)) {
             $cur_value = $me_funcs[$key] . '()';
         } else {
@@ -310,24 +311,25 @@ unset($me_fields_name, $me_fields_prev, $me_funcs, $me_fields_type, $me_fields_n
 
 // Builds the sql query
 if ($is_insert && count($value_sets) > 0) {
-    $query[] = 'INSERT INTO ' . PMA_backquote($GLOBALS['db']) . '.' . PMA_backquote($GLOBALS['table'])
+    if ($is_insertignore) {
+        $insert_command = 'INSERT IGNORE ';
+    } else {
+        $insert_command = 'INSERT ';
+    }
+    $query[] = $insert_command . 'INTO ' . PMA_backquote($GLOBALS['db']) . '.' . PMA_backquote($GLOBALS['table'])
         . ' (' . implode(', ', $query_fields) . ') VALUES (' . implode('), (', $value_sets) . ')';
+    unset($insert_command);
 
-    unset($query_fields, $value_sets);
-
-    $message = PMA_Message::success('strRowsInserted');
-} elseif (! empty($query)) {
-    $message = PMA_Message::success('strRowsAffected');
-} else {
+    unset($query_fields);
+} elseif (empty($query)) {
     // No change -> move back to the calling script
-    $message = PMA_Message::success('strNoModification');
-    $GLOBALS['js_include'][] = 'functions.js';
+    $message = PMA_Message::success(__('No change'));
     $active_page = $goto_include;
     require_once './libraries/header.inc.php';
     require './' . PMA_securePath($goto_include);
     exit;
 }
-unset($me_fields, $is_insert);
+unset($me_fields, $is_insertignore);
 
 /**
  * Executes the sql query and get the result, then move back to the calling
@@ -338,7 +340,7 @@ if (! empty($GLOBALS['sql_query'])) {
     $return_to_sql_query = $GLOBALS['sql_query'];
 }
 $GLOBALS['sql_query'] = implode('; ', $query) . ';';
-// to ensure that the query is displayed in case of 
+// to ensure that the query is displayed in case of
 // "insert as new row" and then "insert another new row"
 $GLOBALS['display_query'] = $GLOBALS['sql_query'];
 
@@ -348,6 +350,10 @@ $warning_messages = array();
 $error_messages = array();
 
 foreach ($query as $single_query) {
+    if ($_REQUEST['submit_type'] == 'showinsert') {
+        $last_messages[] = PMA_Message::notice(__('Showing SQL query'));
+        continue;
+    }
     if ($GLOBALS['cfg']['IgnoreMultiSubmitErrors']) {
         $result = PMA_DBI_try_query($single_query);
     } else {
@@ -371,7 +377,7 @@ foreach ($query as $single_query) {
             if ($total_affected_rows > 0) {
                 $insert_id = $insert_id + $total_affected_rows - 1;
             }
-            $last_message = PMA_Message::notice('strInsertedRowId');
+            $last_message = PMA_Message::notice(__('Inserted row id: %1$d'));
             $last_message->addParam($insert_id);
             $last_messages[] = $last_message;
         }
@@ -387,7 +393,12 @@ foreach ($query as $single_query) {
 }
 unset($single_query, $query);
 
-$message->addParam($total_affected_rows);
+if ($is_insert && count($value_sets) > 0) {
+    $message = PMA_Message::inserted_rows($total_affected_rows);
+} else {
+    $message = PMA_Message::affected_rows($total_affected_rows);
+}
+
 $message->addMessages($last_messages, '<br />');
 
 if (! empty($warning_messages)) {
@@ -404,6 +415,12 @@ if (! empty($error_messages)) {
 }
 unset($error_messages, $warning_messages, $total_affected_rows, $last_messages, $last_message);
 
+if($GLOBALS['is_ajax_request'] == true) {
+
+    $extra_data['sql_query'] = PMA_showMessage(NULL, $GLOBALS['display_query']);
+    PMA_ajaxResponse($message, $message->isSuccess(), $extra_data);
+}
+
 if (isset($return_to_sql_query)) {
     $disp_query = $GLOBALS['sql_query'];
     $disp_message = $message;
@@ -412,9 +429,8 @@ if (isset($return_to_sql_query)) {
 }
 
 $GLOBALS['js_include'][] = 'tbl_change.js';
-$GLOBALS['js_include'][] = 'functions.js';
 // in case we call sql.php which needs those:
-$GLOBALS['js_include'][] = 'mootools.js';
+$GLOBALS['js_include'][] = 'jquery/jquery-ui-1.8.custom.js';
 
 $active_page = $goto_include;
 

@@ -7,23 +7,6 @@
  * @todo    display executed query, optional?
  * @uses    $cfg['UseDbSearch']
  * @uses    $GLOBALS['db']
- * @uses    $GLOBALS['strAccessDenied']
- * @uses    $GLOBALS['strSearchOption1']
- * @uses    $GLOBALS['strSearchOption2']
- * @uses    $GLOBALS['strSearchOption3']
- * @uses    $GLOBALS['strSearchOption4']
- * @uses    $GLOBALS['strSearchResultsFor']
- * @uses    $GLOBALS['strNumSearchResultsInTable']
- * @uses    $GLOBALS['strBrowse']
- * @uses    $GLOBALS['strDelete']
- * @uses    $GLOBALS['strNumSearchResultsTotal']
- * @uses    $GLOBALS['strSearchFormTitle']
- * @uses    $GLOBALS['strSearchNeedle']
- * @uses    $GLOBALS['strSearchType']
- * @uses    $GLOBALS['strSplitWordsWithSpace']
- * @uses    $GLOBALS['strSearchInTables']
- * @uses    $GLOBALS['strUnselectAll']
- * @uses    $GLOBALS['strSelectAll']
  * @uses    PMA_DBI_get_tables()
  * @uses    PMA_sqlAddslashes()
  * @uses    PMA_getSearchSqls()
@@ -46,8 +29,6 @@
  * @uses    array_intersect()
  * @uses    sprintf()
  * @uses    in_array()
- * @version $Id$
- * @author  Thomas Chaumeny <chaume92 at aol.com>
  * @package phpMyAdmin
  */
 
@@ -55,6 +36,9 @@
  *
  */
 require_once './libraries/common.inc.php';
+
+$GLOBALS['js_include'][] = 'jquery/jquery-1.4.2.js';
+$GLOBALS['js_include'][] = 'db_search.js';
 
 /**
  * Gets some core libraries and send headers
@@ -66,7 +50,7 @@ require './libraries/db_common.inc.php';
  */
 // If config variable $GLOBALS['cfg']['Usedbsearch'] is on false : exit.
 if (! $GLOBALS['cfg']['UseDbSearch']) {
-    PMA_mysqlDie($GLOBALS['strAccessDenied'], '', false, $err_url);
+    PMA_mysqlDie(__('Access denied'), '', false, $err_url);
 } // end if
 $url_query .= '&amp;goto=db_search.php';
 $url_params['goto'] = 'db_search.php';
@@ -78,10 +62,10 @@ $url_params['goto'] = 'db_search.php';
 $tables_names_only = PMA_DBI_get_tables($GLOBALS['db']);
 
 $search_options = array(
-    '1' => $GLOBALS['strSearchOption1'],
-    '2' => $GLOBALS['strSearchOption2'],
-    '3' => $GLOBALS['strSearchOption3'],
-    '4' => $GLOBALS['strSearchOption4'],
+    '1' => __('at least one of the words'),
+    '2' => __('all words'),
+    '3' => __('the exact phrase'),
+    '4' => __('as regular expression'),
 );
 
 if (empty($_REQUEST['search_option']) || ! is_string($_REQUEST['search_option'])
@@ -127,11 +111,14 @@ if (empty($_REQUEST['field_str']) || ! is_string($_REQUEST['field_str'])) {
 }
 
 /**
- * Displays top links
+ * Displays top links if we are not in an Ajax request
  */
 $sub_part = '';
-require './libraries/db_info.inc.php';
 
+if( $GLOBALS['is_ajax_request'] != true) {
+    require './libraries/db_info.inc.php';
+    echo '<div id="searchresults">';
+}
 
 /**
  * 1. Main search form has been submitted
@@ -240,7 +227,7 @@ if (isset($_REQUEST['submit_search'])) {
     echo '<br />' . "\n"
         .'<table class="data">' . "\n"
         .'<caption class="tblHeaders">' . "\n"
-        .sprintf($GLOBALS['strSearchResultsFor'],
+        .sprintf(__('Search results for "<i>%s</i>" %s:'),
             $searched, $option_str) . "\n"
         .'</caption>' . "\n";
 
@@ -258,19 +245,19 @@ if (isset($_REQUEST['submit_search'])) {
         $sql_query .= $newsearchsqls['select_count'];
 
         echo '<tr class="' . ($odd_row ? 'odd' : 'even') . '">'
-            .'<td>' . sprintf($GLOBALS['strNumSearchResultsInTable'], $res_cnt,
+            .'<td>' . sprintf(_ngettext('%s match inside table <i>%s</i>', '%s matches inside table <i>%s</i>', $res_cnt), $res_cnt,
                 htmlspecialchars($each_table)) . "</td>\n";
 
         if ($res_cnt > 0) {
             $this_url_params['sql_query'] = $newsearchsqls['select_fields'];
             echo '<td>' . PMA_linkOrButton(
                     'sql.php' . PMA_generate_common_url($this_url_params),
-                    $GLOBALS['strBrowse'], '') .  "</td>\n";
+                    __('Browse'), '') .  "</td>\n";
 
             $this_url_params['sql_query'] = $newsearchsqls['delete'];
             echo '<td>' . PMA_linkOrButton(
                     'sql.php' . PMA_generate_common_url($this_url_params),
-                    $GLOBALS['strDelete'], $newsearchsqls['delete']) .  "</td>\n";
+                    __('Delete'), $newsearchsqls['delete']) .  "</td>\n";
 
         } else {
             echo '<td>&nbsp;</td>' . "\n"
@@ -283,36 +270,45 @@ if (isset($_REQUEST['submit_search'])) {
     echo '</table>' . "\n";
 
     if (count($tables_selected) > 1) {
-        echo '<p>' . sprintf($GLOBALS['strNumSearchResultsTotal'],
+        echo '<p>' . sprintf(_ngettext('<b>Total:</b> <i>%s</i> match', '<b>Total:</b> <i>%s</i> matches', $num_search_result_total),
             $num_search_result_total) . '</p>' . "\n";
     }
 } // end 1.
 
+/**
+ * If we are in an Ajax request, we need to exit after displaying all the HTML
+ */
+if($GLOBALS['is_ajax_request'] == true) {
+    exit;
+}
+else {
+    echo '</div>';//end searchresults div
+}
 
 /**
  * 2. Displays the main search form
  */
 ?>
 <a name="db_search"></a>
-<form method="post" action="db_search.php" name="db_search">
+<form id="db_search_form" method="post" action="db_search.php" name="db_search">
 <?php echo PMA_generate_common_hidden_inputs($GLOBALS['db']); ?>
 <fieldset>
-    <legend><?php echo $GLOBALS['strSearchFormTitle']; ?></legend>
+    <legend><?php echo __('Search in database'); ?></legend>
 
     <table class="formlayout">
-    <tr><td><?php echo $GLOBALS['strSearchNeedle']; ?></td>
+    <tr><td><?php echo __('Word(s) or value(s) to search for (wildcard: "%"):'); ?></td>
         <td><input type="text" name="search_str" size="60"
                 value="<?php echo $searched; ?>" /></td>
     </tr>
     <tr><td align="right" valign="top">
-            <?php echo $GLOBALS['strSearchType']; ?></td>
+            <?php echo __('Find:'); ?></td>
             <td><?php
 
 $choices = array(
-    '1' => $GLOBALS['strSearchOption1'] . PMA_showHint($GLOBALS['strSplitWordsWithSpace']),
-    '2' => $GLOBALS['strSearchOption2'] . PMA_showHint($GLOBALS['strSplitWordsWithSpace']),
-    '3' => $GLOBALS['strSearchOption3'],
-    '4' => $GLOBALS['strSearchOption4'] . ' ' . PMA_showMySQLDocu('Regexp', 'Regexp')
+    '1' => __('at least one of the words') . PMA_showHint(__('Words are separated by a space character (" ").')),
+    '2' => __('all words') . PMA_showHint(__('Words are separated by a space character (" ").')),
+    '3' => __('the exact phrase'),
+    '4' => __('as regular expression') . ' ' . PMA_showMySQLDocu('Regexp', 'Regexp')
 );
 // 4th parameter set to true to add line breaks
 // 5th parameter set to false to avoid htmlspecialchars() escaping in the label
@@ -323,7 +319,7 @@ unset($choices);
             </td>
     </tr>
     <tr><td align="right" valign="top">
-            <?php echo $GLOBALS['strSearchInTables']; ?></td>
+            <?php echo __('Inside table(s):'); ?></td>
         <td rowspan="2">
 <?php
 echo '            <select name="table_select[]" size="6" multiple="multiple">' . "\n";
@@ -342,10 +338,10 @@ foreach ($tables_names_only as $each_table) {
 echo '            </select>' . "\n";
 $alter_select =
     '<a href="db_search.php' . PMA_generate_common_url(array_merge($url_params, array('selectall' => 1))) . '#db_search"'
-    . ' onclick="setSelectOptions(\'db_search\', \'table_select[]\', true); return false;">' . $GLOBALS['strSelectAll'] . '</a>'
+    . ' onclick="setSelectOptions(\'db_search\', \'table_select[]\', true); return false;">' . __('Select All') . '</a>'
     . '&nbsp;/&nbsp;'
     . '<a href="db_search.php' . PMA_generate_common_url(array_merge($url_params, array('unselectall' => 1))) . '#db_search"'
-    . ' onclick="setSelectOptions(\'db_search\', \'table_select[]\', false); return false;">' . $GLOBALS['strUnselectAll'] . '</a>';
+    . ' onclick="setSelectOptions(\'db_search\', \'table_select[]\', false); return false;">' . __('Unselect All') . '</a>';
 ?>
         </td>
     </tr>
@@ -353,14 +349,14 @@ $alter_select =
             <?php echo $alter_select; ?></td>
     </tr>
     <tr><td align="right">
-            <?php echo $GLOBALS['strSearchInField']; ?></td>
+            <?php echo __('Inside column:'); ?></td>
         <td><input type="text" name="field_str" size="60"
                 value="<?php echo ! empty($field_str) ? htmlspecialchars($field_str) : ''; ?>" /></td>
     </tr>
     </table>
 </fieldset>
 <fieldset class="tblFooters">
-    <input type="submit" name="submit_search" value="<?php echo $GLOBALS['strGo']; ?>"
+    <input type="submit" name="submit_search" value="<?php echo __('Go'); ?>"
         id="buttonGo" />
 </fieldset>
 </form>
@@ -369,5 +365,5 @@ $alter_select =
 /**
  * Displays the footer
  */
-require_once './libraries/footer.inc.php';
+require './libraries/footer.inc.php';
 ?>
