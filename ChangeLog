@@ -120,6 +120,9 @@
 - bug #3087682 [interface] Do not apply LeftFrameDBSeparator on first character.
 + rfe #3111455 [interface] Column highlighting and marking in table view
 + Visual query builder
+- bug #3115519 [interface] Prevent long queries from being shown in confirmation popup
+- patch #3112792 [navi] Left panel table grouping incorrect,
+  thanks to garas - garas
 
 3.3.9.0 (not yet released)
 - bug [doc] Fix references to MySQL doc
@@ -127,6 +130,11 @@
 - bug #3103853 [js] Double quotes were not escaped in generated js
 - bug #3077463 [core] Events were not copied when copying/renaming database
 - bug #1762306 [core] Copy database with view of a view
+- patch #3117535 [replication] Add quotes to database in initial statement,
+  thanks to Craig Duncan - duncan3dc
+
+3.3.8.1 (2010-11-29)
+- bug #3115519 (private) [security] XSS on db search, see PMASA-2010-8
 
 3.3.8.1 (2010-11-29)
 - bug #3115519 (private) [security] XSS on db search, see PMASA-2010-8
