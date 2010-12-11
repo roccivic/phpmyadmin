@@ -377,12 +377,12 @@ if (isset($GLOBALS['show_as_php']) || !empty($GLOBALS['validatequery'])) {
                 $table = '';
             }
             $active_page = $goto;
-            $message = PMA_Message::rawError(htmlspecialchars($error));
+            $message = PMA_Message::rawError($error);
 
             if( $GLOBALS['is_ajax_request'] == true) {
                 PMA_ajaxResponse($message, false);
             }
-            
+
             /**
              * Go to target path.
              */
@@ -391,7 +391,7 @@ if (isset($GLOBALS['show_as_php']) || !empty($GLOBALS['validatequery'])) {
             /**
              * HTML header.
              */
-            
+
             if($GLOBALS['is_ajax_request'] != true) {
                 require_once './libraries/header.inc.php';
             }
@@ -545,7 +545,7 @@ if (isset($GLOBALS['show_as_php']) || !empty($GLOBALS['validatequery'])) {
         require_once './libraries/relation_cleanup.lib.php';
         PMA_relationsCleanupColumn($db, $table, $dropped_column);
 
-    } // end if column was dropped 
+    } // end if column was dropped
 } // end else "didn't ask to see php code"
 
 // No rows returned -> move back to the calling page
@@ -600,7 +600,7 @@ if (0 == $num_rows || $is_affected) {
         $message->addMessage($_querytime);
         $message->addMessage(')');
     }
-    
+
     if( $GLOBALS['is_ajax_request'] == true) {
 
         /**
@@ -643,6 +643,10 @@ if (0 == $num_rows || $is_affected) {
             //if some posted fields need to be transformed, generate them here.
             $mime_map = PMA_getMIME($db, $table);
 
+            if ($mime_map === FALSE) {
+                $mime_map = array();
+            }
+
             $edited_values = array();
             parse_str($_REQUEST['transform_fields_list'], $edited_values);
 
@@ -680,7 +684,7 @@ if (0 == $num_rows || $is_affected) {
         if (isset($GLOBALS['reload']) && $GLOBALS['reload'] == 1) {
             $extra_data['reload'] = 1;
             $extra_data['db'] = $GLOBALS['db'];
-        } 
+        }
         PMA_ajaxResponse($message, $message->isSuccess(), (isset($extra_data) ? $extra_data : ''));
     }
 
@@ -691,7 +695,7 @@ if (0 == $num_rows || $is_affected) {
         if (isset($_REQUEST['purge'])) {
             $table = '';
             unset($url_params['table']);
-        }        
+        }
         include 'libraries/db_table_exists.lib.php';
 
         if (strpos($goto, 'tbl_') === 0 && ! $is_table) {
@@ -745,7 +749,7 @@ else {
         $GLOBALS['js_include'][] = 'sql.js';
 
         unset($message);
-        
+
         if( $GLOBALS['is_ajax_request'] != true) {
             if (strlen($table)) {
                 require './libraries/tbl_common.php';
@@ -776,7 +780,7 @@ else {
         $fields_meta = PMA_DBI_get_fields_meta($result);
         $fields_cnt  = count($fields_meta);
     }
-    
+
     if( $GLOBALS['is_ajax_request'] != true ) {
         //begin the sqlqueryresults div here. container div
         echo '<div id="sqlqueryresults">';
@@ -786,7 +790,7 @@ else {
     if (isset($disp_query) && $cfg['ShowSQL'] == true) {
         PMA_showMessage($disp_message, $disp_query, 'success');
     }
-    
+
     if (isset($profiling_results)) {
         PMA_profilingResults($profiling_results, true);
     }

@@ -557,8 +557,6 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
     }
 
     // --- Added to solve bug #641765
-    // Robbat2 - 12 January 2003, 9:46PM
-    // Revised, Robbat2 - 13 January 2003, 2:59PM
     if (!function_exists('PMA_SQP_isError') || PMA_SQP_isError()) {
         $formatted_sql = htmlspecialchars($the_query);
     } elseif (empty($the_query) || trim($the_query) == '') {
@@ -578,8 +576,6 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
     // username/password
     if (!empty($the_query) && !strstr($the_query, 'connect')) {
         // --- Added to solve bug #641765
-        // Robbat2 - 12 January 2003, 9:46PM
-        // Revised, Robbat2 - 13 January 2003, 2:59PM
         if (function_exists('PMA_SQP_isError') && PMA_SQP_isError()) {
             $error_msg_output .= PMA_SQP_getErrorString() . "\n";
             $error_msg_output .= '<br />' . "\n";
@@ -616,10 +612,7 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
             .'    </p>' . "\n";
     } // end if
 
-    $tmp_mysql_error = ''; // for saving the original $error_message
     if (!empty($error_message)) {
-        $tmp_mysql_error = strtolower($error_message); // save the original $error_message
-        $error_message = htmlspecialchars($error_message);
         $error_message = preg_replace("@((\015\012)|(\015)|(\012)){3,}@", "\n\n", $error_message);
     }
     // modified to show the help on error-returns
@@ -2992,10 +2985,10 @@ function PMA_selectUploadFile($import_list, $uploaddir) {
 }
 
 /**
- * Build titles and icons for action links 
+ * Build titles and icons for action links
  *
- * @return   array   the action titles 
- * @uses     PMA_getIcon() 
+ * @return   array   the action titles
+ * @uses     PMA_getIcon()
  */
 function PMA_buildActionTitles() {
     $titles = array();

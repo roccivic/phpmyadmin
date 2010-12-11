@@ -12,7 +12,7 @@ set -u
 set -e
 
 KITS="all-languages english"
-COMPRESSIONS="zip-7z tbz tgz 7z"
+COMPRESSIONS="zip-7z tbz txz tgz 7z"
 
 if [ $# -lt 2 ]
 then
@@ -54,8 +54,7 @@ shift
 
 cat <<END
 
-Please ensure you have:
-  1. incremented rc count or version in the repository :
+Please ensure you have incremented rc count or version in the repository :
      - in libraries/Config.class.php PMA_Config::__constructor() the line
           " \$this->set( 'PMA_VERSION', '$version' ); "
      - in Documentation.html the 2 lines
@@ -63,8 +62,6 @@ Please ensure you have:
           " <h1>phpMyAdmin $version Documentation</h1> "
      - in translators.html
      - in README
-  2. checked that all language files are valid (use
-     the "./scripts/check_lang.php" script to do it).
 
 Continue (y/n)?
 END
@@ -127,12 +124,17 @@ fi
 if [ $GETTEXT -eq 1 ] ; then
     echo "* Generating mo files"
     ./scripts/generate-mo
+    echo "* Removing gettext source files"
+    rm -rf po
 fi
 
 if [ -f ./scripts/compress-js ] ; then
     echo "* Compressing javascript files"
     ./scripts/compress-js
+    rm -rf sources
 fi
+
+echo "* Removing unneeded files"
 
 # Remove test directory from package to avoid Path disclosure messages
 # if someone runs /test/wui.php and there are test failures
@@ -140,6 +142,11 @@ rm -rf test
 
 # Remove javascript compiler, no need to ship it
 rm -rf scripts/google-javascript-compiler/
+
+# Remove scripts which are not useful for user
+for s in compress-js create-release.sh generate-mo mergepo.py php2gettext.sh remove_control_m.sh update-po upload-release ; do
+    rm -f scripts/$s
+done
 
 # Remove git metadata
 rm -rf .git
@@ -156,23 +163,32 @@ for kit in $KITS ; do
 	# Cleanup translations
     cd phpMyAdmin-$version-$kit
     scripts/lang-cleanup.sh $kit
+    rm -f scripts/lang-cleanup.sh
     cd ..
+
+    # Remove tar file possibly left from previous run
+    rm -f $name.tar
 
     # Prepare distributions
     for comp in $COMPRESSIONS ; do
         case $comp in
-            tbz|tgz)
-                echo "* Creating $name.tar"
-                tar cf $name.tar $name
+            tbz|tgz|txz)
+                if [ ! -f $name.tar ] ; then
+                    echo "* Creating $name.tar"
+                    tar cf $name.tar $name
+                fi
                 if [ $comp = tbz ] ; then
                     echo "* Creating $name.tar.bz2"
                     bzip2 -9k $name.tar
+                fi
+                if [ $comp = txz ] ; then
+                    echo "* Creating $name.tar.xz"
+                    xz -9k $name.tar
                 fi
                 if [ $comp = tgz ] ; then
                     echo "* Creating $name.tar.gz"
                     gzip -9c $name.tar > $name.tar.gz
                 fi
-                rm $name.tar
                 ;;
             zip)
                 echo "* Creating $name.zip"
@@ -190,6 +206,9 @@ for kit in $KITS ; do
                 echo "WARNING: ignoring compression '$comp', not known!"
                 ;;
         esac
+
+        # Cleanup
+        rm -f $name.tar
     done
 
     # Remove directory with current dist set
