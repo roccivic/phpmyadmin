@@ -516,7 +516,6 @@ $PMA_SQPdata_reserved_word = array (
     'LAST_INSERT_ID',
     'LEADING',
     'LEFT',
-    'LEVEL',
     'LIKE',
     'LIMIT',
     'LINEAR',               // 5.1
@@ -686,7 +685,24 @@ $PMA_SQPdata_reserved_word = array (
  *
  * @global integer MySQL reserved words count
  */
-$PMA_SQPdata_reserved_word_cnt = 289;
+$PMA_SQPdata_reserved_word_cnt = 287;
+/**
+ * The previous array must be sorted so that the binary search work.
+ * Sometimes a word is not added in the correct order, so
+ * this debugging code shows the problem. The same should be
+ * done for all arrays.
+ */
+/*
+$original = $PMA_SQPdata_reserved_word;
+sort($PMA_SQPdata_reserved_word);
+$difference = array_diff_assoc($original, $PMA_SQPdata_reserved_word);
+echo '<pre>';
+print_r($difference);
+echo '</pre>';
+echo '<pre>';
+print_r($PMA_SQPdata_reserved_word);
+echo '</pre>';
+*/
 
 /**
  * words forbidden to be used as column or table name wihtout quotes
@@ -905,7 +921,6 @@ $PMA_SQPdata_forbidden_word = array (
     'LEAVE',
     'LEAVES',
     'LEFT',
-    'LEVEL',
     'LIKE',
     'LIMIT',
     'LINEAR',               // 5.1
@@ -1184,7 +1199,7 @@ $PMA_SQPdata_forbidden_word = array (
  *
  * @global integer MySQL forbidden words count
  */
-$PMA_SQPdata_forbidden_word_cnt = 483;
+$PMA_SQPdata_forbidden_word_cnt = 482;
 
 /**
  * the MySQL column/data types
