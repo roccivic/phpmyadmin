@@ -128,7 +128,7 @@
 - bug #3119882 [interface] Display query chart on demand.
 - [interface] Use less noisy message and remove disable link on server charts and database statistics.
 
-3.3.9.0 (not yet released)
+3.3.9.0 (2011-01-03)
 - bug [doc] Fix references to MySQL doc
 - patch #3101490 Default function for TIMESTAMP, thanks to jirand - jirand
 - bug #3103853 [js] Double quotes were not escaped in generated js
