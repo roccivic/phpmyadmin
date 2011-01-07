@@ -285,7 +285,7 @@ foreach ($rows as $row_id => $vrow) {
     }
 
     $jsvkey = $row_id;
-    $browse_foreigners_uri = '&amp;pk=' . $row_id;
+    $rownumber_param = '&amp;rownumber=' . $row_id;
     $vkey = '[multi_edit][' . $jsvkey . ']';
 
     $vresult = (isset($result) && is_array($result) && isset($result[$row_id]) ? $result[$row_id] : $result);
@@ -406,13 +406,11 @@ foreach ($rows as $row_id => $vrow) {
             $field['len'] = PMA_DBI_field_len($vresult, $i);
         }
         //Call validation when the form submited...
-        $unnullify_trigger = $chg_evt_handler . "=\"return Validator('". PMA_escapeJsString($field['Field_md5']) . "', '"
+        $unnullify_trigger = $chg_evt_handler . "=\"return verificationsAfterFieldChange('". PMA_escapeJsString($field['Field_md5']) . "', '"
             . PMA_escapeJsString($jsvkey) . "','".$field['pma_type']."')\"";
 
         // Use an MD5 as an array index to avoid having special characters in the name atttibute (see bug #1746964 )
         $field_name_appendix =  $vkey . '[' . $field['Field_md5'] . ']';
-        $field_name_appendix_md5 = $field['Field_md5'] . $vkey . '[]';
-
 
         if ($field['Type'] == 'datetime'
          && ! isset($field['Default'])
@@ -429,8 +427,7 @@ foreach ($rows as $row_id => $vrow) {
                 <input type="hidden" name="fields_name<?php echo $field_name_appendix; ?>" value="<?php echo $field['Field_html']; ?>"/>
             </td>
 <?php if ($cfg['ShowFieldTypesInDataEditView']) { ?>
-             <td align="center"<?php echo $field['wrap']; ?>><span class="column_type">
-                 <?php echo $field['pma_type']; ?></span>
+             <td align="center"<?php echo $field['wrap']; ?>><span class="column_type"><?php echo $field['pma_type']; ?></span>
              </td>
 
          <?php } //End if
@@ -656,32 +653,21 @@ foreach ($rows as $row_id => $vrow) {
             ?>
             <input type="hidden" name="fields_type<?php echo $field_name_appendix; ?>"
                 value="foreign" />
-            <input type="hidden" name="fields<?php echo $field_name_appendix; ?>"
-                value="" id="field_<?php echo ($idindex); ?>_3A" />
-            <input type="text" name="field_<?php echo $field_name_appendix_md5; ?>"
+            <input type="text" name="fields<?php echo $field_name_appendix; ?>"
                 class="textfield" <?php echo $unnullify_trigger; ?>
                 tabindex="<?php echo ($tabindex + $tabindex_for_value); ?>"
                 id="field_<?php echo ($idindex); ?>_3"
                 value="<?php echo htmlspecialchars($data); ?>" />
-            <script type="text/javascript">
-            //<![CDATA[
-                document.writeln('<a target="_blank" onclick="window.open(this.href, \'foreigners\', \'width=640,height=240,scrollbars=yes,resizable=yes\'); return false"');
-                document.write(' href="browse_foreigners.php?');
-                document.write('<?php echo PMA_generate_common_url($db, $table); ?>');
-                document.writeln('&amp;field=<?php echo PMA_escapeJsString(urlencode($field['Field']) . $browse_foreigners_uri); ?>">');
-                document.writeln('<?php echo str_replace("'", "\'", $titles['Browse']); ?></a>');
-            //]]>
-            </script>
+                <a class="hide foreign_values_anchor" target="_blank" onclick="window.open(this.href, 'foreigners', 'width=640,height=240,scrollbars=yes,resizable=yes'); return false;" href="browse_foreigners.php?<?php echo PMA_generate_common_url($db, $table); ?>&amp;field=<?php echo PMA_escapeJsString(urlencode($field['Field']) . $rownumber_param); ?>"><?php echo str_replace("'", "\'", $titles['Browse']); ?></a>
             <?php
         } elseif (is_array($foreignData['disp_row'])) {
             echo $backup_field . "\n";
             ?>
             <input type="hidden" name="fields_type<?php echo $field_name_appendix; ?>"
                 value="foreign" />
-            <input type="hidden" name="fields<?php echo $field_name_appendix; ?>"
-                value="" id="field_<?php echo $idindex; ?>_3A" />
-            <select name="field_<?php echo $field_name_appendix_md5; ?>"
+            <select name="fields<?php echo $field_name_appendix; ?>"
                 <?php echo $unnullify_trigger; ?>
+                class="textfield"
                 tabindex="<?php echo ($tabindex + $tabindex_for_value); ?>"
                 id="field_<?php echo ($idindex); ?>_3">
                 <?php echo PMA_foreignDropdown($foreignData['disp_row'], $foreignData['foreign_field'], $foreignData['foreign_display'], $data, $cfg['ForeignKeyMaxLimit']); ?>
@@ -744,8 +730,9 @@ foreach ($rows as $row_id => $vrow) {
             // show dropdown or radio depend on length
             if (strlen($field['Type']) > 20) {
                 ?>
-                <select name="field_<?php echo $field_name_appendix_md5; ?>"
+                <select name="fields<?php echo $field_name_appendix; ?>"
                     <?php echo $unnullify_trigger; ?>
+                    class="textfield"
                     tabindex="<?php echo ($tabindex + $tabindex_for_value); ?>"
                     id="field_<?php echo ($idindex); ?>_3">
                     <option value="">&nbsp;</option>
@@ -772,7 +759,8 @@ foreach ($rows as $row_id => $vrow) {
                 $j = 0;
                 foreach ($field_enum_values as $enum_value) {
                     echo '            ';
-                    echo '<input type="radio" name="field_' . $field_name_appendix_md5 . '"';
+                    echo '<input type="radio" name="fields' . $field_name_appendix . '"';
+                    echo ' class="textfield"';
                     echo ' value="' . $enum_value['html'] . '"';
                     echo ' id="field_' . ($idindex) . '_3_'  . $j . '"';
                     echo $unnullify_trigger;
@@ -807,8 +795,8 @@ foreach ($rows as $row_id => $vrow) {
             echo $backup_field . "\n";
             ?>
                 <input type="hidden" name="fields_type<?php echo $field_name_appendix; ?>" value="set" />
-                <input type="hidden" name="fields<?php echo $field_name_appendix; ?>" value="" />
-                <select name="field_<?php echo $field_name_appendix_md5; ?>"
+                <select name="fields<?php echo $field_name_appendix . '[]'; ?>"
+                    class="textfield"
                     size="<?php echo $select_size; ?>"
                     multiple="multiple" <?php echo $unnullify_trigger; ?>
                     tabindex="<?php echo ($tabindex + $tabindex_for_value); ?>"
@@ -1018,7 +1006,7 @@ $(function() {
 ?>
     <br />
 
-    <fieldset>
+    <fieldset id="actions_panel">
     <table border="0" cellpadding="5" cellspacing="0">
     <tr>
         <td valign="middle" nowrap="nowrap">

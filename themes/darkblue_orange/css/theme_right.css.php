@@ -1402,14 +1402,16 @@ table#serverconnection_trg_local  {
     color: black;
     cursor: pointer;
     padding: 0;
-    margin: 0;
+    margin: 3px 5px 0 -23px;
     position: relative;
-    right: 3ex;
+    float: right;
 }
 
 #fast_filter {
-    width: 85%;
-    padding: 0.1em;
+    width: 100%;
+    padding:2px 0px;
+    margin:0;
+    border:0;
 }
 /**
   *  Validation error message styles
@@ -1606,6 +1608,10 @@ a.close_enum_editor {
     position: absolute;
     padding: 3px;
     display: none;
+}
+
+.structure_actions_dropdown a {
+    display: block;
 }
 
 td.more_opts {

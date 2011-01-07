@@ -23,6 +23,29 @@ $(document).ready(function() {
     });
 
     /**
+     * Prepare a div containing a link, otherwise it's incorrectly displayed 
+     * after a couple of clicks
+     */
+    $('<div id="togglesearchformdiv"><a id="togglesearchformlink"></a></div>')
+     .insertAfter('#tbl_search_form')
+     // don't show it until we have results on-screen
+     .hide();
+
+    $('#togglesearchformlink')
+        .html(PMA_messages['strShowSearchCriteria'])
+        .bind('click', function() {
+            var $link = $(this);
+            $('#tbl_search_form').slideToggle();
+            if ($link.text() == PMA_messages['strHideSearchCriteria']) {
+                $link.text(PMA_messages['strShowSearchCriteria']);
+            } else {
+                $link.text(PMA_messages['strHideSearchCriteria']);
+            }
+            // avoid default click action
+            return false;
+        });
+
+    /**
      * Ajax event handler for Table Search
      * 
      * @uses    PMA_ajaxShowMessage()
@@ -33,7 +56,7 @@ $(document).ready(function() {
         event.preventDefault();
 
         // empty previous search results while we are waiting for new results
-        $("#searchresults").empty();
+        $("#sqlqueryresults").empty();
         PMA_ajaxShowMessage(PMA_messages['strSearching']);
 
 	    // add this hidden field just once 
@@ -44,10 +67,18 @@ $(document).ready(function() {
         $.post($search_form.attr('action'), $search_form.serialize(), function(response) {
             if (typeof response == 'string') {
                 // found results
-                $("#searchresults").html(response);
+                $("#sqlqueryresults").html(response);
+                $("#sqlqueryresults").trigger('appendAnchor');
+                $('#tbl_search_form').hide();
+                $('#togglesearchformlink')
+                 // always start with the Show message
+                 .text(PMA_messages['strShowSearchCriteria'])
+                $('#togglesearchformdiv')
+                 // now it's time to show the div containing the link 
+                 .show();
             } else {
                 // error message (zero rows)
-                $("#searchresults").html(response['message']);
+                $("#sqlqueryresults").html(response['message']);
             }
         })
     })

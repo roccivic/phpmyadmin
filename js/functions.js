@@ -1520,10 +1520,10 @@ function toggle_enum_notice(selectElement) {
     var enum_notice_id = selectElement.attr("id").split("_")[1];
     enum_notice_id += "_" + (parseInt(selectElement.attr("id").split("_")[2]) + 1);
     var selectedType = selectElement.attr("value");
-    if(selectedType == "ENUM" || selectedType == "SET") {
+    if (selectedType == "ENUM" || selectedType == "SET") {
         $("p[id='enum_notice_" + enum_notice_id + "']").show();
     } else {
-          $("p[id='enum_notice_" + enum_notice_id + "']").hide();
+        $("p[id='enum_notice_" + enum_notice_id + "']").hide();
     }
 }
 
@@ -1652,6 +1652,7 @@ $(document).ready(function() {
             .dialog({
                 title: PMA_messages['strCreateTable'],
                 width: 900,
+                open: PMA_verifyTypeOfAllColumns, 
                 buttons : button_options
             }); // end dialog options
         }) // end $.get()
@@ -2038,13 +2039,21 @@ $(document).ready(function() {
  * the page loads and when the selected data type changes
  */
 $(document).ready(function() {
-    $.each($("select[class='column_type']"), function() {
-        toggle_enum_notice($(this));
-    });
-    $("select[class='column_type']").change(function() {
+    // is called here for normal page loads and also when opening
+    // the Create table dialog
+    PMA_verifyTypeOfAllColumns();
+    //
+    // needs live() to work also in the Create Table dialog
+    $("select[class='column_type']").live('change', function() {
         toggle_enum_notice($(this));
     });
 });
+
+function PMA_verifyTypeOfAllColumns() {
+    $("select[class='column_type']").each(function() {
+        toggle_enum_notice($(this));
+    });
+}
 
 /**
  * Closes the ENUM/SET editor and removes the data in it
@@ -2061,7 +2070,8 @@ function disable_popup() {
  * Opens the ENUM/SET editor and controls its functions
  */
 $(document).ready(function() {
-    $("a[class='open_enum_editor']").click(function() {
+    // Needs live() to work also in the Create table dialog
+    $("a[class='open_enum_editor']").live('click', function() {
         // Center the popup
         var windowWidth = document.documentElement.clientWidth;
         var windowHeight = document.documentElement.clientHeight;
@@ -2100,22 +2110,26 @@ $(document).ready(function() {
     });
 
     // If the "close" link is clicked, close the enum editor
-    $("a[class='close_enum_editor']").click(function() {
+    // Needs live() to work also in the Create table dialog
+    $("a[class='close_enum_editor']").live('click', function() {
         disable_popup();
     });
 
     // If the "cancel" link is clicked, close the enum editor
-    $("a[class='cancel_enum_editor']").click(function() {
+    // Needs live() to work also in the Create table dialog
+    $("a[class='cancel_enum_editor']").live('click', function() {
         disable_popup();
     });
 
     // When "add a new value" is clicked, append an empty text field
-    $("a[class='add_value']").click(function() {
+    // Needs live() to work also in the Create table dialog
+    $("a[class='add_value']").live('click', function() {
         $("#enum_editor #values").append("<input type='text' />");
     });
 
     // When the submit button is clicked, put the data back into the original form
-    $("#enum_editor input[type='submit']").click(function() {
+    // Needs live() to work also in the Create table dialog
+    $("#enum_editor input[type='submit']").live('click', function() {
         var value_array = new Array();
         $.each($("#enum_editor #values input"), function(index, input_element) {
             val = jQuery.trim(input_element.value);
@@ -2135,40 +2149,52 @@ $(document).ready(function() {
      */
     // Remove the actions from the table cells (they are available by default for JavaScript-disabled browsers)
     // if the table is not a view or information_schema (otherwise there is only one action to hide and there's no point)
-    if($("input[type='hidden'][name='table_type']").attr("value") == "table") {
-         $("table[id='tablestructure'] td[class='browse']").remove();
-         $("table[id='tablestructure'] td[class='primary']").remove();
-         $("table[id='tablestructure'] td[class='unique']").remove();
-         $("table[id='tablestructure'] td[class='index']").remove();
-         $("table[id='tablestructure'] td[class='fulltext']").remove();
-         $("table[id='tablestructure'] th[class='action']").attr("colspan", 3);
+    if($("input[type='hidden'][name='table_type']").val() == "table") {
+	    var $table = $("table[id='tablestructure']");
+        $table.find("td[class='browse']").remove();
+        $table.find("td[class='primary']").remove();
+        $table.find("td[class='unique']").remove();
+        $table.find("td[class='index']").remove();
+        $table.find("td[class='fulltext']").remove();
+        $table.find("th[class='action']").attr("colspan", 3);
 
-         // Display the "more" text
-         $("table[id='tablestructure'] td[class='more_opts']").show()
+        // Display the "more" text
+        $table.find("td[class='more_opts']").show();
 
-         // Position the dropdown
-         $.each($(".structure_actions_dropdown"), function() {
-              // The top offset must be set for IE even if it didn't change
-             var cell_right_edge_offset = $(this).parent().offset().left + $(this).parent().innerWidth();
-             var left_offset = cell_right_edge_offset - $(this).innerWidth();
-             var top_offset = $(this).parent().offset().top + $(this).parent().innerHeight();
-             $(this).offset({ top: top_offset, left: left_offset });
-         });
+        // Position the dropdown
+        $(".structure_actions_dropdown").each(function() {
+            // Optimize DOM querying
+            var $this_dropdown = $(this);
+             // The top offset must be set for IE even if it didn't change
+            var cell_right_edge_offset = $this_dropdown.parent().offset().left + $this_dropdown.parent().innerWidth();
+            var left_offset = cell_right_edge_offset - $this_dropdown.innerWidth();
+            var top_offset = $this_dropdown.parent().offset().top + $this_dropdown.parent().innerHeight();
+            $this_dropdown.offset({ top: top_offset, left: left_offset });
+        });
 
-         // A hack for IE6 to prevent the after_field select element from being displayed on top of the dropdown by
-         // positioning an iframe directly on top of it
-         $("iframe[class='IE_hack']").width($("select[name='after_field']").width());
-         $("iframe[class='IE_hack']").height($("select[name='after_field']").height());
-         $("iframe[class='IE_hack']").offset({ top: $("select[name='after_field']").offset().top, left: $("select[name='after_field']").offset().left });
+        // A hack for IE6 to prevent the after_field select element from being displayed on top of the dropdown by
+        // positioning an iframe directly on top of it
+        var $after_field = $("select[name='after_field']");
+	    $("iframe[class='IE_hack']")
+		    .width($after_field.width())
+            .height($after_field.height())
+            .offset({
+                top: $after_field.offset().top,
+                left: $after_field.offset().left
+            });
 
-         // When "more" is hovered over, show the hidden actions
-         $("table[id='tablestructure'] td[class='more_opts']").mouseenter(
-             function() {
+        // When "more" is hovered over, show the hidden actions
+        $table.find("td[class='more_opts']")
+		    .mouseenter(function() {
                 if($.browser.msie && $.browser.version == "6.0") {
-                    $("iframe[class='IE_hack']").show();
-                    $("iframe[class='IE_hack']").width($("select[name='after_field']").width()+4);
-                    $("iframe[class='IE_hack']").height($("select[name='after_field']").height()+4);
-                    $("iframe[class='IE_hack']").offset({ top: $("select[name='after_field']").offset().top, left: $("select[name='after_field']").offset().left});
+                    $("iframe[class='IE_hack']")
+		                .show()
+                        .width($after_field.width()+4)
+                        .height($after_field.height()+4)
+                        .offset({
+                            top: $after_field.offset().top,
+                            left: $after_field.offset().left
+                        });
                 }
                 $(".structure_actions_dropdown").hide(); // Hide all the other ones that may be open
                 $(this).children(".structure_actions_dropdown").show();
@@ -2176,15 +2202,17 @@ $(document).ready(function() {
                 if($.browser.msie) {
                     var left_offset_IE = $(this).offset().left + $(this).innerWidth() - $(this).children(".structure_actions_dropdown").innerWidth();
                     var top_offset_IE = $(this).offset().top + $(this).innerHeight();
-                    $(this).children(".structure_actions_dropdown").offset({ top: top_offset_IE, left: left_offset_IE });
+                    $(this).children(".structure_actions_dropdown").offset({
+	                    top: top_offset_IE,
+	                    left: left_offset_IE });
                 }
-         });
-         $(".structure_actions_dropdown").mouseleave(function() {
-              $(this).hide();
-              if($.browser.msie && $.browser.version == "6.0") {
-                  $("iframe[class='IE_hack']").hide();
-              }
-         });
+            })
+            .mouseleave(function() {
+                $(this).children(".structure_actions_dropdown").hide();
+                if($.browser.msie && $.browser.version == "6.0") {
+                    $("iframe[class='IE_hack']").hide();
+                }
+            });
     }
 });
 

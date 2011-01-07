@@ -9,7 +9,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.3.9 - Documentation</title>
+    <title>phpMyAdmin 3.4.0-beta2 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -17,7 +17,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.3.9 
+        3.4.0-beta2
         Documentation
     </h1>
 </div>
@@ -35,7 +35,6 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <li><a href="Documentation.html#developers">Developers</a></li>
     <li><a href="Documentation.html#copyright">Copyright</a></li>
     <li><a href="Documentation.html#credits">Credits</a></li>
-    <li><a href="translators.html">Translators</a></li>
     <li><a href="Documentation.html#glossary">Glossary</a></li>
 </ul>
 
@@ -138,7 +137,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
         <abbr title="Frequently Asked Questions">FAQ</abbr> 3.6)</a></li>
     <li>support mysqli, the improved MySQL extension <a href="#faq1_17">
         (see <abbr title="Frequently Asked Questions">FAQ</abbr> 1.17)</a></li>
-    <li>communicate in <a href="./translators.html">58 different languages</a>
+    <li>communicate in <a href="http://www.phpmyadmin.net/home_page/translations.php">62 different languages</a>
         </li>
     <li>synchronize two databases residing on the same as well as remote servers
         <a href="#faq9_1">(see <abbr title="Frequently Asked Questions">FAQ</abbr> 9.1)</a>
@@ -838,7 +837,8 @@ since this link provides funding for phpMyAdmin.
 
     <dt><span id="cfg_Servers_hide_db">$cfg['Servers'][$i]['hide_db']</span> string
     </dt>
-    <dd>Regular expression for hiding some databases. This only hides them
+    <dd>Regular expression for hiding some databases from unprivileged users. 
+        This only hides them
         from listing, but a user is still able to access them (using, for example,
         the SQL query area). To limit access, use the MySQL privilege system.
         <br /><br />
@@ -1786,18 +1786,18 @@ $cfg['TrustedProxies'] =
     <dd>Navi frame width in pixels. See <tt>themes/themename/layout.inc.php</tt>.
     </dd>
 
-    <dt><span id="cfg_NaviBackground">$cfg['NaviBackground']</span> string [valid css code for background]<br />
-        <span id="cfg_MainBackground">$cfg['MainBackground']</span> string [valid css code for background]
+    <dt><span id="cfg_NaviBackground">$cfg['NaviBackground']</span> string [CSS color for background]<br />
+        <span id="cfg_MainBackground">$cfg['MainBackground']</span> string [CSS color for background]
     </dt>
     <dd>The background styles used for both the frames.
         See <tt>themes/themename/layout.inc.php</tt>.</dd>
 
-    <dt id="cfg_NaviPointerBackground">$cfg['NaviPointerBackground'] string [valid css code for background]<br />
-        <span id="cfg_NaviPointerColor">$cfg['NaviPointerColor']</span> string [valid css color]</dt>
+    <dt id="cfg_NaviPointerBackground">$cfg['NaviPointerBackground'] string [CSS color for background]<br />
+        <span id="cfg_NaviPointerColor">$cfg['NaviPointerColor']</span> string [CSS color]</dt>
     <dd>The style used for the pointer in the navi frame.
         See <tt>themes/themename/layout.inc.php</tt>.</dd>
 
-    <dt id="cfg_NaviDatabaseNameColor">$cfg['NaviDatabaseNameColor'] string [valid css code]<br />
+    <dt id="cfg_NaviDatabaseNameColor">$cfg['NaviDatabaseNameColor'] string [CSS color]<br />
     </dt>
     <dd>The color used for the database name in the navi frame.
     See <tt>themes/themename/layout.inc.php</tt>.</dd>
@@ -1810,23 +1810,23 @@ $cfg['TrustedProxies'] =
     <dd>The size of a table's border. See <tt>themes/themename/layout.inc.php</tt>.
     </dd>
 
-    <dt id="cfg_ThBackground">$cfg['ThBackground'] string [valid css code for background]<br />
-        <span id="cfg_ThColor">$cfg['ThColor']</span> string [valid css color]</dt>
+    <dt id="cfg_ThBackground">$cfg['ThBackground'] string [CSS color for background]<br />
+        <span id="cfg_ThColor">$cfg['ThColor']</span> string [CSS color]</dt>
     <dd>The style used for table headers. See
         <tt>themes/themename/layout.inc.php</tt>.</dd>
 
-    <dt id="cfg_BgcolorOne">$cfg['BgOne'] string [HTML color]</dt>
+    <dt id="cfg_BgcolorOne">$cfg['BgOne'] string [CSS color]</dt>
     <dd>The color (HTML) #1 for table rows. See <tt>themes/themename/layout.inc.php</tt>.
     </dd>
 
-    <dt id="cfg_BgcolorTwo">$cfg['BgTwo'] string [HTML color]</dt>
+    <dt id="cfg_BgcolorTwo">$cfg['BgTwo'] string [CSS color]</dt>
     <dd>The color (HTML) #2 for table rows. See <tt>themes/themename/layout.inc.php</tt>.
     </dd>
 
-    <dt><span id="cfg_BrowsePointerBackground">$cfg['BrowsePointerBackground'] </span>string [HTML color]<br />
-        <span id="cfg_BrowsePointerColor">$cfg['BrowsePointerColor'] </span>string [HTML color]<br />
-        <span id="cfg_BrowseMarkerBackground">$cfg['BrowseMarkerBackground'] </span>string [HTML color]<br />
-        <span id="cfg_BrowseMarkerColor">$cfg['BrowseMarkerColor'] </span>string [HTML color]
+    <dt><span id="cfg_BrowsePointerBackground">$cfg['BrowsePointerBackground'] </span>string [CSS color]<br />
+        <span id="cfg_BrowsePointerColor">$cfg['BrowsePointerColor'] </span>string [CSS color]<br />
+        <span id="cfg_BrowseMarkerBackground">$cfg['BrowseMarkerBackground'] </span>string [CSS color]<br />
+        <span id="cfg_BrowseMarkerColor">$cfg['BrowseMarkerColor'] </span>string [CSS color]
     </dt>
     <dd>The colors (HTML) uses for the pointer and the marker in browse mode.<br />
         The former feature highlights the row over which your mouse is passing

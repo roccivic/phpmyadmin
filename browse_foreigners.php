@@ -21,7 +21,6 @@ require_once './libraries/header_http.inc.php';
 /**
  * Displays the frame
  */
-$per_page = 200;
 require_once './libraries/transformations.lib.php'; // Transformations
 $cfgRelation = PMA_getRelationsParam();
 $foreigners  = ($cfgRelation['relwork'] ? PMA_getForeigners($db, $table) : FALSE);
@@ -32,20 +31,17 @@ if (!isset($pos)) {
     $pos = 0;
 }
 
-$foreign_limit = 'LIMIT ' . $pos . ', ' . $per_page . ' ';
+$foreign_limit = 'LIMIT ' . $pos . ', ' . $GLOBALS['cfg']['MaxRows'] . ' ';
 if (isset($foreign_navig) && $foreign_navig == __('Show all')) {
     unset($foreign_limit);
 }
 
 $foreignData = PMA_getForeignData($foreigners, $field, $override_total, isset($foreign_filter) ? $foreign_filter : '', $foreign_limit);
 
-if (isset($pk)) {
-    $pk_uri = '&amp;pk=' . urlencode($pk);
-    ?>
-<input type="hidden" name="pk" value="<?php echo htmlspecialchars($pk); ?>" />
-    <?php
+if (isset($rownumber)) {
+    $rownumber_param = '&amp;rownumber=' . urlencode($rownumber);
 } else {
-    $pk_uri = '';
+    $rownumber_param = '';
 }
 
 $gotopage = '';
@@ -53,19 +49,19 @@ $showall = '';
 
 if (is_array($foreignData['disp_row'])) {
 
-    if ($cfg['ShowAll'] && ($foreignData['the_total'] > $per_page)) {
+    if ($cfg['ShowAll'] && ($foreignData['the_total'] > $GLOBALS['cfg']['MaxRows'])) {
         $showall = '<input type="submit" name="foreign_navig" value="' . __('Show all') . '" />';
     }
 
-    $session_max_rows = $per_page;
+    $session_max_rows = $GLOBALS['cfg']['MaxRows'];
     $pageNow = @floor($pos / $session_max_rows) + 1;
     $nbTotalPage = @ceil($foreignData['the_total'] / $session_max_rows);
 
-    if ($foreignData['the_total'] > $per_page) {
+    if ($foreignData['the_total'] > $GLOBALS['cfg']['MaxRows']) {
         $gotopage = PMA_pageselector(
                       'browse_foreigners.php?field='    . urlencode($field) .
                                        '&amp;'          . PMA_generate_common_url($db, $table)
-                                                        . $pk_uri .
+                                                        . $rownumber_param .
                                        '&amp;fieldkey=' . (isset($fieldkey) ? urlencode($fieldkey) : '') .
                                        '&amp;foreign_filter=' . (isset($foreign_filter) ? urlencode($foreign_filter) : '') .
                                        '&amp;',
@@ -94,16 +90,29 @@ if (is_array($foreignData['disp_row'])) {
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>" />
     <link rel="stylesheet" type="text/css"
         href="phpmyadmin.css.php?<?php echo PMA_generate_common_url('', ''); ?>&amp;js_frame=right&amp;nocache=<?php echo $GLOBALS['PMA_Config']->getThemeUniqueValue(); ?>" />
-    <script src="./js/functions.js" type="text/javascript"></script>
+<?php
+// includes everything asked for by libraries/common.inc.php 
+require_once './libraries/header_scripts.inc.php';
+?>
     <script type="text/javascript">
     //<![CDATA[
     self.focus();
-    function formupdate(field, key) {
-        if (opener && opener.document && opener.document.insertForm) {
-            var field = 'field_' + field;
+    function formupdate(fieldmd5, key) {
+        var $inline = window.opener.jQuery('.browse_foreign_clicked');
+        if ($inline.length != 0) {
+            $inline.removeClass('browse_foreign_clicked')
+                // puts new value in the previous element which is 
+                // a span with class curr_value
+                .prev().text(key);
+            self.close();
+            return false;
+        }
 
-            <?php if (isset($pk)) { ?>
-            var element_name = field + '[multi_edit][<?php echo htmlspecialchars($pk); ?>][]';
+        if (opener && opener.document && opener.document.insertForm) {
+            var field = 'fields';
+
+            <?php if (isset($rownumber)) { ?>
+            var element_name = field + '[multi_edit][<?php echo htmlspecialchars($rownumber); ?>][' + fieldmd5 + ']';
             <?php } else { ?>
             var element_name = field + '[]';
             <?php } ?>
@@ -141,8 +150,8 @@ if (is_array($foreignData['disp_row'])) {
 <input type="hidden" name="field" value="<?php echo htmlspecialchars($field); ?>" />
 <input type="hidden" name="fieldkey"
     value="<?php echo isset($fieldkey) ? htmlspecialchars($fieldkey) : ''; ?>" />
-<?php if (isset($pk)) { ?>
-<input type="hidden" name="pk" value="<?php echo htmlspecialchars($pk); ?>" />
+<?php if (isset($rownumber)) { ?>
+<input type="hidden" name="rownumber" value="<?php echo htmlspecialchars($rownumber); ?>" />
 <?php } ?>
 <span class="formelement">
     <label for="input_foreign_filter"><?php echo __('Search') . ':'; ?></label>
@@ -258,7 +267,7 @@ if (is_array($foreignData['disp_row'])) {
         ?></td>
         <td width="20%">
             <img src="<?php echo $GLOBALS['pmaThemeImage'] . 'spacer.png'; ?>"
-                alt="" width="1" height="1"></td>
+                alt="" width="1" height="1" /></td>
 
         <td>
         <?php

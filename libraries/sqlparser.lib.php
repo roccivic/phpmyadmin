@@ -2612,10 +2612,19 @@ if (! defined('PMA_MINIMUM_COMMON')) {
             }
             $str .= $after;
         } // end for
-	// close unclosed indent levels
+ 	// close unclosed indent levels
 	while ($indent > 0) {
 		$indent--;
 		$str .= ($mode != 'query_only' ? '</div>' : ' ');
+	}
+       /* End possibly unclosed documentation link */
+        if ($close_docu_link) {
+            $str .= '</a>';
+            $close_docu_link = false;
+        }
+        if ($mode!='query_only') {
+		// close inner_sql span
+	        $str .= '</span>';
 	}
         if ($mode=='color') {
             // close syntax span

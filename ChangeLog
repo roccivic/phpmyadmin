@@ -124,9 +124,16 @@
 - patch #3112792 [navi] Left panel table grouping incorrect,
   thanks to garas - garas
 - bug #3123433 [interface] Avoid double escaping of MySQL errors.
-- bug #3119874 [interface] Show integers without decimals on status page.
-- bug #3119882 [interface] Display query chart on demand.
 - [interface] Use less noisy message and remove disable link on server charts and database statistics.
++ rfe #3141330 [relation] When displaying results, show a link to the foreign 
+  table even when phpMyAdmin configuration storage is not active
+- bug #3141327 [relation] Foreign key input options
+
+3.3.10.0 (not yet released)
+- patch #3147400 [structure] Aria table size printed as unknown,
+  thanks to erickoh75 - erickoh75
+- patch #3150164 [structure] Ordering by size gives incorrect results,
+  thanks to Madhura Jayaratne - madhuracj 
 
 3.3.9.0 (2011-01-03)
 - bug [doc] Fix references to MySQL doc

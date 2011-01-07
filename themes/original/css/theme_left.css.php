@@ -134,7 +134,6 @@ div#leftframelinks .icon {
     margin:             0;
 }
 
-div#reloadlink a img,
 div#leftframelinks a img.icon {
     margin:             0;
     padding:            0.2em;
@@ -231,12 +230,6 @@ div#left_tableList ul ul {
     background:         <?php echo $GLOBALS['cfg']['NaviPointerBackground']; ?>;
     color:              <?php echo $GLOBALS['cfg']['NaviPointerColor']; ?>;
 }
-#reloadlink {
-    clear: both;
-    float: <?php echo $right; ?>;
-    display: block;
-    padding: 1em;
-}
 
 #NavFilter {
     display: none;
@@ -247,12 +240,14 @@ div#left_tableList ul ul {
     color: black;
     cursor: pointer;
     padding: 0;
-    margin: 0;
+    margin: 3px 5px 0 -23px;
     position: relative;
-    right: 3ex;
+    float: right;
 }
 
 #fast_filter {
-    width: 85%;
-    padding: 0.1em;
+    width: 100%;
+    padding:2px 0px;
+    margin:0;
+    border:0;
 }

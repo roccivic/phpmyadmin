@@ -685,24 +685,7 @@ $PMA_SQPdata_reserved_word = array (
  *
  * @global integer MySQL reserved words count
  */
-$PMA_SQPdata_reserved_word_cnt = 287;
-/**
- * The previous array must be sorted so that the binary search work.
- * Sometimes a word is not added in the correct order, so
- * this debugging code shows the problem. The same should be
- * done for all arrays.
- */
-/*
-$original = $PMA_SQPdata_reserved_word;
-sort($PMA_SQPdata_reserved_word);
-$difference = array_diff_assoc($original, $PMA_SQPdata_reserved_word);
-echo '<pre>';
-print_r($difference);
-echo '</pre>';
-echo '<pre>';
-print_r($PMA_SQPdata_reserved_word);
-echo '</pre>';
-*/
+$PMA_SQPdata_reserved_word_cnt = 288;
 
 /**
  * words forbidden to be used as column or table name wihtout quotes

@@ -53,18 +53,6 @@ function PMA_exitNavigationFrame()
     if (!empty($GLOBALS['db'])) {
         $params['db'] = $GLOBALS['db'];
     }
-    echo '<div id="reloadlink">' . "\n";
-    echo '<a href="navigation.php' . PMA_generate_common_url($params) . '" target="frame_navigation">';
-    if ($GLOBALS['cfg']['NavigationBarIconic']) {
-        echo '<img class="icon" src="'. $GLOBALS['pmaThemeImage'] . 's_reload.png"'
-            . ' title="' . __('Reload navigation frame') . '"'
-            . ' alt="' . __('Reload navigation frame') . '" />';
-    }
-    if ($GLOBALS['cfg']['NavigationBarIconic'] !== true) {
-        echo __('Reload navigation frame');
-    }
-    echo '</a>';
-    echo '</div>' . "\n";
     echo '</body></html>';
     exit;
 }
@@ -142,7 +130,7 @@ require_once './libraries/header_http.inc.php';
     <base target="frame_content" />
     <link rel="stylesheet" type="text/css"
         href="phpmyadmin.css.php?<?php echo PMA_generate_common_url('', ''); ?>&amp;js_frame=left&amp;nocache=<?php echo $GLOBALS['PMA_Config']->getThemeUniqueValue(); ?>" />
-    <script src="./js/jquery/jquery-1.4.2.js" type="text/javascript"></script>
+    <script src="./js/jquery/jquery-1.4.4.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/navigation.js"></script>
     <script type="text/javascript" src="js/functions.js"></script>
     <script type="text/javascript">
@@ -289,8 +277,8 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
     if ($table_count >= $GLOBALS['cfg']['LeftDisplayTableFilterMinimum']) {
         ?>
         <span id="NavFilter">
-        <input type="text" name="fast_filter" id="fast_filter" title="<?php echo __('Filter'); ?>" value="<?php echo __('filter tables by name'); ?>" />
         <span id="clear_fast_filter" title="<?php echo __('Clear'); ?>">X</span>
+            <input type="text" name="fast_filter" id="fast_filter" title="<?php echo __('Filter'); ?>" value="<?php echo __('filter tables by name'); ?>" />
         </span>
         <?php
     }

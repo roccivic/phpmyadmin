@@ -54,10 +54,11 @@ function getFieldName($this_field, disp_mode) {
  * The function that iterates over each row in the table_results and appends a
  * new inline edit anchor to each table row.
  *
- * @param   disp_mode   string
  */
-function appendInlineAnchor(disp_mode) {
-    if(disp_mode == 'vertical') {
+function appendInlineAnchor() {
+    var disp_mode = $("#top_direction_dropdown").val();
+
+    if (disp_mode == 'vertical') {
         // there can be one or two tr containing this class, depending
         // on the ModifyDeleteAtLeft and ModifyDeleteAtRight cfg parameters 
         $('#table_results tr')
@@ -68,12 +69,14 @@ function appendInlineAnchor(disp_mode) {
             var $cloned_tr = $this_tr.clone();
 
             var $img_object = $cloned_tr.find('img:first').attr('title', PMA_messages['strInlineEdit']);
+            var img_src = $img_object.attr('src').replace(/b_edit/,'b_inline_edit');
+            $img_object.attr('src', img_src);
 
             $cloned_tr.find('td')
              .addClass('inline_edit_anchor')
              .find('a').attr('href', '#')
              .find('span')
-             .text(PMA_messages['strInlineEdit'])
+             .text(' ' + PMA_messages['strInlineEdit'])
              .prepend($img_object);
 
             $cloned_tr.insertAfter($this_tr);
@@ -91,11 +94,13 @@ function appendInlineAnchor(disp_mode) {
             var $cloned_anchor = $this_td.clone();
 
             var $img_object = $cloned_anchor.find('img').attr('title', PMA_messages['strInlineEdit']);
+            var img_src = $img_object.attr('src').replace(/b_edit/,'b_inline_edit');
+            $img_object.attr('src', img_src);
 
             $cloned_anchor.addClass('inline_edit_anchor')
             .find('a').attr('href', '#')
             .find('span')
-            .text(PMA_messages['strInlineEdit'])
+            .text(' ' + PMA_messages['strInlineEdit'])
             .prepend($img_object);
 
             $this_td.after($cloned_anchor);
@@ -159,10 +164,9 @@ $(document).ready(function() {
      * Attach the {@link appendInlineAnchor} function to a custom event, which
      * will be triggered manually everytime the table of results is reloaded
      * @memberOf    jQuery
-     * @name        sqlqueryresults_live
      */
     $("#sqlqueryresults").live('appendAnchor',function() {
-        appendInlineAnchor(disp_mode);
+        appendInlineAnchor();
     })
 
     /**
@@ -220,7 +224,10 @@ $(document).ready(function() {
 
         $.post($(this).attr('action'), $(this).serialize() , function(data) {
             if(data.success == true) {
-                PMA_ajaxShowMessage(data.message);
+                // fade out previous success message, if any 
+                $('.success').fadeOut();
+                // show a message that stays on screen 
+                $('#sqlqueryform').before(data.message);
                 $('#sqlqueryresults').show();
                 // this happens if a USE command was typed
                 if (typeof data.reload != 'undefined') {
@@ -239,6 +246,7 @@ $(document).ready(function() {
                 $('#sqlqueryresults').hide();
             }
             else {
+                // real results are returned
                 $('#sqlqueryresults').show();
                 $("#sqlqueryresults").html(data);
                 $("#sqlqueryresults").trigger('appendAnchor');
@@ -266,13 +274,13 @@ $(document).ready(function() {
         PMA_ajaxShowMessage();
         
         /**
-         * @var the_form    Object referring to the form element that paginates the results table
+         * @var $the_form    Object referring to the form element that paginates the results table
          */
-        var the_form = $(this).parent("form");
+        var $the_form = $(this).parent("form");
 
-        $(the_form).append('<input type="hidden" name="ajax_request" value="true" />');
+        $the_form.append('<input type="hidden" name="ajax_request" value="true" />');
 
-        $.post($(the_form).attr('action'), $(the_form).serialize(), function(data) {
+        $.post($the_form.attr('action'), $the_form.serialize(), function(data) {
             $("#sqlqueryresults").html(data);
             $("#sqlqueryresults").trigger('appendAnchor');
         }) // end $.post()
@@ -352,14 +360,14 @@ $(document).ready(function() {
             /**
              * @var $input_siblings  Object referring to all inline editable events from same row
              */
-            var $input_siblings = $(this).parents('tbody').find('tr').find('.data_inline_edit:nth('+this_row_index+')');
+            var $input_siblings = $(this).parents('tbody').find('tr').find('.inline_edit:nth('+this_row_index+')');
             /**
              * @var where_clause    String containing the WHERE clause to select this row
              */
             var where_clause = $(this).parents('tbody').find('tr').find('.where_clause:nth('+this_row_index+')').val();
         }
         else {
-            var $input_siblings = $(this).parent('tr').find('.data_inline_edit');
+            var $input_siblings = $(this).parent('tr').find('.inline_edit');
             var where_clause = $(this).parent('tr').find('.where_clause').val();
         }
 
@@ -503,6 +511,8 @@ $(document).ready(function() {
          */
         var $this_td = $(this);
 
+        var $test_element = ''; // to test the presence of a element
+
         // Initialize variables
         if(disp_mode == 'vertical') {
             /**
@@ -513,14 +523,14 @@ $(document).ready(function() {
             /**
              * @var $input_siblings  Object referring to all inline editable events from same row
              */
-            var $input_siblings = $this_td.parents('tbody').find('tr').find('.data_inline_edit:nth('+this_td_index+')');
+            var $input_siblings = $this_td.parents('tbody').find('tr').find('.inline_edit:nth('+this_td_index+')');
             /**
              * @var where_clause    String containing the WHERE clause to select this row
              */
             var where_clause = $this_td.parents('tbody').find('tr').find('.where_clause:nth('+this_td_index+')').val();
         }
         else {
-            var $input_siblings = $this_td.parent('tr').find('.data_inline_edit');
+            var $input_siblings = $this_td.parent('tr').find('.inline_edit');
             var where_clause = $this_td.parent('tr').find('.where_clause').val();
         }
 
@@ -580,7 +590,17 @@ $(document).ready(function() {
                 }
             }
             else {
-                this_field_params[field_name] = $this_field.find('select').val();
+                // results from a drop-down
+                $test_element = $this_field.find('select');
+                if ($test_element.length != 0) {
+                    this_field_params[field_name] = $test_element.val();
+                }
+
+                // results from Browse foreign value
+                $test_element = $this_field.find('span.curr_value');
+                if ($test_element.length != 0) {
+                    this_field_params[field_name] = $test_element.text();
+                }
 
                 if($this_field.is('.relation')) {
                     $.extend(relation_fields, this_field_params);
@@ -599,7 +619,7 @@ $(document).ready(function() {
             if(value.length == 0) {
                 value = 'NULL'
             }
-           sql_query += ' ' + key + "='" + value + "' , ";
+           sql_query += ' ' + key + "='" + value.replace(/'/g, "''") + "' , ";
         })
         //Remove the last ',' appended in the above loop
         sql_query = sql_query.replace(/,\s$/, '');
@@ -641,24 +661,23 @@ $(document).ready(function() {
 
                 $input_siblings.each(function() {
                     // Inline edit post has been successful.
-                    if($(this).is(':not(.relation, .enum)')) {
+                    $this_sibling = $(this);
+                    if($this_sibling.is(':not(.relation, .enum)')) {
                         /**
                          * @var new_html    String containing value of the data field after edit
                          */
-                        var new_html = $(this).find('textarea').val();
+                        var new_html = $this_sibling.find('textarea').val();
 
-                        if($(this).is('.transformed')) {
-                            var field_name = getFieldName($(this), disp_mode);
-                            var this_field = $(this);
-
+                        if($this_sibling.is('.transformed')) {
+                            var field_name = getFieldName($this_sibling, disp_mode);
                             $.each(data.transformations, function(key, value) {
                                 if(key == field_name) {
-                                    if($(this_field).is('.text_plain, .application_octetstream')) {
+                                    if($this_sibling.is('.text_plain, .application_octetstream')) {
                                         new_html = value;
                                         return false;
                                     }
                                     else {
-                                        var new_value = $(this_field).find('textarea').val();
+                                        var new_value = $this_sibling.find('textarea').val();
                                         new_html = $(value).append(new_value);
                                         return false;
                                     }
@@ -667,21 +686,33 @@ $(document).ready(function() {
                         }
                     }
                     else {
-                        var new_html = $(this).find('select').val();
-                        if($(this).is('.relation')) {
-                            var field_name = getFieldName($(this), disp_mode);
-                            var this_field = $(this);
+                        var new_html = '';
+                        var new_value = '';
+                        $test_element = $this_sibling.find('select');
+                        if ($test_element.length != 0) {
+                            new_value = $test_element.val();
+                        }
 
+                        $test_element = $this_sibling.find('span.curr_value');
+                        if ($test_element.length != 0) {
+                            new_value = $test_element.text();
+                        }
+
+                        
+                        if($this_sibling.is('.relation')) {
+                            var field_name = getFieldName($this_sibling, disp_mode);
                             $.each(data.relations, function(key, value) {
                                 if(key == field_name) {
-                                    var new_value = $(this_field).find('select').val();
                                     new_html = $(value).append(new_value);
                                     return false;
                                 }
                             })
+                        } 
+                        if($this_sibling.is('.enum')) {
+                            new_html = new_value;
                         }
                     }
-                    $(this).html(new_html);
+                    $this_sibling.html(new_html);
                 })
             }
             else {
@@ -694,27 +725,36 @@ $(document).ready(function() {
 /**
  * Starting from some th, change the class of all td under it
  */
-function PMA_changeClassForColumn($this_th, klass) {
+function PMA_changeClassForColumn($this_th, newclass) {
     // index 0 is the th containing the big T
     var th_index = $this_th.index();
     // .eq() is zero-based
     th_index--;
-    var $tr_with_data = $this_th.closest('table').find('tbody tr ').has('td.data_inline_edit');
+    var $tr_with_data = $this_th.closest('table').find('tbody tr ').has('td.data');
     $tr_with_data.each(function() {
-        $(this).find('td.data_inline_edit:eq('+th_index+')').toggleClass(klass);
+        $(this).find('td.data:eq('+th_index+')').toggleClass(newclass);
     });
 }
 
 $(document).ready(function() {
+
+    $('.browse_foreign').live('click', function(e) {
+        e.preventDefault();
+        window.open(this.href, 'foreigners', 'width=640,height=240,scrollbars=yes,resizable=yes');
+        $anchor = $(this);
+        $anchor.addClass('browse_foreign_clicked');
+        return false;
+    });
+
     /**
-     * column highlighting in horizontal mode when hovering over the column header
+     * vertical column highlighting in horizontal mode when hovering over the column header
      */
     $('.column_heading').live('hover', function() {
         PMA_changeClassForColumn($(this), 'hover'); 
         });
 
     /**
-     * column marking in horizontal mode when clicking the column header
+     * vertical column marking in horizontal mode when clicking the column header
      */
     $('.column_heading').live('click', function() {
         PMA_changeClassForColumn($(this), 'marked'); 
