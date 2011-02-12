@@ -120,6 +120,8 @@ $forms['Features']['Developer'] = array(
     'Error_Handler/gather',
     'DBG/sql');
 $forms['Features']['Other_core_settings'] = array(
+    'AjaxEnable',
+    'VersionCheck',
     'NaturalOrder',
     'InitialSlidersState',
     'ErrorIconic',

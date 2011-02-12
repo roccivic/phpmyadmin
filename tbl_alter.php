@@ -155,6 +155,8 @@ if (isset($_REQUEST['do_save_data'])) {
  * $selected comes from multi_submits.inc.php
  */
 if ($abort == false) {
+    require_once './libraries/tbl_links.inc.php';
+
     if (! isset($selected)) {
         PMA_checkParameters(array('field'));
         $selected[]   = $_REQUEST['field'];

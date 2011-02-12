@@ -98,7 +98,7 @@ if (!isset($param) || $param[0] == '') {
     // foreign keys from innodb)
     $foreigners = PMA_getForeigners($db, $table);
     ?>
-<form method="post" action="tbl_select.php" name="insertForm" id="tbl_search_form">
+        <form method="post" action="tbl_select.php" name="insertForm" id="tbl_search_form" <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? ' class="ajax"' : ''); ?>>
 <?php echo PMA_generate_common_hidden_inputs($db, $table); ?>
 <input type="hidden" name="goto" value="<?php echo $goto; ?>" />
 <input type="hidden" name="back" value="tbl_select.php" />
@@ -201,29 +201,16 @@ if (!isset($param) || $param[0] == '') {
             echo '            </select>' . "\n";
         } else {
             // o t h e r   c a s e s
+            $the_class = 'textfield';
+            $type = $fields_type[$i];
+            if ($type == 'date') {
+                $the_class .= ' datefield';
+            } elseif ($type == 'datetime' || substr($type, 0, 9) == 'timestamp') {
+                $the_class .= ' datetimefield';
+            }
             echo '            <input type="text" name="fields[' . $i . ']"'
-                .' size="40" class="textfield" id="field_' . $i . '" />' .  "\n";
+                .' size="40" class="' . $the_class . '" id="field_' . $i . '" />' .  "\n";
         };
-        $type = $fields_type[$i];
-        if ($type == 'date' || $type == 'datetime' || substr($type, 0, 9) == 'timestamp') {
-        ?>
-<script type="text/javascript">
-//<![CDATA[
-$(function() {
-    $('#field_<?php echo $i; ?>').datepicker({
-    	duration: '',
-		time24h: true,
-		 stepMinutes: 1,
-        stepHours: 1,
-        <?php echo ($type == 'date' ? "showTime: false,":"showTime: true,"); ?>
-		altTimeField: '',
-        constrainInput: false
-     });
-});
-//]]>
-</script>
-        <?php
-        }
         ?>
             <input type="hidden" name="names[<?php echo $i; ?>]"
                 value="<?php echo htmlspecialchars($fields_list[$i]); ?>" />

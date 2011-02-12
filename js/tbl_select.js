@@ -48,9 +48,10 @@ $(document).ready(function() {
     /**
      * Ajax event handler for Table Search
      * 
+     * (see $GLOBALS['cfg']['AjaxEnable'])
      * @uses    PMA_ajaxShowMessage()
      */
-    $("#tbl_search_form").live('submit', function(event) {
+    $("#tbl_search_form.ajax").live('submit', function(event) {
         // jQuery object to reuse
         $search_form = $(this);
         event.preventDefault();
@@ -69,7 +70,10 @@ $(document).ready(function() {
                 // found results
                 $("#sqlqueryresults").html(response);
                 $("#sqlqueryresults").trigger('appendAnchor');
-                $('#tbl_search_form').hide();
+                $('#tbl_search_form')
+                // work around for bug #3168569 - Issue on toggling the "Hide search criteria" in chrome.
+                 .slideToggle()	
+                 .hide();
                 $('#togglesearchformlink')
                  // always start with the Show message
                  .text(PMA_messages['strShowSearchCriteria'])

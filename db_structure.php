@@ -83,6 +83,7 @@ if ($num_tables == 0) {
 /**
  * Displays the tables list
  */
+echo '<div id="tableslistcontainer">';
 $_url_params = array(
     'pos' => $pos,
     'db'  => $db);
@@ -265,7 +266,11 @@ foreach ($tables as $keyname => $each_table) {
 
     if (! $db_is_information_schema) {
         if (! empty($each_table['TABLE_ROWS'])) {
-            $empty_table = '<a class="truncate_table_anchor" href="sql.php?' . $tbl_url_query
+            $empty_table = '<a ';
+            if ($GLOBALS['cfg']['AjaxEnable']) {
+                $empty_table .= 'class="truncate_table_anchor"';
+            }
+            $empty_table .= ' href="sql.php?' . $tbl_url_query
                  . '&amp;sql_query=';
             $empty_table .= urlencode('TRUNCATE ' . PMA_backquote($each_table['TABLE_NAME']))
                  . '&amp;message_to_show='
@@ -354,7 +359,7 @@ foreach ($tables as $keyname => $each_table) {
             <?php echo $titles['Insert']; ?></a></td>
     <td align="center"><?php echo $empty_table; ?></td>
     <td align="center">
-        <a class="drop_table_anchor" href="sql.php?<?php echo $tbl_url_query;
+    <a <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? 'class="drop_table_anchor"' : ''); ?> href="sql.php?<?php echo $tbl_url_query;
             ?>&amp;reload=1&amp;purge=1&amp;sql_query=<?php
             echo urlencode($drop_query); ?>&amp;message_to_show=<?php
             echo urlencode($drop_message); ?>" >
@@ -530,6 +535,7 @@ if (!$db_is_information_schema) {
 // display again the table list navigator
 PMA_listNavigator($total_num_tables, $pos, $_url_params, 'db_structure.php', 'frame_content', $GLOBALS['cfg']['MaxTableList']);
 ?>
+</div>
 <hr />
 
 <?php

@@ -655,18 +655,22 @@ ul#topmenu li, ul#topmenu2 li {
 /* default tab styles */
 ul#topmenu a, ul#topmenu span {
     display:            block;
-    margin:             0.2em 0.2em 0 0.2em;
-    padding:            0.2em 0.2em 0 0.2em;
+    margin:             2px 2px 0;
+    padding:            2px 2px 0;
     white-space:        nowrap;
 }
 
 ul#topmenu ul a {
     margin:             0;
-    padding-bottom:     0.2em;
+    padding-bottom:     2px;
 }
 
 ul#topmenu .submenu {
     position:           relative;
+    display: none;
+}
+ul#topmenu .shown {
+    display: block;
 }
 
 ul#topmenu ul {
@@ -768,7 +772,7 @@ ul#topmenu ul li:first-child a {
 ul#topmenu > li > a:hover,
 ul#topmenu > li > .tabactive {
     margin:             0;
-    padding:            0.2em 0.4em 0.2em 0.4em;
+    padding:            2px 4px;
     text-decoration:    none;
 }
 
@@ -1307,6 +1311,11 @@ code.sql, div.sqlvalidate {
     display: inline-block;
     width: 98%;
 }
+
+textarea#partitiondefinition {
+    height:3em;
+}
+
 
 /* for elements that should be revealed only via js */
 .hide {

@@ -1021,8 +1021,8 @@ if (isset($_REQUEST['synchronize_db'])) {
         if (isset($alter_str_array[$p])) {
             PMA_alterTargetTableStructure($trg_db, $trg_link, $matching_tables, $source_columns, $alter_str_array, $matching_tables_fields,
             $criteria, $matching_tables_keys, $target_tables_keys, $p, true);
-            unset($alter_str_array[$p]);        
-        }                                                           
+            unset($alter_str_array[$p]);
+        }
         if (! empty($add_column_array[$p])) {
             PMA_findDeleteRowsFromTargetTables($delete_array, $matching_tables, $p, $target_tables_keys, $matching_tables_keys,
             $trg_db, $trg_link, $src_db, $src_link);
@@ -1111,9 +1111,7 @@ if (isset($_REQUEST['synchronize_db'])) {
         }
 ?>
       <table id="serverconnection_<?php echo $type; ?>_remote" class="data">
-      <tr>
-	  <th colspan="2"><?php echo $database_header; ?></th>
-      </tr>
+      <caption class="tblHeaders"><?php echo $database_header; ?></caption>
       <tr class="odd">
 	  <td colspan="2" style="text-align: center">
 	     <select name="<?php echo $type; ?>_type" id="<?php echo $type; ?>_type" class="server_selector">

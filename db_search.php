@@ -37,7 +37,6 @@
  */
 require_once './libraries/common.inc.php';
 
-$GLOBALS['js_include'][] = 'jquery/jquery-1.4.4.js';
 $GLOBALS['js_include'][] = 'db_search.js';
 
 /**
@@ -290,7 +289,7 @@ else {
  */
 ?>
 <a name="db_search"></a>
-<form id="db_search_form" method="post" action="db_search.php" name="db_search">
+<form id="db_search_form"<?php echo ($GLOBALS['cfg']['AjaxEnable'] ? ' class="ajax"' : ''); ?> method="post" action="db_search.php" name="db_search">
 <?php echo PMA_generate_common_hidden_inputs($GLOBALS['db']); ?>
 <fieldset>
     <legend><?php echo __('Search in database'); ?></legend>

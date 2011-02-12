@@ -606,7 +606,7 @@ document.onkeydown = onKeyDownArrowsHandler;
 // ]]>
 </script>
 
-<form id="<?php echo ($action == 'tbl_create.php' ? 'create_table' : 'append_fields'); ?>_form" method="post" action="<?php echo $action; ?>">
+    <form id="<?php echo ($action == 'tbl_create.php' ? 'create_table' : 'append_fields'); ?>_form" method="post" action="<?php echo $action; ?>" <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? ' class="ajax"' : ''); ?>>
 <?php
 echo PMA_generate_common_hidden_inputs($_form_params);
 unset($_form_params);
@@ -631,6 +631,8 @@ if (is_array($content_cells) && is_array($header_cells)) {
     //$empty_row = array_pop($content_cells);
 
     echo '<table id="table_columns">';
+    echo '<caption class="tblHeaders">' . __('Structure') . PMA_showMySQLDocu('SQL-Syntax', 'CREATE_TABLE') . '</caption>';
+
     if ($display_type == 'horizontal') {
         ?>
 <tr>
@@ -784,10 +786,8 @@ if ($action == 'tbl_create.php') {
         />
 <?php } ?>
 </fieldset>
-
+<div id="properties_message"></div>
 </form>
-
-<center><?php echo PMA_showMySQLDocu('SQL-Syntax', 'CREATE_TABLE'); ?></center>
 
 <div id="enum_editor">
 <a class="close_enum_editor"><?php echo __('Close'); ?></a>

@@ -14,6 +14,7 @@ require_once './libraries/common.inc.php';
 $GLOBALS['js_include'][] = 'colorpicker/js/colorpicker.js';
 $GLOBALS['js_include'][] = 'main_custom_color.js';
 $GLOBALS['js_include'][] = 'jquery/jquery-ui-1.8.custom.js';
+$GLOBALS['js_include'][] = 'jquery/jquery.sprintf.js';
 
 // Handles some variables that may have been sent by the calling script
 $GLOBALS['db'] = '';
@@ -87,8 +88,13 @@ if ($server > 0
         // Logout for advanced authentication
         if ($cfg['Server']['auth_type'] != 'config') {
             if ($cfg['ShowChgPassword']) {
+                if ($GLOBALS['cfg']['AjaxEnable']) {
+                    $conditional_class = 'ajax';
+                } else {
+                    $conditional_class = null;
+                }
                 PMA_printListItem(__('Change password'), 'li_change_password',
-                    './user_password.php?' . $common_url_query, null, null, 'change_password_anchor');
+                    './user_password.php?' . $common_url_query, null, null, 'change_password_anchor', null, $conditional_class);
             }
         } // end if
         if (PMA_MYSQL_MAJOR_VERSION < 2009) {
@@ -208,21 +214,20 @@ if ($GLOBALS['cfg']['ShowServerInfo'] || $GLOBALS['cfg']['ShowPhpInfo']) {
 echo '<div class="group">';
 echo '<h2>phpMyAdmin</h2>';
 echo '<ul>';
-PMA_printListItem(__('Version information') . ': ' . PMA_VERSION, 'li_pma_version');
+$class = null;
+if ($GLOBALS['cfg']['VersionCheck']) {
+    $class = 'jsversioncheck';
+}
+PMA_printListItem(__('Version information') . ': ' . PMA_VERSION, 'li_pma_version', null, null, null, null, $class);
 PMA_printListItem(__('Documentation'), 'li_pma_docs', 'Documentation.html', null, '_blank');
-PMA_printListItem(__('Wiki'), 'li_pma_wiki', 'http://wiki.phpmyadmin.net', null, '_blank');
+PMA_printListItem(__('Wiki'), 'li_pma_wiki', PMA_linkURL('http://wiki.phpmyadmin.net/'), null, '_blank');
 
 // does not work if no target specified, don't know why
-PMA_printListItem(__('Official Homepage'), 'li_pma_homepage', 'http://www.phpMyAdmin.net/', null, '_blank');
+PMA_printListItem(__('Official Homepage'), 'li_pma_homepage', PMA_linkURL('http://www.phpMyAdmin.net/'), null, '_blank');
+PMA_printListItem(__('Contribute'), 'li_pma_contribute', PMA_linkURL('http://www.phpmyadmin.net/home_page/improve.php'), null, '_blank');
+PMA_printListItem(__('Get support'), 'li_pma_support', PMA_linkURL('http://www.phpmyadmin.net/home_page/support.php'), null, '_blank');
+PMA_printListItem(__('List of changes'), 'li_pma_changes', PMA_linkURL('changelog.php'), null, '_blank');
 ?>
-    <li><bdo xml:lang="en" dir="ltr">
-        [<a href="changelog.php" target="_blank">ChangeLog</a>]
-        [<a href="http://phpmyadmin.git.sourceforge.net/git/gitweb-index.cgi"
-            target="_blank">Git</a>]
-        [<a href="http://sourceforge.net/mail/?group_id=23067"
-            target="_blank"><?php echo __('Mailing lists'); ?></a>]
-        </bdo>
-    </li>
     </ul>
  </div>
 
@@ -355,10 +360,16 @@ if ($cfg['SuhosinDisableWarning'] == false && @ini_get('suhosin.request.max_valu
  * @param   string  $mysql_help_page  display a link to MySQL's manual
  * @param   string  $target special target for $url
  * @param   string  $a_id   id for the anchor, used for jQuery to hook in functions
+ * @param   string  $class  class for the li element
+ * @param   string  $a_class  class for the anchor element
  */
-function PMA_printListItem($name, $id = null, $url = null, $mysql_help_page = null, $target = null, $a_id = null)
+function PMA_printListItem($name, $id = null, $url = null, $mysql_help_page = null, $target = null, $a_id = null, $class = null, $a_class = null)
 {
-    echo '<li id="' . $id . '">';
+    echo '<li id="' . $id . '"';
+    if (null !== $class) {
+        echo ' class="' . $class . '"';
+    }
+    echo '>';
     if (null !== $url) {
         echo '<a href="' . $url . '"';
         if (null !== $target) {
@@ -366,6 +377,9 @@ function PMA_printListItem($name, $id = null, $url = null, $mysql_help_page = nu
         }
         if (null != $a_id) {
             echo ' id="' . $a_id .'"';
+        }
+        if (null != $a_class) {
+            echo ' class="' . $a_class .'"';
         }
         echo '>';
     }

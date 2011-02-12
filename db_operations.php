@@ -103,9 +103,7 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
         // go back to current db, just in case
         PMA_DBI_select_db($db);
 
-        if (isset($GLOBALS['add_constraints']) || $move) {
-            $GLOBALS['sql_constraints_query_full_db'] = array();
-        }
+        $GLOBALS['sql_constraints_query_full_db'] = array();
 
         $tables_full = PMA_DBI_get_tables_full($db);
         $views = array();
@@ -133,10 +131,10 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
             // the real views are created after the tables
             if (PMA_Table::isView($db, $each_table)) {
                 $views[] = $each_table;
-		// Create stand-in definition to resolve view dependencies
-		$sql_view_standin = PMA_getTableDefStandIn($db, $each_table, "\n");
-		PMA_DBI_query($sql_view_standin);
-		$GLOBALS['sql_query'] .= "\n" . $sql_view_standin . ';';
+                // Create stand-in definition to resolve view dependencies
+                $sql_view_standin = PMA_getTableDefStandIn($db, $each_table, "\n");
+                PMA_DBI_query($sql_view_standin);
+                $GLOBALS['sql_query'] .= "\n" . $sql_view_standin . ';';
                 continue;
             }
 
@@ -194,19 +192,25 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
 
         // handle the views
         if (! $_error) {
-		// temporarily force to add DROP IF EXIST to CREATE VIEW query,
-		// to remove stand-in VIEW that was created earlier
-		$temp_drop_if_exists = $GLOBALS['drop_if_exists'];
-		$GLOBALS['drop_if_exists'] = 'true';
+            // temporarily force to add DROP IF EXIST to CREATE VIEW query,
+            // to remove stand-in VIEW that was created earlier
+            if (isset($GLOBALS['drop_if_exists'])) {
+                $temp_drop_if_exists = $GLOBALS['drop_if_exists'];
+            }
+            $GLOBALS['drop_if_exists'] = 'true';
 
-		foreach ($views as $view) {
-			if (! PMA_Table::moveCopy($db, $view, $newname, $view, 'structure', $move, 'db_copy')) {
-				$_error = true;
-				break;
-			}
-		}
-		// restore previous value
-		$GLOBALS['drop_if_exists'] = $temp_drop_if_exists;
+            foreach ($views as $view) {
+                if (! PMA_Table::moveCopy($db, $view, $newname, $view, 'structure', $move, 'db_copy')) {
+                    $_error = true;
+                    break;
+                }
+            }
+            unset($GLOBALS['drop_if_exists']);
+            if (isset($temp_drop_if_exists)) {
+                // restore previous value
+                $GLOBALS['drop_if_exists'] = $temp_drop_if_exists;
+                unset($temp_drop_if_exists);
+            }
         }
         unset($view, $views);
 
@@ -222,27 +226,27 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
             unset($GLOBALS['sql_constraints_query_full_db'], $one_query);
         }
 
-	if (PMA_MYSQL_INT_VERSION >= 50100) {
-		// here DELIMITER is not used because it's not part of the
-		// language; each statement is sent one by one
+        if (PMA_MYSQL_INT_VERSION >= 50100) {
+            // here DELIMITER is not used because it's not part of the
+            // language; each statement is sent one by one
 
-		// to avoid selecting alternatively the current and new db
-		// we would need to modify the CREATE definitions to qualify
-		// the db name
-		$event_names = PMA_DBI_fetch_result('SELECT EVENT_NAME FROM information_schema.EVENTS WHERE EVENT_SCHEMA= \'' . PMA_sqlAddslashes($db,true) . '\';');
-		if ($event_names) {
-			foreach($event_names as $event_name) {
-				PMA_DBI_select_db($db);
-				$tmp_query = PMA_DBI_get_definition($db, 'EVENT', $event_name);
-				// collect for later display
-				$GLOBALS['sql_query'] .= "\n" . $tmp_query;
-				PMA_DBI_select_db($newname);
-				PMA_DBI_query($tmp_query);
-			}
-		}
-	}
-	// go back to current db, just in case
-	PMA_DBI_select_db($db);
+            // to avoid selecting alternatively the current and new db
+            // we would need to modify the CREATE definitions to qualify
+            // the db name
+            $event_names = PMA_DBI_fetch_result('SELECT EVENT_NAME FROM information_schema.EVENTS WHERE EVENT_SCHEMA= \'' . PMA_sqlAddslashes($db,true) . '\';');
+            if ($event_names) {
+                foreach($event_names as $event_name) {
+                    PMA_DBI_select_db($db);
+                    $tmp_query = PMA_DBI_get_definition($db, 'EVENT', $event_name);
+                    // collect for later display
+                    $GLOBALS['sql_query'] .= "\n" . $tmp_query;
+                    PMA_DBI_select_db($newname);
+                    PMA_DBI_query($tmp_query);
+                }
+            }
+    }
+    // go back to current db, just in case
+    PMA_DBI_select_db($db);
 
         // Duplicate the bookmarks for this db (done once for each db)
         if (! $_error && $db != $newname) {
@@ -293,7 +297,7 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
     }
 
     /**
-     * Database has been successfully renamed/moved.  If in an Ajax request, 
+     * Database has been successfully renamed/moved.  If in an Ajax request,
      * generate the output with {@link PMA_ajaxResponse} and exit
      */
     if( $GLOBALS['is_ajax_request'] == true) {
@@ -374,7 +378,7 @@ if (!$is_information_schema) {
      */
 if ($db != 'mysql') {
     ?>
-    <form id="rename_db_form" method="post" action="db_operations.php"
+        <form id="rename_db_form" <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? ' class="ajax" ' : ''); ?>method="post" action="db_operations.php"
         onsubmit="return emptyFormElements(this, 'newname')">
         <?php
     if (isset($db_collation)) {
@@ -395,7 +399,7 @@ if ($db != 'mysql') {
     echo __('Rename database to') . ':';
     ?>
         </legend>
-        <input type="text" name="newname" size="30" class="textfield" value="" />
+        <input id="new_db_name" type="text" name="newname" size="30" class="textfield" value="" />
         <?php
     echo '(' . __('Command') . ': ';
     /**
@@ -442,7 +446,7 @@ echo __('Remove database');
             'db' => NULL,
         );
     ?>
-    <li><a href="sql.php<?php echo PMA_generate_common_url($this_url_params); ?>" onclick="return confirmLinkDropDB(this, '<?php echo PMA_jsFormat($this_sql_query); ?>')">
+        <li><a href="sql.php<?php echo PMA_generate_common_url($this_url_params); ?>" <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? 'id="drop_db_anchor"' : ''); ?>>
             <?php echo __('Drop the database (DROP)'); ?></a>
         <?php echo PMA_showMySQLDocu('SQL-Syntax', 'DROP_DATABASE'); ?>
     </li>
@@ -454,7 +458,7 @@ echo __('Remove database');
      * Copy database
      */
     ?>
-    <form id="copy_db_form" method="post" action="db_operations.php"
+        <form id="copy_db_form" <?php echo ($GLOBALS['cfg']['AjaxEnable'] ? ' class="ajax" ' : ''); ?>method="post" action="db_operations.php"
         onsubmit="return emptyFormElements(this, 'newname')">
     <?php
     if (isset($db_collation)) {
@@ -524,7 +528,11 @@ echo __('Remove database');
     /**
      * Change database charset
      */
-    echo '<form id="change_db_charset_form" method="post" action="./db_operations.php">' . "\n"
+    echo '<form id="change_db_charset_form" ';
+    if ($GLOBALS['cfg']['AjaxEnable']) {
+        echo ' class="ajax" ';
+    }
+    echo 'method="post" action="./db_operations.php">'
        . PMA_generate_common_hidden_inputs($db, $table)
        . '<fieldset>' . "\n"
        . '    <legend>';

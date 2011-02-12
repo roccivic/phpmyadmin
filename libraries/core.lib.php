@@ -656,4 +656,36 @@ function PMA_array_remove($path, &$array)
         }
     }
 }
+
+/**
+ * Returns link to (possibly) external site using defined redirector.
+ *
+ * @param string $url  URL where to go.
+ *
+ * @return string URL for a link.
+ */
+function PMA_linkURL($url) {
+    if (!preg_match('#^https?://#', $url)) {
+        return $url;
+    } elseif (defined('PMA_SETUP')) {
+        return '../url.php?url=' . $url;
+    } else {
+        return './url.php?url=' . $url;
+    }
+}
+
+/**
+ * Returns HTML code to include javascript file.
+ *
+ * @param string $url Location of javascript, relative to js/ folder.
+ *
+ * @return string HTML code for javascript inclusion.
+ */
+function PMA_includeJS($url) {
+    if (strpos($url, '?') === FALSE) {
+        return '<script src="./js/' . $url . '?ts=' . filemtime('./js/' . $url) . '" type="text/javascript"></script>' . "\n";
+    } else {
+        return '<script src="./js/' . $url . '" type="text/javascript"></script>' . "\n";
+    }
+}
 ?>

@@ -14,6 +14,8 @@ if (!function_exists('__')) {
     die('Bad invocation!');
 }
 
+$strConfigAjaxEnable_desc = __('Improves efficiency of screen refresh');
+$strConfigAjaxEnable_name = __('Enable Ajax');
 $strConfigAllowArbitraryServer_desc = __('If enabled user can enter any MySQL server in login form for cookie auth');
 $strConfigAllowArbitraryServer_name = __('Allow login to any MySQL server');
 $strConfigAllowThirdPartyFraming_desc = __('Enabling this allows a page located on a different domain to call phpMyAdmin inside a frame, and is a potential [strong]security hole[/strong] allowing cross-frame scripting attacks');
@@ -309,8 +311,9 @@ $strConfigMcryptDisableWarning_desc = __('Disable the default warning that is di
 $strConfigMcryptDisableWarning_name = __('mcrypt warning');
 $strConfigMemoryLimit_desc = __('The number of bytes a script is allowed to allocate, eg. [kbd]32M[/kbd] ([kbd]0[/kbd] for no limit)');
 $strConfigMemoryLimit_name = __('Memory limit');
-$strConfigModifyDeleteAtLeft_name = __('Show left delete link');
-$strConfigModifyDeleteAtRight_name = __('Show right delete link');
+$strConfigModifyDeleteAtLeft_desc = __('These are Edit, Inline edit, Copy and Delete links');
+$strConfigModifyDeleteAtLeft_name = __('Show table row links on left side');
+$strConfigModifyDeleteAtRight_name = __('Show table row links on right side');
 $strConfigNaturalOrder_desc = __('Use natural order for sorting table and database names');
 $strConfigNaturalOrder_name = __('Natural order');
 $strConfigNavigationBarIconic_desc = __('Use only icons, only text or both');
@@ -493,6 +496,8 @@ $strConfigUserprefsDeveloperTab_name = __('Enable the Developer tab in settings'
 $strConfigVerboseMultiSubmit_desc = __('Show affected rows of each statement on multiple-statement queries. See libraries/import.lib.php for defaults on how many queries a statement may contain.');
 $strConfigVerboseMultiSubmit_name = __('Verbose multiple statements');
 $strConfigVersionCheckLink = __('Check for latest version');
+$strConfigVersionCheck_desc = __('Enables check for latest version on main phpMyAdmin page');
+$strConfigVersionCheck_name = __('Version check');
 $strConfigZipDump_desc = __('Enable [a@http://en.wikipedia.org/wiki/ZIP_(file_format)]ZIP[/a] compression for import and export operations');
 $strConfigZipDump_name = __('ZIP');
 

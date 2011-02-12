@@ -419,13 +419,13 @@ function PMA_showMySQLDocu($chapter, $link, $big_icon = false, $anchor = '', $ju
     }
 
     if ($just_open) {
-        return '<a href="' . $url . '" target="mysql_doc">';
+        return '<a href="' . PMA_linkURL($url) . '" target="mysql_doc">';
     } elseif ($big_icon) {
-        return '<a href="' . $url . '" target="mysql_doc"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_sqlhelp.png" width="16" height="16" alt="' . __('Documentation') . '" title="' . __('Documentation') . '" /></a>';
+        return '<a href="' . PMA_linkURL($url) . '" target="mysql_doc"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_sqlhelp.png" width="16" height="16" alt="' . __('Documentation') . '" title="' . __('Documentation') . '" /></a>';
     } elseif ($GLOBALS['cfg']['ReplaceHelpImg']) {
-        return '<a href="' . $url . '" target="mysql_doc"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_help.png" width="11" height="11" alt="' . __('Documentation') . '" title="' . __('Documentation') . '" /></a>';
+        return '<a href="' . PMA_linkURL($url) . '" target="mysql_doc"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_help.png" width="11" height="11" alt="' . __('Documentation') . '" title="' . __('Documentation') . '" /></a>';
     } else {
-        return '[<a href="' . $url . '" target="mysql_doc">' . __('Documentation') . '</a>]';
+        return '[<a href="' . PMA_linkURL($url) . '" target="mysql_doc">' . __('Documentation') . '</a>]';
     }
 } // end of the 'PMA_showMySQLDocu()' function
 
@@ -958,6 +958,11 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice', $is_view
         }
     }
 
+    if (isset($GLOBALS['using_bookmark_message'])) {
+        $GLOBALS['using_bookmark_message']->display();
+        unset($GLOBALS['using_bookmark_message']);
+    }
+
     // Corrects the tooltip text via JS if required
     // @todo this is REALLY the wrong place to do this - very unexpected here
     if (! $is_view && strlen($GLOBALS['table']) && $cfg['ShowTooltip']) {
@@ -1244,7 +1249,7 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice', $is_view
         echo $edit_link . $explain_link . $php_link . $refresh_link . $validate_link;
         echo '</div>';
     }
-    echo '</div><br />' . "\n";
+    echo '</div><br class="clearfloat" />' . "\n";
 
     // If we are in an Ajax request, we have most probably been called in
     // PMA_ajaxResponse().  Hence, collect the buffer contents and return it
@@ -1723,7 +1728,7 @@ function PMA_generate_html_tabs($tabs, $url_params)
         .'<ul id="' . htmlentities($tag_id) . '">' . "\n";
 
     foreach ($tabs as $tab) {
-        $tab_navigation .= PMA_generate_html_tab($tab, $url_params) . "\n";
+        $tab_navigation .= PMA_generate_html_tab($tab, $url_params);
     }
 
     $tab_navigation .=
@@ -2173,9 +2178,7 @@ function PMA_buttonOrImage($button_name, $button_class, $image_name, $text,
 /**
  * Generate a pagination selector for browsing resultsets
  *
- * @todo $url is not javascript escaped!?
  * @uses    range()
- * @param   string      URL for the JavaScript
  * @param   string      Number of rows in the pagination set
  * @param   string      current page number
  * @param   string      number of total pages
@@ -2195,7 +2198,7 @@ function PMA_buttonOrImage($button_name, $button_class, $image_name, $text,
  *
  * @access  public
  */
-function PMA_pageselector($url, $rows, $pageNow = 1, $nbTotalPage = 1,
+function PMA_pageselector($rows, $pageNow = 1, $nbTotalPage = 1,
     $showAll = 200, $sliceStart = 5, $sliceEnd = 5, $percent = 20,
     $range = 10, $prompt = '')
 {
@@ -2203,8 +2206,11 @@ function PMA_pageselector($url, $rows, $pageNow = 1, $nbTotalPage = 1,
     $pageNowMinusRange = ($pageNow - $range);
     $pageNowPlusRange = ($pageNow + $range);
 
-    $gotopage = $prompt
-              . ' <select id="pageselector" name="pos" >' . "\n";
+    $gotopage = $prompt . ' <select id="pageselector" ';
+    if ($GLOBALS['cfg']['AjaxEnable']) {
+        $gotopage .= ' class="ajax"';
+    }
+    $gotopage .= ' name="pos" >' . "\n";
     if ($nbTotalPage < $showAll) {
         $pages = range(1, $nbTotalPage);
     } else {
@@ -2320,7 +2326,6 @@ function PMA_listNavigator($count, $pos, $_url_params, $script, $frame, $max_cou
         echo "\n", '<form action="./', basename($script), '" method="post" target="', $frame, '">', "\n";
         echo PMA_generate_common_hidden_inputs($_url_params);
         echo PMA_pageselector(
-            $script . PMA_generate_common_url($_url_params) . '&amp;',
                 $max_count,
                 floor(($pos + 1) / $max_count) + 1,
                 ceil($count / $max_count));
@@ -2425,7 +2430,7 @@ function PMA_getDbLink($database = null)
 function PMA_externalBug($functionality, $component, $minimum_version, $bugref)
 {
     if ($component == 'mysql' && PMA_MYSQL_INT_VERSION < $minimum_version) {
-        echo PMA_showHint(sprintf(__('The %s functionality is affected by a known bug, see %s'), $functionality, 'http://bugs.mysql.com/' . $bugref));
+        echo PMA_showHint(sprintf(__('The %s functionality is affected by a known bug, see %s'), $functionality, PMA_linkURL('http://bugs.mysql.com/') . $bugref));
     }
 }
 
@@ -2524,42 +2529,15 @@ function PMA_generate_slider_effect($id, $message)
      * maybe by using an additional param, the id of the div to append to
      */
     ?>
-<div id="<?php echo $id; ?>" <?php echo $GLOBALS['cfg']['InitialSlidersState'] == 'closed' ? ' style="display: none; overflow:auto;"' : ''; ?>>
-    <script type="text/javascript">
-// <![CDATA[
-
-    function PMA_set_status_label_<?php echo $id; ?>() {
-        if ($('#<?php echo $id; ?>').css('display') == 'none') {
-            $('#anchor_status_<?php echo $id; ?>').text('+ ');
-        } else {
-            $('#anchor_status_<?php echo $id; ?>').text('- ');
-        }
-    }
-
-    $(document).ready(function() {
-
-        $('<span id="anchor_status_<?php echo $id; ?>"><span>')
-            .insertBefore('#<?php echo $id; ?>')
-
-        PMA_set_status_label_<?php echo $id; ?>();
-
-        $('<a href="#<?php echo $id; ?>" id="anchor_<?php echo $id; ?>"><?php echo htmlspecialchars($message); ?></a>')
-            .insertBefore('#<?php echo $id; ?>')
-            .click(function() {
-                // The callback should be the 4th parameter but
-                // it only works as the second parameter;
-                // For the possible effects see http://jqueryui.com/demos/show
-                $('#<?php echo $id; ?>').toggle('clip', function() {
-                    PMA_set_status_label_<?php echo $id; ?>();
-                });
-            });
-    });
-    //]]>
-    </script>
-    <noscript>
-    <div id="<?php echo $id; ?>"></div>
-    </noscript>
+<div id="<?php echo $id; ?>" <?php echo $GLOBALS['cfg']['InitialSlidersState'] == 'closed' ? ' style="display: none; overflow:auto;"' : ''; ?> class="pma_auto_slider" title="<?php echo htmlspecialchars($message); ?>">
     <?php
+}
+
+/**
+ * Clears cache content which needs to be refreshed on user change.
+ */
+function PMA_clearUserCache() {
+    PMA_cacheUnset('is_superuser', true);
 }
 
 /**

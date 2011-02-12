@@ -37,11 +37,11 @@ function getFieldName($this_field, disp_mode) {
         var this_field_index = $this_field.index();
         // ltr or rtl direction does not impact how the DOM was generated
         //
-        // 4 columns to account for the checkbox, edit, delete and appended inline edit anchors but index is zero-based so substract 3
-        var field_name = $('#table_results').find('thead').find('th:nth('+ (this_field_index-3 )+') a').text();
+        // 5 columns to account for the checkbox, edit, appended inline edit, copy and delete anchors but index is zero-based so substract 4
+        var field_name = $('#table_results').find('thead').find('th:nth('+ (this_field_index-4 )+') a').text();
         // happens when just one row (headings contain no a)
         if ("" == field_name) {
-            field_name = $('#table_results').find('thead').find('th:nth('+ (this_field_index-3 )+')').text();
+            field_name = $('#table_results').find('thead').find('th:nth('+ (this_field_index-4 )+')').text();
         }
     }
 
@@ -60,7 +60,7 @@ function appendInlineAnchor() {
 
     if (disp_mode == 'vertical') {
         // there can be one or two tr containing this class, depending
-        // on the ModifyDeleteAtLeft and ModifyDeleteAtRight cfg parameters 
+        // on the ModifyDeleteAtLeft and ModifyDeleteAtRight cfg parameters
         $('#table_results tr')
             .find('.edit_row_anchor')
             .removeClass('.edit_row_anchor')
@@ -106,11 +106,12 @@ function appendInlineAnchor() {
             $this_td.after($cloned_anchor);
         });
 
-        $('#rowsDeleteForm').find('thead').find('th').each(function() {
-            if($(this).attr('colspan') == 3) {
-                $(this).attr('colspan', '4')
+        $('#rowsDeleteForm').find('thead, tbody').find('th').each(function() {
+            var $this_th = $(this);
+            if ($this_th.attr('colspan') == 4) {
+                $this_th.attr('colspan', '5')
             }
-        })
+        });
     }
 }
 
@@ -171,11 +172,11 @@ $(document).ready(function() {
 
     /**
      * Trigger the appendAnchor event to prepare the first table for inline edit
-     *
+     * (see $GLOBALS['cfg']['AjaxEnable'])
      * @memberOf    jQuery
      * @name        sqlqueryresults_trigger
      */
-    $("#sqlqueryresults").trigger('appendAnchor');
+    $("#sqlqueryresults.ajax").trigger('appendAnchor');
 
     /**
      * Append the "Show/Hide query box" message to the query input form
@@ -202,15 +203,16 @@ $(document).ready(function() {
             return false;
         })
     }
-    
+
     /**
      * Ajax Event handler for 'SQL Query Submit'
      *
      * @see         PMA_ajaxShowMessage()
+     * @see         $cfg['AjaxEnable']
      * @memberOf    jQuery
      * @name        sqlqueryform_submit
      */
-    $("#sqlqueryform").live('submit', function(event) {
+    $("#sqlqueryform.ajax").live('submit', function(event) {
         event.preventDefault();
         // remove any div containing a previous error message
         $('.error').remove();
@@ -224,9 +226,9 @@ $(document).ready(function() {
 
         $.post($(this).attr('action'), $(this).serialize() , function(data) {
             if(data.success == true) {
-                // fade out previous success message, if any 
+                // fade out previous success message, if any
                 $('.success').fadeOut();
-                // show a message that stays on screen 
+                // show a message that stays on screen
                 $('#sqlqueryform').before(data.message);
                 $('#sqlqueryresults').show();
                 // this happens if a USE command was typed
@@ -241,7 +243,7 @@ $(document).ready(function() {
                 }
             }
             else if (data.success == false ) {
-                // show an error message that stays on screen 
+                // show an error message that stays on screen
                 $('#sqlqueryform').before(data.error);
                 $('#sqlqueryresults').hide();
             }
@@ -253,6 +255,7 @@ $(document).ready(function() {
                 if($("#togglequerybox").siblings(":visible").length > 0) {
                     $("#togglequerybox").trigger('click');
                 }
+                PMA_init_slider();
             }
         }) // end $.post()
     }) // end SQL Query submit
@@ -263,16 +266,18 @@ $(document).ready(function() {
 
     /**
      * Paginate when we click any of the navigation buttons
+     * (only if the element has the ajax class, see $cfg['AjaxEnable'])
      * @memberOf    jQuery
      * @name        paginate_nav_button_click
      * @uses        PMA_ajaxShowMessage()
+     * @see         $cfg['AjaxEnable']
      */
-    $("input[name=navig]").live('click', function(event) {
+    $("input[name=navig].ajax").live('click', function(event) {
         /** @lends jQuery */
         event.preventDefault();
 
         PMA_ajaxShowMessage();
-        
+
         /**
          * @var $the_form    Object referring to the form element that paginates the results table
          */
@@ -283,6 +288,7 @@ $(document).ready(function() {
         $.post($the_form.attr('action'), $the_form.serialize(), function(data) {
             $("#sqlqueryresults").html(data);
             $("#sqlqueryresults").trigger('appendAnchor');
+            PMA_init_slider();
         }) // end $.post()
     })// end Paginate results table
 
@@ -290,31 +296,44 @@ $(document).ready(function() {
      * Paginate results with Page Selector dropdown
      * @memberOf    jQuery
      * @name        paginate_dropdown_change
+     * @see         $cfg['AjaxEnable']
      */
     $("#pageselector").live('change', function(event) {
-        event.preventDefault();
+        var $the_form = $(this).parent("form");
 
-        PMA_ajaxShowMessage();
+        if ($(this).hasClass('ajax')) {
+            event.preventDefault();
 
-        $.get($(this).attr('href'), $(this).serialize() + '&ajax_request=true', function(data) {
-            $("#sqlqueryresults").html(data);
-            $("#sqlqueryresults").trigger('appendAnchor');
-        }) // end $.get()
+            PMA_ajaxShowMessage();
+
+            $.post($the_form.attr('action'), $the_form.serialize() + '&ajax_request=true', function(data) {
+                $("#sqlqueryresults").html(data);
+                $("#sqlqueryresults").trigger('appendAnchor');
+                PMA_init_slider();
+            }) // end $.post()
+        } else {
+            $the_form.submit();
+        }
+
     })// end Paginate results with Page Selector
 
     /**
      * Ajax Event handler for sorting the results table
      * @memberOf    jQuery
      * @name        table_results_sort_click
+     * @see         $cfg['AjaxEnable']
      */
-    $("#table_results").find("a[title=Sort]").live('click', function(event) {
+    $("#table_results.ajax").find("a[title=Sort]").live('click', function(event) {
         event.preventDefault();
 
         PMA_ajaxShowMessage();
 
-        $.get($(this).attr('href'), $(this).serialize() + '&ajax_request=true', function(data) {
-            $("#sqlqueryresults").html(data);
-            $("#sqlqueryresults").trigger('appendAnchor');
+        $anchor = $(this);
+
+        $.get($anchor.attr('href'), $anchor.serialize() + '&ajax_request=true', function(data) {
+            $("#sqlqueryresults")
+             .html(data)
+             .trigger('appendAnchor');
         }) // end $.get()
     })//end Sort results table
 
@@ -322,13 +341,18 @@ $(document).ready(function() {
      * Ajax Event handler for the display options
      * @memberOf    jQuery
      * @name        displayOptionsForm_submit
+     * @see         $cfg['AjaxEnable']
      */
-    $("#displayOptionsForm").live('submit', function(event) {
+    $("#displayOptionsForm.ajax").live('submit', function(event) {
         event.preventDefault();
 
-        $.post($(this).attr('action'), $(this).serialize() + '&ajax_request=true' , function(data) {
-            $("#sqlqueryresults").html(data);
-            $("#sqlqueryresults").trigger('appendAnchor');
+        $form = $(this);
+
+        $.post($form.attr('action'), $form.serialize() + '&ajax_request=true' , function(data) {
+            $("#sqlqueryresults")
+             .html(data)
+             .trigger('appendAnchor');
+            PMA_init_slider();
         }) // end $.post()
     })
     //end displayOptionsForm handler
@@ -380,7 +404,7 @@ $(document).ready(function() {
 
             // We need to retrieve the value from the server for truncated/relation fields
             // Find the field name
-            
+
             /**
              * @var this_field  Object referring to this field (<td>)
              */
@@ -504,8 +528,8 @@ $(document).ready(function() {
         event.preventDefault();
 
         /**
-         * @var $this_td    Object referring to the td containing the 
-         * "Inline Edit" link that was clicked to save the row that is 
+         * @var $this_td    Object referring to the td containing the
+         * "Inline Edit" link that was clicked to save the row that is
          * being edited
          *
          */
@@ -698,7 +722,7 @@ $(document).ready(function() {
                             new_value = $test_element.text();
                         }
 
-                        
+
                         if($this_sibling.is('.relation')) {
                             var field_name = getFieldName($this_sibling, disp_mode);
                             $.each(data.relations, function(key, value) {
@@ -707,7 +731,7 @@ $(document).ready(function() {
                                     return false;
                                 }
                             })
-                        } 
+                        }
                         if($this_sibling.is('.enum')) {
                             new_html = new_value;
                         }
@@ -750,14 +774,14 @@ $(document).ready(function() {
      * vertical column highlighting in horizontal mode when hovering over the column header
      */
     $('.column_heading').live('hover', function() {
-        PMA_changeClassForColumn($(this), 'hover'); 
+        PMA_changeClassForColumn($(this), 'hover');
         });
 
     /**
      * vertical column marking in horizontal mode when clicking the column header
      */
     $('.column_heading').live('click', function() {
-        PMA_changeClassForColumn($(this), 'marked'); 
+        PMA_changeClassForColumn($(this), 'marked');
         });
 })
 

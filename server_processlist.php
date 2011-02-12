@@ -14,6 +14,14 @@ require './libraries/server_links.inc.php';
 
 
 /**
+ * Displays the sub-page heading
+ */
+echo '<h2>' . "\n"
+   . ($GLOBALS['cfg']['MainPageIconic'] ? '<img src="' . $pmaThemeImage . 's_process.png" width="16" height="16" border="0" hspace="2" align="middle" alt="" />' : '')
+   . '    ' . __('Processes') . "\n"
+   . '</h2>' . "\n";
+
+/**
  * Kills a selected process
  */
 if (!empty($_REQUEST['kill'])) {
@@ -47,7 +55,7 @@ $result = PMA_DBI_query($sql_query);
 <tr><td><a href="<?php echo $full_text_link; ?>"
             title="<?php echo empty($full) ? __('Show Full Queries') : __('Truncate Shown Queries'); ?>">
         <img src="<?php echo $pmaThemeImage . 's_' . (empty($_REQUEST['full']) ? 'full' : 'partial'); ?>text.png"
-            width="50" height="20" alt="<?php echo empty($_REQUEST['full']) ? __('Show Full Queries') : __('Truncate Shown Queries'); ?>" />
+            alt="<?php echo empty($_REQUEST['full']) ? __('Show Full Queries') : __('Truncate Shown Queries'); ?>" />
         </a></td>
     <th><?php echo __('ID'); ?></th>
     <th><?php echo __('User'); ?></th>

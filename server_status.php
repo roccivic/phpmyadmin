@@ -41,7 +41,7 @@ require_once './libraries/replication_gui.lib.php';
 require_once './libraries/chart.lib.php';
 
 /**
- * Messages are built using the message name 
+ * Messages are built using the message name
  */
 $strShowStatusBinlog_cache_disk_useDescr = __('The number of transactions that used the temporary binary log cache but that exceeded the value of binlog_cache_size and used a temporary file to store statements from the transaction.');
 $strShowStatusBinlog_cache_useDescr = __('The number of transactions that used the temporary binary log cache.');
@@ -342,12 +342,16 @@ $allocations = array(
     'Flush_commands'    => 'query',
     'Last_query_cost'   => 'query',
     'Slow_queries'      => 'query',
+    'Queries'           => 'query',
+    'Prepared_stmt_count' => 'query',
 
     'Select_'           => 'select',
     'Sort_'             => 'sort',
 
     'Open_tables'       => 'table',
     'Opened_tables'     => 'table',
+    'Open_table_definitions' => 'table',
+    'Opened_table_definitions' => 'table',
     'Table_locks_'      => 'table',
 
     'Rpl_status'        => 'repl',
@@ -356,6 +360,10 @@ $allocations = array(
     'Tc_'               => 'tc',
 
     'Ssl_'              => 'ssl',
+
+    'Open_files'        => 'files',
+    'Open_streams'      => 'files',
+    'Opened_files'      => 'files',
 );
 
 $sections = array(
@@ -376,6 +384,7 @@ $sections = array(
     'sort'          => array('title' => __('Sorting')),
     'table'         => array('title' => __('Tables')),
     'tc'            => array('title' => __('Transaction coordinator')),
+    'files'         => array('title' => __('Files')),
     'ssl'           => array('title' => 'SSL'),
 );
 
@@ -605,7 +614,9 @@ foreach ($sections as $section_name => $section) {
 
 <h3 id="serverstatusqueries"><?php echo
     sprintf(__('<b>Query statistics</b>: Since its startup, %s queries have been sent to the server.'),
-        PMA_formatNumber($server_status['Questions'], 0)); ?></h3>
+        PMA_formatNumber($server_status['Questions'], 0));
+    echo PMA_showMySQLDocu('server-status-variables', 'server-status-variables', false, 'statvar_Questions');
+    ?></h3>
 
 <table id="serverstatusqueriessummary" class="data">
 <thead>
@@ -789,7 +800,8 @@ if (! empty($section['title'])) {
             $odd_row = !$odd_row;
 ?>
         <tr class="<?php echo $odd_row ? 'odd' : 'even'; ?>">
-            <th class="name"><?php echo htmlspecialchars($name); ?></th>
+            <th class="name"><?php echo htmlspecialchars($name) . PMA_showMySQLDocu('server-status-variables', 'server-status-variables', false, 'statvar_' . $name); ?>
+            </th>
             <td class="value"><?php
             if (isset($alerts[$name])) {
                 if ($value > $alerts[$name]) {
@@ -800,6 +812,8 @@ if (! empty($section['title'])) {
             }
             if ('%' === substr($name, -1, 1)) {
                 echo PMA_formatNumber($value, 0, 2) . ' %';
+            } elseif (is_numeric($value) && $value == (int) $value && $value > 1000) {
+                echo PMA_formatNumber($value, 3, 1);
             } elseif (is_numeric($value) && $value == (int) $value) {
                 echo PMA_formatNumber($value, 4, 0);
             } elseif (is_numeric($value)) {

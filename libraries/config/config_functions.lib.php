@@ -91,8 +91,10 @@ function PMA_lang_link_replace($link, $text)
         $separator = PMA_get_arg_separator('html');
     }
 
-    if (!preg_match('#^http://#', $link)) {
+    if (!preg_match('#^https?://#', $link)) {
         $link = str_replace('&amp;', $separator, $link);
+    } else {
+        $link = PMA_linkURL($link);
     }
 
     return '<a href="' . $link . '">' . $text . '</a>';

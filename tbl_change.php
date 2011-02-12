@@ -43,6 +43,9 @@ if (isset($_REQUEST['ShowFunctionFields'])) {
 if (isset($_REQUEST['ShowFieldTypesInDataEditView'])) {
     $cfg['ShowFieldTypesInDataEditView'] = $_REQUEST['ShowFieldTypesInDataEditView'];
 }
+if (isset($_REQUEST['default_action'])) {
+    $default_action = $_REQUEST['default_action'];
+}
 
 /**
  * file listing
@@ -184,12 +187,18 @@ if (isset($where_clause)) {
             }
             unset($unique_condition, $tmp_clause_is_unique);
         }
+
     }
 } else {
     // no primary key given, just load first row - but what happens if table is empty?
     $insert_mode = true;
     $result = PMA_DBI_query('SELECT * FROM ' . PMA_backquote($db) . '.' . PMA_backquote($table) . ' LIMIT 1;', null, PMA_DBI_QUERY_STORE);
     $rows = array_fill(0, $cfg['InsertRows'], false);
+}
+
+// Copying a row - fetched data will be inserted as a new row, therefore the where clause is needless.
+if (isset($default_action) && $default_action === 'insert') {
+    unset($where_clause, $where_clauses);
 }
 
 // retrieve keys into foreign fields, if any
@@ -370,10 +379,37 @@ foreach ($rows as $row_id => $vrow) {
                 $table_fields[$i]['Field_title'] = $table_fields[$i]['Field_html'];
             }
 
-            // The type column
-            $table_fields[$i]['is_binary'] = stristr($table_fields[$i]['Type'], 'binary');
-            $table_fields[$i]['is_blob']   = stristr($table_fields[$i]['Type'], 'blob');
-            $table_fields[$i]['is_char']   = stristr($table_fields[$i]['Type'], 'char');
+            // The type column.
+            // Fix for bug #3152931 'ENUM and SET cannot have "Binary" option'
+            // If check to ensure types such as "enum('one','two','binary',..)" or
+            // "enum('one','two','varbinary',..)" are not categorized as binary.
+            if (stripos($table_fields[$i]['Type'], 'binary') === 0
+            || stripos($table_fields[$i]['Type'], 'varbinary') === 0) {
+                $table_fields[$i]['is_binary'] = stristr($table_fields[$i]['Type'], 'binary');
+            } else {
+                $table_fields[$i]['is_binary'] = false;
+            }
+
+            // If check to ensure types such as "enum('one','two','blob',..)" or
+            // "enum('one','two','tinyblob',..)" etc. are not categorized as blob.
+            if (stripos($table_fields[$i]['Type'], 'blob') === 0
+            || stripos($table_fields[$i]['Type'], 'tinyblob') === 0
+            || stripos($table_fields[$i]['Type'], 'mediumblob') === 0
+            || stripos($table_fields[$i]['Type'], 'longblob') === 0) {
+                $table_fields[$i]['is_blob']   = stristr($table_fields[$i]['Type'], 'blob');
+            } else {
+                $table_fields[$i]['is_blob'] = false;
+            }
+
+            // If check to ensure types such as "enum('one','two','char',..)" or
+            // "enum('one','two','varchar',..)" are not categorized as char.
+            if (stripos($table_fields[$i]['Type'], 'char') === 0
+            || stripos($table_fields[$i]['Type'], 'varchar') === 0) {
+                $table_fields[$i]['is_char']   = stristr($table_fields[$i]['Type'], 'char');
+            } else {
+                $table_fields[$i]['is_char'] = false;
+            }
+
             $table_fields[$i]['first_timestamp'] = false;
             switch ($table_fields[$i]['True_Type']) {
                 case 'set':
@@ -461,6 +497,13 @@ foreach ($rows as $row_id => $vrow) {
 
                 $data            = $vrow[$field['Field']];
             } // end if... else...
+
+            //when copying row, it is useful to empty auto-increment column to prevent duplicate key error
+            if (isset($default_action) && $default_action === 'insert') {
+                if ($field['Key'] === 'PRI' && strpos($field['Extra'], 'auto_increment') !== FALSE) {
+                    $data = $special_chars_encoded = $special_chars = NULL;
+                }
+            }
             // If a timestamp field value is not included in an update
             // statement MySQL auto-update it to the current timestamp;
             // however, things have changed since MySQL 4.1, so
@@ -616,7 +659,7 @@ foreach ($rows as $row_id => $vrow) {
                 echo ' checked="checked"';
             }
             echo ' id="field_' . ($idindex) . '_2" />';
-            
+
             // nullify_code is needed by the js nullify() function
             if (strstr($field['True_Type'], 'enum')) {
                 if (strlen($field['Type']) > 20) {
@@ -635,7 +678,7 @@ foreach ($rows as $row_id => $vrow) {
             } else {
                 $nullify_code = '5';
             }
-            // to be able to generate calls to nullify() in jQuery 
+            // to be able to generate calls to nullify() in jQuery
             echo '<input type="hidden" class="nullify_code" name="nullify_code' . $field_name_appendix . '" value="' . $nullify_code . '" />';
             echo '<input type="hidden" class="hashed_field" name="hashed_field' . $field_name_appendix . '" value="' .  $field['Field_md5'] . '" />';
             echo '<input type="hidden" class="multi_edit" name="multi_edit' . $field_name_appendix . '" value="' . PMA_escapeJsString($vkey) . '" />';
@@ -856,8 +899,8 @@ foreach ($rows as $row_id => $vrow) {
                 <?php
 
             } else {
-                // field size should be at least 4 and max 40
-                $fieldsize = min(max($field['len'], 4), 40);
+                // field size should be at least 4 and max $cfg['LimitChars']
+                $fieldsize = min(max($field['len'], 4), $cfg['LimitChars']);
                 echo "\n";
                 echo $backup_field . "\n";
                 ?>
@@ -942,10 +985,16 @@ foreach ($rows as $row_id => $vrow) {
                     ><?php echo $special_chars_encoded; ?></textarea>
                 <?php
             } else {
+                $the_class = 'textfield';
+                if ($field['pma_type'] == 'date') {
+                    $the_class .= ' datefield';
+                } elseif ($field['pma_type'] == 'datetime' || substr($field['pma_type'], 0, 9) == 'timestamp') {
+                    $the_class .= ' datetimefield';
+                }
                 ?>
                 <input type="text" name="fields<?php echo $field_name_appendix; ?>"
                     value="<?php echo $special_chars; ?>" size="<?php echo $fieldsize; ?>"
-                    class="textfield" <?php echo $unnullify_trigger; ?>
+                    class="<?php echo $the_class; ?>" <?php echo $unnullify_trigger; ?>
                     tabindex="<?php echo ($tabindex + $tabindex_for_value); ?>"
                     id="field_<?php echo ($idindex); ?>_3" />
                 <?php
@@ -973,24 +1022,6 @@ foreach ($rows as $row_id => $vrow) {
                     // the _3 suffix points to the date field
                     // the _2 suffix points to the corresponding NULL checkbox
                     // in dateFormat, 'yy' means the year with 4 digits
-                    ?>
-<script type="text/javascript">
-//<![CDATA[
-$(function() {
-    $('#field_<?php echo ($idindex); ?>_3').datepicker({
-    	duration: '',
-		time24h: true,
-		 stepMinutes: 1,
-        stepHours: 1,
-        <?php echo ($field['pma_type'] == 'date' ? "showTime: false,":"showTime: true,"); ?>
-        dateFormat: 'yy-mm-dd',
-		altTimeField: '',
-        constrainInput: false
-     });
-});
-//]]>
-</script>
-                    <?php
                 }
             }
         }

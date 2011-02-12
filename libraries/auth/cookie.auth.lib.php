@@ -169,9 +169,8 @@ function PMA_auth()
     /* HTML header; do not show here the PMA version to improve security */
     $page_title = 'phpMyAdmin ';
     require './libraries/header_meta_style.inc.php';
+    require './libraries/header_scripts.inc.php';
     ?>
-<script src="./js/jquery/jquery-1.4.4.js" type="text/javascript"></script>
-<script src="./js/update-location.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
 // show login form in top frame
@@ -180,7 +179,6 @@ if (top != self) {
 }
 //]]>
 </script>
-<script src="./js/functions.js" type="text/javascript"></script>
 </head>
 
 <body class="loginform">
@@ -192,7 +190,7 @@ if (top != self) {
     ?>
 
 <div class="container">
-<a href="http://www.phpmyadmin.net" target="_blank" class="logo"><?php
+<a href="<?php echo PMA_linkURL('http://www.phpmyadmin.net/'); ?>" target="_blank" class="logo"><?php
     $logo_image = $GLOBALS['pmaThemeImage'] . 'logo_right.png';
     if (@file_exists($logo_image)) {
         echo '<img src="' . $logo_image . '" id="imLogo" name="imLogo" alt="phpMyAdmin" border="0" />';
@@ -598,6 +596,12 @@ function PMA_auth_set_user()
          * whether we come from a fresh cookie login
          */
         define('PMA_COMING_FROM_COOKIE_LOGIN', true);
+
+        /**
+         * Clear user cache.
+         */
+        PMA_clearUserCache();
+
         PMA_sendHeaderLocation($redirect_url . PMA_generate_common_url($url_params, '&'));
         exit();
     } // end if

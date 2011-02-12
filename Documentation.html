@@ -9,7 +9,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.4.0-beta2 - Documentation</title>
+    <title>phpMyAdmin 3.4.0-beta3 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -17,7 +17,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.4.0-beta2
+        3.4.0-beta3
         Documentation
     </h1>
 </div>
@@ -1295,6 +1295,16 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
     <dd>The maximum number of database names to be displayed in the
         navigation frame and the database list.</dd>
 
+    <dt id="cfg_AjaxEnable">$cfg['AjaxEnable'] boolean</dt>
+    <dd>Defines whether to refresh only parts of certain pages using Ajax
+    techniques. Applies only where a non-Ajax behavior is possible;
+    for example, the Designer feature is Ajax-only so this directive
+    does not apply to it.</dd>
+
+    <dt id="cfg_VersionCheck">$cfg['VersionCheck'] boolean</dt>
+    <dd>Enables check for latest versions using javascript on main phpMyAdmin
+    page.</dd>
+
     <dt id="cfg_MaxTableList">$cfg['MaxTableList'] integer</dt>
     <dd>The maximum number of table names to be displayed in the
     main panel's list (except on the Export page). This limit is also enforced in the navigation panel
@@ -1797,11 +1807,6 @@ $cfg['TrustedProxies'] =
     <dd>The style used for the pointer in the navi frame.
         See <tt>themes/themename/layout.inc.php</tt>.</dd>
 
-    <dt id="cfg_NaviDatabaseNameColor">$cfg['NaviDatabaseNameColor'] string [CSS color]<br />
-    </dt>
-    <dd>The color used for the database name in the navi frame.
-    See <tt>themes/themename/layout.inc.php</tt>.</dd>
-
     <dt id="cfg_LeftPointerEnable">$cfg['LeftPointerEnable'] boolean</dt>
     <dd>A value of <tt>TRUE</tt> activates the navi pointer (when LeftFrameLight
         is <tt>FALSE</tt>).</dd>
@@ -1879,7 +1884,8 @@ $cfg['TrustedProxies'] =
     <dt><span id="cfg_ModifyDeleteAtLeft">$cfg['ModifyDeleteAtLeft'] </span>boolean
         <span id="cfg_ModifyDeleteAtRight">$cfg['ModifyDeleteAtRight'] </span>boolean
     </dt>
-    <dd>Defines the place where modify and delete links would be put when
+    <dd>Defines the place where table row links (Edit, Inline edit, Copy,
+        Delete) would be put when
         tables contents are displayed (you may have them displayed both at the
         left and at the right).
         &quot;Left&quot; and &quot;right&quot; are parsed as &quot;top&quot;
@@ -2737,13 +2743,15 @@ setfacl -d -m "g:www-data:rwx" tmp
     connect to your MySQL server using PHP's classic
     <a href="http://php.net/mysql">MySQL extension</a> as well as the
     <a href="http://php.net/mysqli">improved MySQL extension (MySQLi)</a> that
-    is available in php 5.0. The latter one should be used unless you have 
+    is available in php 5.0. The latter one should be used unless you have a
     good reason not to do so.<br />
-    When compiling php, we strongly recommend that you manually link the MySQL
+    When compiling PHP, we strongly recommend that you manually link the MySQL
     extension of your choice to a MySQL client library of at least the same
     minor version since the one that is bundled with some PHP distributions is
     rather old and might cause problems <a href="#faq1_17a">
-       (see <abbr title="Frequently Asked Questions">FAQ</abbr> 1.17a)</a>.</p>
+        (see <abbr title="Frequently Asked Questions">FAQ</abbr> 1.17a)</a>.<br /><br />
+    MariaDB is also supported (versions 5.1 and 5.2 were tested).
+    </p>
 
 <h5 id="faq1_17a">
     <a href="#faq1_17a">1.17a I cannot connect to the MySQL server. It always returns the error
@@ -3399,21 +3407,15 @@ have either the <a href="http://pecl.php.net/package/APC">APC</a> extension
     this could have a serious impact on performance.</p>
 
 <h4 id="faq3_12">
-    <a href="#faq3_12">3.12 What are the phpMyAdmin limitations for MySQL 3?</a></h4>
-
-<p> The number of records in queries containing COUNT and GROUP BY is
-    not correctly calculated. Also, sorting results of a query like
-    &quot;SELECT * from table GROUP BY&quot; ... is problematic.</p>
+    <a href="#faq3_12">3.12 (withdrawn).</a></h4>
 
 <h4 id="faq3_13">
     <a href="#faq3_13">3.13 I get an error when entering <tt>USE</tt> followed by a db name
     containing an hyphen.
 </a></h4>
 <p>
-    The tests I have made with current MySQL 4.1.11 API shows that the
-    API does not accept this syntax for the USE command. Enclosing the
-    db name with backquotes works. For further confusion, no backquotes
-    are needed with command-line mysql.
+    The tests I have made with MySQL 5.1.49 shows that the
+    API does not accept this syntax for the USE command.
 </p>
 
 <h4 id="faq3_14">
@@ -4133,7 +4135,7 @@ INSERT INTO REL_towns VALUES ('M', 'Montr&eacute;al');
     <code>SELECT Name, Address FROM addresses WHERE 1 AND Name LIKE '%phpMyAdmin%'</code>
     <br /><br />
 
-    You can use multiple occurrences of <b>/*[VARIABLE]*/</b> in a single query.<br />
+    You can use multiple occurrences of <b>/*[VARIABLE]*/</b> in a single query (that is, multiple occurrences of the <i>same</i> variable).<br />
     <b>NOTE THE ABSENCE OF SPACES</b> inside the &quot;/**/&quot; construct. Any
     spaces inserted there
     will be later also inserted as spaces in your query and may lead to unexpected
@@ -4309,7 +4311,7 @@ chmod o+rwx tmp
     </p>
 
 <h4 id="faq6_29">
-    <a href="#faq6_29">6.28 Why can't I get a chart from my query result table?</a></h4>
+    <a href="#faq6_29">6.29 Why can't I get a chart from my query result table?</a></h4>
 
 <p> Not every table can be put to the chart. Only tables with one, two or three columns can be visualised as a chart. Moreover the table must be in a special format for chart script to understand it. Currently supported formats can be found in the <a href="http://wiki.phpmyadmin.net/pma/Devel:Charts#Data_formats_for_query_results_chart">wiki</a>.</p>
 
@@ -4754,6 +4756,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 <ul>
   <li>mysqli support</li>
   <li>many bugfixes and improvements</li>
+</ul></li>
+
+<li>Nicola Asuni (Tecnick.com)
+<ul>
+    <li>TCPDF library (<a
+        href="http://www.tcpdf.org">http://www.tcpdf.org</a>)</li>
 </ul></li>
 
 <li>Michael Keck &lt;mkkeck_at_users.sourceforge.net&gt;

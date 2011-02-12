@@ -22,6 +22,8 @@
 
 $forms = array();
 $forms['Features']['General'] = array(
+    'AjaxEnable',
+    'VersionCheck',
     'NaturalOrder',
     'InitialSlidersState',
     'ErrorIconic',
@@ -97,6 +99,7 @@ $forms['Main_frame']['Startup'] = array(
     'ShowServerInfo');
 $forms['Main_frame']['Browse'] = array(
     'NavigationBarIconic',
+    'PropertiesIconic',
     'ShowAll',
     'MaxRows',
     'Order',
@@ -118,7 +121,6 @@ $forms['Main_frame']['Edit'] = array(
     'DefaultPropDisplay');
 $forms['Main_frame']['Tabs'] = array(
     'LightTabs',
-    'PropertiesIconic',
     'DefaultTabServer',
     'DefaultTabDatabase',
     'DefaultTabTable');

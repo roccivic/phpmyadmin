@@ -92,7 +92,7 @@ if (empty($_REQUEST['dontlimitchars'])) {
  * Displays the sub-page heading
  */
 echo '<h2>' . "\n"
-   . ($GLOBALS['cfg']['MainPageIconic'] ? '<img src="' . $pmaThemeImage . 's_process.png" width="16" height="16" border="0" hspace="2" align="middle" alt="" />' : '')
+   . ($GLOBALS['cfg']['MainPageIconic'] ? '<img src="' . $pmaThemeImage . 's_tbl.png" width="16" height="16" border="0" hspace="2" align="middle" alt="" />' : '')
    . '    ' . __('Binary log') . "\n"
    . '</h2>' . "\n";
 
@@ -130,7 +130,7 @@ if (count($binary_logs) > 1) {
     echo '</form>';
 }
 
-PMA_Message::success()->display();
+PMA_showMessage(PMA_Message::success());
 
 /**
  * Displays the page
@@ -168,7 +168,6 @@ if ($dontlimitchars) {
         <a href="./server_binlog.php<?php echo PMA_generate_common_url($this_url_params); ?>"
             title="<?php __('Truncate Shown Queries'); ?>">
                 <img src="<?php echo $pmaThemeImage; ?>s_partialtext.png"
-                    width="50" height="20" border="0"
                     alt="<?php echo __('Truncate Shown Queries'); ?>" /></a>
     <?php
 } else {
@@ -177,7 +176,6 @@ if ($dontlimitchars) {
         <a href="./server_binlog.php<?php echo PMA_generate_common_url($this_url_params); ?>"
             title="<?php __('Show Full Queries'); ?>">
                 <img src="<?php echo $pmaThemeImage; ?>s_fulltext.png"
-                    width="50" height="20" border="0"
                     alt="<?php echo __('Show Full Queries'); ?>" /></a>
     <?php
 }

@@ -468,7 +468,7 @@ class FormDisplay
             // (allows to skip 0 == 'string' equalling to true) or identity (for string-string)
             if (($vk == $value && !(is_numeric($value_cmp) xor is_numeric($vk)))
                     || $vk === $value) {
-                settype($value, gettype($v));
+                settype($value, gettype($vk));
                 return true;
             }
         }
@@ -681,7 +681,7 @@ class FormDisplay
         if ($test == 'Export') {
             $opt_name = substr($opt_name, 7);
         }
-        return 'http://wiki.phpmyadmin.net/pma/Config#' . $opt_name;
+        return PMA_linkURL('http://wiki.phpmyadmin.net/pma/Config#' . $opt_name);
     }
 
     /**

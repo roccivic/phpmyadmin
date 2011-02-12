@@ -88,6 +88,7 @@ if (! empty($_SESSION['debug'])) {
     $_SESSION['debug'] = array();
 }
 
+if (!$GLOBALS['is_ajax_request']) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -162,13 +163,14 @@ if (window.parent.frame_content) {
 //]]>
 </script>
 <?php
+}
 
 // Link to itself to replicate windows including frameset
 if (!isset($GLOBALS['checked_special'])) {
     $GLOBALS['checked_special'] = false;
 }
 
-if (PMA_getenv('SCRIPT_NAME') && empty($_POST) && !$GLOBALS['checked_special']) {
+if (PMA_getenv('SCRIPT_NAME') && empty($_POST) && !$GLOBALS['checked_special'] && ! $GLOBALS['is_ajax_request']) {
     echo '<div id="selflink" class="print_ignore">' . "\n";
     $url_params['target'] = basename(PMA_getenv('SCRIPT_NAME'));
     ?>
