@@ -159,6 +159,13 @@ fieldset.tblFooters {
     clear:              both;
 }
 
+div.null_div {
+    height: 20px;
+    text-align: center;
+    font-style:normal;
+    min-width:50px;
+}
+
 fieldset .formelement {
     float:              <?php echo $left; ?>;
     margin-<?php echo $right; ?>:       0.5em;
@@ -199,6 +206,7 @@ table tr.even {
 <?php if ($GLOBALS['cfg']['BrowseMarkerEnable']) { ?>
 /* marked table rows */
 td.marked,
+table tr.marked td,
 table tr.marked th,
 table tr.marked {
     background:   <?php echo $GLOBALS['cfg']['BrowseMarkerBackground']; ?>;
@@ -233,6 +241,14 @@ tr.condition td,
 td.condition,
 th.condition {
     border: 1px solid <?php echo $GLOBALS['cfg']['BrowseMarkerBackground']; ?>;
+}
+
+/**
+ * cells with the value NULL
+ */
+td.null {
+    font-style: italic;
+    text-align: <?php echo $right; ?>;
 }
 
 table .value {
@@ -667,10 +683,10 @@ ul#topmenu ul a {
 
 ul#topmenu .submenu {
     position:           relative;
-    display: none;
+    display:            none;
 }
 ul#topmenu .shown {
-    display: block;
+    display:            block;
 }
 
 ul#topmenu ul {

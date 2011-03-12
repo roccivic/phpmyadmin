@@ -65,9 +65,7 @@ if (isset($_REQUEST['get_relational_values']) && $_REQUEST['get_relational_value
 
     $foreignData = PMA_getForeignData($foreigners, $column, false, '', '');
 
-    $dropdown = PMA_foreignDropdown($foreignData['disp_row'], $foreignData['foreign_field'], $foreignData['foreign_display'], $_REQUEST['curr_value'], $cfg['ForeignKeyMaxLimit']);
-
-    if( $dropdown == '<option value="">&nbsp;</option>'."\n" ) {
+    if ($foreignData['disp_row'] == null) {
         //Handle the case when number of values is more than $cfg['ForeignKeyMaxLimit']
         $_url_params = array(
                 'db' => $db,
@@ -80,6 +78,7 @@ if (isset($_REQUEST['get_relational_values']) && $_REQUEST['get_relational_value
                     .'>' . __('Browse foreign values') . '</a>';
     }
     else {
+        $dropdown = PMA_foreignDropdown($foreignData['disp_row'], $foreignData['foreign_field'], $foreignData['foreign_display'], $_REQUEST['curr_value'], $cfg['ForeignKeyMaxLimit']);
         $dropdown = '<select>' . $dropdown . '</select>';
     }
 
@@ -101,7 +100,7 @@ if(isset($_REQUEST['get_enum_values']) && $_REQUEST['get_enum_values'] == true) 
 
     $values = explode(',', str_replace($search, '', $field_info_result[0]['Type']));
 
-    $dropdown = '';
+    $dropdown = '<option value="">&nbsp;</option>';
     foreach($values as $value) {
         $dropdown .= '<option value="' . htmlspecialchars($value) . '"';
         if($value == $_REQUEST['curr_value']) {
@@ -116,6 +115,34 @@ if(isset($_REQUEST['get_enum_values']) && $_REQUEST['get_enum_values'] == true) 
     PMA_ajaxResponse(NULL, true, $extra_data);
 }
 
+/**
+ * Find possible values for set fields during inline edit.
+ */
+if(isset($_REQUEST['get_set_values']) && $_REQUEST['get_set_values'] == true) {
+    $field_info_query = 'SHOW FIELDS FROM `' . $db . '`.`' . $table . '` LIKE \'' . $_REQUEST['column'] . '\' ;';
+
+    $field_info_result = PMA_DBI_fetch_result($field_info_query, null, null, null, PMA_DBI_QUERY_STORE);
+
+    $selected_values = explode(',', $_REQUEST['curr_value']);
+
+    $search = array('set', '(', ')', "'");
+    $values = explode(',', str_replace($search, '', $field_info_result[0]['Type']));
+
+    $select = '';
+    foreach($values as $value) {
+        $select .= '<option value="' . htmlspecialchars($value) . '"';
+        if(in_array($value, $selected_values, true)) {
+            $select .= ' selected="selected"';
+        }
+        $select .= '>' . $value . '</option>';
+    }
+
+    $select_size = (sizeof($values) > 10) ? 10 : sizeof($values);
+    $select = '<select multiple="multiple" size="' . $select_size . '">' . $select . '</select>';
+
+    $extra_data['select'] = $select;
+    PMA_ajaxResponse(NULL, true, $extra_data);
+}
 // Default to browse if no query set and we have table
 // (needed for browsing from DefaultTabTable)
 if (empty($sql_query) && strlen($table) && strlen($db)) {
@@ -364,7 +391,6 @@ if (isset($GLOBALS['show_as_php']) || !empty($GLOBALS['validatequery'])) {
     }
 
     // Measure query time.
-    // TODO-Item http://sourceforge.net/tracker/index.php?func=detail&aid=571934&group_id=23067&atid=377411
     $querytime_before = array_sum(explode(' ', microtime()));
 
     $result   = @PMA_DBI_try_query($full_sql_query, null, PMA_DBI_QUERY_STORE);
@@ -391,13 +417,6 @@ if (isset($GLOBALS['show_as_php']) || !empty($GLOBALS['validatequery'])) {
              */
             require './' . PMA_securePath($goto);
         } else {
-            /**
-             * HTML header.
-             */
-
-            if($GLOBALS['is_ajax_request'] != true) {
-                require_once './libraries/header.inc.php';
-            }
             $full_err_url = (preg_match('@^(db|tbl)_@', $err_url))
                           ? $err_url . '&amp;show_query=1&amp;sql_query=' . urlencode($sql_query)
                           : $err_url;
@@ -625,7 +644,7 @@ if (0 == $num_rows || $is_affected) {
 
             foreach( $rel_fields as $rel_field => $rel_field_value) {
 
-                $where_comparison = '=' . $rel_field_value;
+                $where_comparison = "='" . $rel_field_value . "'";
                 $_url_params = array(
                     'db'    => $map[$rel_field]['foreign_db'],
                     'table' => $map[$rel_field]['foreign_table'],
@@ -768,6 +787,7 @@ else {
             }
         }
         else {
+            require_once './libraries/header.inc.php';
             //we don't need to buffer the output in PMA_showMessage here.
             //set a global variable and check against it in the function
             $GLOBALS['buffer_message'] = false;

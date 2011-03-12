@@ -15,7 +15,7 @@ require_once './libraries/common.inc.php';
 
 
 /**
- * If this is an Ajax request, we do not need to generate all this output.
+ * This is not an Ajax request so we need to generate all this output.
  */
 if (isset($GLOBALS['is_ajax_request']) && !$GLOBALS['is_ajax_request']) {
 
@@ -183,4 +183,10 @@ if (isset($GLOBALS['is_ajax_request']) && !$GLOBALS['is_ajax_request']) {
          */
         $GLOBALS['is_header_sent'] = true;
 } //end if(!$GLOBALS['is_ajax_request'])
+else {
+    if (empty($GLOBALS['is_header_sent'])) {
+        require_once './libraries/header_http.inc.php';
+        $GLOBALS['is_header_sent'] = true;
+    }
+}
 ?>

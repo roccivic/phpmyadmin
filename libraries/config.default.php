@@ -135,7 +135,7 @@ $cfg['Servers'][$i]['connect_type'] = 'tcp';
  *
  * @global string $cfg['Servers'][$i]['extension']
  */
-$cfg['Servers'][$i]['extension'] = 'mysql';
+$cfg['Servers'][$i]['extension'] = 'mysqli';
 
 /**
  * Use compressed protocol for the MySQL connection (requires PHP >= 4.3.0)
@@ -2453,7 +2453,7 @@ $cfg['ThemeManager'] = true;
  *
  * @global string $cfg['ThemeDefault']
  */
-$cfg['ThemeDefault'] = 'original';
+$cfg['ThemeDefault'] = 'pmahomme';
 
 /**
  * allow different theme for each configured server
@@ -2590,7 +2590,7 @@ $cfg['CheckConfigurationPermissions'] = true;
  * is replaced by form with button.
  * This is required as some web servers (IIS) have problems with long URLs.
  */
-$cfg['LinkLengthLimit'] = 1000;
+$cfg['LinkLengthLimit'] = 2000;
 
 /*******************************************************************************
  * SQL Parser Settings

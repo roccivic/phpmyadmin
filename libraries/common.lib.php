@@ -101,9 +101,8 @@ function PMA_getIcon($icon, $alternate = '', $container = false, $force_text = f
         $include_box = true;
     }
 
-    if ($include_box) {
-        $button .= '<span class="nowrap">';
-    }
+    // Always use a span (we rely on this in js/sql.js)
+    $button .= '<span class="nowrap">';
 
     if ($include_icon) {
         $button .= '<img src="' . $GLOBALS['pmaThemeImage'] . $icon . '"'
@@ -119,9 +118,7 @@ function PMA_getIcon($icon, $alternate = '', $container = false, $force_text = f
         $button .= $alternate;
     }
 
-    if ($include_box) {
-        $button .= '</span>';
-    }
+    $button .= '</span>';
 
     return $button;
 }
@@ -401,14 +398,18 @@ function PMA_showMySQLDocu($chapter, $link, $big_icon = false, $anchor = '', $ju
             $mysql = '5.0';
             $lang = 'en';
             if (defined('PMA_MYSQL_INT_VERSION')) {
-                if (PMA_MYSQL_INT_VERSION >= 50100) {
+                if (PMA_MYSQL_INT_VERSION >= 50500) {
+                    $mysql = '5.5';
+                    /* l10n: Language to use for MySQL 5.5 documentation, please use only languages which do exist in official documentation.  */
+                    $lang = _pgettext('MySQL 5.5 documentation language', 'en');
+                } else if (PMA_MYSQL_INT_VERSION >= 50100) {
                     $mysql = '5.1';
                     /* l10n: Language to use for MySQL 5.1 documentation, please use only languages which do exist in official documentation.  */
-                    $lang = _pgettext('$mysql_5_1_doc_lang', 'en');
+                    $lang = _pgettext('MySQL 5.1 documentation language', 'en');
                 } elseif (PMA_MYSQL_INT_VERSION >= 50000) {
                     $mysql = '5.0';
                     /* l10n: Language to use for MySQL 5.0 documentation, please use only languages which do exist in official documentation. */
-                    $lang = _pgettext('$mysql_5_0_doc_lang', 'en');
+                    $lang = _pgettext('MySQL 5.0 documentation language', 'en');
                 }
             }
             $url = $cfg['MySQLManualBase'] . '/' . $mysql . '/' . $lang . '/' . $link . '.html';
@@ -446,6 +447,25 @@ function PMA_showDocu($anchor) {
         return '[<a href="Documentation.html#' . $anchor . '" target="documentation">' . __('Documentation') . '</a>]';
     }
 } // end of the 'PMA_showDocu()' function
+
+/**
+ * Displays a link to the PHP documentation
+ *
+ * @param string  anchor in documentation
+ *
+ * @return  string  the html link
+ *
+ * @access  public
+ */
+function PMA_showPHPDocu($target) {
+    $url = PMA_getPHPDocLink($target);
+
+    if ($GLOBALS['cfg']['ReplaceHelpImg']) {
+        return '<a href="' . $url . '" target="documentation"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_help.png" width="11" height="11" alt="' . __('Documentation') . '" title="' . __('Documentation') . '" /></a>';
+    } else {
+        return '[<a href="' . $url . '" target="documentation">' . __('Documentation') . '</a>]';
+    }
+} // end of the 'PMA_showPHPDocu()' function
 
 /**
  * returns HTML for a footnote marker and add the messsage to the footnotes
@@ -989,7 +1009,7 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice', $is_view
 
     // In an Ajax request, $GLOBALS['cell_align_left'] may not be defined. Hence,
     // check for it's presence before using it
-    echo '<div align="' . ( isset($GLOBALS['cell_align_left']) ? $GLOBALS['cell_align_left'] : '' ) . '">' . "\n";
+    echo '<div id="result_query" align="' . ( isset($GLOBALS['cell_align_left']) ? $GLOBALS['cell_align_left'] : '' ) . '">' . "\n";
 
     if ($message instanceof PMA_Message) {
         if (isset($GLOBALS['special_message'])) {
@@ -1249,7 +1269,10 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice', $is_view
         echo $edit_link . $explain_link . $php_link . $refresh_link . $validate_link;
         echo '</div>';
     }
-    echo '</div><br class="clearfloat" />' . "\n";
+    echo '</div>';
+    if ($GLOBALS['is_ajax_request'] === false) {
+        echo '<br class="clearfloat" />';
+    }
 
     // If we are in an Ajax request, we have most probably been called in
     // PMA_ajaxResponse().  Hence, collect the buffer contents and return it
@@ -1850,7 +1873,14 @@ function PMA_linkOrButton($url, $message, $tag_params = array(),
                     . implode(' ', $tag_params_strings)
                     . ' src="' . preg_replace(
                         '/^.*\ssrc="([^"]*)".*$/si', '\1', $message) . '"'
-                    . ' value="' . $displayed_message . '" title="' . $displayed_message . '" />';
+                        . ' value="' . $displayed_message . '" title="' . $displayed_message . '" />';
+                // Here we cannot obey PropertiesIconic completely as a
+                // generated link would have a length over LinkLengthLimit
+                // but we can at least show the message.
+                // If PropertiesIconic is false or 'both'
+                if ($GLOBALS['cfg']['PropertiesIconic'] !== true) {
+                    $ret .= ' <span class="clickprevimage">' . $displayed_message . '</span>';
+                }
             }
         } else {
             $message = trim(strip_tags($message));
@@ -2912,11 +2942,15 @@ function PMA_ajaxResponse($message, $success = true, $extra_data = array())
         $response = array_merge($response, $extra_data);
     }
 
-    // Set the Content-Type header to JSON so that jQuery parses the response correctly
-    if(!isset($GLOBALS['is_header_sent'])) {
-        header('Cache-Control: no-cache');
-        header("Content-Type: application/json");
-    }
+    // Set the Content-Type header to JSON so that jQuery parses the
+    // response correctly.
+    //
+    // At this point, other headers might have been sent;
+    // even if $GLOBALS['is_header_sent'] is true,
+    // we have to send these additional headers.
+    header('Cache-Control: no-cache');
+    header("Content-Type: application/json");
+
     echo json_encode($response);
     exit;
 }
@@ -2983,6 +3017,7 @@ function PMA_buildActionTitles() {
     $titles['NoDrop']     = PMA_getIcon('bd_drop.png', __('Drop'), true);
     $titles['Empty']      = PMA_getIcon('b_empty.png', __('Empty'), true);
     $titles['NoEmpty']    = PMA_getIcon('bd_empty.png', __('Empty'), true);
+    $titles['Edit']       = PMA_getIcon('b_edit.png', __('Edit'), true);
     return $titles;
 }
 ?>

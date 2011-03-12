@@ -24,6 +24,8 @@ if (isset($_POST['user'])) {
     $_SESSION['PMA_single_signon_password'] = $_POST['password'];
     $_SESSION['PMA_single_signon_host'] = $_POST['host'];
     $_SESSION['PMA_single_signon_port'] = $_POST['port'];
+    /* Update another field of server configuration */
+    $_SESSION['PMA_single_signon_cfgupdate'] = array('verbose' => 'Signon test');
     $id = session_id();
     /* Close that session */
     session_write_close();
@@ -45,7 +47,7 @@ if (isset($_POST['user'])) {
 <body>
 <?php
 if (isset($_SESSION['PMA_single_signon_error_message'])) {
-    echo '<p class="error">' . $_SESSION['PMA_single_signon_port'] . '</p>';
+    echo '<p class="error">' . $_SESSION['PMA_single_signon_message'] . '</p>';
 }
 ?>
 <form action="signon.php" method="post">

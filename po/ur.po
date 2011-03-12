@@ -4,11 +4,11 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.0-beta3-dev\n"
+"Project-Id-Version: phpMyAdmin 3.4.0-beta4-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-10 14:02+0100\n"
-"PO-Revision-Date: 2011-02-10 18:17+0200\n"
-"Last-Translator:  <danish_satti2002@yahoo.com>\n"
+"POT-Creation-Date: 2011-03-05 14:23-0500\n"
+"PO-Revision-Date: 2011-03-08 12:00+0200\n"
+"Last-Translator: Mehbooob Khan <mehboobbugti@gmail.com>\n"
 "Language-Team: Urdu <ur@li.org>\n"
 "Language: ur\n"
 "MIME-Version: 1.0\n"
@@ -20,13 +20,13 @@ msgstr ""
 #: browse_foreigners.php:35 browse_foreigners.php:53
 #: libraries/display_tbl.lib.php:415 server_privileges.php:1600
 msgid "Show all"
-msgstr "سبھی دکھاو"
+msgstr "تمام دکھائیں"
 
-#: browse_foreigners.php:70 libraries/common.lib.php:2299
-#: libraries/display_tbl.lib.php:392 libraries/export/pdf.php:132
+#: browse_foreigners.php:70 libraries/common.lib.php:2329
+#: libraries/display_tbl.lib.php:392 libraries/export/pdf.php:133
 #: libraries/schema/Pdf_Relation_Schema.class.php:242
-#: libraries/schema/Pdf_Relation_Schema.class.php:1095
-#: libraries/schema/Pdf_Relation_Schema.class.php:1111
+#: libraries/schema/Pdf_Relation_Schema.class.php:1096
+#: libraries/schema/Pdf_Relation_Schema.class.php:1112
 #: libraries/schema/User_Schema.class.php:360
 msgid "Page number:"
 msgstr "صفحہ نمبر:"
@@ -37,13 +37,12 @@ msgid ""
 "parent window, or your browser's security settings are configured to block "
 "cross-window updates."
 msgstr ""
-"The target browser window could not be updated. Maybe you have closed the "
-"parent window, or your browser's security settings are configured to block "
-"cross-window updates."
+"مطلوبہ براؤزر دریچہ تازہ نہیں کیا جاسکتا۔ ہوسکتا ہے کہ آپ نے اصل دریچہ بند "
+"کیا ہو یا آپ کے سلامتی ترتیبات پار دریچہ تازہ کاری میں رکاوٹ بن رہے ہوں۔"
 
-#: browse_foreigners.php:151 libraries/common.lib.php:2795
-#: libraries/common.lib.php:2802 libraries/common.lib.php:2977
-#: libraries/common.lib.php:2978 libraries/db_links.inc.php:60
+#: browse_foreigners.php:151 libraries/common.lib.php:2825
+#: libraries/common.lib.php:2832 libraries/common.lib.php:3011
+#: libraries/common.lib.php:3012 libraries/db_links.inc.php:60
 #: libraries/tbl_links.inc.php:61
 msgid "Search"
 msgstr "تلاش"
@@ -52,8 +51,8 @@ msgstr "تلاش"
 #: db_operations.php:522 db_operations.php:550 db_search.php:358
 #: db_structure.php:529 enum_editor.php:63 js/messages.php:59
 #: libraries/Config.class.php:1220 libraries/Theme_Manager.class.php:305
-#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1309
-#: libraries/common.lib.php:2275 libraries/core.lib.php:541
+#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1332
+#: libraries/common.lib.php:2305 libraries/core.lib.php:557
 #: libraries/display_change_password.lib.php:72
 #: libraries/display_create_table.lib.php:61
 #: libraries/display_export.lib.php:352 libraries/display_import.lib.php:267
@@ -63,8 +62,8 @@ msgstr "تلاش"
 #: libraries/schema/User_Schema.class.php:176
 #: libraries/schema/User_Schema.class.php:410
 #: libraries/schema/User_Schema.class.php:449
-#: libraries/select_server.lib.php:100 libraries/sql_query_form.lib.php:384
-#: libraries/sql_query_form.lib.php:454 libraries/sql_query_form.lib.php:519
+#: libraries/select_server.lib.php:100 libraries/sql_query_form.lib.php:385
+#: libraries/sql_query_form.lib.php:455 libraries/sql_query_form.lib.php:520
 #: libraries/tbl_properties.inc.php:783 libraries/tbl_properties.inc.php:798
 #: main.php:111 navigation.php:214 pmd_pdf.php:124 prefs_manage.php:265
 #: prefs_manage.php:316 server_binlog.php:128 server_privileges.php:671
@@ -78,12 +77,12 @@ msgstr "تلاش"
 #: tbl_structure.php:653 tbl_structure.php:689 tbl_tracking.php:389
 #: tbl_tracking.php:506 view_create.php:181 view_operations.php:99
 msgid "Go"
-msgstr "جاؤ"
+msgstr "جائیں"
 
 #: browse_foreigners.php:169 browse_foreigners.php:173
 #: libraries/Index.class.php:441 tbl_tracking.php:314
 msgid "Keyname"
-msgstr "کی نیم"
+msgstr "کلید نام"
 
 #: browse_foreigners.php:170 browse_foreigners.php:172
 #: server_collations.php:54 server_collations.php:66 server_engines.php:57
@@ -94,20 +93,20 @@ msgstr "وضاحت"
 #: browse_foreigners.php:248 browse_foreigners.php:257
 #: browse_foreigners.php:269 browse_foreigners.php:277
 msgid "Use this value"
-msgstr "یہ ویلیو استعمال کریں"
+msgstr "یہ قدر استعمال کریں"
 
 #: bs_disp_as_mime_type.php:29 bs_play_media.php:35
 #: libraries/blobstreaming.lib.php:331
 msgid "No blob streaming server configured!"
-msgstr "بلاب سٹریمنگ سرور کانفیگر نہیں ہوا!"
+msgstr "بلوب بہاؤ سرور موزوں نہیں ہوا!"
 
 #: bs_disp_as_mime_type.php:35
 msgid "Failed to fetch headers"
-msgstr "ہیڈر نھیں اٹھا سکا"
+msgstr "سر تحریر حاصل کرنے میں ناکام ہوا"
 
 #: bs_disp_as_mime_type.php:41
 msgid "Failed to open remote URL"
-msgstr "ریموٹ یو آر ایل نہیں کھول سکا"
+msgstr "بعید URL کھولنا ناکام ہوا"
 
 # changelog.php:32 license.php:28
 #: changelog.php:32 license.php:28
@@ -116,29 +115,29 @@ msgid ""
 "The %s file is not available on this system, please visit www.phpmyadmin.net "
 "for more information."
 msgstr ""
-"فائل %s موجود نہیں ہے، برائے مہربانی مزید معلومات کے لیے www.phpmyadmin.net "
-"پر جائیں"
+"مسل%s نظام میں موجود نہیں ہے، مزید معلومات کے لیے www.phpmyadmin.net پر "
+"جائیں۔"
 
 #: db_create.php:58
 #, php-format
 msgid "Database %1$s has been created."
-msgstr "ڈیٹا بیس $1%s بن گئی ہے"
+msgstr "کوائفیہ $1%s بن گئی ہے۔"
 
 #: db_datadict.php:48 db_operations.php:364
 msgid "Database comment: "
-msgstr "ڈیٹا بیس رائے:"
+msgstr "کوائفیہ تبصرہ:"
 
-#: db_datadict.php:160 libraries/schema/Pdf_Relation_Schema.class.php:1210
+#: db_datadict.php:160 libraries/schema/Pdf_Relation_Schema.class.php:1211
 #: libraries/tbl_properties.inc.php:725 tbl_operations.php:344
 #: tbl_printview.php:127
 msgid "Table comments"
-msgstr "ٹیبل رائے"
+msgstr "جدول تبصرے"
 
 #: db_datadict.php:169 db_qbe.php:197 libraries/Index.class.php:445
 #: libraries/export/htmlword.php:247 libraries/export/latex.php:374
 #: libraries/export/odt.php:301 libraries/export/texytext.php:226
-#: libraries/schema/Pdf_Relation_Schema.class.php:1236
-#: libraries/schema/Pdf_Relation_Schema.class.php:1257
+#: libraries/schema/Pdf_Relation_Schema.class.php:1237
+#: libraries/schema/Pdf_Relation_Schema.class.php:1258
 #: libraries/tbl_properties.inc.php:98 libraries/tbl_properties.inc.php:273
 #: tbl_change.php:309 tbl_indexes.php:187 tbl_printview.php:139
 #: tbl_relation.php:399 tbl_select.php:112 tbl_structure.php:197
@@ -153,8 +152,8 @@ msgstr "کالم"
 #: libraries/db_structure.lib.php:51 libraries/export/htmlword.php:248
 #: libraries/export/latex.php:374 libraries/export/odt.php:304
 #: libraries/export/texytext.php:227
-#: libraries/schema/Pdf_Relation_Schema.class.php:1237
-#: libraries/schema/Pdf_Relation_Schema.class.php:1258
+#: libraries/schema/Pdf_Relation_Schema.class.php:1238
+#: libraries/schema/Pdf_Relation_Schema.class.php:1259
 #: libraries/tbl_properties.inc.php:99 server_privileges.php:2168
 #: tbl_change.php:288 tbl_change.php:315 tbl_chart.php:132
 #: tbl_printview.php:140 tbl_printview.php:310 tbl_select.php:113
@@ -166,8 +165,8 @@ msgstr "قِسم"
 #: db_datadict.php:172 libraries/Index.class.php:448
 #: libraries/export/htmlword.php:249 libraries/export/latex.php:374
 #: libraries/export/odt.php:307 libraries/export/texytext.php:228
-#: libraries/schema/Pdf_Relation_Schema.class.php:1239
-#: libraries/schema/Pdf_Relation_Schema.class.php:1260
+#: libraries/schema/Pdf_Relation_Schema.class.php:1240
+#: libraries/schema/Pdf_Relation_Schema.class.php:1261
 #: libraries/tbl_properties.inc.php:108 tbl_change.php:324
 #: tbl_printview.php:142 tbl_structure.php:201 tbl_tracking.php:270
 #: tbl_tracking.php:321
@@ -177,18 +176,18 @@ msgstr "خالی"
 #: db_datadict.php:173 db_structure.php:460 libraries/export/htmlword.php:250
 #: libraries/export/latex.php:374 libraries/export/odt.php:310
 #: libraries/export/texytext.php:229
-#: libraries/schema/Pdf_Relation_Schema.class.php:1240
-#: libraries/schema/Pdf_Relation_Schema.class.php:1261
+#: libraries/schema/Pdf_Relation_Schema.class.php:1241
+#: libraries/schema/Pdf_Relation_Schema.class.php:1262
 #: libraries/tbl_properties.inc.php:105 tbl_printview.php:143
 #: tbl_structure.php:202 tbl_tracking.php:271
 msgid "Default"
-msgstr "ابتدائی"
+msgstr "طے شدہ"
 
 #: db_datadict.php:177 libraries/export/htmlword.php:252
 #: libraries/export/latex.php:376 libraries/export/odt.php:314
 #: libraries/export/texytext.php:231
-#: libraries/schema/Pdf_Relation_Schema.class.php:1242
-#: libraries/schema/Pdf_Relation_Schema.class.php:1263 tbl_printview.php:147
+#: libraries/schema/Pdf_Relation_Schema.class.php:1243
+#: libraries/schema/Pdf_Relation_Schema.class.php:1264 tbl_printview.php:147
 msgid "Links to"
 msgstr "ربط بطرف"
 
@@ -197,11 +196,11 @@ msgstr "ربط بطرف"
 #: libraries/config/messages.inc.php:129 libraries/export/htmlword.php:255
 #: libraries/export/latex.php:379 libraries/export/odt.php:319
 #: libraries/export/texytext.php:234
-#: libraries/schema/Pdf_Relation_Schema.class.php:1253
-#: libraries/schema/Pdf_Relation_Schema.class.php:1264
+#: libraries/schema/Pdf_Relation_Schema.class.php:1254
+#: libraries/schema/Pdf_Relation_Schema.class.php:1265
 #: libraries/tbl_properties.inc.php:128 tbl_printview.php:149
 msgid "Comments"
-msgstr "آراء"
+msgstr "تبصرہ"
 
 #: db_datadict.php:262 js/messages.php:78 libraries/Index.class.php:358
 #: libraries/Index.class.php:385 libraries/config.values.php:45
@@ -209,12 +208,12 @@ msgstr "آراء"
 #: libraries/export/htmlword.php:325 libraries/export/latex.php:444
 #: libraries/export/odt.php:375 libraries/export/texytext.php:304
 #: libraries/mult_submits.inc.php:263
-#: libraries/schema/Pdf_Relation_Schema.class.php:1318
-#: libraries/user_preferences.lib.php:310 prefs_manage.php:130
+#: libraries/schema/Pdf_Relation_Schema.class.php:1319
+#: libraries/user_preferences.lib.php:311 prefs_manage.php:130
 #: server_privileges.php:1404 server_privileges.php:1415
 #: server_privileges.php:1655 server_privileges.php:1666
 #: server_privileges.php:1986 server_privileges.php:1991
-#: server_privileges.php:2285 sql.php:202 sql.php:263 tbl_printview.php:226
+#: server_privileges.php:2285 sql.php:229 sql.php:290 tbl_printview.php:226
 #: tbl_structure.php:373 tbl_tracking.php:331 tbl_tracking.php:336
 msgid "No"
 msgstr "نہیں"
@@ -229,12 +228,12 @@ msgstr "نہیں"
 #: libraries/mult_submits.inc.php:91 libraries/mult_submits.inc.php:100
 #: libraries/mult_submits.inc.php:105 libraries/mult_submits.inc.php:110
 #: libraries/mult_submits.inc.php:262 libraries/mult_submits.inc.php:273
-#: libraries/schema/Pdf_Relation_Schema.class.php:1318
-#: libraries/user_preferences.lib.php:310 prefs_manage.php:129
+#: libraries/schema/Pdf_Relation_Schema.class.php:1319
+#: libraries/user_preferences.lib.php:311 prefs_manage.php:129
 #: server_databases.php:76 server_privileges.php:1401
 #: server_privileges.php:1412 server_privileges.php:1652
 #: server_privileges.php:1666 server_privileges.php:1986
-#: server_privileges.php:1989 server_privileges.php:2285 sql.php:262
+#: server_privileges.php:1989 server_privileges.php:2285 sql.php:289
 #: tbl_printview.php:226 tbl_structure.php:39 tbl_structure.php:373
 #: tbl_tracking.php:329 tbl_tracking.php:334
 msgid "Yes"
@@ -242,81 +241,79 @@ msgstr "ہاں"
 
 #: db_datadict.php:317 db_printview.php:264 tbl_printview.php:495
 msgid "Print"
-msgstr "پرنٹ"
+msgstr "چھاپیں"
 
 #: db_export.php:30
 msgid "View dump (schema) of database"
-msgstr "ڈیٹا بیس کی ڈمپ (سکیما) دیکھیں"
+msgstr "کوائفیہ کی ڈمپ (شجرہ) منظر کریں"
 
 #: db_export.php:34 db_printview.php:94 db_qbe.php:98 db_tracking.php:48
 #: export.php:371 navigation.php:304
 msgid "No tables found in database."
-msgstr "ڈیٹا بیس میں کوئی ٹیبل نہیں مِلا"
+msgstr "کوائفیہ میں کوئی جدول نہیں مِلا۔"
 
 #: db_export.php:44 db_search.php:340 server_export.php:26
 msgid "Select All"
-msgstr "سارا منتخب کریں"
+msgstr "تمام منتخب کریں"
 
 #: db_export.php:46 db_search.php:343 server_export.php:28
 msgid "Unselect All"
-msgstr "سارا انتخاب ختم کریں"
+msgstr "تمام انتخاب ختم کریں"
 
 #: db_operations.php:41 tbl_create.php:48
 msgid "The database name is empty!"
-msgstr "ڈیٹا بیس کا نام خالی ہے!"
+msgstr "کوائفیہ نام خالی ہے!"
 
 #: db_operations.php:272
 #, php-format
 msgid "Database %s has been renamed to %s"
-msgstr "ڈیٹا بیس %s کا نام %s میں تبدیل کر دیا گیا ہے"
+msgstr "کوائفیہ %s() نام %s میں تبدیل ہوچکا ہے"
 
 #: db_operations.php:276
 #, php-format
 msgid "Database %s has been copied to %s"
-msgstr "ڈیٹا بیس %s کا نام %s میں تبدیل کر دیا گیا ہے"
+msgstr "کوائفیہ %s نام %s میں نقل کیا جاچکا ہے"
 
 #: db_operations.php:399
 msgid "Rename database to"
-msgstr "ڈیٹا بیس کا نام بدلیں"
+msgstr "کوائفیہ نام بدلیں"
 
 #: db_operations.php:404 server_processlist.php:64
 msgid "Command"
-msgstr "کمانڈ"
+msgstr "حکم"
 
 #: db_operations.php:433
-#, fuzzy
-#| msgid "Rename database to"
 msgid "Remove database"
-msgstr "ڈیٹا بیس ختم کریں"
+msgstr "کوائفیہ ہٹائیں"
 
 #: db_operations.php:445
 #, php-format
 msgid "Database %s has been dropped."
-msgstr "ڈیٹا بیس %s ختم کر دیا گیا ہے."
+msgstr "کوائفیہ %s چھوڑ دیا گیا ہے۔"
 
 #: db_operations.php:450
 msgid "Drop the database (DROP)"
-msgstr "ڈیٹا بیس ختم کریں (DROP)"
+msgstr "کوائفیہ چھوڑیں (DROP)"
 
 #: db_operations.php:478
 msgid "Copy database to"
-msgstr "ڈیٹا بیس کاپی کریں"
+msgstr "کوائفیہ نقل کریں بطرف"
 
 #: db_operations.php:485 tbl_operations.php:530 tbl_tracking.php:382
 msgid "Structure only"
-msgstr "سٹرکچر صرف"
+msgstr "صرف ساخت"
 
 #: db_operations.php:486 tbl_operations.php:531 tbl_tracking.php:384
 msgid "Structure and data"
-msgstr "سٹرکچر اور ڈیٹا"
+msgstr "ساخت اور کوائف"
 
 #: db_operations.php:487 tbl_operations.php:532 tbl_tracking.php:383
 msgid "Data only"
-msgstr "صرف ڈیٹا"
+msgstr "کوائف صرف"
 
 #: db_operations.php:495
 msgid "CREATE DATABASE before copying"
-msgstr "کاپی سے پہلے ڈیٹا بیس بنائیں"
+msgstr "CREATE DATABASE نقل سے قبل"
 
 #: db_operations.php:498 libraries/config/messages.inc.php:124
 #: libraries/config/messages.inc.php:125 libraries/config/messages.inc.php:127
@@ -328,7 +325,7 @@ msgstr "اضافہ کریں %s"
 #: db_operations.php:502 libraries/config/messages.inc.php:117
 #: tbl_operations.php:296 tbl_operations.php:540
 msgid "Add AUTO_INCREMENT value"
-msgstr "AUTO_INCREMENTویلیو کا اضافہ کریں"
+msgstr "AUTO_INCREMENT قدر اضافہ کریں"
 
 #: db_operations.php:506 tbl_operations.php:547
 msgid "Add constraints"
@@ -336,7 +333,7 @@ msgstr "پابندیاں لگائیں"
 
 #: db_operations.php:519
 msgid "Switch to copied database"
-msgstr "کاپی کیے ہوئے ڈیٹابیس پر جائیں"
+msgstr "نقل شدہ کوائفیہ پر جائیں"
 
 #: db_operations.php:543 libraries/Index.class.php:447
 #: libraries/build_html_for_db.lib.php:19 libraries/db_structure.lib.php:53
@@ -346,7 +343,7 @@ msgstr "کاپی کیے ہوئے ڈیٹابیس پر جائیں"
 #: tbl_structure.php:199 tbl_structure.php:859 tbl_tracking.php:269
 #: tbl_tracking.php:320
 msgid "Collation"
-msgstr "کولیشن"
+msgstr "ترتیب"
 
 #: db_operations.php:556
 #, php-format
@@ -354,12 +351,12 @@ msgid ""
 "The phpMyAdmin configuration storage has been deactivated. To find out why "
 "click %shere%s."
 msgstr ""
-"پی ایچ پی مائی ایڈمن کی کانفیگریشن زخیرہ گیزی بند کر دی گئی ہے۔ اس بارے میں "
-"جاننے کے لیے %share%s کلک کریں۔"
+"phpMyAdmin کی تشکیل زخیرہبند کر دی گئی ہے۔ اس بارے میں جاننے کے لیے %share%s "
+"کلک کریں۔"
 
 #: db_operations.php:589
 msgid "Edit or export relational schema"
-msgstr "ریلیشنل سکیمہ کی تدوین اور برآمدگی کریں"
+msgstr "تعلق دار شجرہ کی تدوین یا برآمد کریں"
 
 #: db_printview.php:102 db_tracking.php:85 db_tracking.php:186
 #: libraries/config/messages.inc.php:487 libraries/db_structure.lib.php:37
@@ -369,60 +366,60 @@ msgstr "ریلیشنل سکیمہ کی تدوین اور برآمدگی کریں
 #: server_privileges.php:2082 server_synchronize.php:421
 #: server_synchronize.php:864 tbl_tracking.php:586 test/theme.php:74
 msgid "Table"
-msgstr "ٹیبل"
+msgstr "جدول"
 
 #: db_printview.php:103 libraries/build_html_for_db.lib.php:30
 #: libraries/db_structure.lib.php:47 libraries/header_printview.inc.php:62
-#: libraries/import.lib.php:147 navigation.php:610 navigation.php:632
+#: libraries/import.lib.php:147 navigation.php:619 navigation.php:641
 #: tbl_printview.php:391 tbl_structure.php:388 tbl_structure.php:475
 #: tbl_structure.php:869
 msgid "Rows"
-msgstr "سطریں"
+msgstr "صفیں"
 
 # db_printview.php:107 libraries/db_structure.lib.php:58 tbl_indexes.php:188
 #: db_printview.php:107 libraries/db_structure.lib.php:58 tbl_indexes.php:188
 msgid "Size"
 msgstr "ناپ"
 
-#: db_printview.php:160 db_structure.php:416 libraries/export/sql.php:624
-#: libraries/export/sql.php:964
+#: db_printview.php:160 db_structure.php:416 libraries/export/sql.php:636
+#: libraries/export/sql.php:976
 msgid "in use"
-msgstr "استعمال میں"
+msgstr "استعمال میں ہے"
 
 #: db_printview.php:185 libraries/db_info.inc.php:86
-#: libraries/export/sql.php:579
-#: libraries/schema/Pdf_Relation_Schema.class.php:1215 tbl_printview.php:431
+#: libraries/export/sql.php:591
+#: libraries/schema/Pdf_Relation_Schema.class.php:1216 tbl_printview.php:431
 #: tbl_structure.php:901
 msgid "Creation"
-msgstr "تخلیق"
+msgstr "بنائیں"
 
 #: db_printview.php:194 libraries/db_info.inc.php:91
-#: libraries/export/sql.php:584
-#: libraries/schema/Pdf_Relation_Schema.class.php:1220 tbl_printview.php:441
+#: libraries/export/sql.php:596
+#: libraries/schema/Pdf_Relation_Schema.class.php:1221 tbl_printview.php:441
 #: tbl_structure.php:909
 msgid "Last update"
-msgstr "آخری دفعہ اپ ڈیٹ"
+msgstr "آخری دفعہ کی تازہ کاری"
 
 #: db_printview.php:203 libraries/db_info.inc.php:96
-#: libraries/export/sql.php:589
-#: libraries/schema/Pdf_Relation_Schema.class.php:1225 tbl_printview.php:451
+#: libraries/export/sql.php:601
+#: libraries/schema/Pdf_Relation_Schema.class.php:1226 tbl_printview.php:451
 #: tbl_structure.php:917
 msgid "Last check"
-msgstr "آخری دفعہ چیک"
+msgstr "آخری دفعہ کی پڑتال"
 
 #: db_printview.php:220 db_structure.php:439
 #, php-format
 msgid "%s table"
 msgid_plural "%s tables"
-msgstr[0] "%s ٹیبل"
-msgstr[1] "%s ٹیبل"
+msgstr[0] "%s جدول"
+msgstr[1] "%s جداول"
 
-#: db_qbe.php:25 import.php:452 libraries/Message.class.php:190
-#: libraries/display_tbl.lib.php:1989 libraries/sql_query_form.lib.php:140
+#: db_qbe.php:25 import.php:453 libraries/Message.class.php:190
+#: libraries/display_tbl.lib.php:2053 libraries/sql_query_form.lib.php:140
 #: tbl_operations.php:210 tbl_relation.php:289 tbl_row_action.php:131
 #: view_operations.php:60
 msgid "Your SQL query has been executed successfully"
-msgstr "آپ کی کیوری کامیابی سے مکمل ہو چکی ہے"
+msgstr "آپ کی SQL طلب کامیابی سے چلائی جاچکی ہے۔"
 
 #: db_qbe.php:38
 msgid "You have to choose at least one column to display"
@@ -434,7 +431,7 @@ msgstr "جائیں بطرف"
 
 #: db_qbe.php:187
 msgid "visual builder"
-msgstr "ویژوئل بلڈر"
+msgstr "بصری تعمیر کنندہ"
 
 #: db_qbe.php:223 libraries/db_structure.lib.php:95
 #: libraries/display_tbl.lib.php:868
@@ -446,23 +443,23 @@ msgstr "چھانٹیں"
 #: server_databases.php:148 server_databases.php:165 tbl_operations.php:257
 #: tbl_select.php:277
 msgid "Ascending"
-msgstr "بڑھتا ہوا"
+msgstr "صعودی"
 
 #: db_qbe.php:233 db_qbe.php:274 libraries/db_structure.lib.php:110
 #: libraries/display_tbl.lib.php:526 libraries/display_tbl.lib.php:827
 #: server_databases.php:148 server_databases.php:165 tbl_operations.php:258
 #: tbl_select.php:278
 msgid "Descending"
-msgstr "گھٹتا ہوا"
+msgstr "نزولی"
 
 #: db_qbe.php:287 db_tracking.php:91 libraries/display_tbl.lib.php:306
 #: tbl_change.php:278 tbl_tracking.php:591
 msgid "Show"
-msgstr "دیکھیں"
+msgstr "دکھائیں"
 
 #: db_qbe.php:323
 msgid "Criteria"
-msgstr "معیار"
+msgstr "کسوٹی"
 
 #: db_qbe.php:376 db_qbe.php:458 db_qbe.php:550 db_qbe.php:581
 msgid "Ins"
@@ -484,43 +481,39 @@ msgstr "یا"
 
 #: db_qbe.php:530
 msgid "Modify"
-msgstr "تبدیلیاں کریں"
+msgstr "ترمیم"
 
 #: db_qbe.php:607
-#, fuzzy
-#| msgid "Add/Delete Criteria Row"
 msgid "Add/Delete criteria rows"
-msgstr "شامل یا ختم کریں Criteria Row"
+msgstr "کسوٹی صفیں اضافہ/حذف کریں"
 
 #: db_qbe.php:619
-#, fuzzy
-#| msgid "Add/Delete Field Columns"
 msgid "Add/Delete columns"
-msgstr "فیلڈ کالمز شامل یا ختم کریں"
+msgstr "کالم اضافہ/حذف کریں"
 
 #: db_qbe.php:632 db_qbe.php:657
 msgid "Update Query"
-msgstr "اپ ڈیٹ کیوری"
+msgstr "طلب تازہ کریں"
 
 #: db_qbe.php:640
 msgid "Use Tables"
-msgstr "ٹیبلز استعمال کریں"
+msgstr "جداول استعمال کریں"
 
 #: db_qbe.php:663
 #, php-format
 msgid "SQL query on database <b>%s</b>:"
-msgstr "ایس کیو ایل کیوری <b>%s</b> ڈیٹابیس پر"
+msgstr "کوائفیہ کے لیے <b>%s</b> SQL طلب"
 
-#: db_qbe.php:957 libraries/common.lib.php:1165
+#: db_qbe.php:957 libraries/common.lib.php:1185
 msgid "Submit Query"
-msgstr "کیوری بھیجیں"
+msgstr "طلب بھیجیں"
 
 #: db_search.php:52 libraries/auth/config.auth.lib.php:83
 #: libraries/auth/config.auth.lib.php:102
 #: libraries/auth/cookie.auth.lib.php:645 libraries/auth/http.auth.lib.php:51
-#: libraries/auth/signon.auth.lib.php:187
+#: libraries/auth/signon.auth.lib.php:197
 msgid "Access denied"
-msgstr "رسائی حاصل نہیں"
+msgstr "‏‏رسائی نہیں دی گئی"
 
 #: db_search.php:64 db_search.php:307
 msgid "at least one of the words"
@@ -532,129 +525,124 @@ msgstr "تمام الفاظ"
 
 #: db_search.php:66 db_search.php:309
 msgid "the exact phrase"
-msgstr "برابر فقرہ"
+msgstr "بعین فقرہ"
 
 #: db_search.php:67 db_search.php:310
 msgid "as regular expression"
-msgstr "برائے ریگولر ایکسپریکشن"
+msgstr "بطور باقاعدہ اظہار"
 
 #: db_search.php:229
 #, php-format
 msgid "Search results for \"<i>%s</i>\" %s:"
-msgstr "نتائج برائے \"<i>%s</i>\" %s"
+msgstr "تلاش نتائج برائے \"<i>%s</i>\" %s"
 
 #: db_search.php:247
 #, php-format
 msgid "%s match inside table <i>%s</i>"
 msgid_plural "%s matches inside table <i>%s</i>"
-msgstr[0] "<i>%s</i> ٹیبل کے اندر موافق %s"
-msgstr[1] "<i>%s</i> ٹیبل کے اندر موافقات %s"
+msgstr[0] "<i>%s</i>جدول کے ساتھ مشابہ%s"
+msgstr[1] "<i>%s</i>جدول کے ساتھ مشابہات%s"
 
-#: db_search.php:254 libraries/common.lib.php:2797
-#: libraries/common.lib.php:2975 libraries/common.lib.php:2976
+#: db_search.php:254 libraries/common.lib.php:2827
+#: libraries/common.lib.php:3009 libraries/common.lib.php:3010
 #: libraries/mult_submits.inc.php:115 libraries/tbl_links.inc.php:48
 #: tbl_structure.php:36 tbl_structure.php:48 tbl_structure.php:557
 msgid "Browse"
 msgstr "براؤز"
 
-#: db_search.php:259 libraries/display_tbl.lib.php:1200
-#: libraries/display_tbl.lib.php:2068
+#: db_search.php:259
+#, php-format
+msgid "Delete the matches for the %s table?"
+msgstr "اس جدول کے مشابہات حذف %s کریں؟"
+
+#: db_search.php:259 libraries/display_tbl.lib.php:1201
+#: libraries/display_tbl.lib.php:2132
 #: libraries/schema/User_Schema.class.php:169
 #: libraries/schema/User_Schema.class.php:238
 #: libraries/schema/User_Schema.class.php:273
 #: libraries/schema/User_Schema.class.php:303
-#: libraries/sql_query_form.lib.php:447 pmd_general.php:424
+#: libraries/sql_query_form.lib.php:448 pmd_general.php:424
 #: setup/frames/index.inc.php:126 setup/frames/index.inc.php:217
 #: tbl_row_action.php:62
 msgid "Delete"
-msgstr "حزف"
-
-#: db_search.php:259
-#, fuzzy, php-format
-msgid "Delete the matches for the %s table?"
-msgstr "اس ٹیبل کیلئے موافقات حذف کریں"
+msgstr "حذف"
 
 #: db_search.php:272
 #, php-format
 msgid "<b>Total:</b> <i>%s</i> match"
 msgid_plural "<b>Total:</b> <i>%s</i> matches"
-msgstr[0] "<b>تمام:</b> <i>%s</i>  موافقات"
-msgstr[1] "<b>تمام:</b> <i>%s</i>  موافق"
+msgstr[0] "<b>تمام:</b> <i>%s</i>  مشابہ"
+msgstr[1] "<b>تمام:</b> <i>%s</i>  مشابہات"
 
 #: db_search.php:295
 msgid "Search in database"
-msgstr "ڈیٹا بیس میں تلاش"
+msgstr "کوائفیہ میں تلاش کریں"
 
 #: db_search.php:298
 msgid "Word(s) or value(s) to search for (wildcard: \"%\"):"
-msgstr "Word(s) or value(s) to search for (wildcard: \"%\"):"
+msgstr "الفاظ یا قدروں کی تلاش برائے (wildcard: \"%\"):"
 
 #: db_search.php:303
 msgid "Find:"
-msgstr "تلاش:"
+msgstr "ڈھونڈیں:"
 
 #: db_search.php:307 db_search.php:308
 msgid "Words are separated by a space character (\" \")."
-msgstr "Words are separated by a space character (\" \")."
+msgstr "الفاظ ایک خالی حرف سے جدا جدا ہیں (\" \")."
 
 #: db_search.php:321
 msgid "Inside table(s):"
-msgstr "ٹیبلز کے اندر:"
+msgstr "جدول میں:"
 
 #: db_search.php:351
-#, fuzzy
-#| msgid "Inside field:"
 msgid "Inside column:"
-msgstr "فیلڈ کے اندر:"
+msgstr "کالم میں:"
 
 #: db_structure.php:59
-#, fuzzy
-#| msgid "No tables found in database."
 msgid "No tables found in database"
-msgstr "ڈیٹا بیس میں کوئی ٹیبل نہیں مِلا"
+msgstr "کوائیفیہ میں کوئی جدول نہیں ملا"
 
 #: db_structure.php:277 tbl_operations.php:658
 #, php-format
 msgid "Table %s has been emptied"
-msgstr "%s ٹیبل"
+msgstr "جدول %s خالی ہوچکا ہے"
 
 #: db_structure.php:286 tbl_operations.php:675
 #, php-format
 msgid "View %s has been dropped"
-msgstr "ویو %s ختم کر دیا گیا"
+msgstr "جدول نقل %s چھوڑا جاچکا ہے۔"
 
 #: db_structure.php:286 tbl_operations.php:675
 #, php-format
 msgid "Table %s has been dropped"
-msgstr "ٹیبل %s ختم کر دیا گیا"
+msgstr "جدول %s چھوڑا جاچکا ہے"
 
 #: db_structure.php:293 tbl_create.php:295
 msgid "Tracking is active."
-msgstr "ٹریکنگ ایکٹو ہے"
+msgstr "کھوج فعال ہے۔"
 
 #: db_structure.php:295 tbl_create.php:297
 msgid "Tracking is not active."
-msgstr "ٹریکنگ ایکٹو نہیں ہے"
+msgstr "کھوج غیر فعال ہے۔"
 
-#: db_structure.php:379 libraries/display_tbl.lib.php:1952
+#: db_structure.php:379 libraries/display_tbl.lib.php:2016
 #, php-format
 msgid ""
-"This view has at least this number of rows. Please refer to %sdocumentation"
-"%s."
+"This view has at least this number of rows. Please refer to %sdocumentation%"
+"s."
 msgstr ""
-"This view has at least this number of rows. Please refer to %sdocumentation"
-"%s."
+"اس جدول نقل میں اتنے کم از کم صفیں ہیں۔ حوالہ کے لیے %sdocumentation%s."
 
 #: db_structure.php:393 db_structure.php:407 libraries/header.inc.php:138
 #: libraries/tbl_info.inc.php:60 tbl_structure.php:205 test/theme.php:73
 msgid "View"
-msgstr "ویو"
+msgstr "نقل جدول"
 
 #: db_structure.php:444 libraries/db_structure.lib.php:40
 #: libraries/server_links.inc.php:90 server_replication.php:31
 #: server_replication.php:162 server_status.php:383
 msgid "Replication"
-msgstr "نقل"
+msgstr "چربہ کاری"
 
 #: db_structure.php:448
 msgid "Sum"
@@ -663,35 +651,35 @@ msgstr "مجموعہ"
 #: db_structure.php:455 libraries/StorageEngine.class.php:351
 #, php-format
 msgid "%s is the default storage engine on this MySQL server."
-msgstr "%s is the default storage engine on this MySQL server."
+msgstr "%sاس MySQL سرور میں طے شدہ ذخیرہ انجن ہے۔"
 
 #: db_structure.php:483 db_structure.php:500 db_structure.php:501
-#: libraries/display_tbl.lib.php:2093 libraries/display_tbl.lib.php:2098
+#: libraries/display_tbl.lib.php:2157 libraries/display_tbl.lib.php:2162
 #: libraries/mult_submits.inc.php:15 server_databases.php:246
 #: server_databases.php:251 server_privileges.php:1683 tbl_structure.php:545
 #: tbl_structure.php:554
 msgid "With selected:"
-msgstr "With selected:"
+msgstr "مع منتخب:"
 
-#: db_structure.php:486 libraries/display_tbl.lib.php:2088
+#: db_structure.php:486 libraries/display_tbl.lib.php:2152
 #: server_databases.php:248 server_privileges.php:576
 #: server_privileges.php:1686 tbl_structure.php:548
 msgid "Check All"
-msgstr "تمام چیک کریں"
+msgstr "تمام پڑتال کریں"
 
-#: db_structure.php:490 libraries/display_tbl.lib.php:2089
+#: db_structure.php:490 libraries/display_tbl.lib.php:2153
 #: libraries/replication_gui.lib.php:35 server_databases.php:250
 #: server_privileges.php:579 server_privileges.php:1690 tbl_structure.php:552
 msgid "Uncheck All"
-msgstr "تمام ان-چیک کریں"
+msgstr "تمام غیر پڑتال کریں"
 
 #: db_structure.php:495
 msgid "Check tables having overhead"
-msgstr "اوورہیڈ ٹیبل چیک کریں"
+msgstr "اوور ہیڈ جداول کی پڑتال کریں"
 
 #: db_structure.php:502 db_structure.php:503
 #: libraries/config/messages.inc.php:161 libraries/db_links.inc.php:56
-#: libraries/display_tbl.lib.php:2106 libraries/display_tbl.lib.php:2240
+#: libraries/display_tbl.lib.php:2170 libraries/display_tbl.lib.php:2304
 #: libraries/mult_submits.inc.php:61 libraries/server_links.inc.php:69
 #: libraries/tbl_links.inc.php:73 prefs_manage.php:288
 #: server_privileges.php:1377 setup/frames/menu.inc.php:21
@@ -700,58 +688,58 @@ msgid "Export"
 msgstr "برآمد"
 
 #: db_structure.php:504 db_structure.php:505 db_structure.php:561
-#: libraries/display_tbl.lib.php:2195 libraries/mult_submits.inc.php:27
+#: libraries/display_tbl.lib.php:2259 libraries/mult_submits.inc.php:27
 #: tbl_structure.php:583 tbl_structure.php:585
 msgid "Print view"
-msgstr "پرنٹ ویو"
+msgstr "چھپائی منظر"
 
-#: db_structure.php:508 db_structure.php:509 libraries/common.lib.php:1640
-#: libraries/common.lib.php:2984 libraries/common.lib.php:2985
+#: db_structure.php:508 db_structure.php:509 libraries/common.lib.php:1663
+#: libraries/common.lib.php:3018 libraries/common.lib.php:3019
 #: libraries/mult_submits.inc.php:38
 msgid "Empty"
 msgstr "خالی"
 
 #: db_structure.php:510 db_structure.php:511 db_tracking.php:104
-#: libraries/Index.class.php:487 libraries/common.lib.php:1641
-#: libraries/common.lib.php:2982 libraries/common.lib.php:2983
+#: libraries/Index.class.php:487 libraries/common.lib.php:1664
+#: libraries/common.lib.php:3016 libraries/common.lib.php:3017
 #: libraries/mult_submits.inc.php:35 libraries/mult_submits.inc.php:72
 #: server_databases.php:252 tbl_structure.php:26 tbl_structure.php:150
 #: tbl_structure.php:151 tbl_structure.php:561
 msgid "Drop"
-msgstr "حذف"
+msgstr "چھوڑیں"
 
 #: db_structure.php:512 db_structure.php:513 libraries/mult_submits.inc.php:41
 #: tbl_operations.php:583
 msgid "Check table"
-msgstr "ٹیبل چیک کریں"
+msgstr "جدول پڑتال کریں"
 
 #: db_structure.php:514 db_structure.php:515 libraries/mult_submits.inc.php:46
 #: tbl_operations.php:623 tbl_structure.php:801 tbl_structure.php:803
 msgid "Optimize table"
-msgstr "ٹیبلز آپٹی مائز"
+msgstr "جدول احسن کریں"
 
 #: db_structure.php:516 db_structure.php:517 libraries/mult_submits.inc.php:51
 #: tbl_operations.php:613
 msgid "Repair table"
-msgstr "ٹیبلز مرمت کریں"
+msgstr "جدول مرمت کریں"
 
 #: db_structure.php:518 db_structure.php:519 libraries/mult_submits.inc.php:56
 #: tbl_operations.php:603
 msgid "Analyze table"
-msgstr "ٹیبل کا تجزیہ"
+msgstr "جدول تجزیہ کریں"
 
 #: db_structure.php:568 libraries/schema/User_Schema.class.php:387
 msgid "Data Dictionary"
-msgstr "ڈیٹا لغت"
+msgstr "کوائف لغت"
 
 #: db_tracking.php:79
 msgid "Tracked tables"
-msgstr "ٹریکڈ ٹیبل"
+msgstr "کھوج شدہ جداول"
 
 #: db_tracking.php:84 libraries/config/messages.inc.php:481
 #: libraries/export/htmlword.php:89 libraries/export/latex.php:162
 #: libraries/export/odt.php:120 libraries/export/pdf.php:100
-#: libraries/export/sql.php:441 libraries/export/texytext.php:77
+#: libraries/export/sql.php:453 libraries/export/texytext.php:77
 #: libraries/export/xml.php:258 libraries/header.inc.php:125
 #: libraries/header_printview.inc.php:57 server_databases.php:147
 #: server_privileges.php:1757 server_privileges.php:1818
@@ -759,21 +747,21 @@ msgstr "ٹریکڈ ٹیبل"
 #: server_synchronize.php:1175 server_synchronize.php:1179
 #: tbl_tracking.php:585 test/theme.php:64
 msgid "Database"
-msgstr "ڈیٹا بیس"
+msgstr "کوائفیہ"
 
 #: db_tracking.php:86
 msgid "Last version"
-msgstr "آخری ورژن"
+msgstr "آخری نسخہ"
 
 #: db_tracking.php:87 tbl_tracking.php:588
 msgid "Created"
-msgstr "تخلیق کیا گیا"
+msgstr "بنایا"
 
 #: db_tracking.php:88 tbl_tracking.php:589
 msgid "Updated"
-msgstr "اپ ڈیٹ کیا گیا"
+msgstr "تازہ کی گئی"
 
-#: db_tracking.php:89 libraries/common.lib.php:1328
+#: db_tracking.php:89 libraries/common.lib.php:1351
 #: libraries/server_links.inc.php:50 server_processlist.php:66
 #: tbl_tracking.php:590 test/theme.php:100
 msgid "Status"
@@ -788,55 +776,55 @@ msgstr "عمل"
 
 #: db_tracking.php:101 js/messages.php:34
 msgid "Delete tracking data for this table"
-msgstr "اس ٹیبل کیلئے ٹریکنگ ڈیٹا حذف کریں"
+msgstr "اس جدول کے لیے کھوج کوائف حذف کریں"
 
 #: db_tracking.php:119 tbl_tracking.php:542 tbl_tracking.php:600
 #: tbl_tracking.php:607
 msgid "active"
-msgstr "ایکٹو"
+msgstr "فعال"
 
 #: db_tracking.php:121 tbl_tracking.php:544 tbl_tracking.php:602
 #: tbl_tracking.php:604
 msgid "not active"
-msgstr "ایکٹو نہیں"
+msgstr "فعال نہیں ہے"
 
 #: db_tracking.php:134
 msgid "Versions"
-msgstr "ورژن"
+msgstr "نسخے"
 
 #: db_tracking.php:135 tbl_tracking.php:373 tbl_tracking.php:618
 msgid "Tracking report"
-msgstr "ٹریکنگ ریپورٹ"
+msgstr "کھوج رپورٹ"
 
 #: db_tracking.php:136 tbl_tracking.php:245 tbl_tracking.php:618
 msgid "Structure snapshot"
-msgstr "سٹرکچر کی تصویر"
+msgstr "ساخت تصویر"
 
 #: db_tracking.php:181
 msgid "Untracked tables"
-msgstr "ان ٹریکڈ ٹیبل"
+msgstr "بغیر کھوج جداول"
 
 #: db_tracking.php:201 db_tracking.php:203 tbl_structure.php:619
 #: tbl_structure.php:621
 msgid "Track table"
-msgstr "ٹریک ٹیبل"
+msgstr "جدول کھوج"
 
 #: db_tracking.php:229
 msgid "Database Log"
-msgstr "ڈیٹا بیس لاگ"
+msgstr "کوائفیہ لاگ"
 
 #: enum_editor.php:21 libraries/tbl_properties.inc.php:794
 #, php-format
 msgid "Values for the column \"%s\""
-msgstr "کالم کی قیمت \"%s\""
+msgstr "کالم کی قدریں\"%s\""
 
 #: enum_editor.php:22 libraries/tbl_properties.inc.php:795
 msgid "Enter each value in a separate field."
-msgstr "تمام قیمتیں علیحدہ علیحدہ خانوں میں ڈالیں."
+msgstr "ہر قدر جدا قطعہ میں داخل کریں۔"
 
 #: enum_editor.php:57
 msgid "+ Restart insertion and add a new value"
-msgstr "+ داخلہ دوبارہ شروع کریں اور نئی قیمت ڈالیں"
+msgstr "+ داخلہ پھر شروع اور نئی قدر اضافہ کریں"
 
 #: enum_editor.php:67
 msgid "Output"
@@ -844,49 +832,50 @@ msgstr "ماحصل"
 
 #: enum_editor.php:68
 msgid "Copy and paste the joined values into the \"Length/Values\" field"
-msgstr "مجموئی قیمت کو “Length/Values“ کے خانے میں چسپاں کریں"
+msgstr "جڑی ہوئی قدریں “Length/Values“ کے قطعہ میں جوڑیں"
 
 #: export.php:73
 msgid "Selected export type has to be saved in file!"
-msgstr "Selected export type has to be saved in file!"
+msgstr "منتخب برآمد قسم اس مسل میں محفوظ ہو!"
 
-#: export.php:164 export.php:189 export.php:662
+#: export.php:164 export.php:189 export.php:671
 #, php-format
 msgid "Insufficient space to save the file %s."
-msgstr "Insufficient space to save the file %s."
+msgstr "مسل  %s محفوظ کرنے کے لیے ناکافی جگہ ہے۔"
 
 #: export.php:307
 #, php-format
 msgid ""
 "File %s already exists on server, change filename or check overwrite option."
 msgstr ""
-"File %s already exists on server, change filename or check overwrite option."
+"مسل %s اس سرور میں پہلے سے موجود ہے، مسل نام تبدیل کریں یا بر تحریر اختیار "
+"پڑتال کریں۔"
 
 #: export.php:311 export.php:315
 #, php-format
 msgid "The web server does not have permission to save the file %s."
-msgstr "The web server does not have permission to save the file %s."
+msgstr "اس مسل %s کو محفوظ کرنے کے لیے ویب سرور کے پاس اجازت نہیں ہے۔"
 
-#: export.php:664
+#: export.php:673
 #, php-format
 msgid "Dump has been saved to file %s."
-msgstr "Dump has been saved to file %s."
+msgstr "ڈمپ اس مسل %s میں محفوظ ہوچکی ہے۔"
 
 #: import.php:58
 #, php-format
 msgid ""
-"You probably tried to upload too large file. Please refer to %sdocumentation"
-"%s for ways to workaround this limit."
+"You probably tried to upload too large file. Please refer to %sdocumentation%"
+"s for ways to workaround this limit."
 msgstr ""
-"You probably tried to upload too large file. Please refer to %sdocumentation"
-"%s for ways to workaround this limit."
+"آپ نے بڑی مسل اپ لوڈ کرنے کی کوشش کی ہے۔ اس حد کے بارے جاننے کے لیے %"
+"sdocumentation%s دیکھیں۔"
 
-#: import.php:277 import.php:330 libraries/File.class.php:501
+#: import.php:278 import.php:331 libraries/File.class.php:501
 #: libraries/File.class.php:611
 msgid "File could not be read"
-msgstr "فائل پڑھی نہیں جا سکتی"
+msgstr "مسل قابل مطالعہ نہیں ہے"
 
-#: import.php:285 import.php:294 import.php:313 import.php:322
+#: import.php:286 import.php:295 import.php:314 import.php:323
 #: libraries/File.class.php:681 libraries/File.class.php:689
 #: libraries/File.class.php:705 libraries/File.class.php:713
 #, php-format
@@ -894,125 +883,126 @@ msgid ""
 "You attempted to load file with unsupported compression (%s). Either support "
 "for it is not implemented or disabled by your configuration."
 msgstr ""
-"You attempted to load file with unsupported compression (%s). Either support "
-"for it is not implemented or disabled by your configuration."
+"آپ نے غیر معاون سکڑاؤ (%s) کے ساتھ مسل لوڈ کرنے کی کوشش کی ہے۔ ممکن ہے کہ یہ "
+"معاونت لاگو نہیں ہے یا تشکیل میں نااہل کیا گیا ہے۔"
 
-#: import.php:335
+#: import.php:336
 msgid ""
 "No data was received to import. Either no file name was submitted, or the "
 "file size exceeded the maximum size permitted by your PHP configuration. See "
 "[a@./Documentation.html#faq1_16@Documentation]FAQ 1.16[/a]."
 msgstr ""
-"No data was received to import. Either no file name was submitted, or the "
-"file size exceeded the maximum size permitted by your PHP configuration. See "
-"[a@./Documentation.html#faq1_16@Documentation]FAQ 1.16[/a]."
+"درآمد کے لیے کوئی کوائف نہیں ملا۔ ممکن ہے کہ مسل نام بھیجا نہ گیا ہو یا مسل "
+"سائز مقررہ حد سے تجاوز کرگئی ہو جو آپ کے PHP تشکیل میں ہے۔ دیکھیں[a@./"
+"Documentation.html#faq1_16@Documentation]عمومی سوالات 1.16[/a]."
 
-#: import.php:370 libraries/display_import.lib.php:23
+#: import.php:371 libraries/display_import.lib.php:23
 msgid "Could not load import plugins, please check your installation!"
-msgstr "Could not load import plugins, please check your installation!"
+msgstr "درآمد پلگ ان لوڈ نہیں ہوسکے، اپنی تنصیب کا پڑتال کریں!"
 
-#: import.php:395
+#: import.php:396
 msgid "The bookmark has been deleted."
-msgstr "The bookmark has been deleted."
+msgstr "نشانی حذف ہوچکا ہے۔"
 
-#: import.php:399
+#: import.php:400
 msgid "Showing bookmark"
-msgstr "Showing bookmark"
+msgstr "نشانی دکھاتے ہوئے"
 
-#: import.php:401 sql.php:818
+#: import.php:402 sql.php:838
 #, php-format
 msgid "Bookmark %s created"
-msgstr "Bookmark %s created"
+msgstr "نشانی %s بنایا گیا"
 
-#: import.php:407 import.php:413
+#: import.php:408 import.php:414
 #, php-format
 msgid "Import has been successfully finished, %d queries executed."
-msgstr "Import has been successfully finished, %d queries executed."
+msgstr "درآمد کامیابی سے مکمل ہوا, %d طلب چلائے۔"
 
-#: import.php:422
+#: import.php:423
 msgid ""
 "Script timeout passed, if you want to finish import, please resubmit same "
 "file and import will resume."
 msgstr ""
-"Script timeout passed, if you want to finish import, please resubmit same "
-"file and import will resume."
+"سکرپٹ وقت ختم ہوا، اگر آپ درآمد مکمل کرنا چاہتے ہیں تو اسی مسل کو دوبارہ "
+"بھیجیں اور درآمد دوبارہ شروع ہوگا۔"
 
-#: import.php:424
+#: import.php:425
 msgid ""
 "However on last run no data has been parsed, this usually means phpMyAdmin "
 "won't be able to finish this import unless you increase php time limits."
 msgstr ""
+"بہرحال آخری دفعہ کوائف صرفی نہیں ہوا، اس کا مطلب ہے کہ phpMyAdmin اس درآمد "
+"کو اس وقت تک مکمل نہیں کرسکتا جب تک کہ php وقت حد کو آپ بڑھاتے نہیں۔"
 
-#: import_status.php:30 libraries/common.lib.php:654
+#: import_status.php:30 libraries/common.lib.php:674
 #: libraries/schema/Export_Relation_Schema.class.php:215 user_password.php:123
 msgid "Back"
-msgstr ""
+msgstr "واپس"
 
 #: index.php:185
 msgid "phpMyAdmin is more friendly with a <b>frames-capable</b> browser."
-msgstr "phpMyAdmin is more friendly with a <b>frames-capable</b> browser."
+msgstr "phpMyAdmin ایک <b>فریم صلاحیت</b> والے براؤزر کے ساتھ زیادہ موزوں ہے۔"
 
 #: js/messages.php:25 server_synchronize.php:343 server_synchronize.php:355
 #: server_synchronize.php:371 server_synchronize.php:378
 #: server_synchronize.php:737 server_synchronize.php:765
 #: server_synchronize.php:793 server_synchronize.php:805
 msgid "Click to select"
-msgstr "منتخب کرنے کیلئے کلک کریں"
+msgstr "انتخاب کے لیے کلک کریں"
 
 #: js/messages.php:26
 msgid "Click to unselect"
-msgstr "غیر منتخب کیلئے کلک کریں"
+msgstr "غیر منتخب کے لیے کلک کریں"
 
-#: js/messages.php:27 libraries/import.lib.php:103 sql.php:159
+#: js/messages.php:27 libraries/import.lib.php:103 sql.php:186
 msgid "\"DROP DATABASE\" statements are disabled."
-msgstr "\"DROP DATABASE\" statements are disabled."
+msgstr "\"DROP DATABASE\" بیانات نااہل ہیں۔"
 
-#: js/messages.php:30 libraries/mult_submits.inc.php:258 sql.php:257
+#: js/messages.php:30 libraries/mult_submits.inc.php:258 sql.php:284
 msgid "Do you really want to "
-msgstr "کیا آپ یقیناً کرنا چاہتے ہیں"
+msgstr "کیا آپ واقعی چاہتے ہیں"
 
-#: js/messages.php:31 libraries/mult_submits.inc.php:258 sql.php:242
+#: js/messages.php:31 libraries/mult_submits.inc.php:258 sql.php:269
 msgid "You are about to DESTROY a complete database!"
-msgstr "You are about to DESTROY a complete database!"
+msgstr "آپ ایک مکمل کوائفیہ کو DESTROY کررہے ہیں!"
 
 #: js/messages.php:32
 msgid "Dropping Event"
-msgstr ""
+msgstr "واقع کو چھوڑا جارہا ہے"
 
 #: js/messages.php:33
 msgid "Dropping Procedure"
-msgstr ""
+msgstr "طریقہ چھوڑا جارہا ہے"
 
 #: js/messages.php:35
-#, fuzzy
-#| msgid "Delete tracking data for this table"
 msgid "Deleting tracking data"
-msgstr "اس ٹیبل کیلئے ٹریکنگ ڈیٹا حذف کریں "
+msgstr "کھوج کوائف کو حذف کیا جارہا ہے"
 
 #: js/messages.php:36
 msgid "Dropping Primary Key/Index"
-msgstr ""
+msgstr "بنیادی کلید/اشاریہ چھوڑا جارہا ہے"
 
 #: js/messages.php:37
 msgid "This operation could take a long time. Proceed anyway?"
-msgstr ""
+msgstr "یہ عمل زیادہ وقت لے سکتا ہے۔ بہرصورت جاری رکھیں؟"
 
 #: js/messages.php:40
 msgid "You are about to DISABLE a BLOB Repository!"
-msgstr "You are about to DISABLE a BLOB Repository!"
+msgstr "آپ ایک BLOB ذخیرہ کو DISABLE کررہے ہیں!"
 
 #: js/messages.php:41
 #, php-format
 msgid "Are you sure you want to disable all BLOB references for database %s?"
-msgstr "Are you sure you want to disable all BLOB references for database %s?"
+msgstr ""
+"اثبات کریں کہ آپ تمامBLOB حوالے برائے کوائفیہ کو نااہل کرنا چاہتے ہیں %s?"
 
 #: js/messages.php:44
 msgid "Missing value in the form!"
-msgstr "Missing value in the form!"
+msgstr "فارم میں قدر موجود نہیں!"
 
 #: js/messages.php:45
 msgid "This is not a number!"
-msgstr "یہ ایک نمبر نہیں ہے"
+msgstr "یہ ایک نمبر نہیں ہے!"
 
 #: js/messages.php:48
 msgid "The host name is empty!"
@@ -1032,50 +1022,50 @@ msgstr "پاس ورڈ ایک جیسے نہیں ہیں"
 
 #: js/messages.php:52
 msgid "Add a New User"
-msgstr "نیا صارف شامل کریں"
+msgstr "نیا صارف اضافہ کریں"
 
 #: js/messages.php:53
 msgid "Create User"
-msgstr "صارف تخلیق کریں"
+msgstr "صارف بنائیں"
 
 #: js/messages.php:54
 msgid "Reloading Privileges"
-msgstr ""
+msgstr "استحقاق پھر لوڈ کرتے ہوئے"
 
 #: js/messages.php:55
 msgid "Removing Selected Users"
-msgstr "چنے ہوئے صارف حزف کیے جا رہے ہیں"
+msgstr "منتخب صارفین ہٹائے جارہے ہیں"
 
 #: js/messages.php:56 libraries/tbl_properties.inc.php:793
 #: tbl_tracking.php:245 tbl_tracking.php:373
 msgid "Close"
-msgstr "بند"
+msgstr "بند کریں"
 
 #: js/messages.php:60 libraries/tbl_properties.inc.php:798 pmd_general.php:389
 #: pmd_general.php:426 pmd_general.php:546 pmd_general.php:594
 #: pmd_general.php:670 pmd_general.php:724 pmd_general.php:787
 msgid "Cancel"
-msgstr "منسوخ"
+msgstr "منسوخ کریں"
 
 #: js/messages.php:63
 msgid "Loading"
-msgstr "اُٹھا رہا ہے"
+msgstr "لوڈ کررہا ہے"
 
 #: js/messages.php:64
 msgid "Processing Request"
-msgstr "درخواست پرعمل کر رہا ہے"
+msgstr "فرمایش عمل کرتے ہوئے"
 
 #: js/messages.php:65
 msgid "Error in Processing Request"
-msgstr "درخواست پرعمل کرتے ہوئے خلل کا سامنا ہے"
+msgstr "فرمایش عمل کرتے ہوئے نقص ہے"
 
 #: js/messages.php:66
 msgid "Dropping Column"
-msgstr "کالم ختم کیے جا رہے ہیں"
+msgstr "کالم چھوڑا جارہا ہے"
 
 #: js/messages.php:67
 msgid "Adding Primary Key"
-msgstr "پرائمری کی شامل کر رہا ہے"
+msgstr "بنیادی کلید شامل کررہا ہے"
 
 #: js/messages.php:68 libraries/relation.lib.php:87 pmd_general.php:387
 #: pmd_general.php:544 pmd_general.php:592 pmd_general.php:668
@@ -1084,443 +1074,456 @@ msgid "OK"
 msgstr "ٹھیک ہے"
 
 #: js/messages.php:71
-#, fuzzy
-#| msgid "Rename database to"
 msgid "Renaming Databases"
-msgstr "ڈیٹا بیس کا نام بدلیں"
+msgstr "کوائفیہ نام بدلا جارہا ہے"
 
 #: js/messages.php:72
 msgid "Reload Database"
-msgstr "ڈیٹا بیس دوبارہ اُٹھائیں"
+msgstr "کوائفیہ پھر لوڈ کریں"
 
 #: js/messages.php:73
 msgid "Copying Database"
-msgstr "ڈیٹا بیس کی نقل ہو رہی ہے"
+msgstr "کوائفیہ نقل کیا جارہا ہے"
 
 #: js/messages.php:74
 msgid "Changing Charset"
-msgstr "چارسیٹ تبدیل ہو رہا ہے"
+msgstr "کریکٹر سیٹ تبدیل کیا جارہا ہے"
 
 #: js/messages.php:75
 msgid "Table must have at least one column"
-msgstr "کم سے کم ایک کالم ہونا لازمی ہے"
+msgstr "جدول میں کم از کم ایک کالم ہو"
 
 #: js/messages.php:76
 msgid "Create Table"
-msgstr "ٹیبل بنائیں"
+msgstr "جدول بنائیں"
 
 #: js/messages.php:81
 msgid "Searching"
 msgstr "تلاش کر رہا ہے"
 
-#: js/messages.php:84
-msgid "Hide query box"
-msgstr "کیوری بکس چھپائیں"
-
-#: js/messages.php:85
-msgid "Show query box"
-msgstr "کیوری بکس دکھائیں"
-
 #: js/messages.php:86
+msgid "Hide query box"
+msgstr "طلب خانہ چھپائیں"
+
+#: js/messages.php:87
+msgid "Show query box"
+msgstr "طلب خانہ دکھائیں"
+
+#: js/messages.php:88
 msgid "Inline Edit"
+msgstr "ان لائن تدوین"
+
+#: js/messages.php:89 libraries/config/FormDisplay.tpl.php:332
+#: libraries/schema/User_Schema.class.php:317
+#: libraries/tbl_properties.inc.php:777 setup/frames/config.inc.php:39
+#: setup/frames/index.inc.php:215 tbl_change.php:1048 tbl_indexes.php:246
+#: tbl_relation.php:563
+msgid "Save"
 msgstr ""
 
-#: js/messages.php:89
+#: js/messages.php:90 libraries/display_tbl.lib.php:609 pmd_general.php:159
+#: tbl_change.php:315 tbl_change.php:321
+msgid "Hide"
+msgstr ""
+
+#: js/messages.php:93
 msgid "Hide search criteria"
-msgstr ""
+msgstr "تلاش کسوٹی چھپائیں"
 
-#: js/messages.php:90
+#: js/messages.php:94
 msgid "Show search criteria"
-msgstr ""
+msgstr "تلاش کسوٹی دکھائیں"
 
-#: js/messages.php:93 tbl_change.php:303 tbl_indexes.php:198
+#: js/messages.php:97 tbl_change.php:303 tbl_indexes.php:198
 #: tbl_indexes.php:223
 msgid "Ignore"
-msgstr ""
+msgstr "نظر انداز کریں"
 
-#: js/messages.php:96
+#: js/messages.php:100
 msgid "Select referenced key"
-msgstr ""
+msgstr "محولہ کلید منتخب کریں"
 
-#: js/messages.php:97
+#: js/messages.php:101
 msgid "Select Foreign Key"
-msgstr ""
-
-#: js/messages.php:98
-msgid "Please select the primary key or a unique key"
-msgstr ""
-
-#: js/messages.php:99 pmd_general.php:88 tbl_relation.php:545
-#, fuzzy
-#| msgid "You have to choose at least one column to display"
-msgid "Choose column to display"
-msgstr "آپ کو کم از کم ایک کالم چننا ہو گا ڈسپے کیلئے۔"
+msgstr "فارن کلید منتخب کریں"
 
 #: js/messages.php:102
+msgid "Please select the primary key or a unique key"
+msgstr "ایک بنیادی یا منفرد کلید منتخب کریں"
+
+#: js/messages.php:103 pmd_general.php:88 tbl_relation.php:545
+msgid "Choose column to display"
+msgstr "کالم دکھانے کے لیے انتخاب کریں"
+
+#: js/messages.php:106
 msgid "Add an option for column "
-msgstr ""
+msgstr "کالم کے لیے ایک اختیار اضافہ کریں"
 
-#: js/messages.php:105
+#: js/messages.php:109
 msgid "Generate password"
-msgstr ""
+msgstr "پاس ورڈ بنائیں"
 
-#: js/messages.php:106 libraries/replication_gui.lib.php:365
+#: js/messages.php:110 libraries/replication_gui.lib.php:365
 msgid "Generate"
-msgstr ""
+msgstr "بنائیں"
 
-#: js/messages.php:107
+#: js/messages.php:111
 msgid "Change Password"
-msgstr ""
+msgstr "پاس ورڈ تبدیل کریں"
 
-#: js/messages.php:110 tbl_structure.php:471
+#: js/messages.php:114 tbl_structure.php:471
 msgid "More"
-msgstr ""
+msgstr "مزید"
 
-#: js/messages.php:113 setup/lib/index.lib.php:158
+#: js/messages.php:117 setup/lib/index.lib.php:158
 #, php-format
 msgid ""
 "A newer version of phpMyAdmin is available and you should consider "
 "upgrading. The newest version is %s, released on %s."
 msgstr ""
+"phpMyAdmin کا ایک نیا نسخہ دستیاب ہے اور آپ ضرور تازہ کاری کریں۔ نیا نسخہ %"
+"s, جاری کیا گیا %s."
 
 #. l10n: Latest available phpMyAdmin version
-#: js/messages.php:115
-#, fuzzy
-#| msgid "Last version"
+#: js/messages.php:119
 msgid ", latest stable version:"
-msgstr "آخری ورژن"
+msgstr ", حالیہ مستحکم نسخہ:"
 
 #. l10n: Display text for calendar close link
-#: js/messages.php:130
+#: js/messages.php:134
 msgid "Done"
-msgstr ""
+msgstr "ہوچکا"
 
 #. l10n: Display text for previous month link in calendar
-#: js/messages.php:132
+#: js/messages.php:136
 msgid "Prev"
-msgstr ""
+msgstr "پچھلا"
 
 #. l10n: Display text for next month link in calendar
-#: js/messages.php:134 libraries/common.lib.php:2338
-#: libraries/common.lib.php:2341 libraries/display_tbl.lib.php:336
+#: js/messages.php:138 libraries/common.lib.php:2368
+#: libraries/common.lib.php:2371 libraries/display_tbl.lib.php:336
 #: server_binlog.php:189 server_binlog.php:191 tbl_printview.php:421
 #: tbl_structure.php:893
 msgid "Next"
-msgstr ""
+msgstr "اگلا"
 
 #. l10n: Display text for current month link in calendar
-#: js/messages.php:136
-msgid "Today"
-msgstr ""
-
-#: js/messages.php:139
-msgid "January"
-msgstr ""
-
 #: js/messages.php:140
-msgid "February"
-msgstr ""
-
-#: js/messages.php:141
-msgid "March"
-msgstr ""
-
-#: js/messages.php:142
-msgid "April"
-msgstr ""
+msgid "Today"
+msgstr "آج"
 
 #: js/messages.php:143
-msgid "May"
-msgstr ""
+msgid "January"
+msgstr "جنوری"
 
 #: js/messages.php:144
-msgid "June"
-msgstr ""
+msgid "February"
+msgstr "فروری"
 
 #: js/messages.php:145
-msgid "July"
-msgstr ""
+msgid "March"
+msgstr "مارچ"
 
 #: js/messages.php:146
-msgid "August"
-msgstr ""
+msgid "April"
+msgstr "اپریل"
 
 #: js/messages.php:147
-msgid "September"
-msgstr ""
+msgid "May"
+msgstr "مئی"
 
 #: js/messages.php:148
-msgid "October"
-msgstr ""
+msgid "June"
+msgstr "جون"
 
 #: js/messages.php:149
-msgid "November"
-msgstr ""
+msgid "July"
+msgstr "جولائی"
 
 #: js/messages.php:150
+msgid "August"
+msgstr "اگست"
+
+#: js/messages.php:151
+msgid "September"
+msgstr "ستمبر"
+
+#: js/messages.php:152
+msgid "October"
+msgstr "اکتوبر"
+
+#: js/messages.php:153
+msgid "November"
+msgstr "نومبر"
+
+#: js/messages.php:154
 msgid "December"
-msgstr ""
+msgstr "دسمبر"
 
 #. l10n: Short month name
-#: js/messages.php:154 libraries/common.lib.php:1543
+#: js/messages.php:158 libraries/common.lib.php:1566
 msgid "Jan"
-msgstr ""
+msgstr "جنوری"
 
 #. l10n: Short month name
-#: js/messages.php:156 libraries/common.lib.php:1545
+#: js/messages.php:160 libraries/common.lib.php:1568
 msgid "Feb"
-msgstr ""
+msgstr "فروری"
 
 #. l10n: Short month name
-#: js/messages.php:158 libraries/common.lib.php:1547
+#: js/messages.php:162 libraries/common.lib.php:1570
 msgid "Mar"
-msgstr ""
+msgstr "مارچ"
 
 #. l10n: Short month name
-#: js/messages.php:160 libraries/common.lib.php:1549
+#: js/messages.php:164 libraries/common.lib.php:1572
 msgid "Apr"
-msgstr ""
+msgstr "اپریل"
 
 #. l10n: Short month name
-#: js/messages.php:162 libraries/common.lib.php:1551
+#: js/messages.php:166 libraries/common.lib.php:1574
 msgctxt "Short month name"
 msgid "May"
-msgstr ""
+msgstr "مئی"
 
 #. l10n: Short month name
-#: js/messages.php:164 libraries/common.lib.php:1553
+#: js/messages.php:168 libraries/common.lib.php:1576
 msgid "Jun"
-msgstr ""
+msgstr "جون"
 
 #. l10n: Short month name
-#: js/messages.php:166 libraries/common.lib.php:1555
+#: js/messages.php:170 libraries/common.lib.php:1578
 msgid "Jul"
-msgstr ""
+msgstr "جولائی"
 
 #. l10n: Short month name
-#: js/messages.php:168 libraries/common.lib.php:1557
+#: js/messages.php:172 libraries/common.lib.php:1580
 msgid "Aug"
-msgstr ""
+msgstr "اگست"
 
 #. l10n: Short month name
-#: js/messages.php:170 libraries/common.lib.php:1559
+#: js/messages.php:174 libraries/common.lib.php:1582
 msgid "Sep"
-msgstr ""
+msgstr "ستمبر"
 
 #. l10n: Short month name
-#: js/messages.php:172 libraries/common.lib.php:1561
+#: js/messages.php:176 libraries/common.lib.php:1584
 msgid "Oct"
-msgstr ""
+msgstr "اکتوبر"
 
 #. l10n: Short month name
-#: js/messages.php:174 libraries/common.lib.php:1563
+#: js/messages.php:178 libraries/common.lib.php:1586
 msgid "Nov"
-msgstr ""
+msgstr "نومبر"
 
 #. l10n: Short month name
-#: js/messages.php:176 libraries/common.lib.php:1565
+#: js/messages.php:180 libraries/common.lib.php:1588
 msgid "Dec"
-msgstr ""
-
-#: js/messages.php:179
-msgid "Sunday"
-msgstr ""
-
-#: js/messages.php:180
-msgid "Monday"
-msgstr ""
-
-#: js/messages.php:181
-msgid "Tuesday"
-msgstr ""
-
-#: js/messages.php:182
-msgid "Wednesday"
-msgstr ""
+msgstr "دسمبر"
 
 #: js/messages.php:183
-msgid "Thursday"
-msgstr ""
+msgid "Sunday"
+msgstr "اتوار"
 
 #: js/messages.php:184
-msgid "Friday"
-msgstr ""
+msgid "Monday"
+msgstr "پیر"
 
 #: js/messages.php:185
+msgid "Tuesday"
+msgstr "منگل"
+
+#: js/messages.php:186
+msgid "Wednesday"
+msgstr "بدھ"
+
+#: js/messages.php:187
+msgid "Thursday"
+msgstr "جمعرات"
+
+#: js/messages.php:188
+msgid "Friday"
+msgstr "جمعہ"
+
+#: js/messages.php:189
 msgid "Saturday"
-msgstr ""
+msgstr "ہفتہ"
 
 #. l10n: Short week day name
-#: js/messages.php:189 libraries/common.lib.php:1568
+#: js/messages.php:193 libraries/common.lib.php:1591
 msgid "Sun"
-msgstr ""
+msgstr "اتوار"
 
 #. l10n: Short week day name
-#: js/messages.php:191 libraries/common.lib.php:1570
+#: js/messages.php:195 libraries/common.lib.php:1593
 msgid "Mon"
-msgstr ""
+msgstr "پیر"
 
 #. l10n: Short week day name
-#: js/messages.php:193 libraries/common.lib.php:1572
+#: js/messages.php:197 libraries/common.lib.php:1595
 msgid "Tue"
-msgstr ""
+msgstr "منگل"
 
 #. l10n: Short week day name
-#: js/messages.php:195 libraries/common.lib.php:1574
+#: js/messages.php:199 libraries/common.lib.php:1597
 msgid "Wed"
-msgstr ""
+msgstr "بدھ"
 
 #. l10n: Short week day name
-#: js/messages.php:197 libraries/common.lib.php:1576
+#: js/messages.php:201 libraries/common.lib.php:1599
 msgid "Thu"
-msgstr ""
+msgstr "جمعرات"
 
 #. l10n: Short week day name
-#: js/messages.php:199 libraries/common.lib.php:1578
+#: js/messages.php:203 libraries/common.lib.php:1601
 msgid "Fri"
-msgstr ""
+msgstr "جمعہ"
 
 #. l10n: Short week day name
-#: js/messages.php:201 libraries/common.lib.php:1580
+#: js/messages.php:205 libraries/common.lib.php:1603
 msgid "Sat"
-msgstr ""
-
-#. l10n: Minimal week day name
-#: js/messages.php:205
-msgid "Su"
-msgstr ""
-
-#. l10n: Minimal week day name
-#: js/messages.php:207
-msgid "Mo"
-msgstr ""
+msgstr "ہفتہ"
 
 #. l10n: Minimal week day name
 #: js/messages.php:209
-msgid "Tu"
-msgstr ""
+msgid "Su"
+msgstr "اتوار"
 
 #. l10n: Minimal week day name
 #: js/messages.php:211
-msgid "We"
-msgstr ""
+msgid "Mo"
+msgstr "پیر"
 
 #. l10n: Minimal week day name
 #: js/messages.php:213
-msgid "Th"
-msgstr ""
+msgid "Tu"
+msgstr "منگل"
 
 #. l10n: Minimal week day name
 #: js/messages.php:215
-msgid "Fr"
-msgstr ""
+msgid "We"
+msgstr "بدھ"
 
 #. l10n: Minimal week day name
 #: js/messages.php:217
+msgid "Th"
+msgstr "جمعرات"
+
+#. l10n: Minimal week day name
+#: js/messages.php:219
+msgid "Fr"
+msgstr "جمعہ"
+
+#. l10n: Minimal week day name
+#: js/messages.php:221
 msgid "Sa"
-msgstr ""
+msgstr "ہفتہ"
 
 #. l10n: Column header for week of the year in calendar
-#: js/messages.php:219
-msgid "Wk"
-msgstr ""
-
-#: js/messages.php:221
-msgid "Hour"
-msgstr ""
-
-#: js/messages.php:222
-msgid "Minute"
-msgstr ""
-
 #: js/messages.php:223
+msgid "Wk"
+msgstr "ہفتہ وار"
+
+#: js/messages.php:225
+msgid "Hour"
+msgstr "گھنٹہ"
+
+#: js/messages.php:226
+msgid "Minute"
+msgstr "منٹ"
+
+#: js/messages.php:227
 msgid "Second"
-msgstr ""
+msgstr "سیکنڈ"
 
 #: libraries/Config.class.php:1190 tbl_chart.php:159
 msgid "Font size"
-msgstr ""
+msgstr "فانٹ سائز"
 
 #: libraries/File.class.php:310
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
+"اپ لوڈ مسل نے php.ini میں موجود upload_max_filesize ہدایات سے تجاوز کی۔"
 
 #: libraries/File.class.php:313
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form."
-msgstr ""
+msgstr "اپ لوڈ مسل نے HTML فارم میں مخصوص MAX_FILE_SIZE ہدایات سے تجاوز کی۔"
 
 #: libraries/File.class.php:316
 msgid "The uploaded file was only partially uploaded."
-msgstr ""
+msgstr "اپ لوڈ کی گئی مسل صرف جزوی اپ لوڈ ہوا ہے۔"
 
 #: libraries/File.class.php:319
 msgid "Missing a temporary folder."
-msgstr ""
+msgstr "ایک عارضی پوشہ موجود نہیں ہے۔"
 
 #: libraries/File.class.php:322
 msgid "Failed to write file to disk."
-msgstr ""
+msgstr "ڈسک پر مسل تحریر ناکام ہوا۔"
 
 #: libraries/File.class.php:325
 msgid "File upload stopped by extension."
-msgstr ""
+msgstr "مسل قسم کی وجہ سے اپ لوڈ روکا گیا۔"
 
 #: libraries/File.class.php:328
 msgid "Unknown error in file upload."
-msgstr ""
+msgstr "اپ لوڈ مسل میں نامعلوم نقص ہے۔"
 
 #: libraries/File.class.php:559
 msgid ""
 "Error moving the uploaded file, see [a@./Documentation."
 "html#faq1_11@Documentation]FAQ 1.11[/a]"
 msgstr ""
+"اپ لوڈ مسل کو بڑھاتے ہوئے نقص ہے, دیکھیں [a@./Documentation."
+"html#faq1_11@Documentation]عمومی سوالات 1.11[/a]"
 
 #: libraries/Index.class.php:427 tbl_relation.php:526
 msgid "No index defined!"
-msgstr ""
+msgstr "کوئی اشاریہ موجود نہیں!"
 
 #: libraries/Index.class.php:432 libraries/build_html_for_db.lib.php:40
 #: tbl_tracking.php:310
 msgid "Indexes"
-msgstr ""
+msgstr "اشاریے"
 
 #: libraries/Index.class.php:443 libraries/mult_submits.inc.php:102
 #: libraries/tbl_properties.inc.php:522 tbl_structure.php:32
 #: tbl_structure.php:154 tbl_structure.php:158 tbl_structure.php:564
 #: tbl_tracking.php:316
 msgid "Unique"
-msgstr ""
+msgstr "منفرد"
 
 #: libraries/Index.class.php:444 tbl_tracking.php:317
 msgid "Packed"
-msgstr ""
+msgstr "باندھنا"
 
 #: libraries/Index.class.php:446 tbl_tracking.php:319
 msgid "Cardinality"
-msgstr ""
+msgstr "درجہ تعلق داری"
 
 #: libraries/Index.class.php:449 tbl_tracking.php:273 tbl_tracking.php:322
 msgid "Comment"
-msgstr ""
+msgstr "تبصرہ"
 
-#: libraries/Index.class.php:465 libraries/common.lib.php:606
-#: libraries/common.lib.php:1141 libraries/config/messages.inc.php:461
-#: libraries/display_tbl.lib.php:1164 libraries/import.lib.php:1150
-#: libraries/import.lib.php:1174 libraries/schema/User_Schema.class.php:168
-#: setup/frames/index.inc.php:125 tbl_row_action.php:68
+#: libraries/Index.class.php:465 libraries/common.lib.php:626
+#: libraries/common.lib.php:1161 libraries/common.lib.php:3020
+#: libraries/config/messages.inc.php:461 libraries/display_tbl.lib.php:1165
+#: libraries/import.lib.php:1150 libraries/import.lib.php:1174
+#: libraries/schema/User_Schema.class.php:168 setup/frames/index.inc.php:125
+#: tbl_row_action.php:68
 msgid "Edit"
-msgstr ""
+msgstr "تدوین"
 
 #: libraries/Index.class.php:471
 msgid "The primary key has been dropped"
-msgstr ""
+msgstr "بنیادی کلید چھوڑ دیا گیا ہے"
 
 #: libraries/Index.class.php:475
 #, php-format
 msgid "Index %s has been dropped"
-msgstr ""
+msgstr "اشاریہ %s چھوڑ دیا گیا ہے"
 
 #: libraries/Index.class.php:579
 #, php-format
@@ -1528,129 +1531,133 @@ msgid ""
 "The indexes %1$s and %2$s seem to be equal and one of them could possibly be "
 "removed."
 msgstr ""
+"اشاریے %1$s اور %2$s مساوی نظر آتے ہیں اور ان میں ایک ممکنہ طور پر ہٹا دیا "
+"جائے گا۔"
 
 #: libraries/List_Database.class.php:430 libraries/config/messages.inc.php:174
 #: libraries/server_links.inc.php:42 server_databases.php:100
 #: server_privileges.php:1757 test/theme.php:92
 msgid "Databases"
-msgstr ""
+msgstr "کوائفیے"
 
 #: libraries/Message.class.php:210 libraries/blobstreaming.lib.php:308
-#: libraries/blobstreaming.lib.php:314 libraries/common.lib.php:573
+#: libraries/blobstreaming.lib.php:314 libraries/common.lib.php:593
 #: libraries/core.lib.php:232 libraries/import.lib.php:136 tbl_change.php:955
 #: tbl_operations.php:210 tbl_relation.php:287 view_operations.php:60
 msgid "Error"
-msgstr ""
+msgstr "نقص"
 
 #: libraries/Message.class.php:281
 #, php-format
 msgid "%1$d row affected."
 msgid_plural "%1$d rows affected."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$d صف مناثر ہوئے۔"
+msgstr[1] "%1$d صفیں متاثر ہوئیں۔"
 
 #: libraries/Message.class.php:300
 #, php-format
 msgid "%1$d row deleted."
 msgid_plural "%1$d rows deleted."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$d صف حذف ہوئے۔"
+msgstr[1] "%1$d صفیں حذف ہوئیں۔"
 
 #: libraries/Message.class.php:319
 #, php-format
 msgid "%1$d row inserted."
 msgid_plural "%1$d rows inserted."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1$d صف داخل ہوئی۔"
+msgstr[1] "%1$d صفیں داخل ہوئیں۔"
 
 #: libraries/StorageEngine.class.php:194
 msgid ""
 "There is no detailed status information available for this storage engine."
-msgstr ""
+msgstr "اس ذخیرہ انجن کے متعلق تفصیلی معلومات موجود نہیں ہیں۔"
 
 #: libraries/StorageEngine.class.php:354
 #, php-format
 msgid "%s is available on this MySQL server."
-msgstr ""
+msgstr "%s اس MySQL سرور میں دستیاب ہے۔"
 
 #: libraries/StorageEngine.class.php:357
 #, php-format
 msgid "%s has been disabled for this MySQL server."
-msgstr ""
+msgstr "%s اس MySQL سرور کے لیے نااہل ہے۔"
 
 #: libraries/StorageEngine.class.php:361
 #, php-format
 msgid "This MySQL server does not support the %s storage engine."
-msgstr ""
+msgstr "یہMySQL سرور میں %s اس ذخیرہ انجن کی معاونت نہیں ہے۔"
 
 #: libraries/Table.class.php:1017
 msgid "Invalid database"
-msgstr ""
+msgstr "غلط کوائفیہ"
 
 #: libraries/Table.class.php:1031 tbl_get_field.php:25
 msgid "Invalid table name"
-msgstr ""
+msgstr "غلط جدول نام"
 
 #: libraries/Table.class.php:1046
 #, php-format
 msgid "Error renaming table %1$s to %2$s"
-msgstr ""
+msgstr "جدول %1$s کو %2$s نام تبدیل کرتے ہوئے نقص ہے"
 
 #: libraries/Table.class.php:1129
 #, php-format
 msgid "Table %s has been renamed to %s"
-msgstr ""
+msgstr "جدول%s نام %s میں تبدیل ہوچکا ہے"
 
 #: libraries/Theme.class.php:160
 #, php-format
 msgid "No valid image path for theme %s found!"
-msgstr ""
+msgstr "اس خیالیہ %s کے لیے درست راہ نہیں ملا!"
 
 #: libraries/Theme.class.php:380
 msgid "No preview available."
-msgstr ""
+msgstr "کوئی پیش منظر دستیاب نہیں ہے۔"
 
 #: libraries/Theme.class.php:383
 msgid "take it"
-msgstr ""
+msgstr "اسے لیں"
 
 #: libraries/Theme_Manager.class.php:109
 #, php-format
 msgid "Default theme %s not found!"
-msgstr ""
+msgstr "طے شدہ خیالیہ %s نہیں ملا!"
 
 #: libraries/Theme_Manager.class.php:147
 #, php-format
 msgid "Theme %s not found!"
-msgstr ""
+msgstr "خیالیہ %s نیہں ملا!"
 
 #: libraries/Theme_Manager.class.php:215
 #, php-format
 msgid "Theme path not found for theme %s!"
-msgstr ""
+msgstr "خیالیہ راہ اس خیالیہ %s کے لیے نہیں ملا!"
 
 #: libraries/Theme_Manager.class.php:291 test/theme.php:160 themes.php:20
 #: themes.php:40
 msgid "Theme / Style"
-msgstr ""
+msgstr "خیالیہ / طرز"
 
 #: libraries/auth/config.auth.lib.php:76
 msgid "Cannot connect: invalid settings."
-msgstr ""
+msgstr "جڑ نہیں سکتا: غلط ترتیبات۔"
 
 #: libraries/auth/config.auth.lib.php:91
 #: libraries/auth/cookie.auth.lib.php:204 libraries/auth/http.auth.lib.php:64
 #: test/theme.php:151
 #, php-format
 msgid "Welcome to %s"
-msgstr ""
+msgstr "%s میں خوش آمدید"
 
 #: libraries/auth/config.auth.lib.php:106
 #, php-format
 msgid ""
-"You probably did not create a configuration file. You might want to use the "
-"%1$ssetup script%2$s to create one."
+"You probably did not create a configuration file. You might want to use the %"
+"1$ssetup script%2$s to create one."
 msgstr ""
+"آپ نے شاید تشکیل مسل نہیں بنایا۔ آپ ہوسکتا ہے کہ  %1$ssetup script%2$s کو "
+"استعمال کرتے ہوئے بنانا چاہتے ہیں۔"
 
 #: libraries/auth/config.auth.lib.php:115
 msgid ""
@@ -1659,129 +1666,132 @@ msgid ""
 "configuration and make sure that they correspond to the information given by "
 "the administrator of the MySQL server."
 msgstr ""
+"phpMyAdmin نےMySQL سرور سے جڑنے کو کوشش کی اورسرور نے جڑت کو رد کیا۔ آپ "
+"ہوسٹ، صارف نام، پاس ورڈ کو اپنے تشکیل میں پڑتال کریں اور اثبات کریں کہ دی "
+"گئی معلومات  MySQL سرور منتظم نے دیے ہیں۔"
 
 #: libraries/auth/cookie.auth.lib.php:229
 msgid "Log in"
-msgstr ""
+msgstr "لاگ ان"
 
 #: libraries/auth/cookie.auth.lib.php:231
 #: libraries/auth/cookie.auth.lib.php:233
 #: libraries/navigation_header.inc.php:95
 #: libraries/navigation_header.inc.php:99
 msgid "phpMyAdmin documentation"
-msgstr ""
+msgstr "phpMyAdmin دستاویز"
 
 #: libraries/auth/cookie.auth.lib.php:243
 #: libraries/auth/cookie.auth.lib.php:244
 msgid "You can enter hostname/IP address and port separated by space."
-msgstr ""
+msgstr "آپ ہوسٹ نام یا IP پتا اور دہانہ وقفوں سے جدا کرکے داخل کرسکتے ہیں۔"
 
 #: libraries/auth/cookie.auth.lib.php:243
 msgid "Server:"
-msgstr ""
+msgstr "سرور:"
 
 #: libraries/auth/cookie.auth.lib.php:248
 msgid "Username:"
-msgstr ""
+msgstr "صارف نام:"
 
 #: libraries/auth/cookie.auth.lib.php:252
 msgid "Password:"
-msgstr ""
+msgstr "پاس ورڈ:"
 
 #: libraries/auth/cookie.auth.lib.php:259
 msgid "Server Choice"
-msgstr ""
+msgstr "سرور انتخاب"
 
 #: libraries/auth/cookie.auth.lib.php:305 libraries/header.inc.php:72
 msgid "Cookies must be enabled past this point."
-msgstr ""
+msgstr "اس جگہ کوکی لازمی اہل ہوں۔"
 
 #: libraries/auth/cookie.auth.lib.php:643
-#: libraries/auth/signon.auth.lib.php:185
+#: libraries/auth/signon.auth.lib.php:195
 msgid ""
 "Login without a password is forbidden by configuration (see AllowNoPassword)"
-msgstr ""
+msgstr "پاس ورڈ کے بغیر لاگ ان تشکیل میں ممنوع ہے (دیکھیں AllowNoPassword)"
 
 #: libraries/auth/cookie.auth.lib.php:647
-#: libraries/auth/signon.auth.lib.php:189
+#: libraries/auth/signon.auth.lib.php:199
 #, php-format
 msgid "No activity within %s seconds; please log in again"
-msgstr ""
+msgstr "%s  سیکنڈ میں کوئی سرگرمی نہیں ہوئی، دوبارہ لاگ ان کریں۔"
 
 #: libraries/auth/cookie.auth.lib.php:657
 #: libraries/auth/cookie.auth.lib.php:659
-#: libraries/auth/signon.auth.lib.php:195
+#: libraries/auth/signon.auth.lib.php:205
 msgid "Cannot log in to the MySQL server"
-msgstr ""
+msgstr "MySQL سرور میں لاگ ان نہیں کرسکتا"
 
 #: libraries/auth/http.auth.lib.php:69
 msgid "Wrong username/password. Access denied."
-msgstr ""
+msgstr "غلط صارف نام/پاس ورڈ۔ ‏‏رسائی نہیں دی گئی۔"
 
 #: libraries/auth/swekey/swekey.auth.lib.php:118
 #, php-format
 msgid "File %s does not contain any key id"
-msgstr ""
+msgstr "مسل %s کلید آئی ڈی کا حامل نہیں ہے"
 
 #: libraries/auth/swekey/swekey.auth.lib.php:157
 #: libraries/auth/swekey/swekey.auth.lib.php:180
 msgid "Hardware authentication failed"
-msgstr ""
+msgstr "ہارڈویئر ‏‏توثيق ناکام ہوا "
 
 #: libraries/auth/swekey/swekey.auth.lib.php:166
 msgid "No valid authentication key plugged"
-msgstr ""
+msgstr "جائز توثیقی کلید پلگ نہیں ہے"
 
 #: libraries/auth/swekey/swekey.auth.lib.php:202
 msgid "Authenticating..."
-msgstr ""
+msgstr "توثیق کررہا ہے..."
 
 #: libraries/blobstreaming.lib.php:241
 msgid "PBMS error"
-msgstr ""
+msgstr "PBMS نقص"
 
 #: libraries/blobstreaming.lib.php:267
 msgid "PBMS connection failed:"
-msgstr ""
+msgstr "PBMS جڑت ناکام ہوا:"
 
 #: libraries/blobstreaming.lib.php:312
 msgid "PBMS get BLOB info failed:"
-msgstr ""
+msgstr "PBMS حاصل کریں BLOB معلومات ناکام ہوا:"
 
 #: libraries/blobstreaming.lib.php:320
 msgid "get BLOB Content-Type failed"
-msgstr ""
+msgstr "get BLOB Content-Type ناکام ہوا"
 
 #: libraries/blobstreaming.lib.php:347
 msgid "View image"
-msgstr ""
+msgstr "تصویر دیکھیں"
 
 #: libraries/blobstreaming.lib.php:351
 msgid "Play audio"
-msgstr ""
+msgstr "آڈیو چلائیں"
 
 #: libraries/blobstreaming.lib.php:356
 msgid "View video"
-msgstr ""
+msgstr "ویڈیو دکھائیں"
 
 #: libraries/blobstreaming.lib.php:360
 msgid "Download file"
-msgstr ""
+msgstr "مسل ڈاؤن لوڈ کریں"
 
 #: libraries/blobstreaming.lib.php:421
 #, php-format
 msgid "Could not open file: %s"
-msgstr ""
+msgstr "مسل نہیں کھول سکتا: %s"
 
 #: libraries/bookmark.lib.php:83
 msgid "shared"
-msgstr ""
+msgstr "حصہ دارانہ"
 
 #: libraries/build_html_for_db.lib.php:25
 #: libraries/config/messages.inc.php:180 libraries/export/xml.php:36
 #: server_status.php:385
 msgid "Tables"
-msgstr ""
+msgstr "جداول"
 
 #: libraries/build_html_for_db.lib.php:35 libraries/config/setup.forms.php:300
 #: libraries/config/setup.forms.php:336 libraries/config/setup.forms.php:367
@@ -1790,69 +1800,68 @@ msgstr ""
 #: libraries/config/user_preferences.forms.php:238
 #: libraries/config/user_preferences.forms.php:269
 #: libraries/config/user_preferences.forms.php:274
-#: libraries/export/latex.php:215 libraries/export/sql.php:933
+#: libraries/export/latex.php:215 libraries/export/sql.php:945
 #: server_privileges.php:583 server_replication.php:314 tbl_printview.php:314
 #: tbl_structure.php:757
 msgid "Data"
-msgstr ""
+msgstr "کوائف"
 
 #: libraries/build_html_for_db.lib.php:45 libraries/engines/innodb.lib.php:168
 #: server_databases.php:205 server_status.php:540 server_status.php:601
 #: server_status.php:624 tbl_printview.php:348 tbl_structure.php:788
 msgid "Total"
-msgstr ""
+msgstr "میزان"
 
 #: libraries/build_html_for_db.lib.php:50 libraries/db_structure.lib.php:60
 #: tbl_printview.php:333 tbl_structure.php:774
 msgid "Overhead"
-msgstr ""
+msgstr "مجموعی"
 
 #: libraries/build_html_for_db.lib.php:93
 msgid "Jump to database"
-msgstr ""
+msgstr "کوائفیہ جائیں"
 
 #: libraries/build_html_for_db.lib.php:130
 msgid "Not replicated"
-msgstr ""
+msgstr "نقل نہیں ہوا"
 
 #: libraries/build_html_for_db.lib.php:136
-#, fuzzy
 #| msgid "Replication"
 msgid "Replicated"
-msgstr "لپیٹنا"
+msgstr "نقل ہوا"
 
 #: libraries/build_html_for_db.lib.php:150
 #, php-format
 msgid "Check privileges for database &quot;%s&quot;."
-msgstr ""
+msgstr "کوائفیہ استحقاق کی پڑتال کریں &quot;%s&quot;."
 
 #: libraries/build_html_for_db.lib.php:153
 msgid "Check Privileges"
-msgstr ""
+msgstr "استحقاق پڑتال کریں"
 
 #: libraries/chart.lib.php:40
 msgid "Query statistics"
-msgstr ""
+msgstr "طلب شماریات"
 
 #: libraries/chart.lib.php:63
 msgid "Query execution time comparison (in microseconds)"
-msgstr ""
+msgstr "طلب چلت وقت موازنہ (مائیکروسیکنڈ میں)"
 
 #: libraries/chart.lib.php:83
 msgid "Query results"
-msgstr ""
+msgstr "طلب نتائج"
 
 #: libraries/chart.lib.php:109
 msgid "No data found for the chart."
-msgstr ""
+msgstr "چارٹ سے متعلق کوئی کوائف نہیں ملا۔"
 
 #: libraries/chart.lib.php:249
 msgid "GD extension is needed for charts."
-msgstr ""
+msgstr "GD توسیع اس چارٹ کے لیے درکار ہے۔"
 
 #: libraries/chart.lib.php:252
 msgid "JSON encoder is needed for chart tooltips."
-msgstr ""
+msgstr "JSON ضابطہ کار اس چارٹ ٹول ٹّوٹکے کے لیے درکار ہے۔"
 
 #: libraries/common.inc.php:576
 msgid ""
@@ -1863,206 +1872,219 @@ msgid ""
 "semicolon is missing somewhere.<br />If you receive a blank page, everything "
 "is fine."
 msgstr ""
+"phpMyAdmin آپ کی تشکیل مسل مطالعہ نہیں کرسکا!<br />یہ اس لیے بھی ہوسکتا ہے "
+"اگر PHP کو کوئی تجزیاتی نقص ملا یا PHP کو مسل نہیں ملا۔<br />نیچے دیے گئے "
+"ربط سے تشکیل مسل کوبراہ راست استعمال کریں اور  وصول ہونے والے PHP نقص "
+"پیغامات کا مطالعہ کریں۔ عام طور پر ایک کوٹ یا سیمی کولن ہی کہیں غائب ہوتا "
+"ہے۔<br />اگر آپ کو ایک خالی صفحہ ملے تو سب ٹھیک ہے۔"
 
 #: libraries/common.inc.php:587
 #, php-format
 msgid "Could not load default configuration from: %1$s"
-msgstr ""
+msgstr "طے شدہ تشکیلات کو لوڈ نہیں کرسکا: %1$s"
 
 #: libraries/common.inc.php:592
 msgid ""
 "The <tt>$cfg['PmaAbsoluteUri']</tt> directive MUST be set in your "
 "configuration file!"
 msgstr ""
+"<tt>$cfg['PmaAbsoluteUri']</tt> ہدایات آپ کے تشکیل مسل میں لازمی موجود ہوں!"
 
 #: libraries/common.inc.php:622
 #, php-format
 msgid "Invalid server index: %s"
-msgstr ""
+msgstr "غلط سرور اشاریہ: %s"
 
 #: libraries/common.inc.php:629
 #, php-format
 msgid "Invalid hostname for server %1$s. Please review your configuration."
-msgstr ""
+msgstr "سرور کے لیے ہوسٹ نام غلط ہے %1$s. اپنے تشکیل کا جائزہ لیں۔"
 
 #: libraries/common.inc.php:638 libraries/config/messages.inc.php:485
 #: libraries/header.inc.php:115 main.php:174 test/theme.php:56
 msgid "Server"
-msgstr ""
+msgstr "سرور"
 
 #: libraries/common.inc.php:826
 msgid "Invalid authentication method set in configuration:"
-msgstr ""
+msgstr "غلط توثیقی طریقہ تشکیل میں دیا گیا ہے:"
 
 #: libraries/common.inc.php:929
 #, php-format
 msgid "You should upgrade to %s %s or later."
-msgstr ""
+msgstr "آپ اس سے درجہ فزوں کریں  %s %s یا بعد۔"
 
-#: libraries/common.lib.php:145
+#: libraries/common.lib.php:142
 #, php-format
 msgid "Max: %s%s"
-msgstr ""
+msgstr "زیادہ سے زیادہ: %s%s"
+
+#. l10n: Language to use for MySQL 5.5 documentation, please use only languages which do exist in official documentation.
+#: libraries/common.lib.php:404
+msgctxt "MySQL 5.5 documentation language"
+msgid "en"
+msgstr "انگریزی"
 
 #. l10n: Language to use for MySQL 5.1 documentation, please use only languages which do exist in official documentation.
-#: libraries/common.lib.php:407
-msgctxt "$mysql_5_1_doc_lang"
+#: libraries/common.lib.php:408
+msgctxt "MySQL 5.1 documentation language"
 msgid "en"
-msgstr "en"
+msgstr "انگریزی"
 
 #. l10n: Language to use for MySQL 5.0 documentation, please use only languages which do exist in official documentation.
-#: libraries/common.lib.php:411
-msgctxt "$mysql_5_0_doc_lang"
+#: libraries/common.lib.php:412
+msgctxt "MySQL 5.0 documentation language"
 msgid "en"
-msgstr "en"
+msgstr "انگریزی"
 
-#: libraries/common.lib.php:424 libraries/common.lib.php:426
-#: libraries/common.lib.php:428 libraries/common.lib.php:444
-#: libraries/common.lib.php:446 libraries/config/FormDisplay.tpl.php:168
+#: libraries/common.lib.php:425 libraries/common.lib.php:427
+#: libraries/common.lib.php:429 libraries/common.lib.php:445
+#: libraries/common.lib.php:447 libraries/common.lib.php:464
+#: libraries/common.lib.php:466 libraries/config/FormDisplay.tpl.php:168
 #: libraries/display_export.lib.php:239 libraries/engines/pbms.lib.php:71
 #: libraries/engines/pbxt.lib.php:106 libraries/relation.lib.php:85
-#: libraries/sql_query_form.lib.php:428 libraries/sql_query_form.lib.php:431
+#: libraries/sql_query_form.lib.php:429 libraries/sql_query_form.lib.php:432
 #: main.php:222
 msgid "Documentation"
-msgstr ""
+msgstr "دستاویزات"
 
-#: libraries/common.lib.php:585 libraries/header_printview.inc.php:60
+#: libraries/common.lib.php:605 libraries/header_printview.inc.php:60
 #: server_processlist.php:67 server_status.php:372
 msgid "SQL query"
-msgstr ""
+msgstr "SQL طلب"
 
-#: libraries/common.lib.php:621
+#: libraries/common.lib.php:641
 msgid "MySQL said: "
-msgstr ""
+msgstr "MySQL نے کہا:"
 
-#: libraries/common.lib.php:1076
+#: libraries/common.lib.php:1096
 msgid "Failed to connect to SQL validator!"
-msgstr ""
+msgstr "SQL جواز دہندہ سے جڑت ناکام ہوا!"
 
-#: libraries/common.lib.php:1117 libraries/config/messages.inc.php:462
+#: libraries/common.lib.php:1137 libraries/config/messages.inc.php:462
 msgid "Explain SQL"
-msgstr ""
+msgstr "SQL کی تفصیل بتائیں"
 
-#: libraries/common.lib.php:1120
+#: libraries/common.lib.php:1140
 msgid "Skip Explain SQL"
-msgstr ""
+msgstr "SQL وضاحت کو چھوڑیں"
 
-#: libraries/common.lib.php:1154
+#: libraries/common.lib.php:1174
 msgid "Without PHP Code"
-msgstr ""
+msgstr "PHP کوڈ کے بغیر"
 
-#: libraries/common.lib.php:1157 libraries/config/messages.inc.php:464
+#: libraries/common.lib.php:1177 libraries/config/messages.inc.php:464
 msgid "Create PHP Code"
-msgstr ""
+msgstr "PHP کوڈ بنائیں"
 
-#: libraries/common.lib.php:1175 libraries/config/messages.inc.php:463
+#: libraries/common.lib.php:1195 libraries/config/messages.inc.php:463
 #: server_status.php:467
 msgid "Refresh"
-msgstr ""
+msgstr "تازہ کریں"
 
-#: libraries/common.lib.php:1184
+#: libraries/common.lib.php:1204
 msgid "Skip Validate SQL"
-msgstr ""
+msgstr "SQL توثیق چھوڑیں"
 
-#: libraries/common.lib.php:1187 libraries/config/messages.inc.php:466
+#: libraries/common.lib.php:1207 libraries/config/messages.inc.php:466
 msgid "Validate SQL"
-msgstr ""
+msgstr "SQL کی توثیق کریں"
 
-#: libraries/common.lib.php:1242
+#: libraries/common.lib.php:1262
 msgid "Inline edit of this query"
-msgstr ""
+msgstr "اس طلب کی ان لائن تدوین"
 
-#: libraries/common.lib.php:1244
+#: libraries/common.lib.php:1264
 msgid "Inline"
-msgstr ""
+msgstr "ان لائن"
 
-#: libraries/common.lib.php:1308 libraries/common.lib.php:1324
+#: libraries/common.lib.php:1331 libraries/common.lib.php:1347
 msgid "Profiling"
-msgstr ""
+msgstr "تفصیلات"
 
-#: libraries/common.lib.php:1329 libraries/tbl_triggers.lib.php:27
+#: libraries/common.lib.php:1352 libraries/tbl_triggers.lib.php:27
 #: server_processlist.php:65
 msgid "Time"
-msgstr ""
+msgstr "وقت"
 
 #. l10n: shortcuts for Byte, Kilo, Mega, Giga, Tera, Peta, Exa+
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "B"
-msgstr ""
+msgstr "بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "KiB"
-msgstr ""
+msgstr "کلو بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "MiB"
-msgstr ""
+msgstr "میگا بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "GiB"
-msgstr ""
+msgstr "گیگا بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "TiB"
-msgstr ""
+msgstr "ٹیرا بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "PiB"
-msgstr ""
+msgstr "پیٹا بائٹ"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "EiB"
-msgstr ""
+msgstr "ایگزا بائٹ"
 
 #. l10n: Thousands separator
-#: libraries/common.lib.php:1405
+#: libraries/common.lib.php:1428
 msgid ","
-msgstr ""
+msgstr ","
 
 #. l10n: Decimal separator
-#: libraries/common.lib.php:1407
+#: libraries/common.lib.php:1430
 msgid "."
-msgstr ""
+msgstr "."
 
 #. l10n: See http://www.php.net/manual/en/function.strftime.php to define the format string
-#: libraries/common.lib.php:1584
+#: libraries/common.lib.php:1607
 #: libraries/transformations/text_plain__dateformat.inc.php:33
 msgid "%B %d, %Y at %I:%M %p"
-msgstr ""
+msgstr "%B %d, %Y پر %I:%M %p"
 
-#: libraries/common.lib.php:1894
+#: libraries/common.lib.php:1924
 #, php-format
 msgid "%s days, %s hours, %s minutes and %s seconds"
-msgstr ""
+msgstr "%s دن, %s گھنٹے, %s منٹ اور%s سیکنڈ"
 
-#: libraries/common.lib.php:2308 libraries/common.lib.php:2311
+#: libraries/common.lib.php:2338 libraries/common.lib.php:2341
 #: libraries/display_tbl.lib.php:288 server_status.php:751
 msgid "Begin"
-msgstr ""
+msgstr "شروع"
 
-#: libraries/common.lib.php:2309 libraries/common.lib.php:2312
+#: libraries/common.lib.php:2339 libraries/common.lib.php:2342
 #: libraries/display_tbl.lib.php:289 server_binlog.php:154
 #: server_binlog.php:156
 msgid "Previous"
-msgstr ""
+msgstr "پچھلا"
 
-#: libraries/common.lib.php:2339 libraries/common.lib.php:2342
+#: libraries/common.lib.php:2369 libraries/common.lib.php:2372
 #: libraries/display_tbl.lib.php:351
 msgid "End"
-msgstr ""
+msgstr "اختتام"
 
-#: libraries/common.lib.php:2414
+#: libraries/common.lib.php:2444
 #, php-format
 msgid "Jump to database &quot;%s&quot;."
-msgstr ""
+msgstr "کوائفیہ میں جائیں &quot;%s&quot;."
 
-#: libraries/common.lib.php:2433
+#: libraries/common.lib.php:2463
 #, php-format
 msgid "The %s functionality is affected by a known bug, see %s"
-msgstr ""
+msgstr "%s ایک نامعلوم نقص سے کام متاثر ہوا, دیکھیں %s"
 
-#: libraries/common.lib.php:2793 libraries/common.lib.php:2800
-#: libraries/common.lib.php:2981 libraries/config/setup.forms.php:291
+#: libraries/common.lib.php:2823 libraries/common.lib.php:2830
+#: libraries/common.lib.php:3015 libraries/config/setup.forms.php:291
 #: libraries/config/setup.forms.php:328 libraries/config/setup.forms.php:362
 #: libraries/config/user_preferences.forms.php:193
 #: libraries/config/user_preferences.forms.php:230
@@ -2074,147 +2096,146 @@ msgstr ""
 msgid "Structure"
 msgstr "ساخت"
 
-#: libraries/common.lib.php:2794 libraries/common.lib.php:2801
+#: libraries/common.lib.php:2824 libraries/common.lib.php:2831
 #: libraries/config/messages.inc.php:211 libraries/db_links.inc.php:53
 #: libraries/export/sql.php:24 libraries/import/sql.php:17
 #: libraries/server_links.inc.php:46 libraries/tbl_links.inc.php:58
 #: querywindow.php:88 test/theme.php:96
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
-#: libraries/common.lib.php:2796 libraries/common.lib.php:2979
-#: libraries/common.lib.php:2980 libraries/sql_query_form.lib.php:318
-#: libraries/sql_query_form.lib.php:321 libraries/tbl_links.inc.php:67
+#: libraries/common.lib.php:2826 libraries/common.lib.php:3013
+#: libraries/common.lib.php:3014 libraries/sql_query_form.lib.php:319
+#: libraries/sql_query_form.lib.php:322 libraries/tbl_links.inc.php:67
 msgid "Insert"
 msgstr "داخل کریں"
 
-#: libraries/common.lib.php:2803 libraries/db_links.inc.php:86
+#: libraries/common.lib.php:2833 libraries/db_links.inc.php:86
 #: libraries/tbl_links.inc.php:86 libraries/tbl_links.inc.php:102
 #: view_operations.php:87
 msgid "Operations"
-msgstr ""
+msgstr "عملیات"
 
-#: libraries/common.lib.php:2929
+#: libraries/common.lib.php:2963
 msgid "Browse your computer:"
-msgstr ""
+msgstr "اپنے کمپیوٹر کو براؤز کریں:"
 
-#: libraries/common.lib.php:2942
+#: libraries/common.lib.php:2976
 #, php-format
 msgid "Select from the web server upload directory <b>%s</b>:"
-msgstr ""
+msgstr "ویب سرور اپ لوڈ پوشہ سے منتخب کریں <b>%s</b>:"
 
-#: libraries/common.lib.php:2954 libraries/sql_query_form.lib.php:500
+#: libraries/common.lib.php:2988 libraries/sql_query_form.lib.php:501
 #: tbl_change.php:956
 msgid "The directory you set for upload work cannot be reached"
-msgstr ""
+msgstr "اپ لوڈ کام کے لیے سیٹ کیا گیا پوشہ قابل رسائی نہیں ہے"
 
-#: libraries/common.lib.php:2962
+#: libraries/common.lib.php:2996
 msgid "There are no files to upload"
-msgstr ""
+msgstr "اپ لوڈ کرنے کے لیے کوئی مسل نہیں ہے"
 
 #: libraries/config.values.php:45 libraries/config.values.php:50
 msgid "Both"
-msgstr ""
+msgstr "دونوں"
 
 #: libraries/config.values.php:74
 msgid "Open"
-msgstr ""
+msgstr "کھولیں"
 
 #: libraries/config.values.php:74
 msgid "Closed"
-msgstr ""
+msgstr "بند ہوا"
 
 #: libraries/config.values.php:95 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
 #: libraries/import.lib.php:1172
 msgid "structure"
-msgstr ""
+msgstr "ساخت"
 
 #: libraries/config.values.php:96 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
 msgid "data"
-msgstr ""
+msgstr "کوائف"
 
 #: libraries/config.values.php:97 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
-#, fuzzy
 #| msgid "Structure and data"
 msgid "structure and data"
-msgstr "سٹرکچر اور ڈیٹا"
+msgstr "ساخت اور کوائف"
 
 #: libraries/config.values.php:99
 msgid "Quick - display only the minimal options to configure"
-msgstr ""
+msgstr "سریع - تشکیل کے کم سے کم اختیارات دکھائیں"
 
 #: libraries/config.values.php:100
 msgid "Custom - display all possible options to configure"
-msgstr ""
+msgstr "مخصوص - تشکیل کے تمام اختیارات دکھائیں"
 
 #: libraries/config.values.php:101
 msgid "Custom - like above, but without the quick/custom choice"
-msgstr ""
+msgstr "مخصوص - بالا ی طرح لیکن سریع/مخصوص انتخاب کے بغیر"
 
 #: libraries/config.values.php:119
 msgid "complete inserts"
-msgstr ""
+msgstr "داخل کرنا مکمل ہوا"
 
 #: libraries/config.values.php:120
 msgid "extended inserts"
-msgstr ""
+msgstr "توسیع شدہ داخلے"
 
 #: libraries/config.values.php:121
 msgid "both of the above"
-msgstr ""
+msgstr "دونوں بالا"
 
 #: libraries/config.values.php:122
 msgid "neither of the above"
-msgstr ""
+msgstr "بالا میں سے کوئی بھی نہیں"
 
 #: libraries/config/FormDisplay.class.php:83
 #: libraries/config/validate.lib.php:422
 msgid "Not a positive number"
-msgstr ""
+msgstr "ایک مثبت ہندسہ نہیں ہے"
 
 #: libraries/config/FormDisplay.class.php:84
 #: libraries/config/validate.lib.php:435
 msgid "Not a non-negative number"
-msgstr ""
+msgstr "ایک غیر منفی ہندسہ نہیں ہے"
 
 #: libraries/config/FormDisplay.class.php:85
 #: libraries/config/validate.lib.php:409
 msgid "Not a valid port number"
-msgstr ""
+msgstr "ایک درست دہانہ ہندسہ نہیں ہے"
 
 #: libraries/config/FormDisplay.class.php:86
 #: libraries/config/FormDisplay.class.php:565
 #: libraries/config/validate.lib.php:360 libraries/config/validate.lib.php:450
 msgid "Incorrect value"
-msgstr ""
+msgstr "نادرست قدر"
 
 #: libraries/config/FormDisplay.class.php:87
 #: libraries/config/validate.lib.php:464
 #, php-format
 msgid "Value must be equal or lower than %s"
-msgstr ""
+msgstr "قدر مساوی یا کم ہو اس سے %s"
 
 #: libraries/config/FormDisplay.class.php:535
 #, php-format
 msgid "Missing data for %s"
-msgstr ""
+msgstr "کوائف نہیں ملا برائے %s"
 
 #: libraries/config/FormDisplay.class.php:727
 #: libraries/config/FormDisplay.class.php:731
 msgid "unavailable"
-msgstr ""
+msgstr "دستیاب نہیں ہے"
 
 #: libraries/config/FormDisplay.class.php:728
 #: libraries/config/FormDisplay.class.php:732
 #, php-format
 msgid "\"%s\" requires %s extension"
-msgstr ""
+msgstr "\"%s\" درکار %s توسیع"
 
 #: libraries/config/FormDisplay.class.php:746
 #, php-format
@@ -2260,14 +2281,6 @@ msgstr ""
 
 #: libraries/config/FormDisplay.tpl.php:269
 msgid "Allow users to customize this value"
-msgstr ""
-
-#: libraries/config/FormDisplay.tpl.php:332
-#: libraries/schema/User_Schema.class.php:317
-#: libraries/tbl_properties.inc.php:777 setup/frames/config.inc.php:39
-#: setup/frames/index.inc.php:215 tbl_change.php:1048 tbl_indexes.php:246
-#: tbl_relation.php:563
-msgid "Save"
 msgstr ""
 
 #: libraries/config/FormDisplay.tpl.php:333
@@ -2534,13 +2547,13 @@ msgid "Put columns names in the first row"
 msgstr ""
 
 #: libraries/config/messages.inc.php:73 libraries/config/messages.inc.php:238
-#: libraries/config/messages.inc.php:245 libraries/import/csv.php:73
+#: libraries/config/messages.inc.php:245 libraries/import/csv.php:75
 #: libraries/import/ldi.php:41
 msgid "Columns enclosed by"
 msgstr ""
 
 #: libraries/config/messages.inc.php:74 libraries/config/messages.inc.php:239
-#: libraries/config/messages.inc.php:246 libraries/import/csv.php:77
+#: libraries/config/messages.inc.php:246 libraries/import/csv.php:80
 #: libraries/import/ldi.php:42
 msgid "Columns escaped by"
 msgstr ""
@@ -2558,13 +2571,13 @@ msgid "Remove CRLF characters within columns"
 msgstr ""
 
 #: libraries/config/messages.inc.php:77 libraries/config/messages.inc.php:242
-#: libraries/config/messages.inc.php:250 libraries/import/csv.php:61
+#: libraries/config/messages.inc.php:250 libraries/import/csv.php:62
 #: libraries/import/ldi.php:40
 msgid "Columns terminated by"
 msgstr ""
 
 #: libraries/config/messages.inc.php:78 libraries/config/messages.inc.php:237
-#: libraries/import/csv.php:81 libraries/import/ldi.php:43
+#: libraries/import/csv.php:85 libraries/import/ldi.php:43
 msgid "Lines terminated by"
 msgstr ""
 
@@ -4258,13 +4271,19 @@ msgstr ""
 msgid "Incorrect IP address: %s"
 msgstr ""
 
-#: libraries/core.lib.php:262
+#. l10n: Language to use for PHP documentation, please use only languages which do exist in official documentation.
+#: libraries/core.lib.php:264
+msgctxt "PHP documentation language"
+msgid "en"
+msgstr "en"
+
+#: libraries/core.lib.php:278
 #, php-format
 msgid "The %s extension is missing. Please check your PHP configuration."
 msgstr ""
 
 #: libraries/db_events.inc.php:14 libraries/db_events.inc.php:16
-#: libraries/export/sql.php:481
+#: libraries/export/sql.php:493
 msgid "Events"
 msgstr ""
 
@@ -4306,7 +4325,7 @@ msgstr ""
 msgid "Return type"
 msgstr ""
 
-#: libraries/db_structure.lib.php:48 libraries/display_tbl.lib.php:1856
+#: libraries/db_structure.lib.php:48 libraries/display_tbl.lib.php:1902
 msgid ""
 "May be approximate. See [a@./Documentation.html#faq3_11@Documentation]FAQ "
 "3.11[/a]"
@@ -4477,8 +4496,8 @@ msgstr ""
 #, php-format
 msgid ""
 "This value is interpreted using %1$sstrftime%2$s, so you can use time "
-"formatting strings. Additionally the following transformations will happen: "
-"%3$s. Other text will be kept as is. See the %4$sFAQ%5$s for details."
+"formatting strings. Additionally the following transformations will happen: %"
+"3$s. Other text will be kept as is. See the %4$sFAQ%5$s for details."
 msgstr ""
 
 #: libraries/display_export.lib.php:275
@@ -4486,7 +4505,7 @@ msgid "use this for future exports"
 msgstr ""
 
 #: libraries/display_export.lib.php:281 libraries/display_import.lib.php:188
-#: libraries/display_import.lib.php:201 libraries/sql_query_form.lib.php:516
+#: libraries/display_import.lib.php:201 libraries/sql_query_form.lib.php:517
 msgid "Character set of the file:"
 msgstr ""
 
@@ -4495,7 +4514,7 @@ msgid "Compression:"
 msgstr ""
 
 #: libraries/display_export.lib.php:311 libraries/display_tbl.lib.php:528
-#: libraries/export/sql.php:933 libraries/tbl_properties.inc.php:578
+#: libraries/export/sql.php:945 libraries/tbl_properties.inc.php:578
 #: pmd_general.php:511 server_privileges.php:1972 server_processlist.php:82
 msgid "None"
 msgstr ""
@@ -4689,73 +4708,68 @@ msgstr ""
 msgid "Show BLOB contents"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:609 pmd_general.php:159 tbl_change.php:315
-#: tbl_change.php:321
-msgid "Hide"
-msgstr ""
-
 #: libraries/display_tbl.lib.php:609 libraries/relation.lib.php:123
 #: libraries/tbl_properties.inc.php:142 transformation_overview.php:46
 msgid "Browser transformation"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1165
+#: libraries/display_tbl.lib.php:1166
 msgid "Copy"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1180 libraries/display_tbl.lib.php:1192
+#: libraries/display_tbl.lib.php:1181 libraries/display_tbl.lib.php:1193
 msgid "The row has been deleted"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1219 libraries/display_tbl.lib.php:2068
+#: libraries/display_tbl.lib.php:1220 libraries/display_tbl.lib.php:2132
 #: server_processlist.php:78 tbl_row_action.php:63
 msgid "Kill"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1942
+#: libraries/display_tbl.lib.php:2006
 msgid "in query"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1960
+#: libraries/display_tbl.lib.php:2024
 msgid "Showing rows"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1970
+#: libraries/display_tbl.lib.php:2034
 msgid "total"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1978 sql.php:600
+#: libraries/display_tbl.lib.php:2042 sql.php:619
 #, php-format
 msgid "Query took %01.4f sec"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2101 libraries/mult_submits.inc.php:112
+#: libraries/display_tbl.lib.php:2165 libraries/mult_submits.inc.php:112
 #: querywindow.php:114 querywindow.php:118 querywindow.php:121
 #: tbl_structure.php:24 tbl_structure.php:149 tbl_structure.php:560
 msgid "Change"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2174
+#: libraries/display_tbl.lib.php:2238
 msgid "Query results operations"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2202
+#: libraries/display_tbl.lib.php:2266
 msgid "Print view (with full texts)"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2246 tbl_chart.php:81
+#: libraries/display_tbl.lib.php:2310 tbl_chart.php:81
 #, fuzzy
 #| msgid "Table comments"
 msgid "Display chart"
 msgstr "ٹیبل کمنٹس"
 
-#: libraries/display_tbl.lib.php:2265
+#: libraries/display_tbl.lib.php:2329
 #, fuzzy
 #| msgid "Created"
 msgid "Create view"
 msgstr "تخلیق کیا گیا"
 
-#: libraries/display_tbl.lib.php:2396
+#: libraries/display_tbl.lib.php:2464
 msgid "Link not found"
 msgstr ""
 
@@ -5142,8 +5156,8 @@ msgstr ""
 #: libraries/engines/pbxt.lib.php:125
 #, php-format
 msgid ""
-"Documentation and further information about PBXT can be found on the "
-"%sPrimeBase XT Home Page%s."
+"Documentation and further information about PBXT can be found on the %"
+"sPrimeBase XT Home Page%s."
 msgstr ""
 
 #: libraries/engines/pbxt.lib.php:129
@@ -5192,12 +5206,12 @@ msgid "Data dump options"
 msgstr ""
 
 #: libraries/export/htmlword.php:135 libraries/export/odt.php:175
-#: libraries/export/sql.php:946 libraries/export/texytext.php:123
+#: libraries/export/sql.php:958 libraries/export/texytext.php:123
 msgid "Dumping data for table"
 msgstr ""
 
 #: libraries/export/htmlword.php:188 libraries/export/odt.php:245
-#: libraries/export/sql.php:850 libraries/export/texytext.php:170
+#: libraries/export/sql.php:862 libraries/export/texytext.php:170
 msgid "Table structure for table"
 msgstr ""
 
@@ -5240,7 +5254,7 @@ msgstr "ٹیبل کمنٹس"
 msgid "Display MIME types"
 msgstr ""
 
-#: libraries/export/latex.php:139 libraries/export/sql.php:281
+#: libraries/export/latex.php:139 libraries/export/sql.php:341
 #: libraries/export/xml.php:105 libraries/header_printview.inc.php:56
 #: libraries/replication_gui.lib.php:65 libraries/replication_gui.lib.php:176
 #: libraries/replication_gui.lib.php:271 libraries/replication_gui.lib.php:274
@@ -5251,17 +5265,17 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-#: libraries/export/latex.php:144 libraries/export/sql.php:282
+#: libraries/export/latex.php:144 libraries/export/sql.php:342
 #: libraries/export/xml.php:110 libraries/header_printview.inc.php:58
 msgid "Generation Time"
 msgstr ""
 
-#: libraries/export/latex.php:145 libraries/export/sql.php:284
+#: libraries/export/latex.php:145 libraries/export/sql.php:344
 #: libraries/export/xml.php:111 main.php:175
 msgid "Server version"
 msgstr ""
 
-#: libraries/export/latex.php:146 libraries/export/sql.php:285
+#: libraries/export/latex.php:146 libraries/export/sql.php:345
 #: libraries/export/xml.php:112
 msgid "PHP Version"
 msgstr ""
@@ -5387,40 +5401,40 @@ msgid ""
 "reloaded between servers in different time zones)</i>"
 msgstr ""
 
-#: libraries/export/sql.php:393 libraries/export/xml.php:34
+#: libraries/export/sql.php:209 libraries/export/xml.php:34
 msgid "Procedures"
 msgstr ""
 
-#: libraries/export/sql.php:407 libraries/export/xml.php:32
+#: libraries/export/sql.php:223 libraries/export/xml.php:32
 msgid "Functions"
 msgstr ""
 
-#: libraries/export/sql.php:683
+#: libraries/export/sql.php:695
 msgid "Constraints for dumped tables"
 msgstr ""
 
-#: libraries/export/sql.php:692
+#: libraries/export/sql.php:704
 msgid "Constraints for table"
 msgstr ""
 
-#: libraries/export/sql.php:792
+#: libraries/export/sql.php:804
 msgid "MIME TYPES FOR TABLE"
 msgstr ""
 
-#: libraries/export/sql.php:804
+#: libraries/export/sql.php:816
 msgid "RELATIONS FOR TABLE"
 msgstr ""
 
-#: libraries/export/sql.php:861 libraries/export/xml.php:38
+#: libraries/export/sql.php:873 libraries/export/xml.php:38
 #: libraries/tbl_triggers.lib.php:18
 msgid "Triggers"
 msgstr ""
 
-#: libraries/export/sql.php:873
+#: libraries/export/sql.php:885
 msgid "Structure for view"
 msgstr ""
 
-#: libraries/export/sql.php:882
+#: libraries/export/sql.php:894
 msgid "Stand-in structure for view"
 msgstr ""
 
@@ -5455,7 +5469,7 @@ msgstr ""
 msgid "Generated by"
 msgstr ""
 
-#: libraries/import.lib.php:153 sql.php:596 tbl_change.php:179
+#: libraries/import.lib.php:153 sql.php:615 tbl_change.php:179
 #: tbl_get_field.php:34
 msgid "MySQL returned an empty result set (i.e. zero rows)."
 msgstr ""
@@ -5514,25 +5528,25 @@ msgstr ""
 msgid "Column names: "
 msgstr "آراء-رائے"
 
-#: libraries/import/csv.php:60 libraries/import/csv.php:72
-#: libraries/import/csv.php:76 libraries/import/csv.php:80
+#: libraries/import/csv.php:61 libraries/import/csv.php:74
+#: libraries/import/csv.php:79 libraries/import/csv.php:84
 #, php-format
 msgid "Invalid parameter for CSV import: %s"
 msgstr ""
 
-#: libraries/import/csv.php:121
+#: libraries/import/csv.php:131
 #, php-format
 msgid ""
 "Invalid column (%s) specified! Ensure that columns names are spelled "
 "correctly, separated by commas, and not enclosed in quotes."
 msgstr ""
 
-#: libraries/import/csv.php:179 libraries/import/csv.php:426
+#: libraries/import/csv.php:189 libraries/import/csv.php:436
 #, php-format
 msgid "Invalid format of CSV input on line %d."
 msgstr ""
 
-#: libraries/import/csv.php:314
+#: libraries/import/csv.php:324
 #, php-format
 msgid "Invalid column count in CSV input on line %d."
 msgstr ""
@@ -5606,7 +5620,7 @@ msgstr ""
 msgid "Fulltext"
 msgstr ""
 
-#: libraries/mult_submits.inc.php:435 tbl_replace.php:326
+#: libraries/mult_submits.inc.php:435 tbl_replace.php:329
 msgid "No change"
 msgstr ""
 
@@ -5853,7 +5867,7 @@ msgid ""
 "Please see the documentation on how to update your column_comments table"
 msgstr ""
 
-#: libraries/relation.lib.php:131 libraries/sql_query_form.lib.php:410
+#: libraries/relation.lib.php:131 libraries/sql_query_form.lib.php:411
 msgid "Bookmarked SQL query"
 msgstr ""
 
@@ -5888,7 +5902,7 @@ msgstr ""
 msgid "Re-login to phpMyAdmin to load the updated configuration file."
 msgstr ""
 
-#: libraries/relation.lib.php:1179
+#: libraries/relation.lib.php:1175
 msgid "no description"
 msgstr ""
 
@@ -5922,8 +5936,8 @@ msgstr ""
 msgid "Slave status"
 msgstr ""
 
-#: libraries/replication_gui.lib.php:116 libraries/sql_query_form.lib.php:422
-#: server_status.php:769 server_variables.php:51
+#: libraries/replication_gui.lib.php:116 libraries/sql_query_form.lib.php:423
+#: server_status.php:769 server_variables.php:52
 msgid "Variable"
 msgstr ""
 
@@ -6019,24 +6033,24 @@ msgstr ""
 msgid "SCHEMA ERROR: "
 msgstr ""
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:874
-#: libraries/schema/Pdf_Relation_Schema.class.php:1113
+#: libraries/schema/Pdf_Relation_Schema.class.php:875
+#: libraries/schema/Pdf_Relation_Schema.class.php:1114
 msgid "Relational schema"
 msgstr ""
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1088
+#: libraries/schema/Pdf_Relation_Schema.class.php:1089
 msgid "Table of contents"
 msgstr ""
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1238
-#: libraries/schema/Pdf_Relation_Schema.class.php:1259
+#: libraries/schema/Pdf_Relation_Schema.class.php:1239
+#: libraries/schema/Pdf_Relation_Schema.class.php:1260
 #: libraries/tbl_properties.inc.php:107 tbl_printview.php:141
 #: tbl_structure.php:200
 msgid "Attributes"
 msgstr ""
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1241
-#: libraries/schema/Pdf_Relation_Schema.class.php:1262 tbl_printview.php:144
+#: libraries/schema/Pdf_Relation_Schema.class.php:1242
+#: libraries/schema/Pdf_Relation_Schema.class.php:1263 tbl_printview.php:144
 #: tbl_structure.php:203 tbl_tracking.php:272
 msgid "Extra"
 msgstr ""
@@ -6215,49 +6229,54 @@ msgstr ""
 msgid "Run SQL query/queries on database %s"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:301
+#: libraries/sql_query_form.lib.php:297 navigation.php:276
+#: setup/frames/index.inc.php:219
+msgid "Clear"
+msgstr ""
+
+#: libraries/sql_query_form.lib.php:302
 #, fuzzy
 #| msgid "Comments"
 msgid "Columns"
 msgstr "آراء-رائے"
 
-#: libraries/sql_query_form.lib.php:336 sql.php:857 sql.php:858 sql.php:875
+#: libraries/sql_query_form.lib.php:337 sql.php:877 sql.php:878 sql.php:895
 msgid "Bookmark this SQL query"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:343 sql.php:869
+#: libraries/sql_query_form.lib.php:344 sql.php:889
 msgid "Let every user access this bookmark"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:349
+#: libraries/sql_query_form.lib.php:350
 msgid "Replace existing bookmark of same name"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:365
+#: libraries/sql_query_form.lib.php:366
 msgid "Do not overwrite this query from outside the window"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:372
+#: libraries/sql_query_form.lib.php:373
 msgid "Delimiter"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:380
+#: libraries/sql_query_form.lib.php:381
 msgid " Show this query here again "
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:439
+#: libraries/sql_query_form.lib.php:440
 msgid "Submit"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:443
+#: libraries/sql_query_form.lib.php:444
 msgid "View only"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:491 prefs_manage.php:241
+#: libraries/sql_query_form.lib.php:492 prefs_manage.php:241
 msgid "Location of the text file"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:503 tbl_change.php:959
+#: libraries/sql_query_form.lib.php:504 tbl_change.php:959
 msgid "web server upload directory"
 msgstr ""
 
@@ -6526,11 +6545,11 @@ msgid ""
 "permanently requires %sphpMyAdmin configuration storage%s."
 msgstr ""
 
-#: libraries/user_preferences.lib.php:141
+#: libraries/user_preferences.lib.php:142
 msgid "Could not save configuration"
 msgstr ""
 
-#: libraries/user_preferences.lib.php:308
+#: libraries/user_preferences.lib.php:309
 msgid ""
 "Your browser has phpMyAdmin configuration for this domain. Would you like to "
 "import it for current session?"
@@ -6707,10 +6726,6 @@ msgstr ""
 msgid "No databases"
 msgstr ""
 
-#: navigation.php:276 setup/frames/index.inc.php:219
-msgid "Clear"
-msgstr ""
-
 #: navigation.php:277
 msgid "Filter"
 msgstr ""
@@ -6724,7 +6739,7 @@ msgctxt "short form"
 msgid "Create table"
 msgstr ""
 
-#: navigation.php:313 navigation.php:476
+#: navigation.php:313 navigation.php:485
 msgid "Please select a database"
 msgstr ""
 
@@ -7416,8 +7431,8 @@ msgstr ""
 msgid ""
 "Note: phpMyAdmin gets the users' privileges directly from MySQL's privilege "
 "tables. The content of these tables may differ from the privileges the "
-"server uses, if they have been changed manually. In this case, you should "
-"%sreload the privileges%s before you continue."
+"server uses, if they have been changed manually. In this case, you should %"
+"sreload the privileges%s before you continue."
 msgstr ""
 
 #: server_privileges.php:1781
@@ -8499,11 +8514,11 @@ msgstr ""
 msgid "Server variables and settings"
 msgstr ""
 
-#: server_variables.php:54
+#: server_variables.php:55
 msgid "Session value"
 msgstr ""
 
-#: server_variables.php:54 server_variables.php:88
+#: server_variables.php:55 server_variables.php:89
 msgid "Global value"
 msgstr ""
 
@@ -8765,39 +8780,39 @@ msgstr ""
 msgid "Key should contain letters, numbers [em]and[/em] special characters."
 msgstr ""
 
-#: sql.php:80 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
+#: sql.php:78 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
 #: tbl_select.php:30 tbl_select.php:33
 msgid "Browse foreign values"
 msgstr ""
 
-#: sql.php:127
+#: sql.php:154
 #, php-format
 msgid "Using bookmark \"%s\" as default browse query."
 msgstr ""
 
-#: sql.php:572 tbl_replace.php:380
+#: sql.php:591 tbl_replace.php:385
 #, php-format
 msgid "Inserted row id: %1$d"
 msgstr ""
 
-#: sql.php:589
+#: sql.php:608
 msgid "Showing as PHP code"
 msgstr ""
 
-#: sql.php:592 tbl_replace.php:354
+#: sql.php:611 tbl_replace.php:359
 msgid "Showing SQL query"
 msgstr ""
 
-#: sql.php:594
+#: sql.php:613
 msgid "Validated SQL"
 msgstr ""
 
-#: sql.php:831
+#: sql.php:851
 #, php-format
 msgid "Problems with indexes of table `%s`"
 msgstr ""
 
-#: sql.php:863
+#: sql.php:883
 msgid "Label"
 msgstr ""
 

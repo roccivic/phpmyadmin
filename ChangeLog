@@ -138,6 +138,14 @@
 - rfe #3148361 [interface] Replace hard coded limit with $cfg['LimitChars'].
 - bug #3177136 [interface] Indicate that bookmark is being used on browse.
 - [interface] Indicate shared bookmarks in interface.
+- patch #3176420 [Search] Ajaxify browse and delete criteria in DB Search,
+  thanks to Thilanka Kaushalya
+- [interface] New default theme pmahomme, dropped darkblue_orange theme.
+- rfe #2936155 [auth] Allow to pass additional parameters using signon method.
+- rfe #1640812 [auth] Add example for OpenID authentication using signon method.
+- rfe #1312657 [dbi] Default to mysqli extension.
+- rfe #1168350 [interface] Add clear button to SQL edit box.
+- [core] Update library PHPExcel to version 1.7.6
 
 3.3.10.0 (not yet released)
 - patch #3147400 [structure] Aria table size printed as unknown,
@@ -146,6 +154,11 @@
   thanks to Madhura Jayaratne - madhuracj 
 - bug #3153409 [core] 0 row(s) affected 
 - bug #3155842 [core] Edit relational page and page number
+- [security] Minor security fixes, see PMASA-2010-9 and PMASA-2010-10
+- [lang] German update, thanks to to jannicars@users.sourceforge.net.
+
+3.3.9.2 (2011-02-11)
+- [security] SQL injection, see PMASA-2011-2
 
 3.3.9.1 (2011-02-08)
 - [security] Path disclosure, see PMASA-2011-1

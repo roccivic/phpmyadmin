@@ -85,25 +85,31 @@ function appendNewUser(new_user_string, new_user_initial, new_user_initial_strin
     //Append the newly retrived user to the table now
 
     //Calculate the index for the new row
-    var curr_last_row = $("#usersForm").find('tbody').find('tr:last');
-    var curr_last_row_index_string = $(curr_last_row).find('input:checkbox').attr('id').match(/\d+/)[0];
+    var $curr_last_row = $("#usersForm").find('tbody').find('tr:last');
+    var $curr_first_row = $("#usersForm").find('tbody').find('tr:first');
+    var first_row_initial = $curr_first_row.find('label').html().substr(0, 1).toUpperCase();
+    var curr_shown_initial = $curr_last_row.find('label').html().substr(0, 1).toUpperCase();
+    var curr_last_row_index_string = $curr_last_row.find('input:checkbox').attr('id').match(/\d+/)[0];
     var curr_last_row_index = parseFloat(curr_last_row_index_string);
     var new_last_row_index = curr_last_row_index + 1;
     var new_last_row_id = 'checkbox_sel_users_' + new_last_row_index;
+    var is_show_all = (first_row_initial != curr_shown_initial) ? true : false;
 
     //Append to the table and set the id/names correctly
-    $(new_user_string)
-    .insertAfter($(curr_last_row))
-    .find('input:checkbox')
-    .attr('id', new_last_row_id)
-    .val(function() {
-        //the insert messes up the &amp;27; part. let's fix it
-        return $(this).val().replace(/&/,'&amp;');
-    })
-    .end()
-    .find('label')
-    .attr('for', new_last_row_id)
-    .end();
+    if((curr_shown_initial == new_user_initial) || is_show_all) {
+        $(new_user_string)
+        .insertAfter($curr_last_row)
+        .find('input:checkbox')
+        .attr('id', new_last_row_id)
+        .val(function() {
+            //the insert messes up the &amp;27; part. let's fix it
+            return $(this).val().replace(/&/,'&amp;');
+        })
+        .end()
+        .find('label')
+        .attr('for', new_last_row_id)
+        .end();
+    }
 
     //Let us sort the table alphabetically
     $("#usersForm").find('tbody').PMA_sort_table('label');
@@ -187,9 +193,9 @@ $(document).ready(function() {
                      .after(data.sql_query);
                                                                 
                      //Remove the empty notice div generated due to a NULL query passed to PMA_showMessage()
-                     var notice_class = $("#topmenucontainer").next("div").find('.notice');
-                     if($(notice_class).text() == '') {
-                        $(notice_class).remove();
+                     var $notice_class = $("#topmenucontainer").next("div").find('.notice');
+                     if($notice_class.text() == '') {
+                        $notice_class.remove();
                      }
 
                      appendNewUser(data.new_user_string, data.new_user_initial, data.new_user_initial_string);
@@ -212,6 +218,7 @@ $(document).ready(function() {
                 width: 800,
                 // height is a workaround for this Chrome problem:
                 // http://bugs.jqueryui.com/ticket/4671
+                // also it's interesting to be able to scroll this window
                 height: 600,
                 modal: true,
                 buttons: button_options
@@ -322,6 +329,7 @@ $(document).ready(function() {
             .append(data)
             .dialog({
                 width: 900,
+                height: 600,
                 buttons: button_options
             }); //dialog options end
             displayPasswordGenerateButton();

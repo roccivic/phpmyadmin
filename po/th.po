@@ -1,16 +1,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.0-beta3-dev\n"
+"Project-Id-Version: phpMyAdmin 3.4.0-beta4-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-10 14:02+0100\n"
+"POT-Creation-Date: 2011-03-05 14:23-0500\n"
 "PO-Revision-Date: 2010-03-12 09:19+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: thai <th@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Generator: Translate Toolkit 1.5.3\n"
 
 #: browse_foreigners.php:35 browse_foreigners.php:53
@@ -18,11 +18,11 @@ msgstr ""
 msgid "Show all"
 msgstr "แสดงทั้งหมด"
 
-#: browse_foreigners.php:70 libraries/common.lib.php:2299
-#: libraries/display_tbl.lib.php:392 libraries/export/pdf.php:132
+#: browse_foreigners.php:70 libraries/common.lib.php:2329
+#: libraries/display_tbl.lib.php:392 libraries/export/pdf.php:133
 #: libraries/schema/Pdf_Relation_Schema.class.php:242
-#: libraries/schema/Pdf_Relation_Schema.class.php:1095
-#: libraries/schema/Pdf_Relation_Schema.class.php:1111
+#: libraries/schema/Pdf_Relation_Schema.class.php:1096
+#: libraries/schema/Pdf_Relation_Schema.class.php:1112
 #: libraries/schema/User_Schema.class.php:360
 msgid "Page number:"
 msgstr "หมายเลขหน้า:"
@@ -33,10 +33,12 @@ msgid ""
 "parent window, or your browser's security settings are configured to block "
 "cross-window updates."
 msgstr ""
+"ไม่สามารถเปลี่ยนแปลงข้อมูลของหน้าต่างเป้าหมายได้ อาจเป็นเพราะว่าคุณปิดหน้าต่างหลัก "
+"หรือสาเหตุจากการตั้งค่าความปลอดภัยให้ป้องกันการเปลี่ยนแปลงข้อมูลข้ามหน้าต่าง"
 
-#: browse_foreigners.php:151 libraries/common.lib.php:2795
-#: libraries/common.lib.php:2802 libraries/common.lib.php:2977
-#: libraries/common.lib.php:2978 libraries/db_links.inc.php:60
+#: browse_foreigners.php:151 libraries/common.lib.php:2825
+#: libraries/common.lib.php:2832 libraries/common.lib.php:3011
+#: libraries/common.lib.php:3012 libraries/db_links.inc.php:60
 #: libraries/tbl_links.inc.php:61
 msgid "Search"
 msgstr "ค้นหา"
@@ -45,8 +47,8 @@ msgstr "ค้นหา"
 #: db_operations.php:522 db_operations.php:550 db_search.php:358
 #: db_structure.php:529 enum_editor.php:63 js/messages.php:59
 #: libraries/Config.class.php:1220 libraries/Theme_Manager.class.php:305
-#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1309
-#: libraries/common.lib.php:2275 libraries/core.lib.php:541
+#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1332
+#: libraries/common.lib.php:2305 libraries/core.lib.php:557
 #: libraries/display_change_password.lib.php:72
 #: libraries/display_create_table.lib.php:61
 #: libraries/display_export.lib.php:352 libraries/display_import.lib.php:267
@@ -56,8 +58,8 @@ msgstr "ค้นหา"
 #: libraries/schema/User_Schema.class.php:176
 #: libraries/schema/User_Schema.class.php:410
 #: libraries/schema/User_Schema.class.php:449
-#: libraries/select_server.lib.php:100 libraries/sql_query_form.lib.php:384
-#: libraries/sql_query_form.lib.php:454 libraries/sql_query_form.lib.php:519
+#: libraries/select_server.lib.php:100 libraries/sql_query_form.lib.php:385
+#: libraries/sql_query_form.lib.php:455 libraries/sql_query_form.lib.php:520
 #: libraries/tbl_properties.inc.php:783 libraries/tbl_properties.inc.php:798
 #: main.php:111 navigation.php:214 pmd_pdf.php:124 prefs_manage.php:265
 #: prefs_manage.php:316 server_binlog.php:128 server_privileges.php:671
@@ -92,15 +94,15 @@ msgstr "ใช้ค่านี้"
 #: bs_disp_as_mime_type.php:29 bs_play_media.php:35
 #: libraries/blobstreaming.lib.php:331
 msgid "No blob streaming server configured!"
-msgstr ""
+msgstr "ไม่มีการตั้งค่าของเซิร์ฟเวอร์บล็อบสตรีมมิ่ง"
 
 #: bs_disp_as_mime_type.php:35
 msgid "Failed to fetch headers"
-msgstr ""
+msgstr "การดึงค่าส่วนหัวไม่สำเร็จ"
 
 #: bs_disp_as_mime_type.php:41
 msgid "Failed to open remote URL"
-msgstr ""
+msgstr "เชื่อมต่อ url ปลายทางไม่สำเร็จ"
 
 #: changelog.php:32 license.php:28
 #, php-format
@@ -118,7 +120,7 @@ msgstr "โยนฐานข้อมูล %s ทิ้งไปเรีย�
 msgid "Database comment: "
 msgstr "หมายเหตุของฐานข้อมูล: "
 
-#: db_datadict.php:160 libraries/schema/Pdf_Relation_Schema.class.php:1210
+#: db_datadict.php:160 libraries/schema/Pdf_Relation_Schema.class.php:1211
 #: libraries/tbl_properties.inc.php:725 tbl_operations.php:344
 #: tbl_printview.php:127
 msgid "Table comments"
@@ -127,8 +129,8 @@ msgstr "หมายเหตุของตาราง"
 #: db_datadict.php:169 db_qbe.php:197 libraries/Index.class.php:445
 #: libraries/export/htmlword.php:247 libraries/export/latex.php:374
 #: libraries/export/odt.php:301 libraries/export/texytext.php:226
-#: libraries/schema/Pdf_Relation_Schema.class.php:1236
-#: libraries/schema/Pdf_Relation_Schema.class.php:1257
+#: libraries/schema/Pdf_Relation_Schema.class.php:1237
+#: libraries/schema/Pdf_Relation_Schema.class.php:1258
 #: libraries/tbl_properties.inc.php:98 libraries/tbl_properties.inc.php:273
 #: tbl_change.php:309 tbl_indexes.php:187 tbl_printview.php:139
 #: tbl_relation.php:399 tbl_select.php:112 tbl_structure.php:197
@@ -143,8 +145,8 @@ msgstr "ชื่อคอลัมน์"
 #: libraries/db_structure.lib.php:51 libraries/export/htmlword.php:248
 #: libraries/export/latex.php:374 libraries/export/odt.php:304
 #: libraries/export/texytext.php:227
-#: libraries/schema/Pdf_Relation_Schema.class.php:1237
-#: libraries/schema/Pdf_Relation_Schema.class.php:1258
+#: libraries/schema/Pdf_Relation_Schema.class.php:1238
+#: libraries/schema/Pdf_Relation_Schema.class.php:1259
 #: libraries/tbl_properties.inc.php:99 server_privileges.php:2168
 #: tbl_change.php:288 tbl_change.php:315 tbl_chart.php:132
 #: tbl_printview.php:140 tbl_printview.php:310 tbl_select.php:113
@@ -156,8 +158,8 @@ msgstr "ชนิด"
 #: db_datadict.php:172 libraries/Index.class.php:448
 #: libraries/export/htmlword.php:249 libraries/export/latex.php:374
 #: libraries/export/odt.php:307 libraries/export/texytext.php:228
-#: libraries/schema/Pdf_Relation_Schema.class.php:1239
-#: libraries/schema/Pdf_Relation_Schema.class.php:1260
+#: libraries/schema/Pdf_Relation_Schema.class.php:1240
+#: libraries/schema/Pdf_Relation_Schema.class.php:1261
 #: libraries/tbl_properties.inc.php:108 tbl_change.php:324
 #: tbl_printview.php:142 tbl_structure.php:201 tbl_tracking.php:270
 #: tbl_tracking.php:321
@@ -167,8 +169,8 @@ msgstr "ว่างเปล่า (null)"
 #: db_datadict.php:173 db_structure.php:460 libraries/export/htmlword.php:250
 #: libraries/export/latex.php:374 libraries/export/odt.php:310
 #: libraries/export/texytext.php:229
-#: libraries/schema/Pdf_Relation_Schema.class.php:1240
-#: libraries/schema/Pdf_Relation_Schema.class.php:1261
+#: libraries/schema/Pdf_Relation_Schema.class.php:1241
+#: libraries/schema/Pdf_Relation_Schema.class.php:1262
 #: libraries/tbl_properties.inc.php:105 tbl_printview.php:143
 #: tbl_structure.php:202 tbl_tracking.php:271
 msgid "Default"
@@ -177,8 +179,8 @@ msgstr "ค่าปริยาย"
 #: db_datadict.php:177 libraries/export/htmlword.php:252
 #: libraries/export/latex.php:376 libraries/export/odt.php:314
 #: libraries/export/texytext.php:231
-#: libraries/schema/Pdf_Relation_Schema.class.php:1242
-#: libraries/schema/Pdf_Relation_Schema.class.php:1263 tbl_printview.php:147
+#: libraries/schema/Pdf_Relation_Schema.class.php:1243
+#: libraries/schema/Pdf_Relation_Schema.class.php:1264 tbl_printview.php:147
 msgid "Links to"
 msgstr "เชื่อมไปยัง"
 
@@ -187,8 +189,8 @@ msgstr "เชื่อมไปยัง"
 #: libraries/config/messages.inc.php:129 libraries/export/htmlword.php:255
 #: libraries/export/latex.php:379 libraries/export/odt.php:319
 #: libraries/export/texytext.php:234
-#: libraries/schema/Pdf_Relation_Schema.class.php:1253
-#: libraries/schema/Pdf_Relation_Schema.class.php:1264
+#: libraries/schema/Pdf_Relation_Schema.class.php:1254
+#: libraries/schema/Pdf_Relation_Schema.class.php:1265
 #: libraries/tbl_properties.inc.php:128 tbl_printview.php:149
 msgid "Comments"
 msgstr "หมายเหตุ"
@@ -199,12 +201,12 @@ msgstr "หมายเหตุ"
 #: libraries/export/htmlword.php:325 libraries/export/latex.php:444
 #: libraries/export/odt.php:375 libraries/export/texytext.php:304
 #: libraries/mult_submits.inc.php:263
-#: libraries/schema/Pdf_Relation_Schema.class.php:1318
-#: libraries/user_preferences.lib.php:310 prefs_manage.php:130
+#: libraries/schema/Pdf_Relation_Schema.class.php:1319
+#: libraries/user_preferences.lib.php:311 prefs_manage.php:130
 #: server_privileges.php:1404 server_privileges.php:1415
 #: server_privileges.php:1655 server_privileges.php:1666
 #: server_privileges.php:1986 server_privileges.php:1991
-#: server_privileges.php:2285 sql.php:202 sql.php:263 tbl_printview.php:226
+#: server_privileges.php:2285 sql.php:229 sql.php:290 tbl_printview.php:226
 #: tbl_structure.php:373 tbl_tracking.php:331 tbl_tracking.php:336
 msgid "No"
 msgstr "ไม่"
@@ -219,12 +221,12 @@ msgstr "ไม่"
 #: libraries/mult_submits.inc.php:91 libraries/mult_submits.inc.php:100
 #: libraries/mult_submits.inc.php:105 libraries/mult_submits.inc.php:110
 #: libraries/mult_submits.inc.php:262 libraries/mult_submits.inc.php:273
-#: libraries/schema/Pdf_Relation_Schema.class.php:1318
-#: libraries/user_preferences.lib.php:310 prefs_manage.php:129
+#: libraries/schema/Pdf_Relation_Schema.class.php:1319
+#: libraries/user_preferences.lib.php:311 prefs_manage.php:129
 #: server_databases.php:76 server_privileges.php:1401
 #: server_privileges.php:1412 server_privileges.php:1652
 #: server_privileges.php:1666 server_privileges.php:1986
-#: server_privileges.php:1989 server_privileges.php:2285 sql.php:262
+#: server_privileges.php:1989 server_privileges.php:2285 sql.php:289
 #: tbl_printview.php:226 tbl_structure.php:39 tbl_structure.php:373
 #: tbl_tracking.php:329 tbl_tracking.php:334
 msgid "Yes"
@@ -252,19 +254,18 @@ msgid "Unselect All"
 msgstr "ไม่เลือกเลย"
 
 #: db_operations.php:41 tbl_create.php:48
-#, fuzzy
 msgid "The database name is empty!"
-msgstr "ชื่อตารางยังว่างอยู่!"
+msgstr "ไม่มีชื่อฐานข้อมูล"
 
 #: db_operations.php:272
-#, fuzzy, php-format
+#, php-format
 msgid "Database %s has been renamed to %s"
-msgstr "ตาราง %s ได้ถูกเปลี่ยนชื่อเป็น %s"
+msgstr "ฐานข้อมูล %s ได้ถูกเปลี่ยนชื่อเป็น %s"
 
 #: db_operations.php:276
-#, fuzzy, php-format
+#, php-format
 msgid "Database %s has been copied to %s"
-msgstr "คัดลอกตาราง %s ไปเก็บในชื่อ %s เรียบร้อยแล้ว."
+msgstr "คัดลอกฐานข้อมูล %s ไปเก็บในชื่อ %s เรียบร้อยแล้ว"
 
 #: db_operations.php:399
 msgid "Rename database to"
@@ -275,10 +276,8 @@ msgid "Command"
 msgstr "คำสั่ง"
 
 #: db_operations.php:433
-#, fuzzy
-#| msgid "Rename database to"
 msgid "Remove database"
-msgstr "เปลี่ยนชื่อฐานข้อมูลเป็น"
+msgstr "เอาฐานข้อมูลออก"
 
 #: db_operations.php:445
 #, php-format
@@ -286,14 +285,12 @@ msgid "Database %s has been dropped."
 msgstr "โยนฐานข้อมูล %s ทิ้งไปเรียบร้อยแล้ว"
 
 #: db_operations.php:450
-#, fuzzy
 msgid "Drop the database (DROP)"
-msgstr "ไม่มีฐานข้อมูล"
+msgstr "โยนฐานข้อมูลทิ้ง"
 
 #: db_operations.php:478
-#, fuzzy
 msgid "Copy database to"
-msgstr "เปลี่ยนชื่อฐานข้อมูลเป็น"
+msgstr "คัดลอกฐานข้อมูลเป็น"
 
 #: db_operations.php:485 tbl_operations.php:530 tbl_tracking.php:382
 msgid "Structure only"
@@ -309,14 +306,14 @@ msgstr "เฉพาะข้อมูล"
 
 #: db_operations.php:495
 msgid "CREATE DATABASE before copying"
-msgstr ""
+msgstr "สร้างฐานข้อมูลก่อนคัดลอก"
 
 #: db_operations.php:498 libraries/config/messages.inc.php:124
 #: libraries/config/messages.inc.php:125 libraries/config/messages.inc.php:127
 #: libraries/config/messages.inc.php:132 tbl_operations.php:538
 #, php-format
 msgid "Add %s"
-msgstr ""
+msgstr "เพิ่ม %s"
 
 #: db_operations.php:502 libraries/config/messages.inc.php:117
 #: tbl_operations.php:296 tbl_operations.php:540
@@ -325,12 +322,11 @@ msgstr "เพิ่มค่า AUTO_INCREMENT"
 
 #: db_operations.php:506 tbl_operations.php:547
 msgid "Add constraints"
-msgstr ""
+msgstr "เพิ่ม constraints"
 
 #: db_operations.php:519
-#, fuzzy
 msgid "Switch to copied database"
-msgstr "สลับไปที่ตารางที่ถูกทำสำเนาไว้"
+msgstr "สลับไปยังฐานข้อมูลที่ถูกทำสำเนาไว้"
 
 #: db_operations.php:543 libraries/Index.class.php:447
 #: libraries/build_html_for_db.lib.php:19 libraries/db_structure.lib.php:53
@@ -343,21 +339,15 @@ msgid "Collation"
 msgstr "การเรียงลำดับ"
 
 #: db_operations.php:556
-#, fuzzy, php-format
-#| msgid ""
-#| "The additional features for working with linked tables have been "
-#| "deactivated. To find out why click %shere%s."
+#, php-format
 msgid ""
 "The phpMyAdmin configuration storage has been deactivated. To find out why "
 "click %shere%s."
-msgstr ""
-"ความสามารถเพิ่มเติมสำหรับ linked Tables ได้ถูกระงับเอาไว้ ตามเหตุผลที่แจ้งไว้ใน %shere%s"
+msgstr "การจัดเก็บการตั้งค่าของ phpMyAdmin ได้ถูกระงับเอาไว้ คลิก %shere%s เพื่อหาสาเหตุ"
 
 #: db_operations.php:589
-#, fuzzy
-#| msgid "Relational schema"
 msgid "Edit or export relational schema"
-msgstr "รีเลชันแนล สกีมา"
+msgstr "แก้ไข หรือส่งออก รีเลชันแนล สกีมา"
 
 #: db_printview.php:102 db_tracking.php:85 db_tracking.php:186
 #: libraries/config/messages.inc.php:487 libraries/db_structure.lib.php:37
@@ -371,7 +361,7 @@ msgstr "ตาราง "
 
 #: db_printview.php:103 libraries/build_html_for_db.lib.php:30
 #: libraries/db_structure.lib.php:47 libraries/header_printview.inc.php:62
-#: libraries/import.lib.php:147 navigation.php:610 navigation.php:632
+#: libraries/import.lib.php:147 navigation.php:619 navigation.php:641
 #: tbl_printview.php:391 tbl_structure.php:388 tbl_structure.php:475
 #: tbl_structure.php:869
 msgid "Rows"
@@ -381,28 +371,28 @@ msgstr "แถว"
 msgid "Size"
 msgstr "ขนาด"
 
-#: db_printview.php:160 db_structure.php:416 libraries/export/sql.php:624
-#: libraries/export/sql.php:964
+#: db_printview.php:160 db_structure.php:416 libraries/export/sql.php:636
+#: libraries/export/sql.php:976
 msgid "in use"
 msgstr "ใช้อยู่"
 
 #: db_printview.php:185 libraries/db_info.inc.php:86
-#: libraries/export/sql.php:579
-#: libraries/schema/Pdf_Relation_Schema.class.php:1215 tbl_printview.php:431
+#: libraries/export/sql.php:591
+#: libraries/schema/Pdf_Relation_Schema.class.php:1216 tbl_printview.php:431
 #: tbl_structure.php:901
 msgid "Creation"
 msgstr "สร้างเมื่อ"
 
 #: db_printview.php:194 libraries/db_info.inc.php:91
-#: libraries/export/sql.php:584
-#: libraries/schema/Pdf_Relation_Schema.class.php:1220 tbl_printview.php:441
+#: libraries/export/sql.php:596
+#: libraries/schema/Pdf_Relation_Schema.class.php:1221 tbl_printview.php:441
 #: tbl_structure.php:909
 msgid "Last update"
 msgstr "ปรับปรุงครั้งสุดท้ายเมื่อ"
 
 #: db_printview.php:203 libraries/db_info.inc.php:96
-#: libraries/export/sql.php:589
-#: libraries/schema/Pdf_Relation_Schema.class.php:1225 tbl_printview.php:451
+#: libraries/export/sql.php:601
+#: libraries/schema/Pdf_Relation_Schema.class.php:1226 tbl_printview.php:451
 #: tbl_structure.php:917
 msgid "Last check"
 msgstr "ตรวจสอบครั้งสุดท้ายเมื่อ"
@@ -415,8 +405,8 @@ msgid_plural "%s tables"
 msgstr[0] "%s ตาราง"
 msgstr[1] "%s ตาราง"
 
-#: db_qbe.php:25 import.php:452 libraries/Message.class.php:190
-#: libraries/display_tbl.lib.php:1989 libraries/sql_query_form.lib.php:140
+#: db_qbe.php:25 import.php:453 libraries/Message.class.php:190
+#: libraries/display_tbl.lib.php:2053 libraries/sql_query_form.lib.php:140
 #: tbl_operations.php:210 tbl_relation.php:289 tbl_row_action.php:131
 #: view_operations.php:60
 msgid "Your SQL query has been executed successfully"
@@ -428,11 +418,11 @@ msgstr "ต้องเลือกให้แสดงอย่างน้อ
 
 #: db_qbe.php:183
 msgid "Switch to"
-msgstr ""
+msgstr "สลับไปยัง"
 
 #: db_qbe.php:187
 msgid "visual builder"
-msgstr ""
+msgstr "ตัวสร้างแบบวิชวล"
 
 #: db_qbe.php:223 libraries/db_structure.lib.php:95
 #: libraries/display_tbl.lib.php:868
@@ -509,14 +499,14 @@ msgstr "ใช้ตาราง"
 msgid "SQL query on database <b>%s</b>:"
 msgstr "คำค้นบนฐานข้อมูล <b>%s</b>:"
 
-#: db_qbe.php:957 libraries/common.lib.php:1165
+#: db_qbe.php:957 libraries/common.lib.php:1185
 msgid "Submit Query"
 msgstr "ประมวลผลคำค้น"
 
 #: db_search.php:52 libraries/auth/config.auth.lib.php:83
 #: libraries/auth/config.auth.lib.php:102
 #: libraries/auth/cookie.auth.lib.php:645 libraries/auth/http.auth.lib.php:51
-#: libraries/auth/signon.auth.lib.php:187
+#: libraries/auth/signon.auth.lib.php:197
 msgid "Access denied"
 msgstr "ไม่อนุญาตให้ใช้งาน"
 
@@ -549,30 +539,30 @@ msgid_plural "%s matches inside table <i>%s</i>"
 msgstr[0] "พบ %s ผลลัพธ์ที่ตรงในตาราง <i>%s</i>"
 msgstr[1] "พบ %s ผลลัพธ์ที่ตรงในตาราง <i>%s</i>"
 
-#: db_search.php:254 libraries/common.lib.php:2797
-#: libraries/common.lib.php:2975 libraries/common.lib.php:2976
+#: db_search.php:254 libraries/common.lib.php:2827
+#: libraries/common.lib.php:3009 libraries/common.lib.php:3010
 #: libraries/mult_submits.inc.php:115 libraries/tbl_links.inc.php:48
 #: tbl_structure.php:36 tbl_structure.php:48 tbl_structure.php:557
 msgid "Browse"
 msgstr "เปิดดู"
-
-#: db_search.php:259 libraries/display_tbl.lib.php:1200
-#: libraries/display_tbl.lib.php:2068
-#: libraries/schema/User_Schema.class.php:169
-#: libraries/schema/User_Schema.class.php:238
-#: libraries/schema/User_Schema.class.php:273
-#: libraries/schema/User_Schema.class.php:303
-#: libraries/sql_query_form.lib.php:447 pmd_general.php:424
-#: setup/frames/index.inc.php:126 setup/frames/index.inc.php:217
-#: tbl_row_action.php:62
-msgid "Delete"
-msgstr "ลบ"
 
 #: db_search.php:259
 #, fuzzy, php-format
 #| msgid "Dumping data for table"
 msgid "Delete the matches for the %s table?"
 msgstr "dump ตาราง"
+
+#: db_search.php:259 libraries/display_tbl.lib.php:1201
+#: libraries/display_tbl.lib.php:2132
+#: libraries/schema/User_Schema.class.php:169
+#: libraries/schema/User_Schema.class.php:238
+#: libraries/schema/User_Schema.class.php:273
+#: libraries/schema/User_Schema.class.php:303
+#: libraries/sql_query_form.lib.php:448 pmd_general.php:424
+#: setup/frames/index.inc.php:126 setup/frames/index.inc.php:217
+#: tbl_row_action.php:62
+msgid "Delete"
+msgstr "ลบ"
 
 #: db_search.php:272
 #, fuzzy, php-format
@@ -603,10 +593,8 @@ msgid "Inside table(s):"
 msgstr "ในตาราง:"
 
 #: db_search.php:351
-#, fuzzy
-#| msgid "Inside table(s):"
 msgid "Inside column:"
-msgstr "ในตาราง:"
+msgstr "ในคอลัมน์:"
 
 #: db_structure.php:59
 #, fuzzy
@@ -620,9 +608,9 @@ msgid "Table %s has been emptied"
 msgstr "ลบข้อมูลในตาราง %s เรียบร้อยแล้ว"
 
 #: db_structure.php:286 tbl_operations.php:675
-#, fuzzy, php-format
+#, php-format
 msgid "View %s has been dropped"
-msgstr "โยนฟิลด์ %s ทิ้งไปเรียบร้อยแล้ว"
+msgstr "โยนวิว %s ทิ้งไปเรียบร้อยแล้ว"
 
 #: db_structure.php:286 tbl_operations.php:675
 #, php-format
@@ -631,30 +619,29 @@ msgstr "โยนตาราง %s ทิ้งไปเรียบร้อ�
 
 #: db_structure.php:293 tbl_create.php:295
 msgid "Tracking is active."
-msgstr ""
+msgstr "การติดตามเริ่มทำงานแล้ว"
 
 #: db_structure.php:295 tbl_create.php:297
 msgid "Tracking is not active."
-msgstr ""
+msgstr "หยุดการติดตามแล้ว"
 
-#: db_structure.php:379 libraries/display_tbl.lib.php:1952
+#: db_structure.php:379 libraries/display_tbl.lib.php:2016
 #, php-format
 msgid ""
-"This view has at least this number of rows. Please refer to %sdocumentation"
-"%s."
+"This view has at least this number of rows. Please refer to %sdocumentation%"
+"s."
 msgstr ""
 
 #: db_structure.php:393 db_structure.php:407 libraries/header.inc.php:138
 #: libraries/tbl_info.inc.php:60 tbl_structure.php:205 test/theme.php:73
 msgid "View"
-msgstr ""
+msgstr "วิว"
 
 #: db_structure.php:444 libraries/db_structure.lib.php:40
 #: libraries/server_links.inc.php:90 server_replication.php:31
 #: server_replication.php:162 server_status.php:383
-#, fuzzy
 msgid "Replication"
-msgstr "รีเลชัน"
+msgstr "การทำข้อมูลซ้ำไปไว้อีกที่หนึ่ง"
 
 #: db_structure.php:448
 msgid "Sum"
@@ -663,23 +650,23 @@ msgstr "ผลรวม"
 #: db_structure.php:455 libraries/StorageEngine.class.php:351
 #, php-format
 msgid "%s is the default storage engine on this MySQL server."
-msgstr ""
+msgstr "เซิร์ฟเวอร์ MySQL นี้ใช้ storage engine ชื่อ %s เป็นค่าเริ่มต้น"
 
 #: db_structure.php:483 db_structure.php:500 db_structure.php:501
-#: libraries/display_tbl.lib.php:2093 libraries/display_tbl.lib.php:2098
+#: libraries/display_tbl.lib.php:2157 libraries/display_tbl.lib.php:2162
 #: libraries/mult_submits.inc.php:15 server_databases.php:246
 #: server_databases.php:251 server_privileges.php:1683 tbl_structure.php:545
 #: tbl_structure.php:554
 msgid "With selected:"
 msgstr "ทำกับที่เลือก:"
 
-#: db_structure.php:486 libraries/display_tbl.lib.php:2088
+#: db_structure.php:486 libraries/display_tbl.lib.php:2152
 #: server_databases.php:248 server_privileges.php:576
 #: server_privileges.php:1686 tbl_structure.php:548
 msgid "Check All"
 msgstr "เลือกทั้งหมด"
 
-#: db_structure.php:490 libraries/display_tbl.lib.php:2089
+#: db_structure.php:490 libraries/display_tbl.lib.php:2153
 #: libraries/replication_gui.lib.php:35 server_databases.php:250
 #: server_privileges.php:579 server_privileges.php:1690 tbl_structure.php:552
 msgid "Uncheck All"
@@ -687,11 +674,11 @@ msgstr "ไม่เลือกเลย"
 
 #: db_structure.php:495
 msgid "Check tables having overhead"
-msgstr ""
+msgstr "ตรวจสอบตารางที่มี overhead"
 
 #: db_structure.php:502 db_structure.php:503
 #: libraries/config/messages.inc.php:161 libraries/db_links.inc.php:56
-#: libraries/display_tbl.lib.php:2106 libraries/display_tbl.lib.php:2240
+#: libraries/display_tbl.lib.php:2170 libraries/display_tbl.lib.php:2304
 #: libraries/mult_submits.inc.php:61 libraries/server_links.inc.php:69
 #: libraries/tbl_links.inc.php:73 prefs_manage.php:288
 #: server_privileges.php:1377 setup/frames/menu.inc.php:21
@@ -700,20 +687,20 @@ msgid "Export"
 msgstr "ส่งออก"
 
 #: db_structure.php:504 db_structure.php:505 db_structure.php:561
-#: libraries/display_tbl.lib.php:2195 libraries/mult_submits.inc.php:27
+#: libraries/display_tbl.lib.php:2259 libraries/mult_submits.inc.php:27
 #: tbl_structure.php:583 tbl_structure.php:585
 msgid "Print view"
 msgstr "แสดง"
 
-#: db_structure.php:508 db_structure.php:509 libraries/common.lib.php:1640
-#: libraries/common.lib.php:2984 libraries/common.lib.php:2985
+#: db_structure.php:508 db_structure.php:509 libraries/common.lib.php:1663
+#: libraries/common.lib.php:3018 libraries/common.lib.php:3019
 #: libraries/mult_submits.inc.php:38
 msgid "Empty"
 msgstr "ลบข้อมูล"
 
 #: db_structure.php:510 db_structure.php:511 db_tracking.php:104
-#: libraries/Index.class.php:487 libraries/common.lib.php:1641
-#: libraries/common.lib.php:2982 libraries/common.lib.php:2983
+#: libraries/Index.class.php:487 libraries/common.lib.php:1664
+#: libraries/common.lib.php:3016 libraries/common.lib.php:3017
 #: libraries/mult_submits.inc.php:35 libraries/mult_submits.inc.php:72
 #: server_databases.php:252 tbl_structure.php:26 tbl_structure.php:150
 #: tbl_structure.php:151 tbl_structure.php:561
@@ -746,12 +733,12 @@ msgstr "พจนานุกรมข้อมูล"
 
 #: db_tracking.php:79
 msgid "Tracked tables"
-msgstr ""
+msgstr "ตารางที่ถูกติดตาม"
 
 #: db_tracking.php:84 libraries/config/messages.inc.php:481
 #: libraries/export/htmlword.php:89 libraries/export/latex.php:162
 #: libraries/export/odt.php:120 libraries/export/pdf.php:100
-#: libraries/export/sql.php:441 libraries/export/texytext.php:77
+#: libraries/export/sql.php:453 libraries/export/texytext.php:77
 #: libraries/export/xml.php:258 libraries/header.inc.php:125
 #: libraries/header_printview.inc.php:57 server_databases.php:147
 #: server_privileges.php:1757 server_privileges.php:1818
@@ -763,7 +750,7 @@ msgstr "ฐานข้อมูล"
 
 #: db_tracking.php:86
 msgid "Last version"
-msgstr ""
+msgstr "เวอร์ชั่นล่าสุด"
 
 #: db_tracking.php:87 tbl_tracking.php:588
 #, fuzzy
@@ -772,9 +759,9 @@ msgstr "สร้าง"
 
 #: db_tracking.php:88 tbl_tracking.php:589
 msgid "Updated"
-msgstr ""
+msgstr "ปรับปรุงแล้ว"
 
-#: db_tracking.php:89 libraries/common.lib.php:1328
+#: db_tracking.php:89 libraries/common.lib.php:1351
 #: libraries/server_links.inc.php:50 server_processlist.php:66
 #: tbl_tracking.php:590 test/theme.php:100
 msgid "Status"
@@ -789,55 +776,51 @@ msgstr "กระทำการ"
 
 #: db_tracking.php:101 js/messages.php:34
 msgid "Delete tracking data for this table"
-msgstr ""
+msgstr "ลบการติดตามตารางนี้"
 
 #: db_tracking.php:119 tbl_tracking.php:542 tbl_tracking.php:600
 #: tbl_tracking.php:607
 msgid "active"
-msgstr ""
+msgstr "ใช้งานได้"
 
 #: db_tracking.php:121 tbl_tracking.php:544 tbl_tracking.php:602
 #: tbl_tracking.php:604
 msgid "not active"
-msgstr ""
+msgstr "ใช้งานไม่ได้"
 
 #: db_tracking.php:134
-#, fuzzy
 msgid "Versions"
-msgstr "กระบวนการ"
+msgstr "รุ่น"
 
 #: db_tracking.php:135 tbl_tracking.php:373 tbl_tracking.php:618
 msgid "Tracking report"
-msgstr ""
+msgstr "รายงานผลการติดตาม"
 
 #: db_tracking.php:136 tbl_tracking.php:245 tbl_tracking.php:618
-#, fuzzy
 msgid "Structure snapshot"
-msgstr "เฉพาะโครงสร้าง"
+msgstr "โครงสร้างแบบคร่าวๆ"
 
 #: db_tracking.php:181
 msgid "Untracked tables"
-msgstr ""
+msgstr "เลิกติดตามตาราง"
 
 #: db_tracking.php:201 db_tracking.php:203 tbl_structure.php:619
 #: tbl_structure.php:621
-#, fuzzy
 msgid "Track table"
-msgstr "ตรวจสอบตาราง"
+msgstr "ติดตามตาราง"
 
 #: db_tracking.php:229
-#, fuzzy
 msgid "Database Log"
-msgstr "ฐานข้อมูล"
+msgstr "Log ของฐานข้อมูล"
 
 #: enum_editor.php:21 libraries/tbl_properties.inc.php:794
 #, php-format
 msgid "Values for the column \"%s\""
-msgstr ""
+msgstr "ค่าสำหรับคอลัมน์ \"%s\""
 
 #: enum_editor.php:22 libraries/tbl_properties.inc.php:795
 msgid "Enter each value in a separate field."
-msgstr ""
+msgstr "ป้อนค่าในช่องต่างๆ"
 
 #: enum_editor.php:57
 msgid "+ Restart insertion and add a new value"
@@ -853,25 +836,25 @@ msgstr ""
 
 #: export.php:73
 msgid "Selected export type has to be saved in file!"
-msgstr ""
+msgstr "ชนิดการส่งออกที่ถูกเลือกต้องถูกบันทึกลงไฟล์"
 
-#: export.php:164 export.php:189 export.php:662
+#: export.php:164 export.php:189 export.php:671
 #, php-format
 msgid "Insufficient space to save the file %s."
-msgstr ""
+msgstr "พื้นที่ไม่เพียงพอที่จะบันทึกไฟล์ %s"
 
 #: export.php:307
 #, php-format
 msgid ""
 "File %s already exists on server, change filename or check overwrite option."
-msgstr ""
+msgstr "ให้เปลี่ยนชื่อไฟล์ หรือเลือกแบบเขียนทับไฟล์เดิม เพราะมีไฟล์ %s อยู่ในเซิร์ฟเวอร์อยู่แล้ว"
 
 #: export.php:311 export.php:315
 #, php-format
 msgid "The web server does not have permission to save the file %s."
-msgstr ""
+msgstr "บันทึกไฟล์ %s ไม่ได้ เพราะเว็บเซิร์ฟเวอร์ไม่อนุญาติ"
 
-#: export.php:664
+#: export.php:673
 #, php-format
 msgid "Dump has been saved to file %s."
 msgstr ""
@@ -879,16 +862,16 @@ msgstr ""
 #: import.php:58
 #, php-format
 msgid ""
-"You probably tried to upload too large file. Please refer to %sdocumentation"
-"%s for ways to workaround this limit."
+"You probably tried to upload too large file. Please refer to %sdocumentation%"
+"s for ways to workaround this limit."
 msgstr ""
 
-#: import.php:277 import.php:330 libraries/File.class.php:501
+#: import.php:278 import.php:331 libraries/File.class.php:501
 #: libraries/File.class.php:611
 msgid "File could not be read"
 msgstr "อ่านไฟล์ไม่ได้"
 
-#: import.php:285 import.php:294 import.php:313 import.php:322
+#: import.php:286 import.php:295 import.php:314 import.php:323
 #: libraries/File.class.php:681 libraries/File.class.php:689
 #: libraries/File.class.php:705 libraries/File.class.php:713
 #, php-format
@@ -897,48 +880,48 @@ msgid ""
 "for it is not implemented or disabled by your configuration."
 msgstr ""
 
-#: import.php:335
+#: import.php:336
 msgid ""
 "No data was received to import. Either no file name was submitted, or the "
 "file size exceeded the maximum size permitted by your PHP configuration. See "
 "[a@./Documentation.html#faq1_16@Documentation]FAQ 1.16[/a]."
 msgstr ""
 
-#: import.php:370 libraries/display_import.lib.php:23
+#: import.php:371 libraries/display_import.lib.php:23
 msgid "Could not load import plugins, please check your installation!"
 msgstr ""
 
-#: import.php:395
+#: import.php:396
 msgid "The bookmark has been deleted."
 msgstr "ลบคำค้นที่จดไว้เรียบร้อยแล้ว"
 
-#: import.php:399
+#: import.php:400
 msgid "Showing bookmark"
 msgstr ""
 
-#: import.php:401 sql.php:818
+#: import.php:402 sql.php:838
 #, php-format
 msgid "Bookmark %s created"
 msgstr ""
 
-#: import.php:407 import.php:413
+#: import.php:408 import.php:414
 #, php-format
 msgid "Import has been successfully finished, %d queries executed."
 msgstr ""
 
-#: import.php:422
+#: import.php:423
 msgid ""
 "Script timeout passed, if you want to finish import, please resubmit same "
 "file and import will resume."
 msgstr ""
 
-#: import.php:424
+#: import.php:425
 msgid ""
 "However on last run no data has been parsed, this usually means phpMyAdmin "
 "won't be able to finish this import unless you increase php time limits."
 msgstr ""
 
-#: import_status.php:30 libraries/common.lib.php:654
+#: import_status.php:30 libraries/common.lib.php:674
 #: libraries/schema/Export_Relation_Schema.class.php:215 user_password.php:123
 msgid "Back"
 msgstr "ย้อนกลับ"
@@ -958,15 +941,15 @@ msgstr ""
 msgid "Click to unselect"
 msgstr ""
 
-#: js/messages.php:27 libraries/import.lib.php:103 sql.php:159
+#: js/messages.php:27 libraries/import.lib.php:103 sql.php:186
 msgid "\"DROP DATABASE\" statements are disabled."
 msgstr "คำสั่ง \"DROP DATABASE\" ถูกปิดไว้"
 
-#: js/messages.php:30 libraries/mult_submits.inc.php:258 sql.php:257
+#: js/messages.php:30 libraries/mult_submits.inc.php:258 sql.php:284
 msgid "Do you really want to "
 msgstr "ต้องการจะ "
 
-#: js/messages.php:31 libraries/mult_submits.inc.php:258 sql.php:242
+#: js/messages.php:31 libraries/mult_submits.inc.php:258 sql.php:269
 msgid "You are about to DESTROY a complete database!"
 msgstr ""
 
@@ -1128,81 +1111,94 @@ msgstr "เริ่มหน้าใหม่"
 msgid "Searching"
 msgstr "ค้นหา"
 
-#: js/messages.php:84
+#: js/messages.php:86
 #, fuzzy
 msgid "Hide query box"
 msgstr "คำค้น SQL"
 
-#: js/messages.php:85
+#: js/messages.php:87
 #, fuzzy
 msgid "Show query box"
 msgstr "คำค้น SQL"
 
-#: js/messages.php:86
+#: js/messages.php:88
 msgid "Inline Edit"
 msgstr ""
 
-#: js/messages.php:89
+#: js/messages.php:89 libraries/config/FormDisplay.tpl.php:332
+#: libraries/schema/User_Schema.class.php:317
+#: libraries/tbl_properties.inc.php:777 setup/frames/config.inc.php:39
+#: setup/frames/index.inc.php:215 tbl_change.php:1048 tbl_indexes.php:246
+#: tbl_relation.php:563
+msgid "Save"
+msgstr "บันทึก"
+
+#: js/messages.php:90 libraries/display_tbl.lib.php:609 pmd_general.php:159
+#: tbl_change.php:315 tbl_change.php:321
+msgid "Hide"
+msgstr ""
+
+#: js/messages.php:93
 #, fuzzy
 msgid "Hide search criteria"
 msgstr "คำค้น SQL"
 
-#: js/messages.php:90
+#: js/messages.php:94
 #, fuzzy
 msgid "Show search criteria"
 msgstr "คำค้น SQL"
 
-#: js/messages.php:93 tbl_change.php:303 tbl_indexes.php:198
+#: js/messages.php:97 tbl_change.php:303 tbl_indexes.php:198
 #: tbl_indexes.php:223
 msgid "Ignore"
 msgstr "ไม่สนใจ"
 
-#: js/messages.php:96
+#: js/messages.php:100
 msgid "Select referenced key"
 msgstr ""
 
-#: js/messages.php:97
+#: js/messages.php:101
 msgid "Select Foreign Key"
 msgstr ""
 
-#: js/messages.php:98
+#: js/messages.php:102
 msgid "Please select the primary key or a unique key"
 msgstr ""
 
-#: js/messages.php:99 pmd_general.php:88 tbl_relation.php:545
+#: js/messages.php:103 pmd_general.php:88 tbl_relation.php:545
 #, fuzzy
 #| msgid "Choose field to display"
 msgid "Choose column to display"
 msgstr "เลือกฟิลด์ที่ต้องการแสดง"
 
-#: js/messages.php:102
+#: js/messages.php:106
 msgid "Add an option for column "
 msgstr ""
 
-#: js/messages.php:105
+#: js/messages.php:109
 #, fuzzy
 #| msgid "Change password"
 msgid "Generate password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: js/messages.php:106 libraries/replication_gui.lib.php:365
+#: js/messages.php:110 libraries/replication_gui.lib.php:365
 #, fuzzy
 msgid "Generate"
 msgstr "สร้างโดย"
 
-#: js/messages.php:107
+#: js/messages.php:111
 #, fuzzy
 #| msgid "Change password"
 msgid "Change Password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: js/messages.php:110 tbl_structure.php:471
+#: js/messages.php:114 tbl_structure.php:471
 #, fuzzy
 #| msgid "Mon"
 msgid "More"
 msgstr "จ."
 
-#: js/messages.php:113 setup/lib/index.lib.php:158
+#: js/messages.php:117 setup/lib/index.lib.php:158
 #, php-format
 msgid ""
 "A newer version of phpMyAdmin is available and you should consider "
@@ -1210,123 +1206,123 @@ msgid ""
 msgstr ""
 
 #. l10n: Latest available phpMyAdmin version
-#: js/messages.php:115
+#: js/messages.php:119
 msgid ", latest stable version:"
 msgstr ""
 
 #. l10n: Display text for calendar close link
-#: js/messages.php:130
+#: js/messages.php:134
 #, fuzzy
 #| msgid "None"
 msgid "Done"
 msgstr "ไม่มี"
 
 #. l10n: Display text for previous month link in calendar
-#: js/messages.php:132
+#: js/messages.php:136
 #, fuzzy
 #| msgid "Previous"
 msgid "Prev"
 msgstr "ก่อนหน้า"
 
 #. l10n: Display text for next month link in calendar
-#: js/messages.php:134 libraries/common.lib.php:2338
-#: libraries/common.lib.php:2341 libraries/display_tbl.lib.php:336
+#: js/messages.php:138 libraries/common.lib.php:2368
+#: libraries/common.lib.php:2371 libraries/display_tbl.lib.php:336
 #: server_binlog.php:189 server_binlog.php:191 tbl_printview.php:421
 #: tbl_structure.php:893
 msgid "Next"
 msgstr "ต่อไป"
 
 #. l10n: Display text for current month link in calendar
-#: js/messages.php:136
+#: js/messages.php:140
 #, fuzzy
 #| msgid "Total"
 msgid "Today"
 msgstr "รวม"
 
-#: js/messages.php:139
+#: js/messages.php:143
 #, fuzzy
 #| msgid "Binary"
 msgid "January"
 msgstr " ข้อมูลไบนารี "
 
-#: js/messages.php:140
+#: js/messages.php:144
 msgid "February"
 msgstr ""
 
-#: js/messages.php:141
+#: js/messages.php:145
 #, fuzzy
 #| msgid "Mar"
 msgid "March"
 msgstr "มี.ค."
 
-#: js/messages.php:142
+#: js/messages.php:146
 #, fuzzy
 #| msgid "Apr"
 msgid "April"
 msgstr "เม.ย."
 
-#: js/messages.php:143
+#: js/messages.php:147
 msgid "May"
 msgstr "พ.ค."
 
-#: js/messages.php:144
+#: js/messages.php:148
 #, fuzzy
 #| msgid "Jun"
 msgid "June"
 msgstr "มิ.ย."
 
-#: js/messages.php:145
+#: js/messages.php:149
 #, fuzzy
 #| msgid "Jul"
 msgid "July"
 msgstr "ก.ค."
 
-#: js/messages.php:146
+#: js/messages.php:150
 #, fuzzy
 #| msgid "Aug"
 msgid "August"
 msgstr "ส.ค."
 
-#: js/messages.php:147
+#: js/messages.php:151
 msgid "September"
 msgstr ""
 
-#: js/messages.php:148
+#: js/messages.php:152
 #, fuzzy
 #| msgid "Oct"
 msgid "October"
 msgstr "ต.ค."
 
-#: js/messages.php:149
+#: js/messages.php:153
 msgid "November"
 msgstr ""
 
-#: js/messages.php:150
+#: js/messages.php:154
 msgid "December"
 msgstr ""
 
 #. l10n: Short month name
-#: js/messages.php:154 libraries/common.lib.php:1543
+#: js/messages.php:158 libraries/common.lib.php:1566
 msgid "Jan"
 msgstr "ม.ค."
 
 #. l10n: Short month name
-#: js/messages.php:156 libraries/common.lib.php:1545
+#: js/messages.php:160 libraries/common.lib.php:1568
 msgid "Feb"
 msgstr "ก.พ."
 
 #. l10n: Short month name
-#: js/messages.php:158 libraries/common.lib.php:1547
+#: js/messages.php:162 libraries/common.lib.php:1570
 msgid "Mar"
 msgstr "มี.ค."
 
 #. l10n: Short month name
-#: js/messages.php:160 libraries/common.lib.php:1549
+#: js/messages.php:164 libraries/common.lib.php:1572
 msgid "Apr"
 msgstr "เม.ย."
 
 #. l10n: Short month name
-#: js/messages.php:162 libraries/common.lib.php:1551
+#: js/messages.php:166 libraries/common.lib.php:1574
 #, fuzzy
 #| msgid "May"
 msgctxt "Short month name"
@@ -1334,176 +1330,176 @@ msgid "May"
 msgstr "พ.ค."
 
 #. l10n: Short month name
-#: js/messages.php:164 libraries/common.lib.php:1553
+#: js/messages.php:168 libraries/common.lib.php:1576
 msgid "Jun"
 msgstr "มิ.ย."
 
 #. l10n: Short month name
-#: js/messages.php:166 libraries/common.lib.php:1555
+#: js/messages.php:170 libraries/common.lib.php:1578
 msgid "Jul"
 msgstr "ก.ค."
 
 #. l10n: Short month name
-#: js/messages.php:168 libraries/common.lib.php:1557
+#: js/messages.php:172 libraries/common.lib.php:1580
 msgid "Aug"
 msgstr "ส.ค."
 
 #. l10n: Short month name
-#: js/messages.php:170 libraries/common.lib.php:1559
+#: js/messages.php:174 libraries/common.lib.php:1582
 msgid "Sep"
 msgstr "ก.ย."
 
 #. l10n: Short month name
-#: js/messages.php:172 libraries/common.lib.php:1561
+#: js/messages.php:176 libraries/common.lib.php:1584
 msgid "Oct"
 msgstr "ต.ค."
 
 #. l10n: Short month name
-#: js/messages.php:174 libraries/common.lib.php:1563
+#: js/messages.php:178 libraries/common.lib.php:1586
 msgid "Nov"
 msgstr "พ.ย."
 
 #. l10n: Short month name
-#: js/messages.php:176 libraries/common.lib.php:1565
+#: js/messages.php:180 libraries/common.lib.php:1588
 msgid "Dec"
 msgstr "ธ.ค."
 
-#: js/messages.php:179
+#: js/messages.php:183
 #, fuzzy
 #| msgid "Sun"
 msgid "Sunday"
 msgstr "อา."
 
-#: js/messages.php:180
+#: js/messages.php:184
 #, fuzzy
 #| msgid "Mon"
 msgid "Monday"
 msgstr "จ."
 
-#: js/messages.php:181
+#: js/messages.php:185
 #, fuzzy
 #| msgid "Tue"
 msgid "Tuesday"
 msgstr "อ."
 
-#: js/messages.php:182
+#: js/messages.php:186
 msgid "Wednesday"
 msgstr ""
 
-#: js/messages.php:183
+#: js/messages.php:187
 msgid "Thursday"
 msgstr ""
 
-#: js/messages.php:184
+#: js/messages.php:188
 #, fuzzy
 #| msgid "Fri"
 msgid "Friday"
 msgstr "ศ."
 
-#: js/messages.php:185
+#: js/messages.php:189
 msgid "Saturday"
 msgstr ""
 
 #. l10n: Short week day name
-#: js/messages.php:189 libraries/common.lib.php:1568
+#: js/messages.php:193 libraries/common.lib.php:1591
 msgid "Sun"
 msgstr "อา."
 
 #. l10n: Short week day name
-#: js/messages.php:191 libraries/common.lib.php:1570
+#: js/messages.php:195 libraries/common.lib.php:1593
 msgid "Mon"
 msgstr "จ."
 
 #. l10n: Short week day name
-#: js/messages.php:193 libraries/common.lib.php:1572
+#: js/messages.php:197 libraries/common.lib.php:1595
 msgid "Tue"
 msgstr "อ."
 
 #. l10n: Short week day name
-#: js/messages.php:195 libraries/common.lib.php:1574
+#: js/messages.php:199 libraries/common.lib.php:1597
 msgid "Wed"
 msgstr "พ."
 
 #. l10n: Short week day name
-#: js/messages.php:197 libraries/common.lib.php:1576
+#: js/messages.php:201 libraries/common.lib.php:1599
 msgid "Thu"
 msgstr "พฤ."
 
 #. l10n: Short week day name
-#: js/messages.php:199 libraries/common.lib.php:1578
+#: js/messages.php:203 libraries/common.lib.php:1601
 msgid "Fri"
 msgstr "ศ."
 
 #. l10n: Short week day name
-#: js/messages.php:201 libraries/common.lib.php:1580
+#: js/messages.php:205 libraries/common.lib.php:1603
 msgid "Sat"
 msgstr "ส."
 
 #. l10n: Minimal week day name
-#: js/messages.php:205
+#: js/messages.php:209
 #, fuzzy
 #| msgid "Sun"
 msgid "Su"
 msgstr "อา."
 
 #. l10n: Minimal week day name
-#: js/messages.php:207
+#: js/messages.php:211
 #, fuzzy
 #| msgid "Mon"
 msgid "Mo"
 msgstr "จ."
 
 #. l10n: Minimal week day name
-#: js/messages.php:209
+#: js/messages.php:213
 #, fuzzy
 #| msgid "Tue"
 msgid "Tu"
 msgstr "อ."
 
 #. l10n: Minimal week day name
-#: js/messages.php:211
+#: js/messages.php:215
 #, fuzzy
 #| msgid "Wed"
 msgid "We"
 msgstr "พ."
 
 #. l10n: Minimal week day name
-#: js/messages.php:213
+#: js/messages.php:217
 #, fuzzy
 #| msgid "Thu"
 msgid "Th"
 msgstr "พฤ."
 
 #. l10n: Minimal week day name
-#: js/messages.php:215
+#: js/messages.php:219
 #, fuzzy
 #| msgid "Fri"
 msgid "Fr"
 msgstr "ศ."
 
 #. l10n: Minimal week day name
-#: js/messages.php:217
+#: js/messages.php:221
 #, fuzzy
 #| msgid "Sat"
 msgid "Sa"
 msgstr "ส."
 
 #. l10n: Column header for week of the year in calendar
-#: js/messages.php:219
+#: js/messages.php:223
 msgid "Wk"
 msgstr ""
 
-#: js/messages.php:221
+#: js/messages.php:225
 msgid "Hour"
 msgstr ""
 
-#: js/messages.php:222
+#: js/messages.php:226
 #, fuzzy
 #| msgid "in use"
 msgid "Minute"
 msgstr "ใช้อยู่"
 
-#: js/messages.php:223
+#: js/messages.php:227
 #, fuzzy
 #| msgid "per second"
 msgid "Second"
@@ -1578,11 +1574,12 @@ msgstr "Cardinality"
 msgid "Comment"
 msgstr "หมายเหตุ"
 
-#: libraries/Index.class.php:465 libraries/common.lib.php:606
-#: libraries/common.lib.php:1141 libraries/config/messages.inc.php:461
-#: libraries/display_tbl.lib.php:1164 libraries/import.lib.php:1150
-#: libraries/import.lib.php:1174 libraries/schema/User_Schema.class.php:168
-#: setup/frames/index.inc.php:125 tbl_row_action.php:68
+#: libraries/Index.class.php:465 libraries/common.lib.php:626
+#: libraries/common.lib.php:1161 libraries/common.lib.php:3020
+#: libraries/config/messages.inc.php:461 libraries/display_tbl.lib.php:1165
+#: libraries/import.lib.php:1150 libraries/import.lib.php:1174
+#: libraries/schema/User_Schema.class.php:168 setup/frames/index.inc.php:125
+#: tbl_row_action.php:68
 msgid "Edit"
 msgstr "แก้ไข"
 
@@ -1609,7 +1606,7 @@ msgid "Databases"
 msgstr "ฐานข้อมูล"
 
 #: libraries/Message.class.php:210 libraries/blobstreaming.lib.php:308
-#: libraries/blobstreaming.lib.php:314 libraries/common.lib.php:573
+#: libraries/blobstreaming.lib.php:314 libraries/common.lib.php:593
 #: libraries/core.lib.php:232 libraries/import.lib.php:136 tbl_change.php:955
 #: tbl_operations.php:210 tbl_relation.php:287 view_operations.php:60
 msgid "Error"
@@ -1723,8 +1720,8 @@ msgstr "%s ยินดีต้อนรับ"
 #: libraries/auth/config.auth.lib.php:106
 #, php-format
 msgid ""
-"You probably did not create a configuration file. You might want to use the "
-"%1$ssetup script%2$s to create one."
+"You probably did not create a configuration file. You might want to use the %"
+"1$ssetup script%2$s to create one."
 msgstr ""
 
 #: libraries/auth/config.auth.lib.php:115
@@ -1772,20 +1769,20 @@ msgid "Cookies must be enabled past this point."
 msgstr "ต้องอนุญาตใช้ใช้ 'คุ๊กกี้' (cookie) เสียก่อน จึงจะผ่านจุดนี้ไปได้"
 
 #: libraries/auth/cookie.auth.lib.php:643
-#: libraries/auth/signon.auth.lib.php:185
+#: libraries/auth/signon.auth.lib.php:195
 msgid ""
 "Login without a password is forbidden by configuration (see AllowNoPassword)"
 msgstr ""
 
 #: libraries/auth/cookie.auth.lib.php:647
-#: libraries/auth/signon.auth.lib.php:189
+#: libraries/auth/signon.auth.lib.php:199
 #, php-format
 msgid "No activity within %s seconds; please log in again"
 msgstr ""
 
 #: libraries/auth/cookie.auth.lib.php:657
 #: libraries/auth/cookie.auth.lib.php:659
-#: libraries/auth/signon.auth.lib.php:195
+#: libraries/auth/signon.auth.lib.php:205
 msgid "Cannot log in to the MySQL server"
 msgstr "ไม่สามารถล็อกอินเข้าเซิร์ฟเวอร์ MySQL ได้"
 
@@ -1865,7 +1862,7 @@ msgstr "ตาราง"
 #: libraries/config/user_preferences.forms.php:238
 #: libraries/config/user_preferences.forms.php:269
 #: libraries/config/user_preferences.forms.php:274
-#: libraries/export/latex.php:215 libraries/export/sql.php:933
+#: libraries/export/latex.php:215 libraries/export/sql.php:945
 #: server_privileges.php:583 server_replication.php:314 tbl_printview.php:314
 #: tbl_structure.php:757
 msgid "Data"
@@ -1982,172 +1979,177 @@ msgstr ""
 msgid "You should upgrade to %s %s or later."
 msgstr ""
 
-#: libraries/common.lib.php:145
+#: libraries/common.lib.php:142
 #, php-format
 msgid "Max: %s%s"
 msgstr "ขนาดใหญ่สุด: %s%s"
 
-#. l10n: Language to use for MySQL 5.1 documentation, please use only languages which do exist in official documentation.
-#: libraries/common.lib.php:407
-#, fuzzy
-msgctxt "$mysql_5_1_doc_lang"
+#. l10n: Language to use for MySQL 5.5 documentation, please use only languages which do exist in official documentation.
+#: libraries/common.lib.php:404
+msgctxt "MySQL 5.5 documentation language"
 msgid "en"
-msgstr "ถูกส่ง"
+msgstr "en"
+
+#. l10n: Language to use for MySQL 5.1 documentation, please use only languages which do exist in official documentation.
+#: libraries/common.lib.php:408
+msgctxt "MySQL 5.1 documentation language"
+msgid "en"
+msgstr "en"
 
 #. l10n: Language to use for MySQL 5.0 documentation, please use only languages which do exist in official documentation.
-#: libraries/common.lib.php:411
-#, fuzzy
-msgctxt "$mysql_5_0_doc_lang"
+#: libraries/common.lib.php:412
+msgctxt "MySQL 5.0 documentation language"
 msgid "en"
-msgstr "ถูกส่ง"
+msgstr "en"
 
-#: libraries/common.lib.php:424 libraries/common.lib.php:426
-#: libraries/common.lib.php:428 libraries/common.lib.php:444
-#: libraries/common.lib.php:446 libraries/config/FormDisplay.tpl.php:168
+#: libraries/common.lib.php:425 libraries/common.lib.php:427
+#: libraries/common.lib.php:429 libraries/common.lib.php:445
+#: libraries/common.lib.php:447 libraries/common.lib.php:464
+#: libraries/common.lib.php:466 libraries/config/FormDisplay.tpl.php:168
 #: libraries/display_export.lib.php:239 libraries/engines/pbms.lib.php:71
 #: libraries/engines/pbxt.lib.php:106 libraries/relation.lib.php:85
-#: libraries/sql_query_form.lib.php:428 libraries/sql_query_form.lib.php:431
+#: libraries/sql_query_form.lib.php:429 libraries/sql_query_form.lib.php:432
 #: main.php:222
 msgid "Documentation"
 msgstr "เอกสารอ้างอิง"
 
-#: libraries/common.lib.php:585 libraries/header_printview.inc.php:60
+#: libraries/common.lib.php:605 libraries/header_printview.inc.php:60
 #: server_processlist.php:67 server_status.php:372
 msgid "SQL query"
 msgstr "คำค้น SQL"
 
-#: libraries/common.lib.php:621
+#: libraries/common.lib.php:641
 msgid "MySQL said: "
 msgstr "MySQL แสดง: "
 
-#: libraries/common.lib.php:1076
+#: libraries/common.lib.php:1096
 msgid "Failed to connect to SQL validator!"
 msgstr ""
 
-#: libraries/common.lib.php:1117 libraries/config/messages.inc.php:462
+#: libraries/common.lib.php:1137 libraries/config/messages.inc.php:462
 msgid "Explain SQL"
 msgstr "อธิบาย SQL"
 
-#: libraries/common.lib.php:1120
+#: libraries/common.lib.php:1140
 msgid "Skip Explain SQL"
 msgstr "ไม่ต้องอธิบาย SQL"
 
-#: libraries/common.lib.php:1154
+#: libraries/common.lib.php:1174
 msgid "Without PHP Code"
 msgstr "ไม่เอาโค้ด PHP"
 
-#: libraries/common.lib.php:1157 libraries/config/messages.inc.php:464
+#: libraries/common.lib.php:1177 libraries/config/messages.inc.php:464
 msgid "Create PHP Code"
 msgstr "สร้างโค้ด PHP"
 
-#: libraries/common.lib.php:1175 libraries/config/messages.inc.php:463
+#: libraries/common.lib.php:1195 libraries/config/messages.inc.php:463
 #: server_status.php:467
 msgid "Refresh"
 msgstr "เรียกใหม่"
 
-#: libraries/common.lib.php:1184
+#: libraries/common.lib.php:1204
 msgid "Skip Validate SQL"
 msgstr "ไม่ต้องตรวจสอบ SQL"
 
-#: libraries/common.lib.php:1187 libraries/config/messages.inc.php:466
+#: libraries/common.lib.php:1207 libraries/config/messages.inc.php:466
 msgid "Validate SQL"
 msgstr "ตรวจสอบ SQL"
 
-#: libraries/common.lib.php:1242
+#: libraries/common.lib.php:1262
 msgid "Inline edit of this query"
 msgstr ""
 
-#: libraries/common.lib.php:1244
+#: libraries/common.lib.php:1264
 msgid "Inline"
 msgstr ""
 
-#: libraries/common.lib.php:1308 libraries/common.lib.php:1324
+#: libraries/common.lib.php:1331 libraries/common.lib.php:1347
 msgid "Profiling"
 msgstr ""
 
-#: libraries/common.lib.php:1329 libraries/tbl_triggers.lib.php:27
+#: libraries/common.lib.php:1352 libraries/tbl_triggers.lib.php:27
 #: server_processlist.php:65
 msgid "Time"
 msgstr "เวลา"
 
 #. l10n: shortcuts for Byte, Kilo, Mega, Giga, Tera, Peta, Exa+
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "B"
 msgstr "ไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "KiB"
 msgstr "กิโลไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "MiB"
 msgstr "เมกกะไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "GiB"
 msgstr "กิกะไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "TiB"
 msgstr "เทอราไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "PiB"
 msgstr "เพตตะไบต์"
 
-#: libraries/common.lib.php:1367
+#: libraries/common.lib.php:1390
 msgid "EiB"
 msgstr "เอกซะไบต์"
 
 #. l10n: Thousands separator
-#: libraries/common.lib.php:1405
+#: libraries/common.lib.php:1428
 msgid ","
 msgstr ","
 
 #. l10n: Decimal separator
-#: libraries/common.lib.php:1407
+#: libraries/common.lib.php:1430
 msgid "."
 msgstr "."
 
 #. l10n: See http://www.php.net/manual/en/function.strftime.php to define the format string
-#: libraries/common.lib.php:1584
+#: libraries/common.lib.php:1607
 #: libraries/transformations/text_plain__dateformat.inc.php:33
 msgid "%B %d, %Y at %I:%M %p"
 msgstr "%d %B %Y  %Rน."
 
-#: libraries/common.lib.php:1894
+#: libraries/common.lib.php:1924
 #, php-format
 msgid "%s days, %s hours, %s minutes and %s seconds"
 msgstr "%s วัน, %s ชั่วโมง, %s นาที, %s วินาที"
 
-#: libraries/common.lib.php:2308 libraries/common.lib.php:2311
+#: libraries/common.lib.php:2338 libraries/common.lib.php:2341
 #: libraries/display_tbl.lib.php:288 server_status.php:751
 msgid "Begin"
 msgstr "จุดเริ่มต้น"
 
-#: libraries/common.lib.php:2309 libraries/common.lib.php:2312
+#: libraries/common.lib.php:2339 libraries/common.lib.php:2342
 #: libraries/display_tbl.lib.php:289 server_binlog.php:154
 #: server_binlog.php:156
 msgid "Previous"
 msgstr "ก่อนหน้า"
 
-#: libraries/common.lib.php:2339 libraries/common.lib.php:2342
+#: libraries/common.lib.php:2369 libraries/common.lib.php:2372
 #: libraries/display_tbl.lib.php:351
 msgid "End"
 msgstr "ท้ายสุด"
 
-#: libraries/common.lib.php:2414
+#: libraries/common.lib.php:2444
 #, php-format
 msgid "Jump to database &quot;%s&quot;."
 msgstr "กระโดดไปที่ฐานข้อมูล &quot;%s&quot;."
 
-#: libraries/common.lib.php:2433
+#: libraries/common.lib.php:2463
 #, php-format
 msgid "The %s functionality is affected by a known bug, see %s"
 msgstr ""
 
-#: libraries/common.lib.php:2793 libraries/common.lib.php:2800
-#: libraries/common.lib.php:2981 libraries/config/setup.forms.php:291
+#: libraries/common.lib.php:2823 libraries/common.lib.php:2830
+#: libraries/common.lib.php:3015 libraries/config/setup.forms.php:291
 #: libraries/config/setup.forms.php:328 libraries/config/setup.forms.php:362
 #: libraries/config/user_preferences.forms.php:193
 #: libraries/config/user_preferences.forms.php:230
@@ -2159,7 +2161,7 @@ msgstr ""
 msgid "Structure"
 msgstr "โครงสร้าง"
 
-#: libraries/common.lib.php:2794 libraries/common.lib.php:2801
+#: libraries/common.lib.php:2824 libraries/common.lib.php:2831
 #: libraries/config/messages.inc.php:211 libraries/db_links.inc.php:53
 #: libraries/export/sql.php:24 libraries/import/sql.php:17
 #: libraries/server_links.inc.php:46 libraries/tbl_links.inc.php:58
@@ -2167,34 +2169,34 @@ msgstr "โครงสร้าง"
 msgid "SQL"
 msgstr "SQL"
 
-#: libraries/common.lib.php:2796 libraries/common.lib.php:2979
-#: libraries/common.lib.php:2980 libraries/sql_query_form.lib.php:318
-#: libraries/sql_query_form.lib.php:321 libraries/tbl_links.inc.php:67
+#: libraries/common.lib.php:2826 libraries/common.lib.php:3013
+#: libraries/common.lib.php:3014 libraries/sql_query_form.lib.php:319
+#: libraries/sql_query_form.lib.php:322 libraries/tbl_links.inc.php:67
 msgid "Insert"
 msgstr "แทรก"
 
-#: libraries/common.lib.php:2803 libraries/db_links.inc.php:86
+#: libraries/common.lib.php:2833 libraries/db_links.inc.php:86
 #: libraries/tbl_links.inc.php:86 libraries/tbl_links.inc.php:102
 #: view_operations.php:87
 msgid "Operations"
 msgstr "กระบวนการ"
 
-#: libraries/common.lib.php:2929
+#: libraries/common.lib.php:2963
 msgid "Browse your computer:"
 msgstr ""
 
-#: libraries/common.lib.php:2942
+#: libraries/common.lib.php:2976
 #, fuzzy, php-format
 #| msgid "web server upload directory"
 msgid "Select from the web server upload directory <b>%s</b>:"
 msgstr "ไดเรกทอรีสำหรับอัพโหลด ที่เว็บเซิร์ฟเวอร์"
 
-#: libraries/common.lib.php:2954 libraries/sql_query_form.lib.php:500
+#: libraries/common.lib.php:2988 libraries/sql_query_form.lib.php:501
 #: tbl_change.php:956
 msgid "The directory you set for upload work cannot be reached"
 msgstr "ไม่สามารถใช้งาน ไดเรกทอรีที่ตั้งไว้สำหรับอัพโหลดได้"
 
-#: libraries/common.lib.php:2962
+#: libraries/common.lib.php:2996
 msgid "There are no files to upload"
 msgstr ""
 
@@ -2358,14 +2360,6 @@ msgstr ""
 #: libraries/config/FormDisplay.tpl.php:269
 msgid "Allow users to customize this value"
 msgstr ""
-
-#: libraries/config/FormDisplay.tpl.php:332
-#: libraries/schema/User_Schema.class.php:317
-#: libraries/tbl_properties.inc.php:777 setup/frames/config.inc.php:39
-#: setup/frames/index.inc.php:215 tbl_change.php:1048 tbl_indexes.php:246
-#: tbl_relation.php:563
-msgid "Save"
-msgstr "บันทึก"
 
 #: libraries/config/FormDisplay.tpl.php:333
 #: libraries/schema/User_Schema.class.php:470 main.php:146
@@ -2636,7 +2630,7 @@ msgid "Put columns names in the first row"
 msgstr "ใส่ชื่อฟิลด์ที่แถวแรก"
 
 #: libraries/config/messages.inc.php:73 libraries/config/messages.inc.php:238
-#: libraries/config/messages.inc.php:245 libraries/import/csv.php:73
+#: libraries/config/messages.inc.php:245 libraries/import/csv.php:75
 #: libraries/import/ldi.php:41
 #, fuzzy
 #| msgid "Fields enclosed by"
@@ -2644,7 +2638,7 @@ msgid "Columns enclosed by"
 msgstr "คร่อมฟิลด์ด้วย"
 
 #: libraries/config/messages.inc.php:74 libraries/config/messages.inc.php:239
-#: libraries/config/messages.inc.php:246 libraries/import/csv.php:77
+#: libraries/config/messages.inc.php:246 libraries/import/csv.php:80
 #: libraries/import/ldi.php:42
 #, fuzzy
 #| msgid "Fields escaped by"
@@ -2664,7 +2658,7 @@ msgid "Remove CRLF characters within columns"
 msgstr ""
 
 #: libraries/config/messages.inc.php:77 libraries/config/messages.inc.php:242
-#: libraries/config/messages.inc.php:250 libraries/import/csv.php:61
+#: libraries/config/messages.inc.php:250 libraries/import/csv.php:62
 #: libraries/import/ldi.php:40
 #, fuzzy
 #| msgid "Lines terminated by"
@@ -2672,7 +2666,7 @@ msgid "Columns terminated by"
 msgstr "จบแถวด้วย"
 
 #: libraries/config/messages.inc.php:78 libraries/config/messages.inc.php:237
-#: libraries/import/csv.php:81 libraries/import/ldi.php:43
+#: libraries/import/csv.php:85 libraries/import/ldi.php:43
 msgid "Lines terminated by"
 msgstr "จบแถวด้วย"
 
@@ -4417,13 +4411,19 @@ msgstr ""
 msgid "Incorrect IP address: %s"
 msgstr ""
 
-#: libraries/core.lib.php:262
+#. l10n: Language to use for PHP documentation, please use only languages which do exist in official documentation.
+#: libraries/core.lib.php:264
+msgctxt "PHP documentation language"
+msgid "en"
+msgstr "en"
+
+#: libraries/core.lib.php:278
 #, php-format
 msgid "The %s extension is missing. Please check your PHP configuration."
 msgstr ""
 
 #: libraries/db_events.inc.php:14 libraries/db_events.inc.php:16
-#: libraries/export/sql.php:481
+#: libraries/export/sql.php:493
 msgid "Events"
 msgstr ""
 
@@ -4465,7 +4465,7 @@ msgstr ""
 msgid "Return type"
 msgstr ""
 
-#: libraries/db_structure.lib.php:48 libraries/display_tbl.lib.php:1856
+#: libraries/db_structure.lib.php:48 libraries/display_tbl.lib.php:1902
 msgid ""
 "May be approximate. See [a@./Documentation.html#faq3_11@Documentation]FAQ "
 "3.11[/a]"
@@ -4646,8 +4646,8 @@ msgstr ""
 #, php-format
 msgid ""
 "This value is interpreted using %1$sstrftime%2$s, so you can use time "
-"formatting strings. Additionally the following transformations will happen: "
-"%3$s. Other text will be kept as is. See the %4$sFAQ%5$s for details."
+"formatting strings. Additionally the following transformations will happen: %"
+"3$s. Other text will be kept as is. See the %4$sFAQ%5$s for details."
 msgstr ""
 
 #: libraries/display_export.lib.php:275
@@ -4655,7 +4655,7 @@ msgid "use this for future exports"
 msgstr ""
 
 #: libraries/display_export.lib.php:281 libraries/display_import.lib.php:188
-#: libraries/display_import.lib.php:201 libraries/sql_query_form.lib.php:516
+#: libraries/display_import.lib.php:201 libraries/sql_query_form.lib.php:517
 msgid "Character set of the file:"
 msgstr "ชุดอักขระของไฟล์ (character set):"
 
@@ -4666,7 +4666,7 @@ msgid "Compression:"
 msgstr "บีบอัดข้อมูล"
 
 #: libraries/display_export.lib.php:311 libraries/display_tbl.lib.php:528
-#: libraries/export/sql.php:933 libraries/tbl_properties.inc.php:578
+#: libraries/export/sql.php:945 libraries/tbl_properties.inc.php:578
 #: pmd_general.php:511 server_privileges.php:1972 server_processlist.php:82
 msgid "None"
 msgstr "ไม่มี"
@@ -4884,73 +4884,68 @@ msgstr ""
 msgid "Show BLOB contents"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:609 pmd_general.php:159 tbl_change.php:315
-#: tbl_change.php:321
-msgid "Hide"
-msgstr ""
-
 #: libraries/display_tbl.lib.php:609 libraries/relation.lib.php:123
 #: libraries/tbl_properties.inc.php:142 transformation_overview.php:46
 #, fuzzy
 msgid "Browser transformation"
 msgstr "การแปลงที่เรียกใช้ได้"
 
-#: libraries/display_tbl.lib.php:1165
+#: libraries/display_tbl.lib.php:1166
 msgid "Copy"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:1180 libraries/display_tbl.lib.php:1192
+#: libraries/display_tbl.lib.php:1181 libraries/display_tbl.lib.php:1193
 msgid "The row has been deleted"
 msgstr "ลบเรียบร้อยแล้ว"
 
-#: libraries/display_tbl.lib.php:1219 libraries/display_tbl.lib.php:2068
+#: libraries/display_tbl.lib.php:1220 libraries/display_tbl.lib.php:2132
 #: server_processlist.php:78 tbl_row_action.php:63
 msgid "Kill"
 msgstr "ฆ่าทิ้ง"
 
-#: libraries/display_tbl.lib.php:1942
+#: libraries/display_tbl.lib.php:2006
 msgid "in query"
 msgstr "ในคำค้น"
 
-#: libraries/display_tbl.lib.php:1960
+#: libraries/display_tbl.lib.php:2024
 msgid "Showing rows"
 msgstr "แสดงระเบียนที่ "
 
-#: libraries/display_tbl.lib.php:1970
+#: libraries/display_tbl.lib.php:2034
 msgid "total"
 msgstr "ทั้งหมด"
 
-#: libraries/display_tbl.lib.php:1978 sql.php:600
+#: libraries/display_tbl.lib.php:2042 sql.php:619
 #, php-format
 msgid "Query took %01.4f sec"
 msgstr "คำค้นใช้เวลา %01.4f วินาที"
 
-#: libraries/display_tbl.lib.php:2101 libraries/mult_submits.inc.php:112
+#: libraries/display_tbl.lib.php:2165 libraries/mult_submits.inc.php:112
 #: querywindow.php:114 querywindow.php:118 querywindow.php:121
 #: tbl_structure.php:24 tbl_structure.php:149 tbl_structure.php:560
 msgid "Change"
 msgstr "เปลี่ยน"
 
-#: libraries/display_tbl.lib.php:2174
+#: libraries/display_tbl.lib.php:2238
 msgid "Query results operations"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2202
+#: libraries/display_tbl.lib.php:2266
 msgid "Print view (with full texts)"
 msgstr ""
 
-#: libraries/display_tbl.lib.php:2246 tbl_chart.php:81
+#: libraries/display_tbl.lib.php:2310 tbl_chart.php:81
 #, fuzzy
 #| msgid "Display PDF schema"
 msgid "Display chart"
 msgstr "แสดงสกีมาของ PDF"
 
-#: libraries/display_tbl.lib.php:2265
+#: libraries/display_tbl.lib.php:2329
 #, fuzzy
 msgid "Create view"
 msgstr "รุ่นของเซิร์ฟเวอร์"
 
-#: libraries/display_tbl.lib.php:2396
+#: libraries/display_tbl.lib.php:2464
 msgid "Link not found"
 msgstr "ไม่พบลิงก์"
 
@@ -5341,8 +5336,8 @@ msgstr ""
 #: libraries/engines/pbxt.lib.php:125
 #, php-format
 msgid ""
-"Documentation and further information about PBXT can be found on the "
-"%sPrimeBase XT Home Page%s."
+"Documentation and further information about PBXT can be found on the %"
+"sPrimeBase XT Home Page%s."
 msgstr ""
 
 #: libraries/engines/pbxt.lib.php:129
@@ -5402,12 +5397,12 @@ msgid "Data dump options"
 msgstr "สถิติฐานข้อมูล"
 
 #: libraries/export/htmlword.php:135 libraries/export/odt.php:175
-#: libraries/export/sql.php:946 libraries/export/texytext.php:123
+#: libraries/export/sql.php:958 libraries/export/texytext.php:123
 msgid "Dumping data for table"
 msgstr "dump ตาราง"
 
 #: libraries/export/htmlword.php:188 libraries/export/odt.php:245
-#: libraries/export/sql.php:850 libraries/export/texytext.php:170
+#: libraries/export/sql.php:862 libraries/export/texytext.php:170
 msgid "Table structure for table"
 msgstr "โครงสร้างตาราง"
 
@@ -5456,7 +5451,7 @@ msgstr "แสดงหมายเหตุของคอลัมน์"
 msgid "Display MIME types"
 msgstr "MIME-types ที่มีอยู่"
 
-#: libraries/export/latex.php:139 libraries/export/sql.php:281
+#: libraries/export/latex.php:139 libraries/export/sql.php:341
 #: libraries/export/xml.php:105 libraries/header_printview.inc.php:56
 #: libraries/replication_gui.lib.php:65 libraries/replication_gui.lib.php:176
 #: libraries/replication_gui.lib.php:271 libraries/replication_gui.lib.php:274
@@ -5467,17 +5462,17 @@ msgstr "MIME-types ที่มีอยู่"
 msgid "Host"
 msgstr "โฮสต์"
 
-#: libraries/export/latex.php:144 libraries/export/sql.php:282
+#: libraries/export/latex.php:144 libraries/export/sql.php:342
 #: libraries/export/xml.php:110 libraries/header_printview.inc.php:58
 msgid "Generation Time"
 msgstr "เวลาในการสร้าง"
 
-#: libraries/export/latex.php:145 libraries/export/sql.php:284
+#: libraries/export/latex.php:145 libraries/export/sql.php:344
 #: libraries/export/xml.php:111 main.php:175
 msgid "Server version"
 msgstr "รุ่นของเซิร์ฟเวอร์"
 
-#: libraries/export/latex.php:146 libraries/export/sql.php:285
+#: libraries/export/latex.php:146 libraries/export/sql.php:345
 #: libraries/export/xml.php:112
 msgid "PHP Version"
 msgstr "รุ่นของ PHP"
@@ -5606,43 +5601,43 @@ msgid ""
 "reloaded between servers in different time zones)</i>"
 msgstr ""
 
-#: libraries/export/sql.php:393 libraries/export/xml.php:34
+#: libraries/export/sql.php:209 libraries/export/xml.php:34
 #, fuzzy
 msgid "Procedures"
 msgstr "โพรเซส"
 
-#: libraries/export/sql.php:407 libraries/export/xml.php:32
+#: libraries/export/sql.php:223 libraries/export/xml.php:32
 #, fuzzy
 msgid "Functions"
 msgstr "ฟังก์ชั่น"
 
-#: libraries/export/sql.php:683
+#: libraries/export/sql.php:695
 msgid "Constraints for dumped tables"
 msgstr ""
 
-#: libraries/export/sql.php:692
+#: libraries/export/sql.php:704
 msgid "Constraints for table"
 msgstr ""
 
-#: libraries/export/sql.php:792
+#: libraries/export/sql.php:804
 msgid "MIME TYPES FOR TABLE"
 msgstr ""
 
-#: libraries/export/sql.php:804
+#: libraries/export/sql.php:816
 msgid "RELATIONS FOR TABLE"
 msgstr ""
 
-#: libraries/export/sql.php:861 libraries/export/xml.php:38
+#: libraries/export/sql.php:873 libraries/export/xml.php:38
 #: libraries/tbl_triggers.lib.php:18
 msgid "Triggers"
 msgstr ""
 
-#: libraries/export/sql.php:873
+#: libraries/export/sql.php:885
 #, fuzzy
 msgid "Structure for view"
 msgstr "เฉพาะโครงสร้าง"
 
-#: libraries/export/sql.php:882
+#: libraries/export/sql.php:894
 msgid "Stand-in structure for view"
 msgstr ""
 
@@ -5675,7 +5670,7 @@ msgstr "ผลลัพธ์ SQL"
 msgid "Generated by"
 msgstr "สร้างโดย"
 
-#: libraries/import.lib.php:153 sql.php:596 tbl_change.php:179
+#: libraries/import.lib.php:153 sql.php:615 tbl_change.php:179
 #: tbl_get_field.php:34
 msgid "MySQL returned an empty result set (i.e. zero rows)."
 msgstr "MySQL คืนผลลัพธ์ว่างเปล่ากลับมา (null / 0 แถว)."
@@ -5735,25 +5730,25 @@ msgstr ""
 msgid "Column names: "
 msgstr "ชื่อคอลัมน์"
 
-#: libraries/import/csv.php:60 libraries/import/csv.php:72
-#: libraries/import/csv.php:76 libraries/import/csv.php:80
+#: libraries/import/csv.php:61 libraries/import/csv.php:74
+#: libraries/import/csv.php:79 libraries/import/csv.php:84
 #, php-format
 msgid "Invalid parameter for CSV import: %s"
 msgstr ""
 
-#: libraries/import/csv.php:121
+#: libraries/import/csv.php:131
 #, php-format
 msgid ""
 "Invalid column (%s) specified! Ensure that columns names are spelled "
 "correctly, separated by commas, and not enclosed in quotes."
 msgstr ""
 
-#: libraries/import/csv.php:179 libraries/import/csv.php:426
+#: libraries/import/csv.php:189 libraries/import/csv.php:436
 #, php-format
 msgid "Invalid format of CSV input on line %d."
 msgstr ""
 
-#: libraries/import/csv.php:314
+#: libraries/import/csv.php:324
 #, php-format
 msgid "Invalid column count in CSV input on line %d."
 msgstr ""
@@ -5829,7 +5824,7 @@ msgstr "ดัชนี"
 msgid "Fulltext"
 msgstr "ข้อความเต็ม (fulltext)"
 
-#: libraries/mult_submits.inc.php:435 tbl_replace.php:326
+#: libraries/mult_submits.inc.php:435 tbl_replace.php:329
 msgid "No change"
 msgstr "ไม่มีการเปลี่ยนแปลง"
 
@@ -6081,7 +6076,7 @@ msgstr ""
 "โปรดอ่านเอกสารเกี่ยวกับ วิธีการปรับปรุงตาราง Column_comments (เก็บหมายเหตุของคอลัมน์) "
 "ของคุณ"
 
-#: libraries/relation.lib.php:131 libraries/sql_query_form.lib.php:410
+#: libraries/relation.lib.php:131 libraries/sql_query_form.lib.php:411
 msgid "Bookmarked SQL query"
 msgstr "คำค้นนี้ถูกจดไว้แล้ว"
 
@@ -6116,7 +6111,7 @@ msgstr ""
 msgid "Re-login to phpMyAdmin to load the updated configuration file."
 msgstr ""
 
-#: libraries/relation.lib.php:1179
+#: libraries/relation.lib.php:1175
 msgid "no description"
 msgstr "ไม่มีรายละเอียด"
 
@@ -6150,8 +6145,8 @@ msgstr ""
 msgid "Slave status"
 msgstr ""
 
-#: libraries/replication_gui.lib.php:116 libraries/sql_query_form.lib.php:422
-#: server_status.php:769 server_variables.php:51
+#: libraries/replication_gui.lib.php:116 libraries/sql_query_form.lib.php:423
+#: server_status.php:769 server_variables.php:52
 msgid "Variable"
 msgstr "ตัวแปร"
 
@@ -6250,24 +6245,24 @@ msgstr ""
 msgid "SCHEMA ERROR: "
 msgstr ""
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:874
-#: libraries/schema/Pdf_Relation_Schema.class.php:1113
+#: libraries/schema/Pdf_Relation_Schema.class.php:875
+#: libraries/schema/Pdf_Relation_Schema.class.php:1114
 msgid "Relational schema"
 msgstr "รีเลชันแนล สกีมา"
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1088
+#: libraries/schema/Pdf_Relation_Schema.class.php:1089
 msgid "Table of contents"
 msgstr "สารบัญ"
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1238
-#: libraries/schema/Pdf_Relation_Schema.class.php:1259
+#: libraries/schema/Pdf_Relation_Schema.class.php:1239
+#: libraries/schema/Pdf_Relation_Schema.class.php:1260
 #: libraries/tbl_properties.inc.php:107 tbl_printview.php:141
 #: tbl_structure.php:200
 msgid "Attributes"
 msgstr "แอตทริบิวต์"
 
-#: libraries/schema/Pdf_Relation_Schema.class.php:1241
-#: libraries/schema/Pdf_Relation_Schema.class.php:1262 tbl_printview.php:144
+#: libraries/schema/Pdf_Relation_Schema.class.php:1242
+#: libraries/schema/Pdf_Relation_Schema.class.php:1263 tbl_printview.php:144
 #: tbl_structure.php:203 tbl_tracking.php:272
 msgid "Extra"
 msgstr "เพิ่มเติม"
@@ -6453,49 +6448,55 @@ msgstr "ประมวลผลคำค้นบนฐานข้อมูล
 msgid "Run SQL query/queries on database %s"
 msgstr "ประมวลผลคำค้นบนฐานข้อมูล %s"
 
-#: libraries/sql_query_form.lib.php:301
+#: libraries/sql_query_form.lib.php:297 navigation.php:276
+#: setup/frames/index.inc.php:219
+#, fuzzy
+msgid "Clear"
+msgstr "ปฏิทิน"
+
+#: libraries/sql_query_form.lib.php:302
 #, fuzzy
 #| msgid "Column names"
 msgid "Columns"
 msgstr "ชื่อคอลัมน์"
 
-#: libraries/sql_query_form.lib.php:336 sql.php:857 sql.php:858 sql.php:875
+#: libraries/sql_query_form.lib.php:337 sql.php:877 sql.php:878 sql.php:895
 msgid "Bookmark this SQL query"
 msgstr "จดคำค้นนี้ไว้"
 
-#: libraries/sql_query_form.lib.php:343 sql.php:869
+#: libraries/sql_query_form.lib.php:344 sql.php:889
 msgid "Let every user access this bookmark"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:349
+#: libraries/sql_query_form.lib.php:350
 msgid "Replace existing bookmark of same name"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:365
+#: libraries/sql_query_form.lib.php:366
 msgid "Do not overwrite this query from outside the window"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:372
+#: libraries/sql_query_form.lib.php:373
 msgid "Delimiter"
 msgstr ""
 
-#: libraries/sql_query_form.lib.php:380
+#: libraries/sql_query_form.lib.php:381
 msgid " Show this query here again "
 msgstr " แสดงคำค้นนี้อีกที "
 
-#: libraries/sql_query_form.lib.php:439
+#: libraries/sql_query_form.lib.php:440
 msgid "Submit"
 msgstr "ส่ง"
 
-#: libraries/sql_query_form.lib.php:443
+#: libraries/sql_query_form.lib.php:444
 msgid "View only"
 msgstr "ดูอย่างเดียว"
 
-#: libraries/sql_query_form.lib.php:491 prefs_manage.php:241
+#: libraries/sql_query_form.lib.php:492 prefs_manage.php:241
 msgid "Location of the text file"
 msgstr "เลือกไฟล์ข้อความจาก"
 
-#: libraries/sql_query_form.lib.php:503 tbl_change.php:959
+#: libraries/sql_query_form.lib.php:504 tbl_change.php:959
 msgid "web server upload directory"
 msgstr "ไดเรกทอรีสำหรับอัพโหลด ที่เว็บเซิร์ฟเวอร์"
 
@@ -6799,11 +6800,11 @@ msgid ""
 "permanently requires %sphpMyAdmin configuration storage%s."
 msgstr ""
 
-#: libraries/user_preferences.lib.php:141
+#: libraries/user_preferences.lib.php:142
 msgid "Could not save configuration"
 msgstr ""
 
-#: libraries/user_preferences.lib.php:308
+#: libraries/user_preferences.lib.php:309
 msgid ""
 "Your browser has phpMyAdmin configuration for this domain. Would you like to "
 "import it for current session?"
@@ -6987,11 +6988,6 @@ msgstr ""
 msgid "No databases"
 msgstr "ไม่มีฐานข้อมูล"
 
-#: navigation.php:276 setup/frames/index.inc.php:219
-#, fuzzy
-msgid "Clear"
-msgstr "ปฏิทิน"
-
 #: navigation.php:277
 msgid "Filter"
 msgstr ""
@@ -7008,7 +7004,7 @@ msgctxt "short form"
 msgid "Create table"
 msgstr "เริ่มหน้าใหม่"
 
-#: navigation.php:313 navigation.php:476
+#: navigation.php:313 navigation.php:485
 msgid "Please select a database"
 msgstr "โปรดเลือกฐานข้อมูล"
 
@@ -7730,8 +7726,8 @@ msgstr "โยนฐานข้อมูลที่มีชื่อเดี
 msgid ""
 "Note: phpMyAdmin gets the users' privileges directly from MySQL's privilege "
 "tables. The content of these tables may differ from the privileges the "
-"server uses, if they have been changed manually. In this case, you should "
-"%sreload the privileges%s before you continue."
+"server uses, if they have been changed manually. In this case, you should %"
+"sreload the privileges%s before you continue."
 msgstr ""
 
 #: server_privileges.php:1781
@@ -8828,11 +8824,11 @@ msgstr ""
 msgid "Server variables and settings"
 msgstr "ตัวแปร และค่ากำหนด ของเซิร์ฟเวอร์"
 
-#: server_variables.php:54
+#: server_variables.php:55
 msgid "Session value"
 msgstr "ค่าเซสชั่น"
 
-#: server_variables.php:54 server_variables.php:88
+#: server_variables.php:55 server_variables.php:89
 msgid "Global value"
 msgstr "ค่าแบบโกลบอล"
 
@@ -9098,41 +9094,41 @@ msgstr ""
 msgid "Key should contain letters, numbers [em]and[/em] special characters."
 msgstr ""
 
-#: sql.php:80 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
+#: sql.php:78 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
 #: tbl_select.php:30 tbl_select.php:33
 msgid "Browse foreign values"
 msgstr ""
 
-#: sql.php:127
+#: sql.php:154
 #, php-format
 msgid "Using bookmark \"%s\" as default browse query."
 msgstr ""
 
-#: sql.php:572 tbl_replace.php:380
+#: sql.php:591 tbl_replace.php:385
 #, php-format
 msgid "Inserted row id: %1$d"
 msgstr ""
 
-#: sql.php:589
+#: sql.php:608
 msgid "Showing as PHP code"
 msgstr ""
 
-#: sql.php:592 tbl_replace.php:354
+#: sql.php:611 tbl_replace.php:359
 msgid "Showing SQL query"
 msgstr ""
 
-#: sql.php:594
+#: sql.php:613
 #, fuzzy
 #| msgid "Validate SQL"
 msgid "Validated SQL"
 msgstr "ตรวจสอบ SQL"
 
-#: sql.php:831
+#: sql.php:851
 #, php-format
 msgid "Problems with indexes of table `%s`"
 msgstr ""
 
-#: sql.php:863
+#: sql.php:883
 msgid "Label"
 msgstr "ป้ายชื่อ"
 
@@ -9840,18 +9836,19 @@ msgid "Rename view to"
 msgstr "เปลี่ยนชื่อตารางเป็น"
 
 #, fuzzy
+#~| msgid "Dumping data for table"
+#~ msgid "Delete the matches for the "
+#~ msgstr "dump ตาราง"
+
 #~ msgid "yes"
 #~ msgstr "ใช่"
 
 #~ msgid "Disable Statistics"
 #~ msgstr "ยกเลิกการเก็บสถิติ"
 
-#, fuzzy
 #~ msgid "Start"
 #~ msgstr "ส."
 
-#, fuzzy
-#~| msgid "Displaying Column Comments"
 #~ msgid "Display table filter"
 #~ msgstr "แสดงหมายเหตุของคอลัมน์"
 
@@ -9859,18 +9856,15 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ "The additional features for working with linked tables have been "
 #~ "deactivated. To find out why click %shere%s."
 #~ msgstr ""
-#~ "ความสามารถเพิ่มเติมสำหรับ linked Tables ได้ถูกระงับเอาไว้ ตามเหตุผลที่แจ้งไว้ใน %shere"
-#~ "%s"
+#~ "ความสามารถเพิ่มเติมสำหรับ linked Tables ได้ถูกระงับเอาไว้ ตามเหตุผลที่แจ้งไว้ใน %shere%"
+#~ "s"
 
 #~ msgid "No tables"
 #~ msgstr "ไม่มีตาราง"
 
-#, fuzzy
-#~| msgid "CSV"
 #~ msgid "SVG"
 #~ msgstr "ข้อมูล CSV (คั่นด้วยเครื่องหมายลูกน้ำ \",\")"
 
-#, fuzzy
 #~ msgid ""
 #~ "Enter each value in a separate field, enclosed in single quotes. If you "
 #~ "ever need to put a backslash (\"\\\") or a single quote (\"'\") amongst "
@@ -9881,7 +9875,6 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ ">ถ้าต้องการใส่เครื่องหมาย backslash (\"\\\") หรือ อัญประกาศเดี่ยว (\"'\") "
 #~ "เข้าไปในค่าเหล่านั้น ให้ใส่เครื่องหมาย แบ๊กแสลช นำหน้า (ตัวอย่าง: '\\\\xyz' or 'a\\'b')"
 
-#, fuzzy
 #~ msgid ""
 #~ "Enter each value in a separate field. If you ever need to put a backslash "
 #~ "(\"\\\") or a single quote (\"'\") amongst those values, precede it with "
@@ -9891,11 +9884,9 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ ">ถ้าต้องการใส่เครื่องหมาย backslash (\"\\\") หรือ อัญประกาศเดี่ยว (\"'\") "
 #~ "เข้าไปในค่าเหล่านั้น ให้ใส่เครื่องหมาย แบ๊กแสลช นำหน้า (ตัวอย่าง: '\\\\xyz' or 'a\\'b')"
 
-#, fuzzy
 #~ msgid "New table"
 #~ msgstr "ไม่มีตาราง"
 
-#, fuzzy
 #~ msgid "server name"
 #~ msgstr "ชื่อผู้ใช้"
 
@@ -9905,17 +9896,12 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "Data Dictionary Format"
 #~ msgstr "รูปแบบพจนานุกรมข้อมูล"
 
-#, fuzzy
 #~ msgid "PMA database"
 #~ msgstr "ไม่มีฐานข้อมูล"
 
-#, fuzzy
-#~| msgid "Add AUTO_INCREMENT value"
 #~ msgid "<code>AUTO_INCREMENT</code>"
 #~ msgstr "เพิ่มค่า AUTO_INCREMENT"
 
-#, fuzzy
-#~| msgid "Dump %s row(s) starting at record # %s"
 #~ msgid "Dump %s row(s) starting at row # %s"
 #~ msgstr "ดัมพ์แถว %s แถว เริ่มที่แถว %s"
 
@@ -9931,27 +9917,20 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "\"bzipped\""
 #~ msgstr "\"bzipped\""
 
-#, fuzzy
 #~ msgid "Actions"
 #~ msgstr "กระทำการ"
 
-#, fuzzy
-#~| msgid "Enabled"
 #~ msgctxt "BLOB repository"
 #~ msgid "Enabled"
 #~ msgstr "เปิดใช้อยู่"
 
-#, fuzzy
 #~ msgid "Disable"
 #~ msgstr "ระงับการใช้อยู่"
 
-#, fuzzy
 #~ msgctxt "BLOB repository"
 #~ msgid "Repair"
 #~ msgstr "ซ่อมแซมตาราง"
 
-#, fuzzy
-#~| msgid "Disabled"
 #~ msgctxt "BLOB repository"
 #~ msgid "Disabled"
 #~ msgstr "ระงับการใช้อยู่"
@@ -9995,21 +9974,17 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "See image/jpeg: inline"
 #~ msgstr "ดูรูปชนิด image/jpeg ทันที"
 
-#, fuzzy
 #~ msgid "and"
 #~ msgstr "และ"
 
-#, fuzzy
 #~ msgctxt "$strBLOBRepositoryDisabled"
 #~ msgid "Disabled"
 #~ msgstr "ระงับการใช้อยู่"
 
-#, fuzzy
 #~ msgctxt "$strBLOBRepositoryEnabled"
 #~ msgid "Enabled"
 #~ msgstr "เปิดใช้อยู่"
 
-#, fuzzy
 #~ msgctxt "$strBLOBRepositoryRepair"
 #~ msgid "Repair"
 #~ msgstr "ซ่อมแซมตาราง"
@@ -10020,12 +9995,10 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "Create an index on&nbsp;%s&nbsp;columns"
 #~ msgstr "สร้างดัชนีโดยคอลัมน์ %s"
 
-#, fuzzy
 #~ msgctxt "$strCreateTableShort"
 #~ msgid "Create table"
 #~ msgstr "เริ่มหน้าใหม่"
 
-#, fuzzy
 #~ msgctxt "$strCreateUserDatabaseNone"
 #~ msgid "None"
 #~ msgstr "ไม่มี"
@@ -10037,7 +10010,6 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "Description"
 #~ msgstr "รายละเอียด"
 
-#, fuzzy
 #~ msgctxt "$strNoneDefault"
 #~ msgid "None"
 #~ msgstr "ไม่มี"
@@ -10054,52 +10026,28 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ msgid "The scale factor is too small to fit the schema on one page"
 #~ msgstr "อัตราย่อน้อยเกินไป ที่จะจัดให้สกีมาอยู่ในหน้าเดียว"
 
-#, fuzzy
-#~| msgid "None"
 #~ msgctxt "None action"
 #~ msgid "None"
 #~ msgstr "ไม่มี"
 
-#, fuzzy
-#~| msgid "None"
 #~ msgctxt ""
 #~ msgid "None"
 #~ msgstr "ไม่มี"
 
-#, fuzzy
 #~ msgid "Grant all privileges on wildcard name (username_%)"
 #~ msgstr "ตรวจสอบสิทธิสำหรับฐานข้อมูล &quot;%s&quot;."
 
-#, fuzzy
-#~| msgid "The \"%s\" table doesn't exist!"
 #~ msgid "The %s table doesn"
 #~ msgstr "ไม่มีตาราง \"%s\"!"
 
-#, fuzzy
-#~| msgid ""
-#~| "Cannot load [a@http://php.net/%1$s@Documentation][em]%1$s[/em][/a] "
-#~| "extension. Please check your PHP configuration."
 #~ msgid ""
 #~ "Cannot load [a@http://php.net/%1@Documentation][em]%1[/em][/a] extension. "
 #~ "Please check your PHP configuration."
 #~ msgstr "ไม่สามารถเรียกส่วนขยาย %s,<br />กรุณาตรวจสอบการตั้งค่าของ PHP"
 
-#, fuzzy
 #~ msgid "(or the local MySQL server"
 #~ msgstr "ไม่สามารถล็อกอินเข้าเซิร์ฟเวอร์ MySQL ได้"
 
-#, fuzzy
-#~| msgid ""
-#~| "There is a chance that you may have found a bug in the SQL parser. "
-#~| "Please examine your query closely, and check that the quotes are correct "
-#~| "and not mis-matched. Other possible failure causes may be that you are "
-#~| "uploading a file with binary outside of a quoted text area. You can also "
-#~| "try your query on the MySQL command line interface. The MySQL server "
-#~| "error output below, if there is any, may also help you in diagnosing the "
-#~| "problem. If you still have problems or if the parser fails where the "
-#~| "command line interface succeeds, please reduce your SQL query input to "
-#~| "the single query that causes problems, and submit a bug report with the "
-#~| "data chunk in the CUT section below:"
 #~ msgid ""
 #~ "There is a chance that you may have found a bug in the SQL parser. Please "
 #~ "examine your query closely, and check that the quotes are correct and not "
@@ -10149,26 +10097,18 @@ msgstr "เปลี่ยนชื่อตารางเป็น"
 #~ "reloaded."
 #~ msgstr "ผู้ใช้ต่างๆ ยังคงมีสิทธิ USAGE จนกว่า ข้อมูลสิทธิ จะถูกเรียกใช้ใหม่อีกที."
 
-#, fuzzy
-#~| msgid "Select All"
 #~ msgctxt "Create SELECT ... query"
 #~ msgid "Select"
 #~ msgstr "เลือกทั้งหมด"
 
-#, fuzzy
-#~| msgid "Insert"
 #~ msgctxt "Create INSERT query"
 #~ msgid "Insert"
 #~ msgstr "แทรก"
 
-#, fuzzy
-#~| msgid "Update Query"
 #~ msgctxt "Create UPDATE query"
 #~ msgid "Update"
 #~ msgstr "ปรับปรุงคำค้น"
 
-#, fuzzy
-#~| msgid "Delete"
 #~ msgctxt "Create DELETE query"
 #~ msgid "Delete"
 #~ msgstr "ลบ"

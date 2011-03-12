@@ -251,6 +251,22 @@ function PMA_fatalError($error_message, $message_args = null)
 }
 
 /**
+ * Returns a link to the PHP documentation
+ *
+ * @param string  anchor in documentation
+ *
+ * @return  string  the URL
+ *
+ * @access  public
+ */
+function PMA_getPHPDocLink($target) {
+    /* l10n: Language to use for PHP documentation, please use only languages which do exist in official documentation. */
+    $lang = _pgettext('PHP documentation language', 'en');
+
+    return 'http://php.net/manual/' . $lang . '/' . $target;
+}
+
+/**
  * Warn or fail on missing extension.
  *
  * @param string $extension Extension name
@@ -260,7 +276,7 @@ function PMA_fatalError($error_message, $message_args = null)
 function PMA_warnMissingExtension($extension, $fatal = false, $extra = '')
 {
     $message = sprintf(__('The %s extension is missing. Please check your PHP configuration.'),
-        sprintf('[a@http://php.net/%1$s@Documentation][em]%1$s[/em][/a]', $extension));
+        '[a@' . PMA_getPHPDocLink('book.' . $extension . '.php') . '@Documentation][em]' . $extension . '[/em][/a]');
     if ($extra != '') {
         $message .= ' ' . $extra;
     }

@@ -65,6 +65,9 @@ PMA_DBI_select_db($GLOBALS['db']);
  */
 $goto_include = false;
 
+// Needed for generation of Inline Edit anchors
+$GLOBALS['js_include'][] = 'sql.js';
+
 if (isset($_REQUEST['insert_rows']) && is_numeric($_REQUEST['insert_rows']) && $_REQUEST['insert_rows'] != $cfg['InsertRows']) {
     $cfg['InsertRows'] = $_REQUEST['insert_rows'];
     $GLOBALS['js_include'][] = 'tbl_change.js';
@@ -325,7 +328,9 @@ if ($is_insert && count($value_sets) > 0) {
     // No change -> move back to the calling script
     $message = PMA_Message::success(__('No change'));
     $active_page = $goto_include;
-    require_once './libraries/header.inc.php';
+    if(!$GLOBALS['is_ajax_request'] == true) {
+        require_once './libraries/header.inc.php';
+    }
     require './' . PMA_securePath($goto_include);
     exit;
 }

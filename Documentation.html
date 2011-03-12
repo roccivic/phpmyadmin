@@ -9,7 +9,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.4.0-beta3 - Documentation</title>
+    <title>phpMyAdmin 3.4.0-beta4 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -17,7 +17,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.4.0-beta3
+        3.4.0-beta4
         Documentation
     </h1>
 </div>
@@ -758,7 +758,9 @@ since this link provides funding for phpMyAdmin.
                 as introduced in 2.10.0 allows you to log in from prepared PHP
                 session data. This is useful for implementing single signon
                 from another application. Sample way how to seed session is in
-                signon example: <code>scripts/signon.php</code>. You need to
+                signon example: <code>scripts/signon.php</code>. There is also
+                alternative example using OpenID -
+                <code>scripts/openid.php</code>.  You need to
                 configure <a href="#cfg_Servers_SignonSession"
                 class="configrule">session name</a> and <a
                 href="#cfg_Servers_SignonURL" class="configrule">signon
@@ -1291,10 +1293,6 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         If you have only one server configured, <tt>$cfg['ServerDefault']</tt>
         MUST be set to that server.</dd>
 
-    <dt id="cfg_MaxDbList">$cfg['MaxDbList'] integer</dt>
-    <dd>The maximum number of database names to be displayed in the
-        navigation frame and the database list.</dd>
-
     <dt id="cfg_AjaxEnable">$cfg['AjaxEnable'] boolean</dt>
     <dd>Defines whether to refresh only parts of certain pages using Ajax
     techniques. Applies only where a non-Ajax behavior is possible;
@@ -1304,6 +1302,10 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
     <dt id="cfg_VersionCheck">$cfg['VersionCheck'] boolean</dt>
     <dd>Enables check for latest versions using javascript on main phpMyAdmin
     page.</dd>
+
+    <dt id="cfg_MaxDbList">$cfg['MaxDbList'] integer</dt>
+    <dd>The maximum number of database names to be displayed in the
+        navigation frame and the database list.</dd>
 
     <dt id="cfg_MaxTableList">$cfg['MaxTableList'] integer</dt>
     <dd>The maximum number of table names to be displayed in the
