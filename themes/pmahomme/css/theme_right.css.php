@@ -253,7 +253,7 @@ button {
 table caption,
 table th,
 table td {
-    padding:            0.5em;
+    padding:            0.3em;
     margin:             0.1em;
     vertical-align:     top;
     text-shadow:0 1px 0 #FFFFFF;
@@ -624,6 +624,8 @@ div.footnotes {
     color:              #000;
     background:url(./themes/pmahomme/img/tab_warning_bg.png) 50% 0% #f2baba;
 }
+
+
 p.warning,
 h1.warning,
 div.warning {
@@ -915,6 +917,9 @@ ul#topmenu ul {
     padding:            0.1em 0.3em 0.1em 0.3em;
 }
 
+#topmenu .warning {font-size:1em !important; background:#f3f3f3; }
+#topmenu .warning a span{color:#ddd !important;}
+
 ul#topmenu ul {
     -moz-box-shadow:    1px 1px 6px #ddd;
     -webkit-box-shadow: 2px 2px 3px #666;
@@ -980,6 +985,7 @@ ul#topmenu span.tab,
 a.warning,
 ul#topmenu span.tabcaution {
     cursor:             url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>error.ico), default;
+    color:#ccc;
 }
 <?php } ?>
 /* end topmenu */
@@ -1650,8 +1656,7 @@ table#serverconnection_trg_local  {
     margin-bottom: 0;
     margin-left: auto;
     padding: 5px;   /** Keep a little space on the sides of the text */
-    min-width: 70px;
-    max-width: 350px;   /** This value might have to be changed */
+    width: 350px;
 
     z-index: 1100;      /** If this is not kept at a high z-index, the jQueryUI modal dialogs (z-index:1000) might hide this */
     text-align: center;
@@ -2110,3 +2115,16 @@ fieldset .disabled-field td {
 #prefs_autoload {
     margin-bottom: 0.5em;
 }
+
+#table_columns input, #table_columns select {
+    width:              14em;
+    box-sizing:         border-box;
+    -ms-box-sizing:     border-box;
+    -moz-box-sizing:    border-box;
+    -webkit-box-sizing: border-box;
+}
+
+#table_columns select {
+    margin:             0 6px;
+}
+

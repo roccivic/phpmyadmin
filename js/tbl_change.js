@@ -336,6 +336,11 @@ $(document).ready(function() {
          */
         var target_rows = $("#insert_rows").val();
 
+        // remove all datepickers
+        $('.datefield,.datetimefield').each(function(){
+            $(this).datepicker('destroy');
+        });
+
         if(curr_rows < target_rows ) {
             while( curr_rows < target_rows ) {
 
@@ -382,8 +387,11 @@ $(document).ready(function() {
                     $this_element.attr('name', new_name);
 
                     if ($this_element.is('.textfield')) {
+                        // do not remove the 'value' attribute for ENUM columns
+                        if ($this_element.closest('tr').find('span.column_type').html() != 'enum') {
+                            $this_element.attr('value', '');
+                        }
                         $this_element
-                        .attr('value', '')
                         .unbind('change')
                         // Remove onchange attribute that was placed
                         // by tbl_change.php; it refers to the wrong row index
@@ -472,11 +480,17 @@ $(document).ready(function() {
         .each(function() {
                 tabindex++;
                 $(this).attr('tabindex', tabindex);
+                // update the IDs of textfields to ensure that they are unique
+                $(this).attr('id', "field_" + tabindex + "_3");
             });
         $('.control_at_footer')
         .each(function() {
                 tabindex++;
                 $(this).attr('tabindex', tabindex);
+            });
+        // Add all the required datepickers back
+        $('.datefield,.datetimefield').each(function(){
+            PMA_addDatepicker($(this));
             });
         }
         else if( curr_rows > target_rows) {

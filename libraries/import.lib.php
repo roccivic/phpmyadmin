@@ -773,7 +773,7 @@ function PMA_detectType($last_cumulative_type, &$cell) {
  * Determines if the column types are int, decimal, or string
  *
  *
- * @link http://wiki.phpmyadmin.net/pma/Devel:Import
+ * @link http://wiki.phpmyadmin.net/pma/Import
  *
  * @todo    Handle the error case more elegantly
  *
@@ -881,7 +881,7 @@ $import_notice = NULL;
  * as necessary, as well as insert all the data.
  *
  *
- * @link http://wiki.phpmyadmin.net/pma/Devel:Import
+ * @link http://wiki.phpmyadmin.net/pma/Import
  *
  * @access  public
  *
@@ -908,13 +908,13 @@ $import_notice = NULL;
  */
 function PMA_buildSQL($db_name, &$tables, &$analyses = NULL, &$additional_sql = NULL, $options = NULL) {
     /* Take care of the options */
-    if (isset($options['db_collation'])) {
+    if (isset($options['db_collation'])&& ! is_null($options['db_collation'])) {
         $collation = $options['db_collation'];
     } else {
         $collation = "utf8_general_ci";
     }
     
-    if (isset($options['db_charset'])) {
+    if (isset($options['db_charset']) && ! is_null($options['db_charset'])) {
         $charset = $options['db_charset'];
     } else {
         $charset = "utf8";

@@ -121,6 +121,8 @@ if (!$is_superuser) {
     require './libraries/footer.inc.php';
 }
 
+$random_n = mt_rand(0,1000000); // a random number that will be appended to the id of the user forms
+
 /**
  * Escapes wildcard in a database+table specification
  * before using it in a GRANT statement.
@@ -325,6 +327,8 @@ function PMA_display_column_privs($columns, $row, $name_for_select,
  */
 function PMA_displayPrivTable($db = '*', $table = '*', $submit = TRUE)
 {
+    global $random_n;
+
     if ($db == '*') {
         $table = '*';
     }
@@ -572,10 +576,10 @@ function PMA_displayPrivTable($db = '*', $table = '*', $submit = TRUE)
                     ? __('Database-specific privileges')
                     : __('Table-specific privileges'))) . "\n"
            . '        (<a href="server_privileges.php?'
-            . $GLOBALS['url_query'] . '&amp;checkall=1" onclick="setCheckboxes(\'addUsersForm\', true); return false;">'
+            . $GLOBALS['url_query'] . '&amp;checkall=1" onclick="setCheckboxes(\'addUsersForm_' . $random_n . '\', true); return false;">'
             . __('Check All') . '</a> /' . "\n"
            . '        <a href="server_privileges.php?'
-            . $GLOBALS['url_query'] . '" onclick="setCheckboxes(\'addUsersForm\', false); return false;">'
+            . $GLOBALS['url_query'] . '" onclick="setCheckboxes(\'addUsersForm_' . $random_n . '\', false); return false;">'
             . __('Uncheck All') . '</a>)' . "\n"
            . '    </legend>' . "\n"
            . '    <p><small><i>' . __(' Note: MySQL privilege names are expressed in English ') . '</i></small></p>' . "\n"
@@ -886,6 +890,7 @@ if (isset($_REQUEST['adduser_submit']) || isset($_REQUEST['change_copy'])) {
         $message = PMA_Message::error(__('The user %s already exists!'));
         $message->addParam('[i]\'' . $username . '\'@\'' . $hostname . '\'[/i]');
         $_REQUEST['adduser'] = true;
+        $_add_user_error = true;
     } else {
 
         $create_user_real = 'CREATE USER \'' . PMA_sqlAddslashes($username) . '\'@\'' . PMA_sqlAddslashes($hostname) . '\'';
@@ -1381,7 +1386,7 @@ $link_export = '<a class="export_user_anchor ' . $conditional_class . '" href="s
  * If we are in an Ajax request for Create User/Edit User/Revoke User/Flush Privileges,
  * show $message and exit.
  */
-if( $GLOBALS['is_ajax_request'] && !isset($_REQUEST['export']) && !isset($_REQUEST['adduser']) && !isset($_REQUEST['initial']) && !isset($_REQUEST['showall']) && !isset($_REQUEST['edit_user_dialog'])) {
+if( $GLOBALS['is_ajax_request'] && !isset($_REQUEST['export']) && (!isset($_REQUEST['adduser']) || $_add_user_error) && !isset($_REQUEST['initial']) && !isset($_REQUEST['showall']) && !isset($_REQUEST['edit_user_dialog'])) {
 
     if(isset($sql_query)) {
         $extra_data['sql_query'] = PMA_showMessage(NULL, $sql_query);
@@ -1436,6 +1441,10 @@ if( $GLOBALS['is_ajax_request'] && !isset($_REQUEST['export']) && !isset($_REQUE
     }
 
     if(isset($update_privs)) {
+        $extra_data['db_specific_privs'] = false;
+        if (isset($dbname_is_wildcard)) {
+            $extra_data['db_specific_privs'] = !$dbname_is_wildcard;
+        }
         $new_privileges = join(', ', PMA_extractPrivInfo('', true));
 
         $extra_data['new_privileges'] = $new_privileges;
@@ -1783,7 +1792,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
             //require './libraries/footer.inc.php';
         }
 
-        echo '<form name="usersForm" id="addUsersForm" action="server_privileges.php" method="post">' . "\n";
+        echo '<form name="usersForm" id="addUsersForm_' . $random_n . '" action="server_privileges.php" method="post">' . "\n";
         $_params = array(
             'username' => $username,
             'hostname' => $hostname,
@@ -2124,7 +2133,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
     echo '<h2>' . "\n"
        . PMA_getIcon('b_usradd.png') . __('Add a new User') . "\n"
        . '</h2>' . "\n"
-       . '<form name="usersForm" id="addUsersForm" action="server_privileges.php" method="post">' . "\n"
+       . '<form name="usersForm" id="addUsersForm_' . $random_n . '" action="server_privileges.php" method="post">' . "\n"
        . PMA_generate_common_hidden_inputs('', '');
     PMA_displayLoginInformationFields('new');
     echo '<fieldset id="fieldset_add_user_database">' . "\n"
@@ -2157,7 +2166,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
        . '</form>' . "\n";
 } else {
     // check the privileges for a particular database.
-    echo '<table id="tablespecificuserrights" class="data">' . "\n"
+    echo '<form id="usersForm"><table id="dbspecificuserrights" class="data">' . "\n"
        . '<caption class="tblHeaders">' . "\n"
        . PMA_getIcon('b_usrcheck.png')
        . '    ' . sprintf(__('Users having access to &quot;%s&quot;'), '<a href="' . $GLOBALS['cfg']['DefaultTabDatabase'] . '?' . PMA_generate_common_url($checkprivs) . '">' .  htmlspecialchars($checkprivs) . '</a>') . "\n"
@@ -2305,7 +2314,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
            . '    </tr>' . "\n";
     }
     echo '</tbody>' . "\n"
-       . '</table>' . "\n";
+       . '</table></form>' . "\n";
 
     // Offer to create a new user for the current database
     echo '<fieldset id="fieldset_add_user">' . "\n"

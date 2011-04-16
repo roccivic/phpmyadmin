@@ -593,7 +593,7 @@ $(document).ready(function() {
      * this behavior.
      */
     $('tr.odd:not(.noclick), tr.even:not(.noclick)').live('click',function(e) {
-        //do not trigger when clicked on anchor or inside input element (in inline editing mode) with exception of the first checkbox
+        // do not trigger when clicked on anchor
         if ($(e.target).is('a, a *')) {
             return;
         }
@@ -1233,9 +1233,9 @@ function PMA_ajaxShowMessage(message, timeout) {
             $('<span id="loading" class="ajax_notification"></span>')
             .appendTo("#loading_parent")
             .html(msg)
-            .slideDown('medium')
+            .fadeIn('medium')
             .delay(to)
-            .slideUp('medium', function(){
+            .fadeOut('medium', function(){
                 $(this)
                 .html("") //Clear the message
                 .hide();
@@ -1246,16 +1246,29 @@ function PMA_ajaxShowMessage(message, timeout) {
     else {
         //Otherwise, just show the div again after inserting the message
         $("#loading")
-        .clearQueue()
+        .stop(true, true)
         .html(msg)
-        .slideDown('medium')
+        .fadeIn('medium')
         .delay(to)
-        .slideUp('medium', function() {
+        .fadeOut('medium', function() {
             $(this)
             .html("")
             .hide();
         })
     }
+	
+	return $("#loading");
+}
+
+/**
+ * Removes the message shown for an Ajax operation when it's completed
+ */
+function PMA_ajaxRemoveMessage($this_msgbox) {
+    $this_msgbox
+     .stop(true, true)
+     .fadeOut('medium', function() {
+        $this_msgbox.hide();
+     });
 }
 
 /**
@@ -1389,7 +1402,7 @@ $(document).ready(function() {
         var button_options_error = {};
         button_options_error[PMA_messages['strOK']] = function() {$(this).dialog('close').remove();}
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
         if (! $form.find('input:hidden').is('#ajax_request_hidden')) {
             $form.append('<input type="hidden" id="ajax_request_hidden" name="ajax_request" value="true" />');
         }
@@ -1418,7 +1431,8 @@ $(document).ready(function() {
                     open: PMA_verifyTypeOfAllColumns,
                     buttons : button_options
                 }); // end dialog options
-            }
+            }            
+            PMA_ajaxRemoveMessage($msgbox);
         }) // end $.get()
 
         // empty table name and number of columns from the minimal form
@@ -1546,7 +1560,7 @@ $(document).ready(function() {
          */
         var $form = $("#create_table_form");
 
-        PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+        var $msgbox = PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
         if (! $form.find('input:hidden').is('#ajax_request_hidden')) {
             $form.append('<input type="hidden" id="ajax_request_hidden" name="ajax_request" value="true" />');
         }
@@ -1562,6 +1576,7 @@ $(document).ready(function() {
                 $("#create_table_div").html(data);
             }
             PMA_verifyTypeOfAllColumns();
+            PMA_ajaxRemoveMessage($msgbox);    
         }) //end $.post()
 
     }) // end create table form (add fields)
@@ -1744,7 +1759,7 @@ $(document).ready(function() {
          */
         var this_value = $(this).val();
 
-        PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+        var $msgbox = PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
         $(the_form).append('<input type="hidden" name="ajax_request" value="true" />');
 
         $.post($(the_form).attr('action'), $(the_form).serialize() + '&change_pw='+ this_value, function(data) {
@@ -1753,6 +1768,7 @@ $(document).ready(function() {
                 $("#change_password_dialog").hide().remove();
                 $("#edit_user_dialog").dialog("close").remove();
                 $('#change_password_anchor.dialog_active').removeClass('dialog_active').addClass('ajax');
+                PMA_ajaxRemoveMessage($msgbox); 
             }
             else {
                 PMA_ajaxShowMessage(data.error);

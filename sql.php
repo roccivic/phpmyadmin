@@ -63,8 +63,17 @@ if (isset($_REQUEST['get_relational_values']) && $_REQUEST['get_relational_value
     $column = $_REQUEST['column'];
     $foreigners = PMA_getForeigners($db, $table, $column);
 
+    $display_field = PMA_getDisplayField($foreigners[$column]['foreign_db'], $foreigners[$column]['foreign_table']);
+
     $foreignData = PMA_getForeignData($foreigners, $column, false, '', '');
 
+    if ($_SESSION['tmp_user_values']['relational_display'] == 'D'
+        && (isset($display_field) && strlen($display_field)
+        && (isset($_REQUEST['relation_key_or_display_column']) && $_REQUEST['relation_key_or_display_column']))) {
+            $curr_value = $_REQUEST['relation_key_or_display_column'];
+    } else {
+        $curr_value = $_REQUEST['curr_value'];
+    }
     if ($foreignData['disp_row'] == null) {
         //Handle the case when number of values is more than $cfg['ForeignKeyMaxLimit']
         $_url_params = array(
@@ -78,7 +87,7 @@ if (isset($_REQUEST['get_relational_values']) && $_REQUEST['get_relational_value
                     .'>' . __('Browse foreign values') . '</a>';
     }
     else {
-        $dropdown = PMA_foreignDropdown($foreignData['disp_row'], $foreignData['foreign_field'], $foreignData['foreign_display'], $_REQUEST['curr_value'], $cfg['ForeignKeyMaxLimit']);
+        $dropdown = PMA_foreignDropdown($foreignData['disp_row'], $foreignData['foreign_field'], $foreignData['foreign_display'], $curr_value, $cfg['ForeignKeyMaxLimit']);
         $dropdown = '<select>' . $dropdown . '</select>';
     }
 
@@ -645,6 +654,34 @@ if (0 == $num_rows || $is_affected) {
             foreach( $rel_fields as $rel_field => $rel_field_value) {
 
                 $where_comparison = "='" . $rel_field_value . "'";
+                $display_field = PMA_getDisplayField($map[$rel_field]['foreign_db'], $map[$rel_field]['foreign_table']);
+
+                // Field to display from the foreign table?
+                if (isset($display_field) && strlen($display_field)) {
+                    $dispsql     = 'SELECT ' . PMA_backquote($display_field)
+                        . ' FROM ' . PMA_backquote($map[$rel_field]['foreign_db'])
+                        . '.' . PMA_backquote($map[$rel_field]['foreign_table'])
+                        . ' WHERE ' . PMA_backquote($map[$rel_field]['foreign_field'])
+                        . $where_comparison;
+                    $dispresult  = PMA_DBI_try_query($dispsql, null, PMA_DBI_QUERY_STORE);
+                    if ($dispresult && PMA_DBI_num_rows($dispresult) > 0) {
+                        list($dispval) = PMA_DBI_fetch_row($dispresult, 0);
+                    } else {
+                        //$dispval = __('Link not found');
+                    }
+                    @PMA_DBI_free_result($dispresult);
+                } else {
+                    $dispval     = '';
+                } // end if... else...
+
+                if ('K' == $_SESSION['tmp_user_values']['relational_display']) {
+                    // user chose "relational key" in the display options, so
+                    // the title contains the display field
+                    $title = (! empty($dispval))? ' title="' . htmlspecialchars($dispval) . '"' : '';
+                } else {
+                    $title = ' title="' . htmlspecialchars($rel_field_value) . '"';
+                }
+
                 $_url_params = array(
                     'db'    => $map[$rel_field]['foreign_db'],
                     'table' => $map[$rel_field]['foreign_table'],
@@ -654,9 +691,18 @@ if (0 == $num_rows || $is_affected) {
                                         . ' WHERE ' . PMA_backquote($map[$rel_field]['foreign_field'])
                                         . $where_comparison
                 );
+                $output = '<a href="sql.php' . PMA_generate_common_url($_url_params) . '"' . $title . '>';
 
-                $extra_data['relations'][$rel_field] = '<a href="sql.php' . PMA_generate_common_url($_url_params) . '">';
-                $extra_data['relations'][$rel_field] .= '</a>';
+                if ('D' == $_SESSION['tmp_user_values']['relational_display']) {
+                    // user chose "relational display field" in the
+                    // display options, so show display field in the cell
+                    $output .= (!empty($dispval)) ? htmlspecialchars($dispval) : '';
+                } else {
+                    // otherwise display data in the cell
+                    $output .= htmlspecialchars($rel_field_value);
+                }
+                $output .= '</a>';
+                $extra_data['relations'][$rel_field] = $output;
             }
         }
 
@@ -700,8 +746,8 @@ if (0 == $num_rows || $is_affected) {
             }
         }
 
-        if(isset($GLOBALS['display_query'])) {
-            $extra_data['sql_query'] = PMA_showMessage(NULL, $GLOBALS['display_query']);
+        if ($cfg['ShowSQL']) {
+            $extra_data['sql_query'] = PMA_showMessage($message, $GLOBALS['sql_query'], 'success');
         }
         if (isset($GLOBALS['reload']) && $GLOBALS['reload'] == 1) {
             $extra_data['reload'] = 1;
@@ -923,5 +969,7 @@ window.onload = function()
 /**
  * Displays the footer
  */
-require './libraries/footer.inc.php';
+if(!isset($_REQUEST['table_maintenance'])) {
+    require './libraries/footer.inc.php';
+}
 ?>

@@ -55,31 +55,26 @@ switch($submit_mult) {
         // leave as is
         break;
 
-    case __('Export'):
+    case 'export':
         $submit_mult = 'row_export';
         break;
 
-    case __('Delete'):
-    case __('Kill'):
+    case 'delete':
         $submit_mult = 'row_delete';
         break;
 
     default:
-    case __('Edit'):
+    case 'edit':
         $submit_mult = 'row_edit';
         break;
 }
 
-$GLOBALS['js_include'][] = 'tbl_change.js';
-
-require_once './libraries/header.inc.php';
-
 if (!empty($submit_mult)) {
     switch($submit_mult) {
         case 'row_edit':
-            // As we got the fields to be edited from the 
+            // As we got the fields to be edited from the
             // 'rows_to_delete' checkbox, we use the index of it as the
-            // indicating WHERE clause. Then we build the array which is used 
+            // indicating WHERE clause. Then we build the array which is used
             // for the tbl_change.php script.
             $where_clause = array();
             foreach ($_REQUEST['rows_to_delete'] as $i_where_clause => $del_query) {
@@ -94,9 +89,9 @@ if (!empty($submit_mult)) {
             // Needed to allow SQL export
             $single_table = TRUE;
 
-            // As we got the fields to be edited from the 
+            // As we got the fields to be edited from the
             // 'rows_to_delete' checkbox, we use the index of it as the
-            // indicating WHERE clause. Then we build the array which is used 
+            // indicating WHERE clause. Then we build the array which is used
             // for the tbl_change.php script.
             $where_clause = array();
             foreach ($_REQUEST['rows_to_delete'] as $i_where_clause => $del_query) {

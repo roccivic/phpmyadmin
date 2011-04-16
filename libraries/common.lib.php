@@ -661,6 +661,14 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
     $_SESSION['Import_message']['message'] = $error_msg_output;
 
     if ($exit) {
+       /**
+        * If in an Ajax request
+        * - avoid displaying a Back link 
+        * - use PMA_ajaxResponse() to transmit the message and exit
+        */
+       if($GLOBALS['is_ajax_request'] == true) {
+           PMA_ajaxResponse($error_msg_output, false);
+       }
         if (! empty($back_url)) {
             if (strstr($back_url, '?')) {
                 $back_url .= '&amp;no_history=true';
@@ -675,16 +683,10 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
             $error_msg_output .= '</fieldset>' . "\n\n";
        }
 
-        /**
-         * If in an Ajax request, don't just echo and exit.  Use PMA_ajaxResponse()
-         */
-        if($GLOBALS['is_ajax_request'] == true) {
-            PMA_ajaxResponse($error_msg_output, false);
-        }
-        echo $error_msg_output;
-        /**
-         * display footer and exit
-         */
+       echo $error_msg_output;
+       /**
+        * display footer and exit
+        */
        require './libraries/footer.inc.php';
     } else {
         echo $error_msg_output;
@@ -1660,10 +1662,7 @@ function PMA_generate_html_tab($tab, $url_params = array())
 
     // determine additionnal style-class
     if (empty($tab['class'])) {
-        if ($tab['text'] == __('Empty')
-            || $tab['text'] == __('Drop')) {
-            $tab['class'] = 'caution';
-        } elseif (! empty($tab['active'])
+        if (! empty($tab['active'])
          || PMA_isValid($GLOBALS['active_page'], 'identical', $tab['link'])) {
             $tab['class'] = 'active';
         } elseif (is_null($tab['active']) && empty($GLOBALS['active_page'])
@@ -2180,11 +2179,14 @@ function PMA_getUniqueCondition($handle, $fields_cnt, $fields_meta, $row, $force
  * @access  public
  */
 function PMA_buttonOrImage($button_name, $button_class, $image_name, $text,
-    $image)
+    $image, $value = '')
 {
+    if ($value == '') {
+        $value = $text;
+    }
     if (false === $GLOBALS['cfg']['PropertiesIconic']) {
         echo ' <input type="submit" name="' . $button_name . '"'
-                .' value="' . htmlspecialchars($text) . '"'
+                .' value="' . htmlspecialchars($value) . '"'
                 .' title="' . htmlspecialchars($text) . '" />' . "\n";
         return;
     }
@@ -2193,13 +2195,13 @@ function PMA_buttonOrImage($button_name, $button_class, $image_name, $text,
     /* IE has trouble with <button> */
     if (PMA_USR_BROWSER_AGENT != 'IE') {
         echo '<button class="' . $button_class . '" type="submit"'
-            .' name="' . $button_name . '" value="' . htmlspecialchars($text) . '"'
+            .' name="' . $button_name . '" value="' . htmlspecialchars($value) . '"'
             .' title="' . htmlspecialchars($text) . '">' . "\n"
             . PMA_getIcon($image, $text)
             .'</button>' . "\n";
     } else {
         echo '<input type="image" name="' . $image_name . '" value="'
-            . htmlspecialchars($text) . '" title="' . htmlspecialchars($text) . '" src="' . $GLOBALS['pmaThemeImage']
+            . htmlspecialchars($value) . '" title="' . htmlspecialchars($text) . '" src="' . $GLOBALS['pmaThemeImage']
             . $image . '" />'
             . ($GLOBALS['cfg']['PropertiesIconic'] === 'both' ? '&nbsp;' . htmlspecialchars($text) : '') . "\n";
     }

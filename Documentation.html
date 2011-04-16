@@ -9,7 +9,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.4.0-beta4 - Documentation</title>
+    <title>phpMyAdmin 3.4.0-rc1 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -17,7 +17,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.4.0-beta4
+        3.4.0-rc1
         Documentation
     </h1>
 </div>
@@ -60,7 +60,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
         <ul><li>You need PHP 5.2.0 or newer, with <tt>session</tt> support
                 (<a href="#faq1_31">see
 			<abbr title="Frequently Asked Questions">FAQ</abbr> 1.31</a>)
-		and the Standard PHP Library (SPL) extension.
+		, the Standard PHP Library (SPL) extension and JSON support.
                 </li>
 		<li>To support uploading of ZIP files, you need the PHP <tt>zip</tt> extension.</li>
         <li>For proper support of multibyte strings (eg. UTF-8, which is
@@ -623,6 +623,9 @@ since this link provides funding for phpMyAdmin.
     cookie authentication.
     You can set this parameter to <tt>TRUE</tt> to stop this message 
     from appearing.</dd>
+
+    <dt id="cfg_TranslationWarningThreshold">$cfg['TranslationWarningThreshold'] integer</dt>
+    <dd>Show warning about incomplete translations on certain threshold.</dd>
 
     <dt id="cfg_AllowThirdPartyFraming">$cfg['AllowThirdPartyFraming'] boolean</dt>
     <dd>Setting this to <tt>true</tt> allows a page located on a different
@@ -4315,7 +4318,7 @@ chmod o+rwx tmp
 <h4 id="faq6_29">
     <a href="#faq6_29">6.29 Why can't I get a chart from my query result table?</a></h4>
 
-<p> Not every table can be put to the chart. Only tables with one, two or three columns can be visualised as a chart. Moreover the table must be in a special format for chart script to understand it. Currently supported formats can be found in the <a href="http://wiki.phpmyadmin.net/pma/Devel:Charts#Data_formats_for_query_results_chart">wiki</a>.</p>
+<p> Not every table can be put to the chart. Only tables with one, two or three columns can be visualised as a chart. Moreover the table must be in a special format for chart script to understand it. Currently supported formats can be found in the <a href="http://wiki.phpmyadmin.net/pma/Charts#Data_formats_for_query_results_chart">wiki</a>.</p>
 
 <h3 id="faqproject">phpMyAdmin project</h3>
 
@@ -4343,7 +4346,7 @@ chmod o+rwx tmp
     <code>po/LANG_CODE.po</code> for your language (you can use
     <code>msginit -i po/phpmyadmin.pot -l LANG_CODE --no-translator -o po/LANG_CODE.po</code>
     to do this) or ask on the mailing list to add the translation to the web
-    interface. More details are available on <a href="http://wiki.phpmyadmin.net/pma/Devel:Gettext_for_translators">our wiki</a>.
+    interface. More details are available on <a href="http://wiki.phpmyadmin.net/pma/Gettext_for_translators">our wiki</a>.
 </p>
 <p>
     Please note that we try not to use HTML entities like &amp;eacute; in
@@ -4394,7 +4397,7 @@ chmod o+rwx tmp
     </li>
 </ol>
 
-<p>More details on git are available on <a href="http://wiki.phpmyadmin.net/pma/Devel:Git">our wiki</a>.</p>
+<p>More details on git are available on <a href="http://wiki.phpmyadmin.net/pma/Git">our wiki</a>.</p>
 
 <p> Write access to the repository is granted only to experienced developers who
     have already contributed something useful to phpMyAdmin.<br />

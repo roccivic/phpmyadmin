@@ -12,7 +12,7 @@ define('PMA_COLORPICKER', true);
 require_once './libraries/common.inc.php';
 
 $GLOBALS['js_include'][] = 'colorpicker/js/colorpicker.js';
-$GLOBALS['js_include'][] = 'main_custom_color.js';
+//$GLOBALS['js_include'][] = 'main_custom_color.js';
 $GLOBALS['js_include'][] = 'jquery/jquery-ui-1.8.custom.js';
 $GLOBALS['js_include'][] = 'jquery/jquery.sprintf.js';
 
@@ -85,19 +85,20 @@ if ($server > 0
     if ($server > 0) {
         require_once './libraries/check_user_privileges.lib.php';
 
-        // Logout for advanced authentication
-        if ($cfg['Server']['auth_type'] != 'config') {
-            if ($cfg['ShowChgPassword']) {
-                if ($GLOBALS['cfg']['AjaxEnable']) {
-                    $conditional_class = 'ajax';
-                } else {
-                    $conditional_class = null;
+        if (!PMA_DRIZZLE) {
+            // Logout for advanced authentication
+            if ($cfg['Server']['auth_type'] != 'config') {
+                if ($cfg['ShowChgPassword']) {
+                    if ($GLOBALS['cfg']['AjaxEnable']) {
+                        $conditional_class = 'ajax';
+                    } else {
+                        $conditional_class = null;
+                    }
+                    PMA_printListItem(__('Change password'), 'li_change_password',
+                        './user_password.php?' . $common_url_query, null, null, 'change_password_anchor', null, $conditional_class);
                 }
-                PMA_printListItem(__('Change password'), 'li_change_password',
-                    './user_password.php?' . $common_url_query, null, null, 'change_password_anchor', null, $conditional_class);
-            }
-        } // end if
-        if (PMA_MYSQL_MAJOR_VERSION < 2009) {
+            } // end if
+
             echo '    <li id="li_select_mysql_collation">';
             echo '        <form method="post" action="index.php" target="_parent">' . "\n"
            . PMA_generate_common_hidden_inputs(null, null, 4, 'collation_connection')
@@ -137,6 +138,8 @@ if ($GLOBALS['cfg']['ThemeManager']) {
     echo '</li>';
 
     // see js/main_custom_color.js
+    /*
+     * deactivated for 3.4.0-rc1
     echo '<li id="li_custom_color" class="hide">';
     echo __('Background color') . ': ';
     echo '<input type="submit" name="custom_color_choose" value="' . __('Choose...') . '" />';
@@ -146,6 +149,7 @@ if ($GLOBALS['cfg']['ThemeManager']) {
     echo '<input type="submit" name="custom_color_reset" value="' . __('Reset') . '" />';
     echo '</form>';
     echo '</li>';
+     */
 }
 echo '<li id="li_select_fontsize">';
 echo PMA_Config::getFontsizeForm();
@@ -350,6 +354,23 @@ if (function_exists('PMA_DBI_get_client_info')) {
 if ($cfg['SuhosinDisableWarning'] == false && @ini_get('suhosin.request.max_value_length')) {
     trigger_error(PMA_sanitize(sprintf(__('Server running with Suhosin. Please refer to %sdocumentation%s for possible issues.'), '[a@./Documentation.html#faq1_38@_blank]', '[/a]')), E_USER_WARNING);
     }
+
+/**
+ * Warning about incomplete translations.
+ *
+ * The data file is created while creating release by ./scripts/remove-incomplete-mo
+ */
+if (file_exists('./libraries/language_stats.inc.php')) {
+    include('./libraries/language_stats.inc.php');
+    /*
+     * This message is intentionally not translated, because we're
+     * handling incomplete translations here and focus on english
+     * speaking users.
+     */
+    if (isset($GLOBALS['language_stats'][$lang]) && $GLOBALS['language_stats'][$lang] < $cfg['TranslationWarningThreshold']) {
+        trigger_error('You are using an incomplete translation, please help to make it better by <a href="http://www.phpmyadmin.net/home_page/improve.php#translate">contributing</a>.', E_USER_NOTICE);
+    }
+}
 
 /**
  * prints list item for main page

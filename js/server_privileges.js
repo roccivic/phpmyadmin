@@ -163,7 +163,7 @@ $(document).ready(function() {
         /** @lends jQuery */
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         /**
          * @var button_options  Object containing options for jQueryUI dialog buttons
@@ -174,7 +174,7 @@ $(document).ready(function() {
             /**
              * @var $form    stores reference to current form
              */
-            var $form = $(this).find("#addUsersForm");
+            var $form = $(this).find("form[name=usersForm]").last();
 
             if( ! checkAddUser($form.get(0)) ) {
                 PMA_ajaxShowMessage(PMA_messages['strFormEmpty']);
@@ -211,7 +211,7 @@ $(document).ready(function() {
             .prepend(data)
             .find("#fieldset_add_user_footer").hide() //showing the "Go" and "Create User" buttons together will confuse the user
             .end()
-            .find("#addUsersForm").append('<input type="hidden" name="ajax_request" value="true" />')
+            .find("form[name=usersForm]").append('<input type="hidden" name="ajax_request" value="true" />')
             .end()
             .dialog({
                 title: PMA_messages['strAddNewUser'],
@@ -224,6 +224,7 @@ $(document).ready(function() {
                 buttons: button_options
             }); //dialog options end
             displayPasswordGenerateButton();
+            PMA_ajaxRemoveMessage($msgbox);    
         }); // end $.get()
 
     });//end of Add New User AJAX event handler
@@ -314,7 +315,7 @@ $(document).ready(function() {
         /** @lends jQuery */
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         $(this).parents('tr').addClass('current_row');
 
@@ -333,6 +334,7 @@ $(document).ready(function() {
                 buttons: button_options
             }); //dialog options end
             displayPasswordGenerateButton();
+            PMA_ajaxRemoveMessage($msgbox);    
         }) // end $.get()
     })
 
@@ -387,8 +389,18 @@ $(document).ready(function() {
                     appendNewUser(data.new_user_string, data.new_user_initial, data.new_user_initial_string);
                 }
 
-                //Change privileges if they were edited
-                if(data.new_privileges) {
+                //Check if we are on the page of the db-specific privileges
+                var db_priv_page = !!($('#dbspecificuserrights').length); // the "!!" part is merely there to ensure a value of type boolean
+                // we always need to reload on the db-specific privilege page
+                // and on the global page when adjusting global privileges,
+                // but not on the global page when adjusting db-specific privileges.
+                var reload_privs = false;
+                if (data.db_specific_privs == false || (db_priv_page == data.db_specific_privs)) {
+                    reload_privs = true;
+                }
+
+                //Change privileges, if they were edited and need to be reloaded
+                if(data.new_privileges && reload_privs) {
                     $("#usersForm")
                     .find('.current_row')
                     .find('tt')
@@ -418,7 +430,7 @@ $(document).ready(function() {
         /** @lends jQuery */
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         /**
          * @var button_options  Object containing options for jQueryUI dialog buttons
@@ -433,6 +445,7 @@ $(document).ready(function() {
                 width : 500,
                 buttons: button_options
             });
+            PMA_ajaxRemoveMessage($msgbox);            
         }) //end $.get
     }) //end export privileges
 
@@ -447,7 +460,7 @@ $(document).ready(function() {
     $("#initials_table.ajax").find("a").live('click', function(event) {
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         $.get($(this).attr('href'), {'ajax_request' : true}, function(data) {
             // This form is not on screen when first entering Privileges
@@ -457,6 +470,8 @@ $(document).ready(function() {
             $("#initials_table")
              .after(data).show("medium")
              .siblings("h2").not(":first").remove();
+
+            PMA_ajaxRemoveMessage($msgbox);
         }) // end $.get
     })// end of the paginate users table
 

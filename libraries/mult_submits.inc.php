@@ -24,41 +24,25 @@ if (! empty($submit_mult)
         $what         = 'drop_db';
     } elseif (isset($selected_tbl) && !empty($selected_tbl)) {
         // coming from database structure view - do something with selected tables
-        if ($submit_mult == __('Print view')) {
+        if ($submit_mult == 'print') {
             require './tbl_printview.php';
         } else {
            $selected = $selected_tbl;
            switch ($submit_mult) {
                case 'drop_db':
-                   $what = 'drop_db';
+               case 'drop_tbl':
+               case 'empty_tbl':
+                   $what = $submit_mult;
                    break;
-               case __('Drop'):
-                   $what = 'drop_tbl';
-                   break;
-               case __('Empty'):
-                   $what = 'empty_tbl';
-                   break;
-               case __('Check table'):
+               case 'check_tbl':
+               case 'optimize_tbl':
+               case 'repair_tbl':
+               case 'analyze_tbl':
+                   $query_type = $submit_mult;
                    unset($submit_mult);
-                   $query_type = 'check_tbl';
                    $mult_btn   = __('Yes');
                    break;
-               case __('Optimize table'):
-                   unset($submit_mult);
-                   $query_type = 'optimize_tbl';
-                   $mult_btn   = __('Yes');
-                   break;
-               case __('Repair table'):
-                   unset($submit_mult);
-                   $query_type = 'repair_tbl';
-                   $mult_btn   = __('Yes');
-                   break;
-               case __('Analyze table'):
-                   unset($submit_mult);
-                   $query_type = 'analyze_tbl';
-                   $mult_btn   = __('Yes');
-                   break;
-               case __('Export'):
+               case 'export':
                    unset($submit_mult);
                    require('db_export.php');
                    exit;
@@ -69,10 +53,10 @@ if (! empty($submit_mult)
         // coming from table structure view - do something with selected columns/fileds
         $selected     = $selected_fld;
         switch ($submit_mult) {
-            case __('Drop'):
+            case 'drop':
                 $what     = 'drop_fld';
                 break;
-            case __('Primary'):
+            case 'primary':
                 // Gets table primary key
                 PMA_DBI_select_db($db);
                 $result      = PMA_DBI_query('SHOW KEYS FROM ' . PMA_backquote($table) . ';');
@@ -94,29 +78,29 @@ if (! empty($submit_mult)
                     $what = 'primary_fld';
                 }
                 break;
-            case __('Index'):
+            case 'index':
                 unset($submit_mult);
                 $query_type = 'index_fld';
                 $mult_btn   = __('Yes');
                 break;
-            case __('Unique'):
+            case 'unique':
                 unset($submit_mult);
                 $query_type = 'unique_fld';
                 $mult_btn   = __('Yes');
                 break;
-            case __('Fulltext'):
+            case 'ftext':
                 unset($submit_mult);
                 $query_type = 'fulltext_fld';
                 $mult_btn   = __('Yes');
                 break;
-            case __('Change'):
+            case 'change':
                 require './tbl_alter.php';
                 break;
-            case __('Browse'):
+            case 'browse':
                 // this should already be handled by tbl_structure.php
         }
     } else {
-        // coming from borwsing - do something with selected rows
+        // coming from browsing - do something with selected rows
         $what = 'row_delete';
         $selected = $rows_to_delete;
     }
@@ -355,7 +339,7 @@ elseif ($mult_btn == __('Yes')) {
 
             case 'empty_tbl':
                 $a_query = 'TRUNCATE ';
-                $a_query .= PMA_backquote(htmlspecialchars($selected[$i]));
+                $a_query .= PMA_backquote($selected[$i]);
                 $run_parts = TRUE;
                 break;
 

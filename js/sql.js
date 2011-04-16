@@ -18,6 +18,10 @@ function PMA_urldecode(str) {
     return decodeURIComponent(str.replace(/\+/g, '%20'));
 }
 
+function PMA_urlencode(str) {
+    return encodeURIComponent(str.replace(/\%20/g, '+'));
+}
+
 /**
  * Get the field name for the current field.  Required to construct the query
  * for inline editing
@@ -64,7 +68,7 @@ function appendInlineAnchor() {
         // on the ModifyDeleteAtLeft and ModifyDeleteAtRight cfg parameters
         $('#table_results tr')
             .find('.edit_row_anchor')
-            .removeClass('.edit_row_anchor')
+            .removeClass('edit_row_anchor')
             .parent().each(function() {
             var $this_tr = $(this);
             var $cloned_tr = $this_tr.clone();
@@ -248,7 +252,7 @@ $(document).ready(function() {
         $('.error').remove();
 
         $form = $(this);
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         if (! $form.find('input:hidden').is('#ajax_request_hidden')) {
             $form.append('<input type="hidden" id="ajax_request_hidden" name="ajax_request" value="true" />');
@@ -260,13 +264,15 @@ $(document).ready(function() {
                 $('.success').fadeOut();
                 $('.sqlquery_message').fadeOut();
                 // show a message that stays on screen
-                $('#sqlqueryform').before(data.message);
-                // and display the query
-                $('<div class="sqlquery_message"></div>')
-                 .html(data.sql_query)
-                 .insertBefore('#sqlqueryform');
-                // unnecessary div that came from data.sql_query
-                $('.notice').remove();
+                if (typeof data.sql_query != 'undefined') {
+                    $('<div class="sqlquery_message"></div>')
+                     .html(data.sql_query)
+                     .insertBefore('#sqlqueryform');
+                    // unnecessary div that came from data.sql_query
+                    $('.notice').remove();
+                } else {
+                    $('#sqlqueryform').before(data.message);
+                }
                 $('#sqlqueryresults').show();
                 // this happens if a USE command was typed
                 if (typeof data.reload != 'undefined') {
@@ -286,6 +292,9 @@ $(document).ready(function() {
             }
             else {
                 // real results are returned
+                // fade out previous messages, if any
+                $('.success').fadeOut();
+                $('.sqlquery_message').fadeOut();
                 $received_data = $(data);
                 $zero_row_results = $received_data.find('textarea[name="sql_query"]');
                 // if zero rows are returned from the query execution
@@ -302,6 +311,8 @@ $(document).ready(function() {
                     PMA_init_slider();
                 }
             }
+            PMA_ajaxRemoveMessage($msgbox);
+
         }) // end $.post()
     }) // end SQL Query submit
 
@@ -321,7 +332,7 @@ $(document).ready(function() {
         /** @lends jQuery */
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         /**
          * @var $the_form    Object referring to the form element that paginates the results table
@@ -334,6 +345,8 @@ $(document).ready(function() {
             $("#sqlqueryresults").html(data);
             $("#sqlqueryresults").trigger('appendAnchor');
             PMA_init_slider();
+            
+            PMA_ajaxRemoveMessage($msgbox);
         }) // end $.post()
     })// end Paginate results table
 
@@ -349,12 +362,13 @@ $(document).ready(function() {
         if ($(this).hasClass('ajax')) {
             event.preventDefault();
 
-            PMA_ajaxShowMessage();
+            var $msgbox = PMA_ajaxShowMessage();
 
             $.post($the_form.attr('action'), $the_form.serialize() + '&ajax_request=true', function(data) {
                 $("#sqlqueryresults").html(data);
                 $("#sqlqueryresults").trigger('appendAnchor');
                 PMA_init_slider();
+                PMA_ajaxRemoveMessage($msgbox); 
             }) // end $.post()
         } else {
             $the_form.submit();
@@ -371,7 +385,7 @@ $(document).ready(function() {
     $("#table_results.ajax").find("a[title=Sort]").live('click', function(event) {
         event.preventDefault();
 
-        PMA_ajaxShowMessage();
+        var $msgbox = PMA_ajaxShowMessage();
 
         $anchor = $(this);
 
@@ -379,6 +393,7 @@ $(document).ready(function() {
             $("#sqlqueryresults")
              .html(data)
              .trigger('appendAnchor');
+            PMA_ajaxRemoveMessage($msgbox);
         }) // end $.get()
     })//end Sort results table
 
@@ -413,28 +428,31 @@ $(document).ready(function() {
      * @see         PMA_ajaxShowMessage()
      * @see         getFieldName()
      */
-    $(".inline_edit_anchor").live('click', function(event) {
+    $(".inline_edit_anchor span a").live('click', function(event) {
         /** @lends jQuery */
         event.preventDefault();
-        $(this).removeClass('inline_edit_anchor').addClass('inline_edit_active');
 
-        // adding submit and hide buttons to inline edit <td>
-        // for "hide", button the original data to be restored is present in .original_data
-        // looping through all columns or rows, to find the required data and then storing it in an array.
+        var $edit_td = $(this).parents('td');
+        $edit_td.removeClass('inline_edit_anchor').addClass('inline_edit_active').parent('tr').addClass('noclick');
 
-        var $this_children = $(this).children('span.nowrap').children('a').children('span.nowrap');
+        // Adding submit and hide buttons to inline edit <td>.
+        // For "hide" button the original data to be restored is 
+        //  kept in the jQuery data element 'original_data' inside the <td>.
+        // Looping through all columns or rows, to find the required data and then storing it in an array.
+
+        var $this_children = $edit_td.children('span.nowrap').children('a').children('span.nowrap');
         if (disp_mode != 'vertical') {
             $this_children.empty();
             $this_children.text(PMA_messages['strSave']);
         } else {
-            // vertical 
+            // vertical
             data_vt = $this_children.html();
             $this_children.text(PMA_messages['strSave']);
         }
-       
+
         var hide_link = '<br /><br /><a id="hide">' + PMA_messages['strHide'] + '</a>';
         if (disp_mode != 'vertical') {
-            $(this).append(hide_link);
+            $edit_td.append(hide_link);
             $('#table_results tbody tr td a#hide').click(function() {
                 $this_children = $(this).siblings('span.nowrap').children('a').children('span.nowrap');
                 $this_children.empty();
@@ -442,7 +460,7 @@ $(document).ready(function() {
 
                 var $this_hide = $(this).parent();
                 $this_hide.removeClass("inline_edit_active hover").addClass("inline_edit_anchor");
-                $this_hide.parent().removeClass("hover");
+                $this_hide.parent().removeClass("hover noclick");
                 $this_hide.siblings().removeClass("hover");
 
                 var last_column = $this_hide.siblings().length;
@@ -451,7 +469,7 @@ $(document).ready(function() {
                     if($this_hide.siblings("td:eq(" + i + ")").hasClass("inline_edit") == false) {
                         continue;
                     }
-                    txt = $this_hide.siblings("td:eq(" + i + ")").children(' .original_data').html();
+                    txt = $this_hide.siblings("td:eq(" + i + ")").data('original_data');
                     if($this_hide.siblings("td:eq(" + i + ")").children().length != 0) {
                         $this_hide.siblings("td:eq(" + i + ")").empty();
                         $this_hide.siblings("td:eq(" + i + ")").append(txt);
@@ -463,30 +481,27 @@ $(document).ready(function() {
             });
         } else {
             var txt = '';
-            var rows = $(this).parent().siblings().length;
+            var rows = $edit_td.parent().siblings().length;
 
-            $(this).append(hide_link);
+            $edit_td.append(hide_link);
             $('#table_results tbody tr td a#hide').click(function() {
                 var pos = $(this).parent().index();
                 var $chg_submit = $(this).parent().children('span.nowrap').children('a').children('span.nowrap');
                 $chg_submit.empty();
                 $chg_submit.append(data_vt);
 
-                var $this_row = $(this).parent().parent();
-                if(parseInt(pos) % 2 == 0) {
-                    $this_row.siblings("tr:eq(3) td:eq(" + pos + ")").removeClass("odd edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_active").addClass("odd edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_anchor");
+                var $this_row = $(this).parents('tr');
+                // changing inline_edit_active to inline_edit_anchor
+                $this_row.siblings("tr:eq(3) td:eq(" + pos + ")").removeClass("inline_edit_active").addClass("inline_edit_anchor");
 
-                    $this_row.siblings("tr:eq(3) td:eq(" + pos + ")").removeClass("odd edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_active hover").addClass("odd edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_anchor");
-                } else {
-                    $this_row.siblings("tr:eq(3) td:eq(" + pos + ")").removeClass("even edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_active").addClass("even edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_anchor");
+                // removing marked and hover classes.
+                $this_row.parent('tbody').find('tr').find("td:eq(" + pos + ")").removeClass("marked hover");
 
-                    $this_row.siblings("tr:eq(3) td:eq(" + pos + ")").removeClass("even edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_active hover").addClass("even edit_row_anchor row_" + pos + " vpointer vmarker inline_edit_anchor");
-                }
                 for( var i = 6; i <= rows + 2; i++){
                     if( $this_row.siblings("tr:eq(" + i + ") td:eq(" + pos + ")").hasClass("inline_edit") == false) {
                         continue;
                     }
-                    txt = $this_row.siblings("tr:eq(" + i + ") td:eq(" + pos + ") span.original_data").html();
+                    txt = $this_row.siblings("tr:eq(" + i + ") td:eq(" + pos + ")").data('original_data');
                     $this_row.siblings("tr:eq(" + i + ") td:eq(" + pos + ")").empty();
                     $this_row.siblings("tr:eq(" + i + ") td:eq(" + pos + ")").append(txt);
                 }
@@ -502,21 +517,21 @@ $(document).ready(function() {
              * @var this_row_index  Index of the current <td> in the parent <tr>
              *                      Current <td> is the inline edit anchor.
              */
-            var this_row_index = $(this).index();
+            var this_row_index = $edit_td.index();
             /**
              * @var $input_siblings  Object referring to all inline editable events from same row
              */
-            var $input_siblings = $(this).parents('tbody').find('tr').find('.inline_edit:nth('+this_row_index+')');
+            var $input_siblings = $edit_td.parents('tbody').find('tr').find('.inline_edit:nth('+this_row_index+')');
             /**
              * @var where_clause    String containing the WHERE clause to select this row
              */
-            var where_clause = $(this).parents('tbody').find('tr').find('.where_clause:nth('+this_row_index+')').val();
+            var where_clause = $edit_td.parents('tbody').find('tr').find('.where_clause:nth('+this_row_index+')').val();
         }
         // horizontal mode
         else {
-            var this_row_index = $(this).parent().index();
-            var $input_siblings = $(this).parent('tr').find('.inline_edit');
-            var where_clause = $(this).parent('tr').find('.where_clause').val();
+            var this_row_index = $edit_td.parent().index();
+            var $input_siblings = $edit_td.parent('tr').find('.inline_edit');
+            var where_clause = $edit_td.parent('tr').find('.where_clause').val();
         }
 
         $input_siblings.each(function() {
@@ -542,6 +557,11 @@ $(document).ready(function() {
              * @var relation_curr_value String current value of the field (for fields that are foreign keyed).
              */
             var relation_curr_value = $this_field.find('a').text();
+            /**
+             * @var relation_key_or_display_column String relational key if in 'Relational display column' mode,
+             * relational display column if in 'Relational key' mode (for fields that are foreign keyed).
+             */
+            var relation_key_or_display_column = $this_field.find('a').attr('title');
             /**
              * @var curr_value String current value of the field (for fields that are of type enum or set).
              */
@@ -573,7 +593,7 @@ $(document).ready(function() {
                     })
                 }
 
-                // if 'chechbox_null_<field_name>_<row_index>' is clicked empty the corresponding select/editor.
+                // if 'checkbox_null_<field_name>_<row_index>' is clicked empty the corresponding select/editor.
                 $('.checkbox_null_' + field_name + '_' + this_row_index).bind('click', function(e) {
                     if ($this_field.is('.enum')) {
                         $this_field.find('select').attr('value', '');
@@ -605,8 +625,7 @@ $(document).ready(function() {
                 // handle non-truncated, non-transformed, non-relation values
                 // We don't need to get any more data, just wrap the value
                 $this_field.append('<textarea>'+data_value+'</textarea>');
-                $this_field.append('<span class="original_data">'+data_value+'</span>');
-                $(".original_data").hide();
+                $this_field.data('original_data', data_value);
             }
             else if($this_field.is('.truncated, .transformed')) {
                 /** @lends jQuery */
@@ -615,7 +634,7 @@ $(document).ready(function() {
                 /**
                  * @var sql_query   String containing the SQL query used to retrieve value of truncated/transformed data
                  */
-                var sql_query = 'SELECT ' + field_name + ' FROM ' + window.parent.table + ' WHERE ' + where_clause;
+                var sql_query = 'SELECT `' + field_name + '` FROM `' + window.parent.table + '` WHERE ' + PMA_urldecode(where_clause);
 
                 // Make the Ajax call and get the data, wrap it and insert it
                 $.post('sql.php', {
@@ -627,8 +646,7 @@ $(document).ready(function() {
                 }, function(data) {
                     if(data.success == true) {
                         $this_field.append('<textarea>'+data.value+'</textarea>');
-                        $this_field.append('<span class="original_data">'+data_value+'</span>');
-                        $(".original_data").hide();
+                        $this_field.data('original_data', data_value);
                     }
                     else {
                         PMA_ajaxShowMessage(data.error);
@@ -649,13 +667,13 @@ $(document).ready(function() {
                         'table' : window.parent.table,
                         'column' : field_name,
                         'token' : window.parent.token,
-                        'curr_value' : relation_curr_value
+                        'curr_value' : relation_curr_value,
+                        'relation_key_or_display_column' : relation_key_or_display_column
                 }
 
                 $.post('sql.php', post_params, function(data) {
                     $this_field.append(data.dropdown);
-                    $this_field.append('<span class="original_data">'+data_value+'</span>');
-                    $(".original_data").hide();
+                    $this_field.data('original_data', data_value);
                 }) // end $.post()
             }
             else if($this_field.is('.enum')) {
@@ -674,11 +692,9 @@ $(document).ready(function() {
                         'token' : window.parent.token,
                         'curr_value' : curr_value
                 }
-
                 $.post('sql.php', post_params, function(data) {
                     $this_field.append(data.dropdown);
-                    $this_field.append('<span class="original_data">'+data_value+'</span>');
-                    $(".original_data").hide();
+                    $this_field.data('original_data', data_value);
                 }) // end $.post()
             }
             else if($this_field.is('.set')) {
@@ -700,15 +716,13 @@ $(document).ready(function() {
 
                 $.post('sql.php', post_params, function(data) {
                     $this_field.append(data.select);
-                    $this_field.append('<span class="original_data">'+data_value+'</span>');
-                    $(".original_data").hide();
+                    $this_field.data('original_data', data_value);
                 }) // end $.post()
             }
             else if($this_field.is('.null')) {
                 //handle null fields
                 $this_field.append('<textarea></textarea>');
-                $this_field.append('<span class="original_data">NULL</span>');
-                $(".original_data").hide();
+                $this_field.data('original_data', 'NULL');
             }
         })
     }) // End On click, replace the current field with an input/textarea
@@ -771,6 +785,10 @@ $(document).ready(function() {
          */
         var relation_fields = {};
         /**
+         * @var relational_display string 'K' if relational key, 'D' if relational display column 
+         */
+        var relational_display = $("#relational_display_K").attr('checked') ? 'K' : 'D';
+        /**
          * @var transform_fields    Array containing the name/value pairs for transformed fields
          */
         var transform_fields = {};
@@ -784,12 +802,18 @@ $(document).ready(function() {
          */
         var sql_query = 'UPDATE `' + window.parent.table + '` SET ';
 
+        var need_to_post = false;
+        
+        var new_clause = '';
+        var prev_index = -1;
+
         $input_siblings.each(function() {
             /** @lends jQuery */
             /**
              * @var this_field  Object referring to this field (<td>)
              */
-                var $this_field = $(this);
+            var $this_field = $(this);
+
             /**
              * @var field_name  String containing the name of this field.
              * @see getFieldName()
@@ -812,6 +836,7 @@ $(document).ready(function() {
 
             if (is_null) {
                 sql_query += ' `' + field_name + "`=NULL , ";
+                need_to_post = true;
             } else {
                 if($this_field.is(":not(.relation, .enum, .set)")) {
                     this_field_params[field_name] = $this_field.find('textarea').val();
@@ -840,14 +865,25 @@ $(document).ready(function() {
                         $.extend(relation_fields, this_field_params);
                     }
                 }
-                sql_query += ' `' + field_name + "`='" + this_field_params[field_name].replace(/'/g, "''") + "' , ";
+                    if(where_clause.indexOf(field_name) > prev_index){
+                        new_clause += '`' + window.parent.table + '`.' + '`' + field_name + "` = '" + this_field_params[field_name].replace(/'/g,"''") + "'" + ' AND ';
+                    }
+                if (this_field_params[field_name] != $this_field.data('original_data')) {
+                    sql_query += ' `' + field_name + "`='" + this_field_params[field_name].replace(/'/g, "''") + "' , ";
+                    need_to_post = true;
+                }
             }
         })
 
+        /*  
+         * update the where_clause, remove the last appended ' AND '
+         * */
+
         //Remove the last ',' appended in the above loop
         sql_query = sql_query.replace(/,\s$/, '');
+        new_clause = new_clause.substring(0, new_clause.length-5);
+        new_clause = PMA_urlencode(new_clause);
         sql_query += ' WHERE ' + PMA_urldecode(where_clause);
-
         /**
          * @var rel_fields_list  String, url encoded representation of {@link relations_fields}
          */
@@ -858,11 +894,16 @@ $(document).ready(function() {
          */
         var transform_fields_list = $.param(transform_fields);
 
-        // Make the Ajax post after setting all parameters
-        /**
-         * @var post_params Object containing parameters for the POST request
-         */
-        var post_params = {'ajax_request' : true,
+        // if inline_edit is successful, we need to go back to default view
+        var $del_hide = $(this).parent();
+        var $chg_submit = $(this);
+
+        if (need_to_post) {
+            // Make the Ajax post after setting all parameters
+            /**
+             * @var post_params Object containing parameters for the POST request
+             */
+            var post_params = {'ajax_request' : true,
                             'sql_query' : sql_query,
                             'disp_direction' : disp_mode,
                             'token' : window.parent.token,
@@ -873,109 +914,143 @@ $(document).ready(function() {
                             'rel_fields_list' : rel_fields_list,
                             'do_transformations' : transformation_fields,
                             'transform_fields_list' : transform_fields_list,
+                            'relational_display' : relational_display,
                             'goto' : 'sql.php',
                             'submit_type' : 'save'
                           };
 
-        // if inline_edit is successful, we need to go back to default view
-         var $del_hide=$(this).parent();
-         var $chg_submit=$(this);
-
-        $.post('tbl_replace.php', post_params, function(data) {
-            if(data.success == true) {
-                // deleting the hide button if my query was successful
-                // remove <br><br><a> tags 
-                 for ( var i=0;i<=2;i++) { $del_hide.next().remove(); }
-                 if(disp_mode!='vertical'){
-                     $chg_submit.empty();
-                     $chg_submit.html('<span class="nowrap"></span>');
-                     $chg_submit.children('span.nowrap').text(PMA_messages['strInlineEdit']);
-                 }
-                 else {
-                     $chg_submit.children('span.nowrap').empty();
-                     $chg_submit.children('span.nowrap').append(data_vt);
-                 }
-
-                PMA_ajaxShowMessage(data.message);
-                $this_td.removeClass('inline_edit_active hover').addClass('inline_edit_anchor');
-                $this_td.parent().removeClass('hover')
-                $this_td.siblings().removeClass('hover');
-
-                $input_siblings.each(function() {
-                    // Inline edit post has been successful.
-                    $this_sibling = $(this);
-
-                    var is_null = $this_sibling.find('input:checkbox').is(':checked');
-                    if (is_null) {
-                        $this_sibling.html('NULL');
-                        $this_sibling.addClass('null');
-                    } else {
-                        $this_sibling.removeClass('null');
-                        if($this_sibling.is(':not(.relation, .enum, .set)')) {
-                            /**
-                             * @var new_html    String containing value of the data field after edit
-                             */
-                            var new_html = $this_sibling.find('textarea').val();
-
-                            if($this_sibling.is('.transformed')) {
-                                var field_name = getFieldName($this_sibling, disp_mode);
-                                $.each(data.transformations, function(key, value) {
-                                    if(key == field_name) {
-                                        if($this_sibling.is('.text_plain, .application_octetstream')) {
-                                            new_html = value;
-                                            return false;
-                                        }
-                                        else {
-                                            var new_value = $this_sibling.find('textarea').val();
-                                            new_html = $(value).append(new_value);
-                                            return false;
-                                        }
-                                    }
-                                })
-                            }
-                        }
-                        else {
-                            var new_html = '';
-                            var new_value = '';
-                            $test_element = $this_sibling.find('select');
-                            if ($test_element.length != 0) {
-                                new_value = $test_element.val();
-                            }
-
-                            $test_element = $this_sibling.find('span.curr_value');
-                            if ($test_element.length != 0) {
-                                new_value = $test_element.text();
-                            }
-
-                            if($this_sibling.is('.relation')) {
-                                var field_name = getFieldName($this_sibling, disp_mode);
-                                $.each(data.relations, function(key, value) {
-                                    if(key == field_name) {
-                                        new_html = $(value).append(new_value);
-                                        return false;
-                                    }
-                                })
-                            } else if ($this_sibling.is('.enum')) {
-                                new_html = new_value;
-                            } else if ($this_sibling.is('.set')) {
-                                if (new_value != null) {
-                                    $.each(new_value, function(key, value) {
-                                        new_html = new_html + value + ',';
-                                    })
-                                    new_html = new_html.substring(0, new_html.length-1);
-                                }
-                            }
-                        }
-                        $this_sibling.html(new_html);
+            $.post('tbl_replace.php', post_params, function(data) {
+                if(data.success == true) {
+                    PMA_ajaxShowMessage(data.message);
+                    if(disp_mode == 'vertical') {
+                        $this_td.parents('tbody').find('tr').find('.where_clause:nth(' + this_td_index + ')').attr('value', new_clause);
                     }
-                })
-            }
-            else {
-                PMA_ajaxShowMessage(data.error);
-            };
-        }) // end $.post()
+                    else {
+                        $this_td.parent('tr').find('.where_clause').attr('value', new_clause);
+                    }
+                    // remove possible previous feedback message
+                    $('#result_query').remove();
+                    if (typeof data.sql_query != 'undefined') {
+                        // display feedback
+                        $('#sqlqueryresults').prepend(data.sql_query);
+                    }
+                    PMA_unInlineEditRow($del_hide, $chg_submit, $this_td, $input_siblings, data, disp_mode);
+                } else {
+                    PMA_ajaxShowMessage(data.error);
+                };
+            }) // end $.post()
+        } else {
+            // no posting was done but still need to display the row
+            // in its previous format
+            PMA_unInlineEditRow($del_hide, $chg_submit, $this_td, $input_siblings, '', disp_mode);
+        }
     }) // End After editing, clicking again should post data
 }, 'top.frame_content') // end $(document).ready()
+
+
+/**
+ * Visually put back the row in the state it was before entering Inline edit 
+ *
+ * (when called in the situation where no posting was done, the data
+ * parameter is empty) 
+ */
+function PMA_unInlineEditRow($del_hide, $chg_submit, $this_td, $input_siblings, data, disp_mode) {
+
+    // deleting the hide button
+    // remove <br><br><a> tags
+    for ( var i = 0; i <= 2; i++) {
+        $del_hide.next().remove();
+    }
+    if(disp_mode != 'vertical'){
+        $chg_submit.empty();
+        $chg_submit.html('<span class="nowrap"></span>');
+        $chg_submit.children('span.nowrap').text(PMA_messages['strInlineEdit']);
+    } else {
+        $chg_submit.children('span.nowrap').empty();
+        $chg_submit.children('span.nowrap').append(data_vt);
+    }
+
+    // changing inline_edit_active to inline_edit_anchor
+    $this_td.removeClass('inline_edit_active').addClass('inline_edit_anchor');
+
+    // removing hover, marked and noclick classes
+    $this_td.parent('tr').removeClass('noclick');
+    if(disp_mode != 'vertical') {
+        $this_td.parent('tr').removeClass('hover').find('td').removeClass('hover');
+    } else {
+        $this_td.parents('tbody').find('tr').find('td:eq(' + $this_td.index() + ')').removeClass('marked');
+    }
+
+    $input_siblings.each(function() {
+        // Inline edit post has been successful.
+        $this_sibling = $(this);
+
+        var is_null = $this_sibling.find('input:checkbox').is(':checked');
+        if (is_null) {
+            $this_sibling.html('NULL');
+            $this_sibling.addClass('null');
+        } else {
+            $this_sibling.removeClass('null');
+            if($this_sibling.is(':not(.relation, .enum, .set)')) {
+                /**
+                 * @var new_html    String containing value of the data field after edit
+                 */
+                var new_html = $this_sibling.find('textarea').val();
+
+                if($this_sibling.is('.transformed')) {
+                    var field_name = getFieldName($this_sibling, disp_mode);
+                    if (typeof data.transformations != 'undefined') {
+                        $.each(data.transformations, function(key, value) {
+                            if(key == field_name) {
+                                if($this_sibling.is('.text_plain, .application_octetstream')) {
+                                    new_html = value;
+                                    return false;
+                                } else {
+                                    var new_value = $this_sibling.find('textarea').val();
+                                    new_html = $(value).append(new_value);
+                                    return false;
+                                }
+                            }
+                        })
+                    }
+                }
+            } else {
+                var new_html = '';
+                var new_value = '';
+                $test_element = $this_sibling.find('select');
+                if ($test_element.length != 0) {
+                    new_value = $test_element.val();
+                }
+                $test_element = $this_sibling.find('span.curr_value');
+                if ($test_element.length != 0) {
+                    new_value = $test_element.text();
+                }
+
+                if($this_sibling.is('.relation')) {
+                    var field_name = getFieldName($this_sibling, disp_mode);
+                    if (typeof data.relations != 'undefined') {
+                        $.each(data.relations, function(key, value) {
+                            if(key == field_name) {
+                                new_html = $(value);
+                                return false;
+                            }
+                        })
+                    }
+                } else if ($this_sibling.is('.enum')) {
+                    new_html = new_value;
+                } else if ($this_sibling.is('.set')) {
+                    if (new_value != null) {
+                        $.each(new_value, function(key, value) {
+                            new_html = new_html + value + ',';
+                        })
+                        new_html = new_html.substring(0, new_html.length-1);
+                    }
+                }
+            }
+            $this_sibling.html(new_html);
+        }
+    })
+}
 
 /**
  * Starting from some th, change the class of all td under it

@@ -40,6 +40,7 @@ class PMA_PDF extends TCPDF
     var $def_outlines;
     var $Alias = array();
     var $widths;
+    private $_ff = PMA_PDF_FONT;
 
     public function getH()
     {
@@ -459,6 +460,7 @@ class Table_Stats
     public $heightCell = 6;
     public $x, $y;
     public $primary = array();
+    private $_ff = PMA_PDF_FONT;
 
     /**
      * The "Table_Stats" constructor
