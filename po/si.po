@@ -1,10 +1,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.0-rc1-dev\n"
+"Project-Id-Version: phpMyAdmin 3.4.0-rc2-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-15 08:56+0200\n"
-"PO-Revision-Date: 2011-04-13 20:17+0200\n"
+"POT-Creation-Date: 2011-04-21 14:27+0200\n"
+"PO-Revision-Date: 2011-04-22 08:37+0200\n"
 "Last-Translator: Madhura Jayaratne <madhura.cj@gmail.com>\n"
 "Language-Team: sinhala <si@li.org>\n"
 "Language: si\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Show all"
 msgstr "සියල්ල පෙන්වන්න"
 
-#: browse_foreigners.php:70 libraries/common.lib.php:2331
+#: browse_foreigners.php:70 libraries/common.lib.php:2332
 #: libraries/display_tbl.lib.php:321 libraries/export/pdf.php:133
 #: libraries/schema/Pdf_Relation_Schema.class.php:243
 #: libraries/schema/Pdf_Relation_Schema.class.php:1098
@@ -37,9 +37,9 @@ msgstr ""
 "ඉලක්කගත බ්‍රව්සර කවුලුව යාවත්කාලීන කල නොහැක. ඔබ එහි මව් කවුලුව වසා තිබීම හෝ ඔබගේ බ්‍රව්සරයේ "
 "ආරක්ෂක සැකසුම් cross-window යාවත්කාලීන කිරීම් අවහිර කරන ලෙස සකසා තිබීම මීට හේතු විය හැක"
 
-#: browse_foreigners.php:151 libraries/common.lib.php:2827
-#: libraries/common.lib.php:2834 libraries/common.lib.php:3013
-#: libraries/common.lib.php:3014 libraries/db_links.inc.php:60
+#: browse_foreigners.php:151 libraries/common.lib.php:2828
+#: libraries/common.lib.php:2835 libraries/common.lib.php:3014
+#: libraries/common.lib.php:3015 libraries/db_links.inc.php:60
 #: libraries/tbl_links.inc.php:61
 msgid "Search"
 msgstr "සෙවීම"
@@ -48,8 +48,8 @@ msgstr "සෙවීම"
 #: db_operations.php:522 db_operations.php:550 db_search.php:358
 #: db_structure.php:529 enum_editor.php:63 js/messages.php:59
 #: libraries/Config.class.php:1220 libraries/Theme_Manager.class.php:305
-#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1334
-#: libraries/common.lib.php:2307 libraries/core.lib.php:557
+#: libraries/auth/cookie.auth.lib.php:277 libraries/common.lib.php:1335
+#: libraries/common.lib.php:2308 libraries/core.lib.php:557
 #: libraries/display_change_password.lib.php:72
 #: libraries/display_create_table.lib.php:61
 #: libraries/display_export.lib.php:352 libraries/display_import.lib.php:267
@@ -67,7 +67,7 @@ msgstr "සෙවීම"
 #: server_privileges.php:1720 server_privileges.php:2077
 #: server_privileges.php:2124 server_privileges.php:2164
 #: server_replication.php:233 server_replication.php:316
-#: server_replication.php:347 server_synchronize.php:1206 tbl_change.php:331
+#: server_replication.php:347 server_synchronize.php:1224 tbl_change.php:331
 #: tbl_change.php:1099 tbl_change.php:1136 tbl_indexes.php:252
 #: tbl_operations.php:276 tbl_operations.php:313 tbl_operations.php:515
 #: tbl_operations.php:577 tbl_operations.php:759 tbl_select.php:290
@@ -361,7 +361,7 @@ msgstr "වගුව"
 
 #: db_printview.php:103 libraries/build_html_for_db.lib.php:30
 #: libraries/db_structure.lib.php:47 libraries/header_printview.inc.php:62
-#: libraries/import.lib.php:147 navigation.php:619 navigation.php:641
+#: libraries/import.lib.php:147 navigation.php:621 navigation.php:643
 #: tbl_printview.php:391 tbl_structure.php:389 tbl_structure.php:476
 #: tbl_structure.php:870
 msgid "Rows"
@@ -494,7 +494,7 @@ msgstr "වගු භාවිතා කරන්න."
 msgid "SQL query on database <b>%s</b>:"
 msgstr "<b>%s</b> දත්තගබඩාව මත විමසුම්:"
 
-#: db_qbe.php:953 libraries/common.lib.php:1187
+#: db_qbe.php:953 libraries/common.lib.php:1188
 msgid "Submit Query"
 msgstr "විමසුම ඉදිරිපත් කරන්න"
 
@@ -533,8 +533,8 @@ msgid_plural "%s matches inside table <i>%s</i>"
 msgstr[0] "<i>%s</i> වගුව තුල ගැලපීම් %s කි."
 msgstr[1] "<i>%s</i> වගුව තුල ගැලපීම් %s කි."
 
-#: db_search.php:254 libraries/common.lib.php:2829
-#: libraries/common.lib.php:3011 libraries/common.lib.php:3012
+#: db_search.php:254 libraries/common.lib.php:2830
+#: libraries/common.lib.php:3012 libraries/common.lib.php:3013
 #: libraries/tbl_links.inc.php:48 tbl_structure.php:558
 msgid "Browse"
 msgstr "පිරික්සන්න"
@@ -680,13 +680,13 @@ msgstr "අපනයනය"
 msgid "Print view"
 msgstr "මුද්‍රණ දර්ශනය"
 
-#: db_structure.php:509 libraries/common.lib.php:3020
-#: libraries/common.lib.php:3021
+#: db_structure.php:509 libraries/common.lib.php:3021
+#: libraries/common.lib.php:3022
 msgid "Empty"
 msgstr "හිස්"
 
 #: db_structure.php:511 db_tracking.php:104 libraries/Index.class.php:487
-#: libraries/common.lib.php:3018 libraries/common.lib.php:3019
+#: libraries/common.lib.php:3019 libraries/common.lib.php:3020
 #: server_databases.php:252 tbl_structure.php:151 tbl_structure.php:152
 #: tbl_structure.php:562
 msgid "Drop"
@@ -725,7 +725,7 @@ msgstr "අවධානය සක්‍රීය වගු"
 #: libraries/header_printview.inc.php:57 server_databases.php:147
 #: server_privileges.php:1766 server_privileges.php:1827
 #: server_privileges.php:2085 server_processlist.php:68
-#: server_synchronize.php:1176 server_synchronize.php:1180
+#: server_synchronize.php:1194 server_synchronize.php:1198
 #: tbl_tracking.php:585 test/theme.php:64
 msgid "Database"
 msgstr "දත්තගබඩාව"
@@ -742,7 +742,7 @@ msgstr "සාදන ලදි"
 msgid "Updated"
 msgstr "යාවත්කාලීන කරන ලදි"
 
-#: db_tracking.php:89 libraries/common.lib.php:1353
+#: db_tracking.php:89 libraries/common.lib.php:1354
 #: libraries/server_links.inc.php:50 server_processlist.php:71
 #: tbl_tracking.php:590 test/theme.php:100
 msgid "Status"
@@ -757,7 +757,7 @@ msgstr "ක්‍රියාව"
 
 #: db_tracking.php:101 js/messages.php:34
 msgid "Delete tracking data for this table"
-msgstr ""
+msgstr "මෙම වගුවේ අවධානය පිළිබඳ දත්ත ඉවත් කරන්න"
 
 #: db_tracking.php:119 tbl_tracking.php:542 tbl_tracking.php:600
 msgid "active"
@@ -956,14 +956,12 @@ msgid "Dropping Procedure"
 msgstr "ක්‍රියාපටිපාටිය"
 
 #: js/messages.php:35
-#, fuzzy
-#| msgid "Allows inserting and replacing data."
 msgid "Deleting tracking data"
-msgstr "Allows inserting and replacing data."
+msgstr "අවධානය පිළිබඳ දත්ත ඉවත් කෙරෙමින්"
 
 #: js/messages.php:36
 msgid "Dropping Primary Key/Index"
-msgstr ""
+msgstr "ප්‍රාථමික මූලය/සුචිය ඉවත් කෙරෙමින්"
 
 #: js/messages.php:37
 msgid "This operation could take a long time. Proceed anyway?"
@@ -1011,10 +1009,8 @@ msgid "Create User"
 msgstr "භාවිතා කරන්නෙක් සාදන්න"
 
 #: js/messages.php:54
-#, fuzzy
-#| msgid "Reloading the privileges"
 msgid "Reloading Privileges"
-msgstr "Reloading the privileges"
+msgstr "වරප්‍රසාද පූරණය කෙරෙමින්"
 
 #: js/messages.php:55
 msgid "Removing Selected Users"
@@ -1032,23 +1028,20 @@ msgid "Cancel"
 msgstr "අවලංගු කරන්න"
 
 #: js/messages.php:63
-#, fuzzy
 msgid "Loading"
-msgstr "ස්වදේශී"
+msgstr "පූරණය කෙරෙමින්"
 
 #: js/messages.php:64
-#, fuzzy
-#| msgid "Processes"
 msgid "Processing Request"
-msgstr "ක්‍රියාවලිය"
+msgstr "ඉල්ලීම පිරිසැකසෙමින්"
 
 #: js/messages.php:65 libraries/import/ods.php:80
 msgid "Error in Processing Request"
-msgstr ""
+msgstr "ඉල්ලීම පිරිසැකසීමේදී දෝශ ඇතිවිය"
 
 #: js/messages.php:66
 msgid "Dropping Column"
-msgstr ""
+msgstr "තීරුව හලමින්"
 
 # ප්‍රාථමික මූලය = Primary key. Source: Glossary of Information Technology
 # Terms - ICTA
@@ -1067,10 +1060,8 @@ msgid "Renaming Databases"
 msgstr "දත්තගබඩාවල නම් වෙනස් කෙරෙමින්"
 
 #: js/messages.php:72
-#, fuzzy
-#| msgid "Rename database to"
 msgid "Reload Database"
-msgstr "බවට දත්තගබඩාවේ නම වෙනස් කරන්න"
+msgstr "දත්තගබඩාව පූරණය"
 
 #: js/messages.php:73
 msgid "Copying Database"
@@ -1117,7 +1108,7 @@ msgstr "සුරකින්න"
 #: js/messages.php:90 libraries/display_tbl.lib.php:593 pmd_general.php:158
 #: tbl_change.php:315 tbl_change.php:321
 msgid "Hide"
-msgstr ""
+msgstr "සඟවන්න"
 
 #: js/messages.php:93
 #, fuzzy
@@ -1132,7 +1123,7 @@ msgstr "SQL විමසුම"
 #: js/messages.php:97 tbl_change.php:303 tbl_indexes.php:198
 #: tbl_indexes.php:223
 msgid "Ignore"
-msgstr "අත්හැර දමන්න"
+msgstr "නොසලකන්න"
 
 #: js/messages.php:100
 msgid "Select referenced key"
@@ -1187,9 +1178,8 @@ msgstr ", නවතම ස්ථායි අනුවාදය:"
 
 #. l10n: Display text for calendar close link
 #: js/messages.php:137
-#, fuzzy
 msgid "Done"
-msgstr "දත්ත"
+msgstr "තෝරන්න"
 
 #. l10n: Display text for previous month link in calendar
 #: js/messages.php:139
@@ -1197,8 +1187,8 @@ msgid "Prev"
 msgstr "පෙර"
 
 #. l10n: Display text for next month link in calendar
-#: js/messages.php:141 libraries/common.lib.php:2370
-#: libraries/common.lib.php:2373 libraries/display_tbl.lib.php:353
+#: js/messages.php:141 libraries/common.lib.php:2371
+#: libraries/common.lib.php:2374 libraries/display_tbl.lib.php:353
 #: server_binlog.php:189 server_binlog.php:191 tbl_printview.php:421
 #: tbl_structure.php:894
 msgid "Next"
@@ -1258,63 +1248,63 @@ msgid "December"
 msgstr "දෙසැම්බර්"
 
 #. l10n: Short month name
-#: js/messages.php:161 libraries/common.lib.php:1568
+#: js/messages.php:161 libraries/common.lib.php:1569
 msgid "Jan"
 msgstr "ජනවාරි"
 
 #. l10n: Short month name
-#: js/messages.php:163 libraries/common.lib.php:1570
+#: js/messages.php:163 libraries/common.lib.php:1571
 msgid "Feb"
 msgstr "පෙබරවාරි"
 
 #. l10n: Short month name
-#: js/messages.php:165 libraries/common.lib.php:1572
+#: js/messages.php:165 libraries/common.lib.php:1573
 msgid "Mar"
 msgstr "මාර්තු"
 
 #. l10n: Short month name
-#: js/messages.php:167 libraries/common.lib.php:1574
+#: js/messages.php:167 libraries/common.lib.php:1575
 msgid "Apr"
 msgstr "අ‍ප්‍රේල්"
 
 #. l10n: Short month name
-#: js/messages.php:169 libraries/common.lib.php:1576
+#: js/messages.php:169 libraries/common.lib.php:1577
 msgctxt "Short month name"
 msgid "May"
 msgstr "මැයි"
 
 #. l10n: Short month name
-#: js/messages.php:171 libraries/common.lib.php:1578
+#: js/messages.php:171 libraries/common.lib.php:1579
 msgid "Jun"
 msgstr "ජුනි"
 
 #. l10n: Short month name
-#: js/messages.php:173 libraries/common.lib.php:1580
+#: js/messages.php:173 libraries/common.lib.php:1581
 msgid "Jul"
 msgstr "ජූලි"
 
 #. l10n: Short month name
-#: js/messages.php:175 libraries/common.lib.php:1582
+#: js/messages.php:175 libraries/common.lib.php:1583
 msgid "Aug"
 msgstr "අගෝස්තු"
 
 #. l10n: Short month name
-#: js/messages.php:177 libraries/common.lib.php:1584
+#: js/messages.php:177 libraries/common.lib.php:1585
 msgid "Sep"
 msgstr "සැප්තැම්බර්"
 
 #. l10n: Short month name
-#: js/messages.php:179 libraries/common.lib.php:1586
+#: js/messages.php:179 libraries/common.lib.php:1587
 msgid "Oct"
 msgstr "ඔක්තෝම්බර්"
 
 #. l10n: Short month name
-#: js/messages.php:181 libraries/common.lib.php:1588
+#: js/messages.php:181 libraries/common.lib.php:1589
 msgid "Nov"
 msgstr "නොවැම්බර්"
 
 #. l10n: Short month name
-#: js/messages.php:183 libraries/common.lib.php:1590
+#: js/messages.php:183 libraries/common.lib.php:1591
 msgid "Dec"
 msgstr "දෙසැම්බර්"
 
@@ -1347,74 +1337,74 @@ msgid "Saturday"
 msgstr "සෙනසුරාදා"
 
 #. l10n: Short week day name
-#: js/messages.php:196 libraries/common.lib.php:1593
+#: js/messages.php:196 libraries/common.lib.php:1594
 msgid "Sun"
 msgstr "ඉරිදා"
 
 #. l10n: Short week day name
-#: js/messages.php:198 libraries/common.lib.php:1595
+#: js/messages.php:198 libraries/common.lib.php:1596
 msgid "Mon"
 msgstr "සඳුදා"
 
 #. l10n: Short week day name
-#: js/messages.php:200 libraries/common.lib.php:1597
+#: js/messages.php:200 libraries/common.lib.php:1598
 msgid "Tue"
-msgstr "අඟහරු‍වදා"
+msgstr "අඟහ"
 
 #. l10n: Short week day name
-#: js/messages.php:202 libraries/common.lib.php:1599
+#: js/messages.php:202 libraries/common.lib.php:1600
 msgid "Wed"
 msgstr "බදාදා"
 
 #. l10n: Short week day name
-#: js/messages.php:204 libraries/common.lib.php:1601
+#: js/messages.php:204 libraries/common.lib.php:1602
 msgid "Thu"
-msgstr "බ්‍රහස්පතින්දා"
+msgstr "බ්‍රහස්"
 
 #. l10n: Short week day name
-#: js/messages.php:206 libraries/common.lib.php:1603
+#: js/messages.php:206 libraries/common.lib.php:1604
 msgid "Fri"
-msgstr "සිකුරාදා:"
+msgstr "සිකුරා"
 
 #. l10n: Short week day name
-#: js/messages.php:208 libraries/common.lib.php:1605
+#: js/messages.php:208 libraries/common.lib.php:1606
 msgid "Sat"
-msgstr "සෙනසුරාදා"
+msgstr "සෙනසු"
 
 #. l10n: Minimal week day name
 #: js/messages.php:212
 msgid "Su"
-msgstr "ඉරිදා"
+msgstr "ඉරි"
 
 #. l10n: Minimal week day name
 #: js/messages.php:214
 msgid "Mo"
-msgstr "සඳුදා"
+msgstr "සඳු"
 
 #. l10n: Minimal week day name
 #: js/messages.php:216
 msgid "Tu"
-msgstr "අඟහරු‍වදා"
+msgstr "අඟ"
 
 #. l10n: Minimal week day name
 #: js/messages.php:218
 msgid "We"
-msgstr "බදාදා"
+msgstr "බදා"
 
 #. l10n: Minimal week day name
 #: js/messages.php:220
 msgid "Th"
-msgstr "බ්‍රහස්පතින්දා"
+msgstr "බ්‍රහ"
 
 #. l10n: Minimal week day name
 #: js/messages.php:222
 msgid "Fr"
-msgstr "සිකුරාදා"
+msgstr "සිකු"
 
 #. l10n: Minimal week day name
 #: js/messages.php:224
 msgid "Sa"
-msgstr "සෙනසුරාදා"
+msgstr "සෙන"
 
 #. l10n: Column header for week of the year in calendar
 #: js/messages.php:226
@@ -1502,7 +1492,7 @@ msgid "Comment"
 msgstr "ටීකාව"
 
 #: libraries/Index.class.php:465 libraries/common.lib.php:626
-#: libraries/common.lib.php:1163 libraries/common.lib.php:3022
+#: libraries/common.lib.php:1164 libraries/common.lib.php:3023
 #: libraries/config/messages.inc.php:461 libraries/display_tbl.lib.php:1149
 #: libraries/import.lib.php:1150 libraries/import.lib.php:1174
 #: libraries/schema/User_Schema.class.php:168 setup/frames/index.inc.php:125
@@ -1511,7 +1501,7 @@ msgstr "සංස්කරණය කරන්න"
 
 #: libraries/Index.class.php:471
 msgid "The primary key has been dropped"
-msgstr "The primary key has been dropped"
+msgstr "ප්‍රාථමික මූලය හලන ලදි"
 
 #: libraries/Index.class.php:475
 #, php-format
@@ -1542,8 +1532,8 @@ msgstr "දෝෂය"
 #, php-format
 msgid "%1$d row affected."
 msgid_plural "%1$d rows affected."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "පේළියකට බලපෑවේය"
+msgstr[1] "පේළි %1$dකට බලපෑවේය"
 
 #: libraries/Message.class.php:300
 #, php-format
@@ -1837,7 +1827,7 @@ msgstr "විමසුම් සංඛ්‍යානය"
 
 #: libraries/chart.lib.php:63
 msgid "Query execution time comparison (in microseconds)"
-msgstr ""
+msgstr "විමසුම් සඳහා ගතවූ කාල සැසඳිම (මයික්‍රෝ තත්පර)"
 
 #: libraries/chart.lib.php:83
 msgid "Query results"
@@ -1899,7 +1889,7 @@ msgid "Invalid hostname for server %1$s. Please review your configuration."
 msgstr "Invalid hostname for server %1$s. Please review your configuration."
 
 #: libraries/common.inc.php:638 libraries/config/messages.inc.php:485
-#: libraries/header.inc.php:115 main.php:178 server_synchronize.php:1156
+#: libraries/header.inc.php:115 main.php:178 server_synchronize.php:1174
 #: test/theme.php:56
 msgid "Server"
 msgstr "සේවාදායකය"
@@ -1964,126 +1954,126 @@ msgstr ""
 msgid "Explain SQL"
 msgstr "SQL ය පහදන්න "
 
-#: libraries/common.lib.php:1142
+#: libraries/common.lib.php:1143
 msgid "Skip Explain SQL"
 msgstr "Skip Explain SQL"
 
-#: libraries/common.lib.php:1176
+#: libraries/common.lib.php:1177
 msgid "Without PHP Code"
 msgstr "PHP කේත නොමැතිව"
 
-#: libraries/common.lib.php:1179 libraries/config/messages.inc.php:464
+#: libraries/common.lib.php:1180 libraries/config/messages.inc.php:464
 msgid "Create PHP Code"
 msgstr "PHP කේත සාදන්න"
 
-#: libraries/common.lib.php:1197 libraries/config/messages.inc.php:463
+#: libraries/common.lib.php:1198 libraries/config/messages.inc.php:463
 #: server_status.php:467
 msgid "Refresh"
 msgstr "අලුත් කරන්න"
 
-#: libraries/common.lib.php:1206
+#: libraries/common.lib.php:1207
 msgid "Skip Validate SQL"
 msgstr "Skip Validate SQL"
 
-#: libraries/common.lib.php:1209 libraries/config/messages.inc.php:466
+#: libraries/common.lib.php:1210 libraries/config/messages.inc.php:466
 msgid "Validate SQL"
 msgstr "Validate SQL"
 
-#: libraries/common.lib.php:1264
+#: libraries/common.lib.php:1265
 msgid "Inline edit of this query"
-msgstr ""
+msgstr "මෙම විමසුමේ පේළිගත සංස්කරණය"
 
-#: libraries/common.lib.php:1266
+#: libraries/common.lib.php:1267
 msgid "Inline"
 msgstr "පේළිගත"
 
-#: libraries/common.lib.php:1333 libraries/common.lib.php:1349
+#: libraries/common.lib.php:1334 libraries/common.lib.php:1350
 msgid "Profiling"
 msgstr ""
 
-#: libraries/common.lib.php:1354 libraries/tbl_triggers.lib.php:27
+#: libraries/common.lib.php:1355 libraries/tbl_triggers.lib.php:27
 #: server_processlist.php:70
 msgid "Time"
 msgstr "වේලාව"
 
 #. l10n: shortcuts for Byte, Kilo, Mega, Giga, Tera, Peta, Exa+
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "B"
 msgstr "B"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "KiB"
 msgstr "KiB"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "MiB"
 msgstr "MiB"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "GiB"
 msgstr "GiB"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "TiB"
 msgstr "TiB"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "PiB"
 msgstr "PiB"
 
-#: libraries/common.lib.php:1392
+#: libraries/common.lib.php:1393
 msgid "EiB"
 msgstr "EiB"
 
 #. l10n: Thousands separator
-#: libraries/common.lib.php:1430
+#: libraries/common.lib.php:1431
 msgid ","
 msgstr ","
 
 #. l10n: Decimal separator
-#: libraries/common.lib.php:1432
+#: libraries/common.lib.php:1433
 msgid "."
 msgstr "."
 
 #. l10n: See http://www.php.net/manual/en/function.strftime.php to define the format string
-#: libraries/common.lib.php:1609
+#: libraries/common.lib.php:1610
 #: libraries/transformations/text_plain__dateformat.inc.php:33
 msgid "%B %d, %Y at %I:%M %p"
 msgstr "%B %d, %Y at %I:%M %p"
 
-#: libraries/common.lib.php:1923
+#: libraries/common.lib.php:1924
 #, php-format
 msgid "%s days, %s hours, %s minutes and %s seconds"
 msgstr "දින %s, පැය %s, මිනිත්තු %s සහ තප්පර %s"
 
-#: libraries/common.lib.php:2340 libraries/common.lib.php:2343
+#: libraries/common.lib.php:2341 libraries/common.lib.php:2344
 #: libraries/display_tbl.lib.php:288 server_status.php:756
 msgid "Begin"
 msgstr "Begin"
 
-#: libraries/common.lib.php:2341 libraries/common.lib.php:2344
+#: libraries/common.lib.php:2342 libraries/common.lib.php:2345
 #: libraries/display_tbl.lib.php:289 server_binlog.php:154
 #: server_binlog.php:156
 msgid "Previous"
 msgstr "පෙර"
 
-#: libraries/common.lib.php:2371 libraries/common.lib.php:2374
+#: libraries/common.lib.php:2372 libraries/common.lib.php:2375
 #: libraries/display_tbl.lib.php:368
 msgid "End"
 msgstr "අවසානය‍"
 
-#: libraries/common.lib.php:2446
+#: libraries/common.lib.php:2447
 #, php-format
 msgid "Jump to database &quot;%s&quot;."
 msgstr "&quot;%s&quot; දත්තගබඩාව වෙත යන්න ."
 
-#: libraries/common.lib.php:2465
+#: libraries/common.lib.php:2466
 #, php-format
 msgid "The %s functionality is affected by a known bug, see %s"
 msgstr ""
 
-#: libraries/common.lib.php:2825 libraries/common.lib.php:2832
-#: libraries/common.lib.php:3017 libraries/config/setup.forms.php:291
+#: libraries/common.lib.php:2826 libraries/common.lib.php:2833
+#: libraries/common.lib.php:3018 libraries/config/setup.forms.php:291
 #: libraries/config/setup.forms.php:328 libraries/config/setup.forms.php:362
 #: libraries/config/user_preferences.forms.php:193
 #: libraries/config/user_preferences.forms.php:230
@@ -2095,7 +2085,7 @@ msgstr ""
 msgid "Structure"
 msgstr "සැකිල්ල"
 
-#: libraries/common.lib.php:2826 libraries/common.lib.php:2833
+#: libraries/common.lib.php:2827 libraries/common.lib.php:2834
 #: libraries/config/messages.inc.php:211 libraries/db_links.inc.php:53
 #: libraries/export/sql.php:24 libraries/import/sql.php:17
 #: libraries/server_links.inc.php:46 libraries/tbl_links.inc.php:58
@@ -2103,56 +2093,53 @@ msgstr "සැකිල්ල"
 msgid "SQL"
 msgstr "SQL"
 
-#: libraries/common.lib.php:2828 libraries/common.lib.php:3015
-#: libraries/common.lib.php:3016 libraries/sql_query_form.lib.php:319
+#: libraries/common.lib.php:2829 libraries/common.lib.php:3016
+#: libraries/common.lib.php:3017 libraries/sql_query_form.lib.php:319
 #: libraries/sql_query_form.lib.php:322 libraries/tbl_links.inc.php:67
 msgid "Insert"
 msgstr "ඇතුල් කරන්න"
 
-#: libraries/common.lib.php:2835 libraries/db_links.inc.php:86
+#: libraries/common.lib.php:2836 libraries/db_links.inc.php:86
 #: libraries/tbl_links.inc.php:86 libraries/tbl_links.inc.php:102
 #: view_operations.php:87
 msgid "Operations"
 msgstr "මෙහෙයුම්"
 
-#: libraries/common.lib.php:2965
+#: libraries/common.lib.php:2966
 msgid "Browse your computer:"
 msgstr "පරිගණකය තුළ පිරික්සන්න:"
 
-#: libraries/common.lib.php:2978
+#: libraries/common.lib.php:2979
 #, fuzzy, php-format
 #| msgid "web server upload directory"
 msgid "Select from the web server upload directory <b>%s</b>:"
 msgstr "අන්තර්ජාල සර්වරයේ අප්ලෝඩ් ඩිරෙක්ටරිය"
 
-#: libraries/common.lib.php:2990 libraries/sql_query_form.lib.php:501
+#: libraries/common.lib.php:2991 libraries/sql_query_form.lib.php:501
 #: tbl_change.php:959
 msgid "The directory you set for upload work cannot be reached"
 msgstr "අප්ලෝඩ් කිරීම් සඳහා සැකසූ ඩිරෙක්ටරිය වෙත පිවිසිය නොහැක"
 
-#: libraries/common.lib.php:2998
+#: libraries/common.lib.php:2999
 msgid "There are no files to upload"
 msgstr ""
 
 #: libraries/config.values.php:45 libraries/config.values.php:50
 msgid "Both"
-msgstr ""
+msgstr "දෙකම"
 
 #: libraries/config.values.php:74
 msgid "Open"
-msgstr ""
+msgstr "විවෘත"
 
 #: libraries/config.values.php:74
-#, fuzzy
-#| msgid "Unclosed quote"
 msgid "Closed"
-msgstr "නොවසන ලද උද්ධරනය"
+msgstr "වසන ලද"
 
 #: libraries/config.values.php:95 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
 #: libraries/import.lib.php:1172
-#, fuzzy
 msgid "structure"
 msgstr "සැකිල්ල"
 
@@ -2160,13 +2147,11 @@ msgstr "සැකිල්ල"
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
 msgid "data"
-msgstr ""
+msgstr "දත්ත"
 
 #: libraries/config.values.php:97 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
-#, fuzzy
-#| msgid "Structure and data"
 msgid "structure and data"
 msgstr "සැකිල්ල සහ දත්ත"
 
@@ -2183,34 +2168,30 @@ msgid "Custom - like above, but without the quick/custom choice"
 msgstr ""
 
 #: libraries/config.values.php:119
-#, fuzzy
-#| msgid "Complete inserts"
 msgid "complete inserts"
-msgstr "Complete inserts"
+msgstr "සම්පූර්ණ ඇතුළු කිරීම්"
 
 #: libraries/config.values.php:120
-#, fuzzy
-#| msgid "Extended inserts"
 msgid "extended inserts"
-msgstr "Extended inserts"
+msgstr "විස්තෘත ඇතුළු කිරීම්"
 
 #: libraries/config.values.php:121
 msgid "both of the above"
-msgstr ""
+msgstr "ඉහත ද්විත්වයම"
 
 #: libraries/config.values.php:122
 msgid "neither of the above"
-msgstr ""
+msgstr "ඉහත දෙකින් එකක්වත් නොව"
 
 #: libraries/config/FormDisplay.class.php:83
 #: libraries/config/validate.lib.php:422
 msgid "Not a positive number"
-msgstr ""
+msgstr "ධන සංඛ්‍යාවක් නොවේ"
 
 #: libraries/config/FormDisplay.class.php:84
 #: libraries/config/validate.lib.php:435
 msgid "Not a non-negative number"
-msgstr ""
+msgstr "ඍණ නොවන සංඛ්‍යාවක් නොවේ"
 
 #: libraries/config/FormDisplay.class.php:85
 #: libraries/config/validate.lib.php:409
@@ -2232,14 +2213,12 @@ msgstr "අගය %s ට සමාන හෝ අඩු විය යුතුය
 #: libraries/config/FormDisplay.class.php:538
 #, php-format
 msgid "Missing data for %s"
-msgstr ""
+msgstr "%s සඳහා දත්ත නොමැත"
 
 #: libraries/config/FormDisplay.class.php:736
 #: libraries/config/FormDisplay.class.php:740
-#, fuzzy
-#| msgid "Variable"
 msgid "unavailable"
-msgstr "Variable"
+msgstr "නොතිබෙන"
 
 #: libraries/config/FormDisplay.class.php:737
 #: libraries/config/FormDisplay.class.php:741
@@ -2269,7 +2248,7 @@ msgstr "PHP සංස්කරණය"
 #: libraries/config/FormDisplay.class.php:781
 #, php-format
 msgid "maximum %s"
-msgstr ""
+msgstr "උපරිම %s"
 
 #: libraries/config/FormDisplay.tpl.php:173
 msgid "This setting is disabled, it will not be applied to your configuration"
@@ -2278,12 +2257,12 @@ msgstr ""
 #: libraries/config/FormDisplay.tpl.php:173 libraries/relation.lib.php:89
 #: libraries/relation.lib.php:96 pmd_relation_new.php:68
 msgid "Disabled"
-msgstr "අක්‍රිය කරන ලද"
+msgstr "අක්‍රිය"
 
 #: libraries/config/FormDisplay.tpl.php:248
 #, php-format
 msgid "Set value: %s"
-msgstr ""
+msgstr "%s අගය පිහිටුවන්න"
 
 #: libraries/config/FormDisplay.tpl.php:253
 #: libraries/config/messages.inc.php:350
@@ -2305,9 +2284,8 @@ msgid "Improves efficiency of screen refresh"
 msgstr ""
 
 #: libraries/config/messages.inc.php:18
-#, fuzzy
 msgid "Enable Ajax"
-msgstr "සක්‍රිය කරන් ලද"
+msgstr "Ajax සක්‍රිය කරන්න"
 
 #: libraries/config/messages.inc.php:19
 msgid ""
@@ -2315,9 +2293,8 @@ msgid ""
 msgstr ""
 
 #: libraries/config/messages.inc.php:20
-#, fuzzy
 msgid "Allow login to any MySQL server"
-msgstr "MySQL සර්වරයට ලොග් විය නොහැක"
+msgstr "MySQL සේවාදායකයට ලොග්වීමට ඉඩ දෙන්න "
 
 #: libraries/config/messages.inc.php:21
 msgid ""
@@ -2342,11 +2319,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:25
 msgid "Blowfish secret"
-msgstr ""
+msgstr "Blowfish රහස"
 
 #: libraries/config/messages.inc.php:26
 msgid "Highlight selected rows"
-msgstr ""
+msgstr "තෝරාගත් පේළි ඉස්මතු කරන්න"
 
 #: libraries/config/messages.inc.php:27
 msgid "Row marker"
@@ -2368,7 +2345,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:31
 msgid "Bzip2"
-msgstr ""
+msgstr "Bzip2"
 
 #: libraries/config/messages.inc.php:32
 msgid ""
@@ -2379,7 +2356,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:33
 msgid "CHAR columns editing"
-msgstr ""
+msgstr "CHAR තීරු සංස්කරණය"
 
 #: libraries/config/messages.inc.php:34
 msgid "Number of columns for CHAR/VARCHAR textareas"
@@ -2424,11 +2401,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:43
 msgid "Confirm DROP queries"
-msgstr ""
+msgstr "DROP විමසුම් තහවුරු කරන්න"
 
 #: libraries/config/messages.inc.php:44
 msgid "Debug SQL"
-msgstr ""
+msgstr "SQL නිදොසන්න"
 
 #: libraries/config/messages.inc.php:45
 #, fuzzy
@@ -2486,7 +2463,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:57
 msgid "Display databases as a list"
-msgstr ""
+msgstr "දත්තගබඩා ලැයිස්තුවක් ලෙස පෙන්වන්න"
 
 #: libraries/config/messages.inc.php:58
 msgid "Show server listing as a list instead of a drop down"
@@ -3146,15 +3123,15 @@ msgstr "Put fields names in the first row"
 
 #: libraries/config/messages.inc.php:252 libraries/import/ods.php:27
 msgid "Do not import empty rows"
-msgstr ""
+msgstr "හිස් පේළි ආනයනය නොකරන්න"
 
 #: libraries/config/messages.inc.php:253
 msgid "Import currencies ($5.00 to 5.00)"
-msgstr ""
+msgstr "ව්‍යවහාර මුදල් අගයන් ආනයනය කරන්න (උදා. $5.00, 5.00 ලෙස)"
 
 #: libraries/config/messages.inc.php:254
 msgid "Import percentages as proper decimals (12.00% to .12)"
-msgstr ""
+msgstr "ප්‍රතිශත පූර්ණ සංඛ්‍යා ලෙස ආනයනය කරන්න (උදා. 12.00%, 12 ලෙස)"
 
 #: libraries/config/messages.inc.php:255
 #, fuzzy
@@ -4089,7 +4066,7 @@ msgstr ""
 #: libraries/replication_gui.lib.php:337 libraries/replication_gui.lib.php:341
 #: libraries/replication_gui.lib.php:351 server_privileges.php:807
 #: server_privileges.php:811 server_privileges.php:822
-#: server_privileges.php:1634 server_synchronize.php:1172
+#: server_privileges.php:1634 server_synchronize.php:1190
 msgid "Password"
 msgstr "මුරපදය"
 
@@ -5072,7 +5049,7 @@ msgid "The percentage of garbage in a repository file before it is compacted."
 msgstr ""
 
 #: libraries/engines/pbms.lib.php:35 libraries/replication_gui.lib.php:69
-#: server_synchronize.php:1160
+#: server_synchronize.php:1178
 #, fuzzy
 msgid "Port"
 msgstr "‍තෝරනවා"
@@ -5603,7 +5580,7 @@ msgstr "අපනයන වර්ගය"
 #: libraries/footer.inc.php:188 libraries/footer.inc.php:191
 #: libraries/footer.inc.php:194
 msgid "Open new phpMyAdmin window"
-msgstr "Open new phpMyAdmin window"
+msgstr "නව phpMyAdmin කවුළුවක් විවෘත කරන්න"
 
 #: libraries/header_printview.inc.php:49 libraries/header_printview.inc.php:54
 msgid "SQL result"
@@ -5660,7 +5637,7 @@ msgstr ""
 msgid ""
 "The first line of the file contains the table column names <i>(if this is "
 "unchecked, the first line will become part of the data)</i>"
-msgstr ""
+msgstr "ගොනුවේ පළමු පේළියේ ඇත්තේ වගුවේ තීරවල නම්ය."
 
 #: libraries/import/csv.php:39
 msgid ""
@@ -5718,11 +5695,11 @@ msgstr "This plugin does not support compressed imports!"
 
 #: libraries/import/ods.php:28
 msgid "Import percentages as proper decimals <i>(ex. 12.00% to .12)</i>"
-msgstr ""
+msgstr "ප්‍රතිශත පූර්ණ සංඛ්‍යා ලෙස ආනයනය කරන්න <i>(උදා. 12.00%, 12 ලෙස)</i>"
 
 #: libraries/import/ods.php:29
 msgid "Import currencies <i>(ex. $5.00 to 5.00)</i>"
-msgstr ""
+msgstr "ව්‍යවහාර මුදල් අගයන් ආනයනය කරන්න <i>(උදා. $5.00, 5.00 ලෙස)</i>"
 
 #: libraries/import/sql.php:32
 msgid "SQL compatibility mode:"
@@ -5853,7 +5830,7 @@ msgstr "පෝලන්ත"
 
 #: libraries/mysql_charsets.lib.php:288 libraries/mysql_charsets.lib.php:336
 msgid "West European"
-msgstr "බටහිර යුරෝපියානු"
+msgstr "බටහිර යුරෝපීය"
 
 #: libraries/mysql_charsets.lib.php:291
 msgid "Romanian"
@@ -5964,10 +5941,8 @@ msgid "Reload navigation frame"
 msgstr ""
 
 #: libraries/plugin_interface.lib.php:336
-#, fuzzy
-#| msgid "This format has no options"
 msgid "This format has no options"
-msgstr "මෙම ආකෘතියේ විකල්ප කිසිවක් නැත"
+msgstr "මෙම ආකෘතියේ ආකෘති-විශේෂී තෝරා ගැනීම් කිසිවක් නැත"
 
 #: libraries/relation.lib.php:83
 msgid "not OK"
@@ -6057,7 +6032,7 @@ msgstr ""
 #: libraries/replication_gui.lib.php:251 libraries/replication_gui.lib.php:254
 #: libraries/replication_gui.lib.php:261 server_privileges.php:722
 #: server_privileges.php:725 server_privileges.php:732
-#: server_synchronize.php:1168
+#: server_synchronize.php:1186
 msgid "User name"
 msgstr "භාවිත නාමය"
 
@@ -6332,7 +6307,7 @@ msgstr "සමමුහුර්ත කරන්න"
 msgid "Settings"
 msgstr "සිටුවම්"
 
-#: libraries/server_synchronize.lib.php:1337 server_synchronize.php:1109
+#: libraries/server_synchronize.lib.php:1337 server_synchronize.php:1115
 #, fuzzy
 msgid "Source database"
 msgstr "දත්තගබඩාවේ සොයන්න"
@@ -6351,7 +6326,7 @@ msgstr ""
 msgid "Difference"
 msgstr ""
 
-#: libraries/server_synchronize.lib.php:1360 server_synchronize.php:1111
+#: libraries/server_synchronize.lib.php:1360 server_synchronize.php:1117
 #, fuzzy
 msgid "Target database"
 msgstr "දත්තගබඩාවේ සොයන්න"
@@ -6942,7 +6917,7 @@ msgid ""
 msgstr ""
 
 #: main.php:313
-#, fuzzy, php-format
+#, php-format
 #| msgid ""
 #| "The additional features for working with linked tables have been "
 #| "deactivated. To find out why click %shere%s."
@@ -6950,8 +6925,8 @@ msgid ""
 "The phpMyAdmin configuration storage is not completely configured, some "
 "extended features have been deactivated. To find out why click %shere%s."
 msgstr ""
-"The additional features for working with linked tables have been "
-"deactivated. To find out why click %shere%s."
+"phpMyAdmin හි configuration storage සම්පූර්ණයෙන් සකසා නැති බැවින් යම් "
+"විස්තෘත විශේෂාංග අක්‍රිය වී ඇත. ඇයිදැයි සොයා බැලීමට %sමෙතන%s ක්ලික් කරන්න."
 
 #: main.php:328
 msgid ""
@@ -6959,6 +6934,9 @@ msgid ""
 "functionality will be missing. For example navigation frame will not refresh "
 "automatically."
 msgstr ""
+"ඔබගේ බවුසරයේ Javascript සහය නැත/අක්‍රිය කර ඇත. එබැවින් යම් phpMyAdmin "
+"විශේෂාංග අක්‍රිය වී ඇත. උදාහරණයක් ලෙස යාත්‍රණ රාමුව (navigation frame) "
+"ස්වයංක්‍රියව යාවත්කාලීන නොවේ."
 
 #: main.php:343
 #, php-format
@@ -6974,7 +6952,7 @@ msgid ""
 "issues."
 msgstr ""
 
-#: navigation.php:187 server_databases.php:267 server_synchronize.php:1188
+#: navigation.php:187 server_databases.php:267 server_synchronize.php:1206
 msgid "No databases"
 msgstr "දත්තගබඩා නොමැත"
 
@@ -6989,28 +6967,27 @@ msgstr "ක්ෂේත්‍ර"
 msgid "filter tables by name"
 msgstr "වගුවේ නම"
 
-#: navigation.php:308 navigation.php:309
+#: navigation.php:309 navigation.php:310
 #, fuzzy
 msgctxt "short form"
 msgid "Create table"
 msgstr "නව පිටුවක් සාදන්න"
 
-#: navigation.php:313 navigation.php:485
+#: navigation.php:315 navigation.php:487
 msgid "Please select a database"
 msgstr "කරුණාකර දත්තගබඩාවක් තෝරන්න"
 
 #: pmd_general.php:74
 msgid "Show/Hide left menu"
-msgstr ""
+msgstr "වම් මෙනුව පෙන්වන්න/සඟවන්න"
 
 #: pmd_general.php:78
 msgid "Save position"
-msgstr ""
+msgstr "ස්ථාපිතය සුරකින්න"
 
 #: pmd_general.php:81 server_synchronize.php:428 server_synchronize.php:871
-#, fuzzy
 msgid "Create table"
-msgstr "නව පිටුවක් සාදන්න"
+msgstr "වගුව සාදන්න"
 
 #: pmd_general.php:84 pmd_general.php:352
 #, fuzzy
@@ -7019,19 +6996,19 @@ msgstr "සර්වරයේ සංස්කරණය"
 
 #: pmd_general.php:90
 msgid "Reload"
-msgstr ""
+msgstr "ප්‍රතිපූරණය"
 
 #: pmd_general.php:93
 msgid "Help"
-msgstr ""
+msgstr "උදවු"
 
 #: pmd_general.php:97
 msgid "Angular links"
-msgstr ""
+msgstr "ආංශික සබැඳුම"
 
 #: pmd_general.php:97
 msgid "Direct links"
-msgstr ""
+msgstr "ඍජු සබැඳුම"
 
 #: pmd_general.php:101
 msgid "Snap to grid"
@@ -7050,10 +7027,9 @@ msgid "Import/Export coordinates for PDF schema"
 msgstr ""
 
 #: pmd_general.php:120
-#, fuzzy
 #| msgid "Submit Query"
 msgid "Build Query"
-msgstr "විමසුම ඉදිරිපත් කරන්න"
+msgstr "විමසුම ගොඩ නඟන්න"
 
 #: pmd_general.php:125
 msgid "Move Menu"
@@ -7102,16 +7078,14 @@ msgid "Rename to"
 msgstr "වගුව බවට නම වෙනස් කරන්න"
 
 #: pmd_general.php:482 pmd_general.php:581
-#, fuzzy
 #| msgid "User name"
 msgid "New name"
-msgstr "භාවිත නාමය"
+msgstr "නව නාමය"
 
 #: pmd_general.php:485 pmd_general.php:700
-#, fuzzy
 #| msgid "Create"
 msgid "Aggregate"
-msgstr "සාදන්න"
+msgstr "එකතු කරන්න"
 
 #: pmd_general.php:487 pmd_general.php:507 pmd_general.php:629
 #: pmd_general.php:642 pmd_general.php:705 pmd_general.php:759
@@ -7120,10 +7094,9 @@ msgid "Operator"
 msgstr "මෙහෙයවනය"
 
 #: pmd_general.php:810
-#, fuzzy
 #| msgid "Table options"
 msgid "Active options"
-msgstr "වගු විකල්ප"
+msgstr "සක්‍රිය විකල්ප"
 
 #: pmd_help.php:26
 msgid "To select relation, click :"
@@ -7137,43 +7110,37 @@ msgid ""
 msgstr ""
 
 #: pmd_pdf.php:34
-#, fuzzy
 msgid "Page has been created"
-msgstr "%s වගුව හලන ලදි"
+msgstr "පිටුව සාදන ලදි"
 
 #: pmd_pdf.php:37
 msgid "Page creation failed"
-msgstr ""
+msgstr "පිටුව සෑදීම අසමත් විය"
 
 #: pmd_pdf.php:89
-#, fuzzy
 #| msgid "pages"
 msgid "Page"
-msgstr "පිටු"
+msgstr "පිටුව"
 
 #: pmd_pdf.php:99
-#, fuzzy
 #| msgid "Import files"
 msgid "Import from selected page"
-msgstr "ගොනු ආනයනය"
+msgstr "තෝරාගත් පිටු ආනයනය කරන්න"
 
 #: pmd_pdf.php:100
-#, fuzzy
 #| msgid "No rows selected"
 msgid "Export to selected page"
-msgstr "පේළි කිසිවක් තෝරගෙන නැත"
+msgstr "තෝරාගත් පිටු අපනයනය කරන්න"
 
 #: pmd_pdf.php:102
-#, fuzzy
 #| msgid "Create a new index"
 msgid "Create a page and export to it"
-msgstr "නව සූචියක් සාදන්න"
+msgstr "පිටුවක් සාදා අපනයනය කරන්න"
 
 #: pmd_pdf.php:111
-#, fuzzy
 #| msgid "User name"
 msgid "New page name: "
-msgstr "භාවිත නාමය"
+msgstr "නව පිටු නාමය"
 
 #: pmd_pdf.php:114
 msgid "Export/Import to scale"
@@ -8904,26 +8871,26 @@ msgstr ""
 msgid "The following queries have been executed:"
 msgstr ""
 
-#: server_synchronize.php:1119
+#: server_synchronize.php:1130
 msgid "Enter manually"
 msgstr ""
 
-#: server_synchronize.php:1120
+#: server_synchronize.php:1138
 #, fuzzy
 #| msgid "max. concurrent connections"
 msgid "Current connection"
 msgstr "max. concurrent connections"
 
-#: server_synchronize.php:1149
+#: server_synchronize.php:1167
 #, php-format
 msgid "Configuration: %s"
 msgstr ""
 
-#: server_synchronize.php:1164
+#: server_synchronize.php:1182
 msgid "Socket"
 msgstr ""
 
-#: server_synchronize.php:1210
+#: server_synchronize.php:1228
 msgid ""
 "Target database will be completely synchronized with source database. Source "
 "database will remain unchanged."
@@ -9197,11 +9164,11 @@ msgstr ""
 
 #: setup/lib/index.lib.php:351
 msgid "Key is too short, it should have at least 8 characters."
-msgstr ""
+msgstr "මූලය කෙටිය. අවම වශයෙන් අක්ෂර 8 වත් තිබිය යුතුය."
 
 #: setup/lib/index.lib.php:358
 msgid "Key should contain letters, numbers [em]and[/em] special characters."
-msgstr ""
+msgstr "මූලයේ අක්ෂර, ඉලක්කම් [em]සහ[/em] විශේෂ සලකුණු තිබිය යුතුය."
 
 #: sql.php:87 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
 #: tbl_select.php:30 tbl_select.php:33
@@ -9216,22 +9183,19 @@ msgstr ""
 #: sql.php:600 tbl_replace.php:387
 #, php-format
 msgid "Inserted row id: %1$d"
-msgstr ""
+msgstr "%1$d පේළිය ඇතුල් කරන ලදි"
 
 #: sql.php:617
 msgid "Showing as PHP code"
-msgstr ""
+msgstr "PHP කේත ලෙස පෙන්වමින්"
 
 #: sql.php:620 tbl_replace.php:361
-#, fuzzy
 msgid "Showing SQL query"
-msgstr "සම්පූර්ණ විමසුම් පෙන්වන්න"
+msgstr "SQL විමසුම පෙන්වමින්"
 
 #: sql.php:622
-#, fuzzy
-#| msgid "Validate SQL"
 msgid "Validated SQL"
-msgstr "Validate SQL"
+msgstr "තහවුරු කරන ලද SQL"
 
 #: sql.php:897
 #, php-format
@@ -9283,7 +9247,7 @@ msgstr "ඇතුල් කිරීමේ විමසුම පෙන්වන
 
 #: tbl_change.php:1068
 msgid "and then"
-msgstr "සහ එවිට"
+msgstr "අනතුරුව"
 
 #: tbl_change.php:1072
 msgid "Go back to previous page"
@@ -9313,86 +9277,76 @@ msgid "Continue insertion with %s rows"
 msgstr "පේළි %s බැගින් තවදුරටත් ඇතුල් කරන්න"
 
 #: tbl_chart.php:56
-#, fuzzy
-#| msgid "The privileges were reloaded successfully."
 msgid "Chart generated successfully."
-msgstr "The privileges were reloaded successfully."
+msgstr "ප්‍රස්තාරය සාර්ථකව අඳින ලදි."
 
 #: tbl_chart.php:59
-#, fuzzy
-#| msgid ""
-#| "May be approximate. See [a@./Documentation.html#faq3_11@Documentation]FAQ "
-#| "3.11[/a]"
 msgid ""
 "The result of this query can't be used for a chart. See [a@./Documentation."
 "html#faq6_29@Documentation]FAQ 6.29[/a]"
-msgstr "සමහර විට ආසන්න වශයෙන්. FAQ 3.11 බලන්න"
+msgstr ""
+"මෙම විමසුම් ප්‍රතිඑලය ප්‍රස්තාරයක් ඇඳීමට භාවිතා කල නොහැක. [a@./Documentation."
+"html#faq6_29@Documentation]FAQ 6.29[/a] බලන්න."
 
 #: tbl_chart.php:90
 msgid "Width"
-msgstr ""
+msgstr "පළල"
 
 #: tbl_chart.php:94
 msgid "Height"
-msgstr ""
+msgstr "උස"
 
 #: tbl_chart.php:98
 msgid "Title"
-msgstr ""
+msgstr "මාතෘකාව"
 
 #: tbl_chart.php:103
 msgid "X Axis label"
-msgstr ""
+msgstr "X අක්ෂයේ ලේබලය"
 
 #: tbl_chart.php:107
 msgid "Y Axis label"
-msgstr ""
+msgstr "Y අක්ෂයේ ලේබලය"
 
 #: tbl_chart.php:112
 msgid "Area margins"
-msgstr ""
+msgstr "පෙදෙසේ දාර"
 
 #: tbl_chart.php:122
 msgid "Legend margins"
 msgstr ""
 
 #: tbl_chart.php:134
-#, fuzzy
-#| msgid "Mar"
 msgid "Bar"
-msgstr "මාර්තු"
+msgstr "තීර"
 
 #: tbl_chart.php:135
 msgid "Line"
-msgstr ""
+msgstr "රේඛා"
 
 #: tbl_chart.php:136
 msgid "Radar"
-msgstr ""
+msgstr "රේඩාර්"
 
 #: tbl_chart.php:138
-#, fuzzy
-#| msgid "PiB"
 msgid "Pie"
-msgstr "PiB"
+msgstr "වට"
 
 #: tbl_chart.php:144
-#, fuzzy
-#| msgid "Query type"
 msgid "Bar type"
-msgstr "විමසුම් වර්ගය"
+msgstr "තීර වර්ගය"
 
 #: tbl_chart.php:146
 msgid "Stacked"
-msgstr ""
+msgstr "ගොඩ ගසන ලද"
 
 #: tbl_chart.php:147
 msgid "Multi"
-msgstr ""
+msgstr "බහු"
 
 #: tbl_chart.php:152
 msgid "Continuous image"
-msgstr ""
+msgstr "අඛණ්ඩ ප්‍රතිරූපය"
 
 #: tbl_chart.php:155
 msgid ""
@@ -9410,10 +9364,12 @@ msgid ""
 "Note that not every result table can be put to the chart. See <a href=\"./"
 "Documentation.html#faq6_29\" target=\"Documentation\">FAQ 6.29</a>"
 msgstr ""
+"සෑම ප්‍රතිඑලයක්ම ප්‍රස්තාරයක් ඇඳීමට භාවිතා කල නොහැක. <a href=\"./Documentation."
+"html#faq6_29\" target=\"Documentation\">FAQ 6.29</a> බලන්න."
 
 #: tbl_chart.php:181
 msgid "Redraw"
-msgstr ""
+msgstr "නැවත අඳින්න"
 
 #: tbl_create.php:56
 #, php-format
@@ -9421,9 +9377,9 @@ msgid "Table %s already exists!"
 msgstr " %s වගුව දැනටමත් පවතී!"
 
 #: tbl_create.php:242
-#, fuzzy, php-format
+#, php-format
 msgid "Table %1$s has been created."
-msgstr "%s වගුව හලන ලදි"
+msgstr "%1$s වගුව සාදන ලදි."
 
 #: tbl_export.php:24
 msgid "View dump (schema) of table"
@@ -9460,8 +9416,7 @@ msgstr "සූචි වර්ගය:"
 #: tbl_indexes.php:182
 msgid ""
 "(\"PRIMARY\" <b>must</b> be the name of and <b>only of</b> a primary key!)"
-msgstr ""
-"(\"PRIMARY\" <b>must</b> be the name of and <b>only of</b> a primary key!)"
+msgstr "(\"PRIMARY\" නාමය ප්‍රාථමික මූලය සඳහා <i>පමණක්</i> භාවිතා කල යුතුය!)"
 
 #: tbl_indexes.php:249
 #, php-format
@@ -9554,40 +9509,37 @@ msgid "Delete the table (DROP)"
 msgstr "වගුව ඉවත් කරන්න (DROP)"
 
 #: tbl_operations.php:729
-#, fuzzy
 msgid "Partition maintenance"
-msgstr "වගු නඩත්තුව"
+msgstr "කොටස් (partition) නඩත්තුව"
 
 #: tbl_operations.php:737
 #, php-format
 msgid "Partition %s"
-msgstr ""
+msgstr "%s කොටස"
 
 #: tbl_operations.php:740
 msgid "Analyze"
-msgstr ""
+msgstr "විශ්ලේෂණය"
 
 #: tbl_operations.php:741
-#, fuzzy
 msgid "Check"
-msgstr "චෙකොස්ලෝවැකියානු"
+msgstr "පරීක්ෂාව"
 
 #: tbl_operations.php:742
 msgid "Optimize"
-msgstr ""
+msgstr "ප්‍රශස්තනය"
 
 #: tbl_operations.php:743
 msgid "Rebuild"
-msgstr ""
+msgstr "නැවත සෑදීම"
 
 #: tbl_operations.php:744
-#, fuzzy
 msgid "Repair"
-msgstr "වගුව ප්‍රතිසංස්කරණය කරන්න"
+msgstr "ප්‍රතිසංස්කරණය"
 
 #: tbl_operations.php:756
 msgid "Remove partitioning"
-msgstr ""
+msgstr "කොටස් කිරීම ඉවත් කරන්න"
 
 #: tbl_operations.php:782
 msgid "Check referential integrity:"
@@ -9607,7 +9559,7 @@ msgstr "භාවිතය"
 
 #: tbl_printview.php:338 tbl_structure.php:780
 msgid "Effective"
-msgstr "Effective"
+msgstr "එලදායී"
 
 #: tbl_printview.php:363 tbl_structure.php:818
 msgid "Row Statistics"
@@ -9619,7 +9571,7 @@ msgstr "ප්‍රකාශය"
 
 #: tbl_printview.php:377 tbl_structure.php:833
 msgid "static"
-msgstr ""
+msgstr "ස්ථිතික"
 
 #: tbl_printview.php:379 tbl_structure.php:835
 msgid "dynamic"
@@ -9636,7 +9588,7 @@ msgstr "පේළියේ ප්‍රමාණය"
 #: tbl_relation.php:276
 #, php-format
 msgid "Error creating foreign key on %1$s (check data types)"
-msgstr ""
+msgstr "%1$s මත අන්‍ය මූලය සෑදීමේදී දෝෂ ඇතිවිය (දත්ත වර්ග පරීක්ෂා කරන්න)"
 
 #: tbl_relation.php:402
 msgid "Internal relation"
@@ -9650,7 +9602,7 @@ msgstr ""
 
 #: tbl_relation.php:410
 msgid "Foreign key constraint"
-msgstr ""
+msgstr "අන්‍ය මූල නිරෝධය"
 
 #: tbl_row_action.php:28
 msgid "No rows selected"
@@ -9697,17 +9649,14 @@ msgid "Add FULLTEXT index"
 msgstr "FULLTEXT මූලය එක් කරන්න"
 
 #: tbl_structure.php:385
-#, fuzzy
-#| msgid "None"
 msgctxt "None for default"
 msgid "None"
 msgstr "කිසිවක් නැත"
 
 #: tbl_structure.php:398
-#, fuzzy, php-format
-#| msgid "Table %s has been dropped"
+#, php-format
 msgid "Column %s has been dropped"
-msgstr "%s වගුව හලන ලදි"
+msgstr "%s තීරුව හලන ලදි"
 
 #: tbl_structure.php:409 tbl_structure.php:484
 #, php-format
@@ -9721,10 +9670,8 @@ msgid "An index has been added on %s"
 msgstr "%s සඳහා සූචියක් එක්කරන ලදි"
 
 #: tbl_structure.php:472
-#, fuzzy
-#| msgid "Show PHP information"
 msgid "Show more actions"
-msgstr "PHP තොරතුරු පෙන්වන්න"
+msgstr "තවත් ක්‍රියාවන් පෙන්වන්න"
 
 #: tbl_structure.php:598 tbl_structure.php:600
 msgid "Relation view"
@@ -9735,10 +9682,8 @@ msgid "Propose table structure"
 msgstr "සැකිල්ලක් යෝජනා කරන්න"
 
 #: tbl_structure.php:632
-#, fuzzy
-#| msgid "Add %s field(s)"
 msgid "Add column"
-msgstr "%s ක්ෂේත්‍ර(යක්) එක් කරන්න"
+msgstr "තීරයක් එක් කරන්න"
 
 #: tbl_structure.php:646
 msgid "At End of Table"
@@ -9760,12 +9705,12 @@ msgstr "පේළි&nbsp;%s&nbsp;මත සුචියක් සාදන්�
 
 #: tbl_structure.php:849
 msgid "partitioned"
-msgstr ""
+msgstr "කොටස් කරන ලද"
 
 #: tbl_tracking.php:109
 #, php-format
 msgid "Tracking report for table `%s`"
-msgstr ""
+msgstr " `%s` වගුව සඳහා අවධානය පිළිබඳ වාර්තාව"
 
 #: tbl_tracking.php:182
 #, php-format
@@ -9784,7 +9729,7 @@ msgstr "%s.%s හි %s වන අනුවාදය සඳහා අවධා�
 
 #: tbl_tracking.php:208
 msgid "SQL statements executed."
-msgstr ""
+msgstr "SQL ය ක්‍රියාත්මක කරන ලදි."
 
 #: tbl_tracking.php:215
 msgid ""
@@ -9803,7 +9748,7 @@ msgstr ""
 #: tbl_tracking.php:256
 #, php-format
 msgid "Version %s snapshot (SQL code)"
-msgstr ""
+msgstr "%s වන අනුවාදයේ සැණරුව (SQL කේත)"
 
 #: tbl_tracking.php:375
 msgid "Tracking statements"
@@ -9812,16 +9757,15 @@ msgstr ""
 #: tbl_tracking.php:391 tbl_tracking.php:498
 #, php-format
 msgid "Show %s with dates from %s to %s by user %s %s"
-msgstr ""
+msgstr "පෙන්වන්න, %s %s දින සිට %s දින දක්වා %s %s භාවිතා කරන්නා විසින් "
 
 #: tbl_tracking.php:404 tbl_tracking.php:455
-#, fuzzy
 msgid "Date"
-msgstr "දත්ත"
+msgstr "දිනය"
 
 #: tbl_tracking.php:406
 msgid "Data definition statement"
-msgstr ""
+msgstr "දත්ත අර්ථ දැක්වීම"
 
 #: tbl_tracking.php:457
 msgid "Data manipulation statement"
@@ -9837,16 +9781,16 @@ msgstr ""
 
 #: tbl_tracking.php:503
 msgid "This option will replace your table and contained data."
-msgstr ""
+msgstr "මෙම විකල්පය මගින් ඔබගේ වගුව සහ දත්ත ප්‍රතිස්ථාපනය කෙරෙනු ඇත."
 
 #: tbl_tracking.php:503
 msgid "SQL execution"
-msgstr ""
+msgstr "SQL ක්‍රියාත්මක කිරීම"
 
 #: tbl_tracking.php:515
-#, fuzzy, php-format
+#, php-format
 msgid "Export as %s"
-msgstr "අපනයන වර්ගය"
+msgstr "අපනයන කරන්න %s ලෙස"
 
 #: tbl_tracking.php:555
 msgid "Show versions"
@@ -9868,11 +9812,11 @@ msgstr "අක්‍රීය කරන්න"
 #: tbl_tracking.php:648
 #, php-format
 msgid "Activate tracking for %s.%s"
-msgstr ""
+msgstr "%s.%s සඳහා අවධානය සක්‍රීය කරන්න"
 
 #: tbl_tracking.php:650
 msgid "Activate now"
-msgstr ""
+msgstr "සක්‍රීය කරන්න"
 
 #: tbl_tracking.php:663
 #, php-format
@@ -9902,7 +9846,7 @@ msgstr ""
 
 #: themes.php:41
 msgid "Get more themes!"
-msgstr ""
+msgstr "තවත් තේමාවන් ලබා ගන්න!"
 
 #: transformation_overview.php:24
 msgid "Available MIME types"
@@ -9929,16 +9873,15 @@ msgstr "You don't have sufficient privileges to be here right now!"
 
 #: user_password.php:110
 msgid "The profile has been updated."
-msgstr "The profile has been updated."
+msgstr "පරිශීලක පැතිකඩ යාවත්කාලීන කරන ලදි."
 
 #: view_create.php:141
 msgid "VIEW name"
-msgstr ""
+msgstr "දසුනේ නම"
 
 #: view_operations.php:91
-#, fuzzy
 msgid "Rename view to"
-msgstr "වගුව බවට නම වෙනස් කරන්න"
+msgstr "දසුනේ නම වෙනස් කරන්න"
 
 #~ msgid "Background color"
 #~ msgstr "පසුබිම් වර්ණය"

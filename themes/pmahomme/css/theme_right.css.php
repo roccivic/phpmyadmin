@@ -11,6 +11,13 @@
 if (!defined('PMA_MINIMUM_COMMON')) {
     exit();
 }
+
+function PMA_ieFilter($start_color, $end_color)
+{
+    return PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER >= 6 && PMA_USR_BROWSER_VER <= 8
+        ? 'filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr="' . $start_color . '", endColorstr="' . $end_color . '");'
+        : '';
+}
 ?>
 /******************************************************************************/
 /* general tags */
@@ -88,6 +95,9 @@ a:hover {
     -webkit-border-radius:5px;
     border-radius:5px;
 }
+
+#initials_table td{padding:8px !important}
+
 #initials_table a {
     border:1px solid #aaa;
     background:#fff;
@@ -95,9 +105,12 @@ a:hover {
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
 }
 
 dfn {
@@ -113,11 +126,12 @@ th {
     font-weight:        bold;
     color:              <?php echo $GLOBALS['cfg']['ThColor']; ?>;
     background:         #f3f3f3;
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
-
-
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
 }
 
 a img {
@@ -186,15 +200,21 @@ input[type=submit]{
 
 	text-shadow: 0px 1px 0px #fff;
 
-	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
-	background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+    background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
 }
 
 input[type=submit]:hover{	position: relative;
-	background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
-	background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#dddddd');
+    background-image: url(./themes/svg_gradient.php?from=cccccc&to=dddddd);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
+    background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
+    background: -o-linear-gradient(top,  #cccccc,  #dddddd);
+    <?php echo PMA_ieFilter('#cccccc', '#dddddd'); ?>
     cursor:pointer;
 }
 
@@ -284,6 +304,15 @@ select{
     color:#333333;
     padding:3px;
     background:url(./themes/pmahomme/img/input_bg.gif)
+}
+
+select[multiple] {
+    background: #fff;
+    background: -webkit-gradient(linear, center top, center bottom, from(#fff), color-stop(0.8, #f1f1f1), to(#fbfbfb));
+    background: -webkit-linear-gradient(#fff, #f1f1f1 80%, #fbfbfb);
+    background: -moz-linear-gradient(#fff, #f1f1f1 80%, #fbfbfb);
+    /* none for Opera 11.10 as <option>s always have solid white background */
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#f2f2f2");
 }
 
 /******************************************************************************/
@@ -570,12 +599,21 @@ div.footnotes {
     <?php } else { ?>
     padding:            0.3em;
     <?php } ?>
+
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
-    -moz-box-shadow: 0px 1px 2px #fff inset;
-    -webkit-box-shadow: 0px 1px 2px #fff inset;
+
+    -moz-box-shadow: 0 1px 1px #fff inset;
+    -webkit-box-shadow: 0 1px 1px #fff inset;
+    box-shadow:  0 1px 1px #fff inset;
 }
+
+.success  a{text-decoration:underline;}
+.notice a{text-decoration:underline;}
+.warning  a{text-decoration:underline;}
+.error a{text-decoration:underline;}
+.footnotes a{text-decoration:underline;}
 
 .success {
     color:              #000000;
@@ -599,13 +637,13 @@ div.success {
 }
 
 .notice, .footnotes {
-    color:              #000000;
-    background-color:   #ffeda4;
+    color:              #3a6c7e;
+    background-color:   #e8eef1;
 }
 h1.notice,
 div.notice,
 div.footnotes {
-    border-color:       #eccf5b;
+    border-color:       #3a6c7e;
     <?php if ($GLOBALS['cfg']['ErrorIconic']) { ?>
     background-image:   url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>s_notice.png);
     background-repeat:  no-repeat;
@@ -646,8 +684,8 @@ div.warning {
 
 .error {
 	border:1px solid maroon !important;
-    color: #fff;
-    background:url(./themes/pmahomme/img/tab_warning_bg.png) 50% 0% #e97777;
+    color: #000;
+    background:pink;
 }
 
 h1.error,
@@ -666,6 +704,8 @@ div.error {
 div.error h1 {
     border-color:       #ff0000;
 }
+
+
 
 .confirmation {
     color:              #000000;
@@ -1294,14 +1334,20 @@ div#querywindowcontainer fieldset {
 	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,.5);
 	text-shadow: #fff 0px 1px 0px;
     */
-	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
-	background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+    background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
 }
 #sectionlinks a:hover, #statuslinks a:hover{
-	background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
-	background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#dddddd');
+    background-image: url(./themes/svg_gradient.php?from=cccccc&to=dddddd);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
+    background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
+    background: -o-linear-gradient(top,  #cccccc,  #dddddd);
+    <?php echo PMA_ieFilter('#cccccc', '#dddddd'); ?>
 }
 
 div#sqlquerycontainer {
@@ -1500,29 +1546,14 @@ li#li_user_preferences {
     float: <?php echo $left; ?>;
 }
 
-#div_table_order {
+.operations_half_width {
     min-width: 48%;
     float: <?php echo $left; ?>;
 }
 
-#div_table_rename {
-    min-width: 48%;
-    float: <?php echo $left; ?>;
-}
-
-#div_table_copy,
-#div_partition_maintenance,
-#div_referential_integrity,
-#div_table_removal,
-#div_table_maintenance {
-    min-width: 48%;
-    float: <?php echo $left; ?>;
-}
-
-#div_table_options {
+.operations_full_width {
+    width: 100%;
     clear: both;
-    min-width: 48%;
-    float: <?php echo $left; ?>;
 }
 
 #qbe_div_table_list {
@@ -1627,7 +1658,7 @@ div.upload_progress_bar_outer
 
 div.upload_progress_bar_inner
 {
-    background-color: <?php echo (isset($_SESSION['userconf']['custom_color']) ? $_SESSION['userconf']['custom_color'] : $GLOBALS['cfg']['NaviBackground']); ?>;
+    background-color: <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
     width: 0px;
     height: 12px;
     margin: 1px;
@@ -1731,15 +1762,21 @@ table#serverconnection_trg_local  {
 
 	text-shadow: 0px 1px 0px #fff;
 
-	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
-	background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+    background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
     cursor: pointer;
 }
 #buttonGo:hover{
-	background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
-	background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#dddddd');
+    background-image: url(./themes/svg_gradient.php?from=cccccc&to=dddddd);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd));
+    background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
+    background: -o-linear-gradient(top,  #cccccc,  #dddddd);
+    <?php echo PMA_ieFilter('#cccccc', '#dddddd'); ?>
 }
 
 .format_specific_options h3 {
@@ -1915,21 +1952,21 @@ iframe.IE_hack {
     -moz-border-radius:5px 5px 0 0;
     -webkit-border-radius:5px 5px 0 0;
     border-radius:5px 5px 0 0;
-    background:#d5d5d5;
-    color:#fff;
+    background:#f2f2f2;
+    color:#555;
+    text-shadow: 0 1px 0 #fff;
 }
 
 .config-form ul.tabs li a:hover,
-.config-form ul.tabs li a:active,
-.config-form ul.tabs li a.active {
-    /*margin:           0;*/
-    /*padding:          0.1em 0.6em 0.2em;*/
+.config-form ul.tabs li a:active {
+    background:#e5e5e5;
 }
 
 .config-form ul.tabs li a.active {
     background-color: #fff;
     margin-top:1px;
     color:#000;
+    text-shadow: none;
 }
 
 .config-form fieldset {
@@ -2004,6 +2041,7 @@ iframe.IE_hack {
 
 .config-form fieldset th, .config-form fieldset td {
     border-top: 1px <?php echo $GLOBALS['cfg']['BgTwo']; ?> solid;
+    border-right: none;
 }
 
 fieldset .group-header th {

@@ -11,6 +11,13 @@
 if (!defined('PMA_MINIMUM_COMMON')) {
     exit();
 }
+
+function PMA_ieFilter($start_color, $end_color)
+{
+    return PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER >= 6 && PMA_USR_BROWSER_VER <= 8
+        ? 'filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr="' . $start_color . '", endColorstr="' . $end_color . '");'
+        : '';
+}
 ?>
 /******************************************************************************/
 /* general tags */
@@ -192,18 +199,40 @@ div#left_tableList li {
     white-space:        nowrap;
 }
 
-#newtable{border:1px solid #aaa;-moz-border-radius:20px;-webkit-border-radius:20px;border-radius:20px;margin-top:15px !important;padding:1px !important;
-
-	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
-	background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
-    
+#newtable {
+    margin-top: 15px !important;
 }
-#newtable:hover{
+
+#newtable a {
+    display: block;
+    padding: 1px;
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+    background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
+    border: 1px solid #aaa;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+
+#newtable li:hover {
+    background: transparent !important;
+}
+
+#newtable a:hover {
+    background-image: url(./themes/svg_gradient.php?from=cccccc&to=dddddd);
+    background-size: 100% 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#dddddd)) !important;
     background: -moz-linear-gradient(top,  #cccccc,  #dddddd) !important;
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#dddddd') !important;
-	cursor:pointer !important;
+    background: -o-linear-gradient(top,  #cccccc,  #dddddd) !important;
+    <?php echo PMA_ieFilter('#cccccc', '#dddddd'); ?>
+}
+
+#newtable li a:hover {
+    text-decoration: none;
 }
 
 select{

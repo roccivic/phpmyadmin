@@ -11,6 +11,13 @@
 if (!defined('PMA_MINIMUM_COMMON')) {
     exit();
 }
+
+function PMA_ieFilter($start_color, $end_color)
+{
+    return PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER >= 6 && PMA_USR_BROWSER_VER <= 8
+        ? 'filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr="' . $start_color . '", endColorstr="' . $end_color . '");'
+        : '';
+}
 ?>
 /******************************************************************************/
 /* general tags */
@@ -30,7 +37,7 @@ body {
     padding:            0;
     margin:             0.5em;
     color:              <?php echo $GLOBALS['cfg']['MainColor']; ?>;
-    background:         <?php echo (isset($_SESSION['tmp_user_values']['custom_color']) ? $_SESSION['tmp_user_values']['custom_color'] : $GLOBALS['cfg']['MainBackground']); ?>;
+    background:         <?php echo $GLOBALS['cfg']['MainBackground']; ?>;
 }
 
 <?php if (! empty($GLOBALS['cfg']['FontFamilyFixed'])) { ?>
@@ -1244,29 +1251,14 @@ li#li_user_preferences {
     float: <?php echo $left; ?>;
 }
 
-#div_table_order {
+.operations_half_width {
     min-width: 48%;
     float: <?php echo $left; ?>;
 }
 
-#div_table_rename {
-    min-width: 48%;
-    float: <?php echo $left; ?>;
-}
-
-#div_table_copy,
-#div_partition_maintenance,
-#div_referential_integrity,
-#div_table_removal,
-#div_table_maintenance {
-    min-width: 48%;
-    float: <?php echo $left; ?>;
-}
-
-#div_table_options {
+.operations_full_width {
+    width: 100%;
     clear: both;
-    min-width: 48%;
-    float: <?php echo $left; ?>;
 }
 
 #qbe_div_table_list {
@@ -1357,7 +1349,7 @@ div.upload_progress_bar_outer
 
 div.upload_progress_bar_inner
 {
-    background-color: <?php echo (isset($_SESSION['userconf']['custom_color']) ? $_SESSION['userconf']['custom_color'] : $GLOBALS['cfg']['NaviBackground']); ?>;
+    background-color: <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
     width: 0px;
     height: 12px;
     margin: 1px;
@@ -1439,9 +1431,12 @@ table#serverconnection_trg_local  {
     -moz-border-radius: 11px;
     -webkit-border-radius: 11px;
     border-radius: 11px;
+    background-image: url(./themes/svg_gradient.php?from=ffffff&to=cccccc);
+    background-size: 100% 100%;
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc');
+    background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    <?php echo PMA_ieFilter('#ffffff', '#cccccc'); ?>
     border: 1px solid #444444;
     cursor: pointer;
 }
