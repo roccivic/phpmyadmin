@@ -663,7 +663,7 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
     if ($exit) {
        /**
         * If in an Ajax request
-        * - avoid displaying a Back link 
+        * - avoid displaying a Back link
         * - use PMA_ajaxResponse() to transmit the message and exit
         */
        if($GLOBALS['is_ajax_request'] == true) {
@@ -706,11 +706,11 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
  * @uses    uksort()
  * @uses    strstr()
  * @uses    explode()
- * @param   string  $db     name of db
- * @param   string  $tables name of tables
- * @param   integer $limit_offset   list offset
- * @param   integer $limit_count    max tables to return
- * return   array   (recursive) grouped table list
+ * @param   string   $db     name of db
+ * @param   string   $tables name of tables
+ * @param   integer  $limit_offset   list offset
+ * @param   int|bool $limit_count    max tables to return
+ * @return  array    (recursive) grouped table list
  */
 function PMA_getTableList($db, $tables = null, $limit_offset = 0, $limit_count = false)
 {
@@ -1255,15 +1255,15 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice', $is_view
 
         // in the tools div, only display the Inline link when not in ajax
         // mode because 1) it currently does not work and 2) we would
-        // have two similar mechanisms on the page for the same goal       
+        // have two similar mechanisms on the page for the same goal
         if ($is_select || $GLOBALS['is_ajax_request'] === false) {
         // see in js/functions.js the jQuery code attached to id inline_edit
         // document.write conflicts with jQuery, hence used $().append()
             echo "<script type=\"text/javascript\">\n" .
                 "//<![CDATA[\n" .
-                "$('.tools form').after('[<a href=\"#\" title=\"" .
+                "$('.tools form').last().after('[<a href=\"#\" title=\"" .
                 PMA_escapeJsString(__('Inline edit of this query')) .
-                "\" id=\"inline_edit\">" .
+                "\" class=\"inline_edit_sql\">" .
                 PMA_escapeJsString(__('Inline')) .
                 "</a>]');\n" .
                 "//]]>\n" .
@@ -1674,7 +1674,7 @@ function PMA_generate_html_tab($tab, $url_params = array())
     }
 
     if (!empty($tab['warning'])) {
-        $tab['class'] .= ' warning';
+        $tab['class'] .= ' error';
         $tab['attr'] .= ' title="' . htmlspecialchars($tab['warning']) . '"';
     }
 
