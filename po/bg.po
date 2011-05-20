@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.1-dev\n"
+"Project-Id-Version: phpMyAdmin 3.4.1-rc1\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-05-16 10:31+0200\n"
 "PO-Revision-Date: 2011-03-22 12:51+0200\n"
@@ -96,15 +96,15 @@ msgstr "Използване тази стойност"
 #: bs_disp_as_mime_type.php:29 bs_play_media.php:35
 #: libraries/blobstreaming.lib.php:331
 msgid "No blob streaming server configured!"
-msgstr ""
+msgstr "Няма зададен BLOB поточен сървър!"
 
 #: bs_disp_as_mime_type.php:35
 msgid "Failed to fetch headers"
-msgstr ""
+msgstr "Зареждането на заглавките се провали"
 
 #: bs_disp_as_mime_type.php:41
 msgid "Failed to open remote URL"
-msgstr ""
+msgstr "Отваряенто на отдалечения адрес се провали"
 
 #: changelog.php:32 license.php:28
 #, php-format
@@ -345,6 +345,8 @@ msgid ""
 "The phpMyAdmin configuration storage has been deactivated. To find out why "
 "click %shere%s."
 msgstr ""
+"Хранилището за конфигурацията на phpMyAdmin е деактивирано. За да разберете "
+"защо натиснете %sтук%s."
 
 #: db_operations.php:600
 msgid "Edit or export relational schema"
@@ -612,7 +614,7 @@ msgstr "Проследяването е неактивно."
 msgid ""
 "This view has at least this number of rows. Please refer to %sdocumentation"
 "%s."
-msgstr ""
+msgstr "Този изглед има поне толкова реда. Погледнете %sдокументацията%s"
 
 #: db_structure.php:393 db_structure.php:407 libraries/header.inc.php:138
 #: libraries/tbl_info.inc.php:60 tbl_structure.php:206 test/theme.php:73
@@ -795,7 +797,7 @@ msgstr "Въведете всяка стойност в отделно поле.
 
 #: enum_editor.php:57
 msgid "+ Restart insertion and add a new value"
-msgstr ""
+msgstr "+ Рестартиране на вмъкването и добавяне нова стойност"
 
 #: enum_editor.php:67
 msgid "Output"
@@ -804,6 +806,7 @@ msgstr "Изход"
 #: enum_editor.php:68
 msgid "Copy and paste the joined values into the \"Length/Values\" field"
 msgstr ""
+"Копиране и поставяне на слепените стойности в полето \"Дължина/Стойности\""
 
 #: export.php:73
 msgid "Selected export type has to be saved in file!"
@@ -854,6 +857,8 @@ msgid ""
 "You attempted to load file with unsupported compression (%s). Either support "
 "for it is not implemented or disabled by your configuration."
 msgstr ""
+"Опитвате да заредите файл с неподдържана компресия (%s). Или поддръжката ѝ "
+"не е реализирана, или е изключена от конфигурацията."
 
 #: import.php:336
 msgid ""
@@ -861,6 +866,9 @@ msgid ""
 "file size exceeded the maximum size permitted by your PHP configuration. See "
 "[a@./Documentation.html#faq1_16@Documentation]FAQ 1.16[/a]."
 msgstr ""
+"Не бяха получени данни за импорт. Или не е изпратен файл, или файлът е бил "
+"по-голям от разрешеното в конфигурацията на PHP. Вижте [a@./Documentation."
+"html#faq1_16@Documentation]ЧЗВ 1.16[/a]."
 
 #: import.php:371 libraries/display_import.lib.php:23
 msgid "Could not load import plugins, please check your installation!"
@@ -891,6 +899,8 @@ msgid ""
 "Script timeout passed, if you want to finish import, please resubmit same "
 "file and import will resume."
 msgstr ""
+"Времето за изчакване на скрипта изтече. Ако искате да завършите импорта го "
+"пуснете отново и той ще си продължи."
 
 #: import.php:425
 msgid ""
@@ -961,7 +971,7 @@ msgstr "Операцията може да продължи дълго. Да п�
 
 #: js/messages.php:40
 msgid "You are about to DISABLE a BLOB Repository!"
-msgstr ""
+msgstr "На път сте да ИЗКЛЮЧИТЕ BLOB хранилището!"
 
 #: js/messages.php:41
 #, php-format
@@ -1432,7 +1442,7 @@ msgstr "Липсва временна папка."
 
 #: libraries/File.class.php:322
 msgid "Failed to write file to disk."
-msgstr ""
+msgstr "Запазването на файл на диска се провали."
 
 #: libraries/File.class.php:325
 msgid "File upload stopped by extension."
@@ -1447,6 +1457,8 @@ msgid ""
 "Error moving the uploaded file, see [a@./Documentation."
 "html#faq1_11@Documentation]FAQ 1.11[/a]"
 msgstr ""
+"Грешка при преместване на качения файл, вж. [a@./Documentation."
+"html#faq1_11@Documentation]ЧЗВ 1.11[/a]"
 
 #: libraries/Index.class.php:427 tbl_relation.php:526
 msgid "No index defined!"
@@ -2049,7 +2061,7 @@ msgstr "Скочи към база от данни &quot;%s&quot;."
 #: libraries/common.lib.php:2466
 #, php-format
 msgid "The %s functionality is affected by a known bug, see %s"
-msgstr ""
+msgstr "Функционалността %s се влияе от известен дефект, вж. %s"
 
 #: libraries/common.lib.php:2826 libraries/common.lib.php:2833
 #: libraries/common.lib.php:3018 libraries/config/setup.forms.php:291
@@ -2086,7 +2098,7 @@ msgstr "Операции"
 
 #: libraries/common.lib.php:2966
 msgid "Browse your computer:"
-msgstr ""
+msgstr "Разглеждане на компютъра:"
 
 #: libraries/common.lib.php:2979
 #, php-format
@@ -2100,15 +2112,15 @@ msgstr "Директорията която сте указали за upload н
 
 #: libraries/common.lib.php:2999
 msgid "There are no files to upload"
-msgstr ""
+msgstr "Няма файлве за качване"
 
 #: libraries/config.values.php:45 libraries/config.values.php:50
 msgid "Both"
-msgstr ""
+msgstr "И двете"
 
 #: libraries/config.values.php:74
 msgid "Open"
-msgstr ""
+msgstr "Отворен"
 
 #: libraries/config.values.php:74
 msgid "Closed"
@@ -2125,7 +2137,7 @@ msgstr "структура"
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
 #: libraries/export/sql.php:79 libraries/export/texytext.php:23
 msgid "data"
-msgstr ""
+msgstr "данни"
 
 #: libraries/config.values.php:97 libraries/export/htmlword.php:24
 #: libraries/export/latex.php:41 libraries/export/odt.php:33
@@ -2174,29 +2186,29 @@ msgstr ""
 #: libraries/config/FormDisplay.class.php:85
 #: libraries/config/validate.lib.php:409
 msgid "Not a valid port number"
-msgstr ""
+msgstr "Невалиден номер на порт"
 
 #: libraries/config/FormDisplay.class.php:86
 #: libraries/config/FormDisplay.class.php:574
 #: libraries/config/validate.lib.php:360 libraries/config/validate.lib.php:450
 msgid "Incorrect value"
-msgstr ""
+msgstr "Невалидна стойност"
 
 #: libraries/config/FormDisplay.class.php:87
 #: libraries/config/validate.lib.php:464
 #, php-format
 msgid "Value must be equal or lower than %s"
-msgstr ""
+msgstr "Стойността трябва да е по-малка или равна на %s"
 
 #: libraries/config/FormDisplay.class.php:538
 #, php-format
 msgid "Missing data for %s"
-msgstr ""
+msgstr "Липсващи данни за %s"
 
 #: libraries/config/FormDisplay.class.php:736
 #: libraries/config/FormDisplay.class.php:740
 msgid "unavailable"
-msgstr ""
+msgstr "недостъпно"
 
 #: libraries/config/FormDisplay.class.php:737
 #: libraries/config/FormDisplay.class.php:741
@@ -2207,16 +2219,16 @@ msgstr "\"%s\" изисква разширението %s"
 #: libraries/config/FormDisplay.class.php:755
 #, php-format
 msgid "import will not work, missing function (%s)"
-msgstr ""
+msgstr "импортът не работи, липсваща функционалност (%s)"
 
 #: libraries/config/FormDisplay.class.php:759
 #, php-format
 msgid "export will not work, missing function (%s)"
-msgstr ""
+msgstr "експортът не работи, липсваща функционалност (%s)"
 
 #: libraries/config/FormDisplay.class.php:766
 msgid "SQL Validator is disabled"
-msgstr ""
+msgstr "SQL валидаторът е изключен"
 
 #: libraries/config/FormDisplay.class.php:773
 msgid "SOAP extension not found"
@@ -2225,7 +2237,7 @@ msgstr "Разширението SOAP не е намерено"
 #: libraries/config/FormDisplay.class.php:781
 #, php-format
 msgid "maximum %s"
-msgstr ""
+msgstr "най-много %s"
 
 #: libraries/config/FormDisplay.tpl.php:173
 msgid "This setting is disabled, it will not be applied to your configuration"
@@ -2239,7 +2251,7 @@ msgstr "Забранено"
 #: libraries/config/FormDisplay.tpl.php:248
 #, php-format
 msgid "Set value: %s"
-msgstr ""
+msgstr "Стойност: %s"
 
 #: libraries/config/FormDisplay.tpl.php:253
 #: libraries/config/messages.inc.php:350
@@ -2304,7 +2316,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:27
 msgid "Row marker"
-msgstr ""
+msgstr "Маркер на ред"
 
 #: libraries/config/messages.inc.php:28
 msgid "Highlight row pointed by the mouse cursor"
@@ -2322,7 +2334,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:31
 msgid "Bzip2"
-msgstr ""
+msgstr "Bzip2"
 
 #: libraries/config/messages.inc.php:32
 msgid ""
@@ -2368,7 +2380,7 @@ msgstr ""
 #: libraries/config/messages.inc.php:41 setup/frames/config.inc.php:25
 #: setup/frames/index.inc.php:153
 msgid "Configuration file"
-msgstr ""
+msgstr "Конфигурационен файл"
 
 #: libraries/config/messages.inc.php:42
 msgid ""
@@ -2378,15 +2390,15 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:43
 msgid "Confirm DROP queries"
-msgstr ""
+msgstr "Потвърждаване DROP заявки"
 
 #: libraries/config/messages.inc.php:44
 msgid "Debug SQL"
-msgstr ""
+msgstr "Трасиране SQL"
 
 #: libraries/config/messages.inc.php:45
 msgid "Default display direction"
-msgstr ""
+msgstr "Ориентация по подразбиране"
 
 #: libraries/config/messages.inc.php:46
 msgid ""
@@ -2714,11 +2726,11 @@ msgstr "CSV данни"
 
 #: libraries/config/messages.inc.php:157
 msgid "Developer"
-msgstr ""
+msgstr "Разработчик"
 
 #: libraries/config/messages.inc.php:158
 msgid "Settings for phpMyAdmin developers"
-msgstr ""
+msgstr "Настройки за разработчици на phpMyAdmin"
 
 #: libraries/config/messages.inc.php:159
 msgid "Edit mode"
@@ -2739,11 +2751,11 @@ msgstr ""
 #: libraries/config/messages.inc.php:164 libraries/config/messages.inc.php:206
 #: setup/frames/menu.inc.php:16
 msgid "Features"
-msgstr ""
+msgstr "Свойства"
 
 #: libraries/config/messages.inc.php:165
 msgid "General"
-msgstr ""
+msgstr "Общи"
 
 #: libraries/config/messages.inc.php:166
 msgid "Set some commonly used options"
@@ -2765,7 +2777,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:170
 msgid "Import / export"
-msgstr ""
+msgstr "Импорт / експорт"
 
 #: libraries/config/messages.inc.php:171
 msgid "Set import and export directories and compression options"
@@ -2781,7 +2793,7 @@ msgstr "Опции за показване на база данни"
 
 #: libraries/config/messages.inc.php:176 setup/frames/menu.inc.php:18
 msgid "Navigation frame"
-msgstr ""
+msgstr "Управляваща рамка"
 
 #: libraries/config/messages.inc.php:177
 msgid "Customize appearance of the navigation frame"
@@ -2794,19 +2806,19 @@ msgstr "Сървъри"
 
 #: libraries/config/messages.inc.php:179
 msgid "Servers display options"
-msgstr ""
+msgstr "Настройки показване сървъри"
 
 #: libraries/config/messages.inc.php:181
 msgid "Tables display options"
-msgstr ""
+msgstr "Настройки показване таблици"
 
 #: libraries/config/messages.inc.php:182 setup/frames/menu.inc.php:19
 msgid "Main frame"
-msgstr ""
+msgstr "Главна рамка"
 
 #: libraries/config/messages.inc.php:183
 msgid "Microsoft Office"
-msgstr ""
+msgstr "Microsoft Office"
 
 #: libraries/config/messages.inc.php:185
 msgid "Open Document"
@@ -2814,15 +2826,15 @@ msgstr "Отваряне на документ"
 
 #: libraries/config/messages.inc.php:187
 msgid "Other core settings"
-msgstr ""
+msgstr "Други основни настройки"
 
 #: libraries/config/messages.inc.php:188
 msgid "Settings that didn't fit enywhere else"
-msgstr ""
+msgstr "Настройки, които не са за другаде"
 
 #: libraries/config/messages.inc.php:189
 msgid "Page titles"
-msgstr ""
+msgstr "Заглавия на страниците"
 
 #: libraries/config/messages.inc.php:190
 msgid ""
@@ -2844,7 +2856,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:193
 msgid "Security"
-msgstr ""
+msgstr "Сигурност"
 
 #: libraries/config/messages.inc.php:194
 msgid ""
@@ -2854,7 +2866,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:195
 msgid "Basic settings"
-msgstr ""
+msgstr "Основни настройки"
 
 #: libraries/config/messages.inc.php:196
 msgid "Authentication"
@@ -2866,7 +2878,7 @@ msgstr "Настройки по удостоверяване"
 
 #: libraries/config/messages.inc.php:198
 msgid "Server configuration"
-msgstr ""
+msgstr "Сървърна конфигурация"
 
 #: libraries/config/messages.inc.php:199
 msgid ""
@@ -2876,11 +2888,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:200
 msgid "Enter server connection parameters"
-msgstr ""
+msgstr "Параметри за връзка със сървъра"
 
 #: libraries/config/messages.inc.php:201
 msgid "Configuration storage"
-msgstr ""
+msgstr "Хранилище за конфигурацията"
 
 #: libraries/config/messages.inc.php:202
 msgid ""
@@ -2891,7 +2903,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:203
 msgid "Changes tracking"
-msgstr ""
+msgstr "Следене за промени"
 
 #: libraries/config/messages.inc.php:204
 msgid ""
@@ -4147,7 +4159,7 @@ msgstr ""
 #: libraries/config/user_preferences.forms.php:258 libraries/export/ods.php:17
 #: libraries/import/ods.php:22
 msgid "Open Document Spreadsheet"
-msgstr ""
+msgstr "Open Document Spreadsheet"
 
 #: libraries/config/setup.forms.php:262
 #: libraries/config/user_preferences.forms.php:165
@@ -4179,7 +4191,7 @@ msgstr ""
 #: libraries/config/setup.forms.php:360
 #: libraries/config/user_preferences.forms.php:262 libraries/export/odt.php:21
 msgid "Open Document Text"
-msgstr ""
+msgstr "Open Document Text"
 
 #: libraries/config/validate.lib.php:202 libraries/config/validate.lib.php:209
 msgid "Could not connect to MySQL server"
@@ -6114,16 +6126,16 @@ msgstr "Търсене в базата от данни"
 #: libraries/server_synchronize.lib.php:1339
 #: libraries/server_synchronize.lib.php:1362
 msgid "Current server"
-msgstr ""
+msgstr "Текущ сървър"
 
 #: libraries/server_synchronize.lib.php:1341
 #: libraries/server_synchronize.lib.php:1364
 msgid "Remote server"
-msgstr ""
+msgstr "Отдалечен сървър"
 
 #: libraries/server_synchronize.lib.php:1344
 msgid "Difference"
-msgstr ""
+msgstr "Различия"
 
 #: libraries/server_synchronize.lib.php:1360 server_synchronize.php:1117
 #, fuzzy
@@ -6561,7 +6573,7 @@ msgstr "Колация на MySQL"
 
 #: main.php:119
 msgid "Appearance Settings"
-msgstr ""
+msgstr "Визуални настройки"
 
 #: main.php:146 prefs_manage.php:274
 #, fuzzy
@@ -6585,7 +6597,7 @@ msgstr "Набор от знаци на MySQL"
 
 #: main.php:181
 msgid "Web server"
-msgstr ""
+msgstr "Web сървър"
 
 #: main.php:187
 msgid "MySQL client version"
@@ -8185,7 +8197,7 @@ msgstr ""
 
 #: server_status.php:138
 msgid "The number of temporary tables currently open by the slave SQL thread."
-msgstr ""
+msgstr "Брой временни таблици отворени от подчинена SQL нишка."
 
 #: server_status.php:139
 msgid ""
@@ -8248,7 +8260,7 @@ msgstr ""
 
 #: server_status.php:150
 msgid "The number of currently open connections."
-msgstr ""
+msgstr "Брой текущо отворени връзки."
 
 #: server_status.php:151
 msgid ""
@@ -8566,7 +8578,7 @@ msgstr "Глобална стойност"
 
 #: setup/frames/config.inc.php:38 setup/frames/index.inc.php:213
 msgid "Download"
-msgstr ""
+msgstr "Изтегляне"
 
 #: setup/frames/index.inc.php:49
 msgid "Cannot load or save configuration"
@@ -8610,31 +8622,31 @@ msgstr ""
 
 #: setup/frames/index.inc.php:144
 msgid "New server"
-msgstr ""
+msgstr "Нов сървър"
 
 #: setup/frames/index.inc.php:173
 msgid "Default language"
-msgstr ""
+msgstr "Език по подразбиране"
 
 #: setup/frames/index.inc.php:183
 msgid "let the user choose"
-msgstr ""
+msgstr "нека потребитлят избере"
 
 #: setup/frames/index.inc.php:194
 msgid "- none -"
-msgstr ""
+msgstr "- никой -"
 
 #: setup/frames/index.inc.php:197
 msgid "Default server"
-msgstr ""
+msgstr "Сървър по подразбиране"
 
 #: setup/frames/index.inc.php:207
 msgid "End of line"
-msgstr ""
+msgstr "Край на ред"
 
 #: setup/frames/index.inc.php:212
 msgid "Display"
-msgstr ""
+msgstr "Показване"
 
 #: setup/frames/index.inc.php:216
 msgid "Load"
@@ -8647,11 +8659,11 @@ msgstr "phpMyAdmin документация"
 
 #: setup/frames/index.inc.php:228
 msgid "Donate"
-msgstr ""
+msgstr "Дарение"
 
 #: setup/frames/servers.inc.php:28
 msgid "Edit server"
-msgstr ""
+msgstr "Редакция сървър"
 
 #: setup/frames/servers.inc.php:37
 msgid "Add a new server"
@@ -8659,7 +8671,7 @@ msgstr "Добавяне на нов сървър"
 
 #: setup/lib/form_processing.lib.php:42
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: setup/lib/form_processing.lib.php:43
 msgid "Submitted form contains errors"
@@ -8671,7 +8683,7 @@ msgstr ""
 
 #: setup/lib/form_processing.lib.php:47
 msgid "Ignore errors"
-msgstr ""
+msgstr "Пренебрегване на грешките"
 
 #: setup/lib/form_processing.lib.php:49
 #, fuzzy
@@ -8706,7 +8718,7 @@ msgstr ""
 
 #: setup/lib/index.lib.php:165
 msgid "No newer stable version is available"
-msgstr ""
+msgstr "Няма по-нова стабилна версия"
 
 #: setup/lib/index.lib.php:250
 #, php-format
@@ -8795,34 +8807,34 @@ msgstr ""
 msgid ""
 "%sZip compression%s requires functions (%s) which are unavailable on this "
 "system."
-msgstr ""
+msgstr "%sZip архивиране%s изизква функцията (%s), която не е налична."
 
 #: setup/lib/index.lib.php:272
 #, php-format
 msgid ""
 "%sZip decompression%s requires functions (%s) which are unavailable on this "
 "system."
-msgstr ""
+msgstr "%sZip разархивиране%s изизква функцията (%s), която не е налична."
 
 #: setup/lib/index.lib.php:296
 msgid "You should use SSL connections if your web server supports it."
-msgstr ""
+msgstr "Използвайте SSL ако браузърът ви го поддържа."
 
 #: setup/lib/index.lib.php:306
 msgid "You should use mysqli for performance reasons."
-msgstr ""
+msgstr "По причини свързани с производителността използвайте mysqli."
 
 #: setup/lib/index.lib.php:331
 msgid "You allow for connecting to the server without a password."
-msgstr ""
+msgstr "Позволено е свързването към сървъра без парола."
 
 #: setup/lib/index.lib.php:351
 msgid "Key is too short, it should have at least 8 characters."
-msgstr ""
+msgstr "Ключът е твърде къс, трябва да бъде поне 8 знака."
 
 #: setup/lib/index.lib.php:358
 msgid "Key should contain letters, numbers [em]and[/em] special characters."
-msgstr ""
+msgstr "Ключът трябва да съдържа букви, цифри [em]и[/em] специални знаци."
 
 #: sql.php:87 tbl_change.php:253 tbl_select.php:26 tbl_select.php:27
 #: tbl_select.php:30 tbl_select.php:33
@@ -8865,7 +8877,7 @@ msgstr "Етикет"
 #: tbl_addfield.php:185 tbl_alter.php:99 tbl_indexes.php:97
 #, php-format
 msgid "Table %1$s has been altered successfully"
-msgstr ""
+msgstr "Таблицата %1$s беше променена"
 
 #: tbl_change.php:283 tbl_change.php:321
 msgid "Function"
@@ -8899,7 +8911,7 @@ msgstr ""
 
 #: tbl_change.php:1060
 msgid "Show insert query"
-msgstr ""
+msgstr "Показване заявка за вмъкване"
 
 #: tbl_change.php:1071
 msgid "and then"
@@ -8947,31 +8959,31 @@ msgstr ""
 
 #: tbl_chart.php:90
 msgid "Width"
-msgstr ""
+msgstr "Ширина"
 
 #: tbl_chart.php:94
 msgid "Height"
-msgstr ""
+msgstr "Височина"
 
 #: tbl_chart.php:98
 msgid "Title"
-msgstr ""
+msgstr "Заглавие"
 
 #: tbl_chart.php:103
 msgid "X Axis label"
-msgstr ""
+msgstr "Етикет на X оста"
 
 #: tbl_chart.php:107
 msgid "Y Axis label"
-msgstr ""
+msgstr "Етикет на Y оста"
 
 #: tbl_chart.php:112
 msgid "Area margins"
-msgstr ""
+msgstr "Граници на диаграмата"
 
 #: tbl_chart.php:122
 msgid "Legend margins"
-msgstr ""
+msgstr "Граници на легендата"
 
 #: tbl_chart.php:134
 msgid "Bar"
@@ -8979,11 +8991,11 @@ msgstr "Колони"
 
 #: tbl_chart.php:135
 msgid "Line"
-msgstr ""
+msgstr "Линия"
 
 #: tbl_chart.php:136
 msgid "Radar"
-msgstr ""
+msgstr "Радар"
 
 #: tbl_chart.php:138
 #, fuzzy
@@ -9179,7 +9191,7 @@ msgstr ""
 
 #: tbl_operations.php:740
 msgid "Analyze"
-msgstr ""
+msgstr "Анализиране"
 
 #: tbl_operations.php:741
 #, fuzzy
@@ -9188,7 +9200,7 @@ msgstr "Чешки"
 
 #: tbl_operations.php:742
 msgid "Optimize"
-msgstr ""
+msgstr "Оптимизиране"
 
 #: tbl_operations.php:743
 msgid "Rebuild"
@@ -9297,19 +9309,19 @@ msgstr "Преглеждане на уникалните стойности"
 
 #: tbl_structure.php:166 tbl_structure.php:167
 msgid "Add primary key"
-msgstr ""
+msgstr "Добавяне на първичен ключ"
 
 #: tbl_structure.php:168 tbl_structure.php:169
 msgid "Add index"
-msgstr ""
+msgstr "Добавяне на индекс"
 
 #: tbl_structure.php:170 tbl_structure.php:171
 msgid "Add unique index"
-msgstr ""
+msgstr "Добавяне на уникален ключ"
 
 #: tbl_structure.php:172 tbl_structure.php:173
 msgid "Add FULLTEXT index"
-msgstr ""
+msgstr "Добавяне на пълнотекстов индекс"
 
 #: tbl_structure.php:385
 msgctxt "None for default"
@@ -9452,12 +9464,12 @@ msgstr ""
 
 #: tbl_tracking.php:503
 msgid "SQL execution"
-msgstr ""
+msgstr "Изпълняване на SQL"
 
 #: tbl_tracking.php:515
 #, php-format
 msgid "Export as %s"
-msgstr ""
+msgstr "Експорт като %s"
 
 #: tbl_tracking.php:555
 msgid "Show versions"
@@ -9474,7 +9486,7 @@ msgstr ""
 
 #: tbl_tracking.php:637
 msgid "Deactivate now"
-msgstr ""
+msgstr "Деактивиране сега"
 
 #: tbl_tracking.php:648
 #, php-format
@@ -9483,12 +9495,12 @@ msgstr ""
 
 #: tbl_tracking.php:650
 msgid "Activate now"
-msgstr ""
+msgstr "Активиране сега"
 
 #: tbl_tracking.php:663
 #, php-format
 msgid "Create version %s of %s.%s"
-msgstr ""
+msgstr "Създаване на версия %s от %s.%s"
 
 #: tbl_tracking.php:667
 msgid "Track these data definition statements:"
