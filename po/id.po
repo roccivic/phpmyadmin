@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.2-rc1\n"
+"Project-Id-Version: phpMyAdmin 3.4.3-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-06-02 08:31+0200\n"
 "PO-Revision-Date: 2011-04-16 22:04+0200\n"
@@ -1488,7 +1488,7 @@ msgstr "Unik"
 
 #: libraries/Index.class.php:444 tbl_tracking.php:317
 msgid "Packed"
-msgstr ""
+msgstr "Dipadatkan"
 
 #: libraries/Index.class.php:446 tbl_tracking.php:319
 msgid "Cardinality"
@@ -1776,7 +1776,7 @@ msgstr "Tidak bisa membuka arsip: %s"
 
 #: libraries/bookmark.lib.php:83
 msgid "shared"
-msgstr ""
+msgstr "dibagi"
 
 #: libraries/build_html_for_db.lib.php:25
 #: libraries/config/messages.inc.php:181 libraries/export/xml.php:36
@@ -2285,7 +2285,7 @@ msgstr "Reset"
 
 #: libraries/config/messages.inc.php:17
 msgid "Improves efficiency of screen refresh"
-msgstr ""
+msgstr "Meningkatkan efisiensi  refresh layar"
 
 #: libraries/config/messages.inc.php:18
 msgid "Enable Ajax"
@@ -2308,10 +2308,13 @@ msgid ""
 "inside a frame, and is a potential [strong]security hole[/strong] allowing "
 "cross-frame scripting attacks"
 msgstr ""
+"Mengaktifkan ini memungkinkan halaman yang terletak pada domain yang berbeda "
+"untuk memanggil phpMyAdmin di dalam frame, dan merupakan [strong]lubang "
+"keamanan[/strong] potensial yang memungkinkan serangan scripting lintas-frame"
 
 #: libraries/config/messages.inc.php:22
 msgid "Allow third party framing"
-msgstr ""
+msgstr "Ijinkan pembingkaian pihak ketiga"
 
 #: libraries/config/messages.inc.php:23
 msgid "Show &quot;Drop database&quot; link to normal users"
@@ -9802,11 +9805,11 @@ msgstr ""
 
 #: tbl_tracking.php:503
 msgid "This option will replace your table and contained data."
-msgstr ""
+msgstr "Pilihan ini akan mengganti table dan data isi table"
 
 #: tbl_tracking.php:503
 msgid "SQL execution"
-msgstr ""
+msgstr "Menjalankan SQL"
 
 #: tbl_tracking.php:515
 #, php-format
@@ -9815,7 +9818,7 @@ msgstr "Ekspor sebagai %s"
 
 #: tbl_tracking.php:555
 msgid "Show versions"
-msgstr ""
+msgstr "Tunjukkan Versi"
 
 #: tbl_tracking.php:587
 msgid "Version"
@@ -9867,7 +9870,7 @@ msgstr ""
 
 #: themes.php:41
 msgid "Get more themes!"
-msgstr ""
+msgstr "Dapatkan tema lainnya"
 
 #: transformation_overview.php:24
 msgid "Available MIME types"

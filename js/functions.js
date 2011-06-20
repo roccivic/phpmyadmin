@@ -1116,7 +1116,7 @@ function changeMIMEType(db, table, reference, mime_type)
  * Jquery Coding for inline editing SQL_QUERY
  */
 $(document).ready(function(){
-    $(".inline_edit_sql").click( function(){
+    $(".inline_edit_sql").live('click', function(){
         var db         = $(this).prev().find("input[name='db']").val();
         var table      = $(this).prev().find("input[name='table']").val();
         var token      = $(this).prev().find("input[name='token']").val();
@@ -1131,7 +1131,12 @@ $(document).ready(function(){
         $(".btnSave").each(function(){
             $(this).click(function(){
                 sql_query = $(this).prev().val();
-                window.location.replace("import.php?db=" + db +"&table=" + table + "&sql_query=" + sql_query + "&show_query=1&token=" + token);
+                window.location.replace("import.php"
+                                      + "?db=" + encodeURIComponent(db)
+                                      + "&table=" + encodeURIComponent(table)
+                                      + "&sql_query=" + encodeURIComponent(sql_query)
+                                      + "&show_query=1"
+                                      + "&token=" + token);
             });
         });
         $(".btnDiscard").each(function(){
@@ -1988,7 +1993,7 @@ $(document).ready(function() {
         $(this).qtip({
             content: tooltip_text,
             show: { delay: 0 },
-            hide: { when: 'unfocus', delay: 0 },
+            hide: { delay: 1000 },
             style: { background: '#ffffcc' }
         });
     });

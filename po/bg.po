@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.2-rc1\n"
+"Project-Id-Version: phpMyAdmin 3.4.3-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-06-02 08:31+0200\n"
 "PO-Revision-Date: 2011-03-22 12:51+0200\n"
@@ -1597,7 +1597,7 @@ msgstr "Прегледът не е достъпен."
 
 #: libraries/Theme.class.php:383
 msgid "take it"
-msgstr ""
+msgstr "взимам я"
 
 #: libraries/Theme_Manager.class.php:109
 #, php-format
@@ -1636,6 +1636,8 @@ msgid ""
 "You probably did not create a configuration file. You might want to use the "
 "%1$ssetup script%2$s to create one."
 msgstr ""
+"Изглежда не се създали конфигурационен файл. Вероятно ще искате да "
+"използвате %1$sскрипта за настройки%2$s, за да го създадете"
 
 #: libraries/auth/config.auth.lib.php:115
 msgid ""
@@ -2704,11 +2706,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:152
 msgid "Browse mode"
-msgstr ""
+msgstr "Преглеждане"
 
 #: libraries/config/messages.inc.php:153
 msgid "Customize browse mode"
-msgstr ""
+msgstr "Персонализиране на преглеждането"
 
 #: libraries/config/messages.inc.php:155 libraries/config/messages.inc.php:157
 #: libraries/config/messages.inc.php:174 libraries/config/messages.inc.php:185
@@ -2735,11 +2737,11 @@ msgstr "Настройки за разработчици на phpMyAdmin"
 
 #: libraries/config/messages.inc.php:160
 msgid "Edit mode"
-msgstr ""
+msgstr "Редактиране"
 
 #: libraries/config/messages.inc.php:161
 msgid "Customize edit mode"
-msgstr ""
+msgstr "Персонализиране на редактирането"
 
 #: libraries/config/messages.inc.php:163
 msgid "Export defaults"
@@ -2760,7 +2762,7 @@ msgstr "Общи"
 
 #: libraries/config/messages.inc.php:167
 msgid "Set some commonly used options"
-msgstr ""
+msgstr "Настройки на някои често използвани опции"
 
 #: libraries/config/messages.inc.php:168 libraries/db_links.inc.php:83
 #: libraries/server_links.inc.php:73 libraries/tbl_links.inc.php:82
@@ -2843,6 +2845,9 @@ msgid ""
 "html#cfg_TitleTable]documentation[/a] for magic strings that can be used to "
 "get special values."
 msgstr ""
+"Настройте заглавието в браузъра. Прочетете [a@Documentation."
+"html#cfg_TitleTable]документацията[/a] за магическите низове и техните "
+"стойности."
 
 #: libraries/config/messages.inc.php:192
 #: libraries/navigation_header.inc.php:83
@@ -2939,11 +2944,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:214
 msgid "Customize links shown in SQL Query boxes"
-msgstr ""
+msgstr "Персонализиране на връзките показвани след изпълнение на заявка"
 
 #: libraries/config/messages.inc.php:217
 msgid "SQL queries settings"
-msgstr ""
+msgstr "Настройки на SQL заявките"
 
 #: libraries/config/messages.inc.php:218
 msgid "SQL Validator"
@@ -2979,7 +2984,7 @@ msgstr "Текстови полета"
 
 #: libraries/config/messages.inc.php:225
 msgid "Customize text input fields"
-msgstr ""
+msgstr "Персонализиране на текстовите полета"
 
 #: libraries/config/messages.inc.php:226 libraries/export/texytext.php:17
 msgid "Texy! text"
@@ -2991,7 +2996,7 @@ msgstr "Предупреждения"
 
 #: libraries/config/messages.inc.php:229
 msgid "Disable some of the warnings shown by phpMyAdmin"
-msgstr ""
+msgstr "Скрива някои от предупрежденията, показвани от phpMyAdmin"
 
 #: libraries/config/messages.inc.php:230
 msgid ""
@@ -3241,11 +3246,11 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:298
 msgid "Double size of textarea for LONGTEXT columns"
-msgstr ""
+msgstr "Двойни текстови полета за колони тип LONGTEXT"
 
 #: libraries/config/messages.inc.php:299
 msgid "Bigger textarea for LONGTEXT"
-msgstr ""
+msgstr "По-голямо текстово поле за LONGTEXT"
 
 #: libraries/config/messages.inc.php:300
 msgid "Use icons on main page"
@@ -3907,7 +3912,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:452
 msgid "Show SQL queries"
-msgstr ""
+msgstr "Показване на SQL заявките"
 
 #: libraries/config/messages.inc.php:453
 msgid "Allow to display database and table statistics (eg. space usage)"
@@ -4013,7 +4018,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:478
 msgid "Textarea columns"
-msgstr ""
+msgstr "Колони в текство поле"
 
 #: libraries/config/messages.inc.php:479
 msgid ""
@@ -4023,7 +4028,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:480
 msgid "Textarea rows"
-msgstr ""
+msgstr "Реда в текстово поле"
 
 #: libraries/config/messages.inc.php:481
 msgid "Title of browser window when a database is selected"
@@ -4100,7 +4105,7 @@ msgstr ""
 
 #: libraries/config/messages.inc.php:500
 msgid "Enables check for latest version on main phpMyAdmin page"
-msgstr ""
+msgstr "Позволява проверка за обновления на страницата на phpMyAdmin."
 
 #: libraries/config/messages.inc.php:501 setup/lib/index.lib.php:118
 #: setup/lib/index.lib.php:125 setup/lib/index.lib.php:142
@@ -4108,7 +4113,7 @@ msgstr ""
 #: setup/lib/index.lib.php:161 setup/lib/index.lib.php:164
 #: setup/lib/index.lib.php:200
 msgid "Version check"
-msgstr ""
+msgstr "Проверка за обновления"
 
 #: libraries/config/messages.inc.php:502
 msgid ""
@@ -6542,6 +6547,8 @@ msgid ""
 "Your preferences will be saved for current session only. Storing them "
 "permanently requires %sphpMyAdmin configuration storage%s."
 msgstr ""
+"Вашите настройки ще бъдат пазени само за текущата сесия. За да ги използвате "
+"постоянно е необходимо %sконфигурационно хранилище%s."
 
 #: libraries/user_preferences.lib.php:142
 msgid "Could not save configuration"
@@ -6980,11 +6987,11 @@ msgstr "Импортиране на файлове"
 
 #: prefs_manage.php:245
 msgid "Import from browser's storage"
-msgstr ""
+msgstr "Импорт от хранилището на браузъра"
 
 #: prefs_manage.php:248
 msgid "Settings will be imported from your browser's local storage."
-msgstr ""
+msgstr "Настройки ще бъдат импортирани от локалното хранилище на браузъра."
 
 #: prefs_manage.php:254
 msgid "You have no saved settings!"
@@ -6996,7 +7003,7 @@ msgstr "Тази функционалност не се поддържа от в
 
 #: prefs_manage.php:263
 msgid "Merge with current configuration"
-msgstr ""
+msgstr "Сливане с текущите настройки"
 
 #: prefs_manage.php:277
 #, php-format
@@ -7004,10 +7011,12 @@ msgid ""
 "You can set more settings by modifying config.inc.php, eg. by using %sSetup "
 "script%s."
 msgstr ""
+"Имате достъп до още настройки, модифицирайки config.inc.php, примерно чрез "
+"%sскрипта за настройки%s."
 
 #: prefs_manage.php:302
 msgid "Save to browser's storage"
-msgstr ""
+msgstr "Запис в хранилището на браузъра"
 
 #: prefs_manage.php:306
 msgid "Settings will be saved in your browser's local storage."
@@ -7015,11 +7024,12 @@ msgstr ""
 
 #: prefs_manage.php:308
 msgid "Existing settings will be overwritten!"
-msgstr ""
+msgstr "Съществуващи настройки ще бъдат презаписани!"
 
 #: prefs_manage.php:323
 msgid "You can reset all your settings and restore them to default values."
 msgstr ""
+"Може да изчистите настройките си до техните стойностите по подразбиране."
 
 #: querywindow.php:93
 msgid "Import files"
@@ -8564,6 +8574,8 @@ msgid ""
 "Target database will be completely synchronized with source database. Source "
 "database will remain unchanged."
 msgstr ""
+"Целевата БД ще бъде напълно синхронизирана с изходната. Изходната БД ще "
+"остане непроменена."
 
 #: server_variables.php:39
 msgid "Server variables and settings"

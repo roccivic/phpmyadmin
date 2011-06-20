@@ -678,8 +678,10 @@ $(document).ready(function() {
             // and store the current value in a hidden span
             if($this_field.is(':not(.truncated, .transformed, .relation, .enum, .set, .null)')) {
                 // handle non-truncated, non-transformed, non-relation values
+
+                value = data_value.replace("<br>", "\n");
                 // We don't need to get any more data, just wrap the value
-                $this_field.append('<textarea>'+data_value+'</textarea>');
+                $this_field.append('<textarea>' + value + '</textarea>');
                 $this_field.data('original_data', data_value);
             }
             else if($this_field.is('.truncated, .transformed')) {
@@ -888,16 +890,20 @@ $(document).ready(function() {
              */
             var is_null = $this_field.find('input:checkbox').is(':checked');
             var value;
+            var addQuotes = true;
 
             if (is_null) {
                 sql_query += ' `' + field_name + "`=NULL , ";
                 need_to_post = true;
             } else {
-                if($this_field.is(":not(.relation, .enum, .set)")) {
+                if($this_field.is(":not(.relation, .enum, .set, .bit)")) {
                     this_field_params[field_name] = $this_field.find('textarea').val();
                     if($this_field.is('.transformed')) {
                         $.extend(transform_fields, this_field_params);
                     }
+                } else if ($this_field.is('.bit')) {
+                    this_field_params[field_name] = '0b' + $this_field.find('textarea').val();
+                    addQuotes = false;
                 } else if ($this_field.is('.set')) {
                     $test_element = $this_field.find('select');
                     this_field_params[field_name] = $test_element.map(function(){
@@ -924,7 +930,11 @@ $(document).ready(function() {
                         new_clause += '`' + window.parent.table + '`.' + '`' + field_name + "` = '" + this_field_params[field_name].replace(/'/g,"''") + "'" + ' AND ';
                     }
                 if (this_field_params[field_name] != $this_field.data('original_data')) {
-                    sql_query += ' `' + field_name + "`='" + this_field_params[field_name].replace(/'/g, "''") + "' , ";
+                    if (addQuotes == true) {
+                        sql_query += ' `' + field_name + "`='" + this_field_params[field_name].replace(/'/g, "''") + "', ";
+                    } else {
+                        sql_query += ' `' + field_name + "`=" + this_field_params[field_name].replace(/'/g, "''") + ", ";
+                    }
                     need_to_post = true;
                 }
             }
@@ -936,9 +946,14 @@ $(document).ready(function() {
 
         //Remove the last ',' appended in the above loop
         sql_query = sql_query.replace(/,\s$/, '');
+        //Fix non-escaped backslashes
+        sql_query = sql_query.replace(/\\/g, '\\\\');
         new_clause = new_clause.substring(0, new_clause.length-5);
         new_clause = PMA_urlencode(new_clause);
         sql_query += ' WHERE ' + PMA_urldecode(where_clause);
+        // Avoid updating more than one row in case there is no primary key
+        // (happened only for duplicate rows)
+        sql_query += ' LIMIT 1';
         /**
          * @var rel_fields_list  String, url encoded representation of {@link relations_fields}
          */
@@ -1132,14 +1147,14 @@ $(document).ready(function() {
     /**
      * vertical column highlighting in horizontal mode when hovering over the column header
      */
-    $('.column_heading').live('hover', function() {
+    $('.column_heading.pointer').live('hover', function() {
         PMA_changeClassForColumn($(this), 'hover');
         });
 
     /**
      * vertical column marking in horizontal mode when clicking the column header
      */
-    $('.column_heading').live('click', function() {
+    $('.column_heading.marker').live('click', function() {
         PMA_changeClassForColumn($(this), 'marked');
         });
 })

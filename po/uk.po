@@ -1,7 +1,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phpMyAdmin 3.4.2-rc1\n"
+"Project-Id-Version: phpMyAdmin 3.4.3-dev\n"
 "Report-Msgid-Bugs-To: phpmyadmin-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-06-02 08:31+0200\n"
 "PO-Revision-Date: 2010-12-28 22:26+0200\n"
@@ -113,6 +113,8 @@ msgid ""
 "The %s file is not available on this system, please visit www.phpmyadmin.net "
 "for more information."
 msgstr ""
+"файл %s недоступний на сервері, будь ласка завітайте на www.phpmyadmin.net "
+"за додатковою інформацією."
 
 #: db_create.php:58
 #, php-format
@@ -417,7 +419,7 @@ msgstr "Переключитись на"
 
 #: db_qbe.php:186
 msgid "visual builder"
-msgstr ""
+msgstr "Візуальний конструктор"
 
 #: db_qbe.php:222 libraries/db_structure.lib.php:95
 #: libraries/display_tbl.lib.php:858
@@ -596,7 +598,7 @@ msgstr "Таблицю %s було очищено"
 #: db_structure.php:286 tbl_operations.php:701
 #, php-format
 msgid "View %s has been dropped"
-msgstr ""
+msgstr "Вигляд %s знищено"
 
 #: db_structure.php:286 tbl_operations.php:701
 #, php-format
