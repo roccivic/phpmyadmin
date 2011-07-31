@@ -15,9 +15,7 @@ function toggle(id, only_open)
     if (! el) {
         return false;
     }
-
     var img = document.getElementById('el' + id + 'Img');
-
     if (el.style.display == 'none' || only_open) {
         el.style.display = '';
         if (img) {
@@ -324,18 +322,21 @@ function clear_fast_filter()
 /**
  * Reloads the recent tables list.
  */
-function PMA_reloadRecentTable()
-{
-    $.get('navigation.php', {
-            'token': window.parent.token,
-            'server': window.parent.server,
+function PMA_reloadRecentTable() {
+    $.get(
+        'navigation.php',
+        {
+            'token':        window.parent.token,
+            'server':       window.parent.server,
             'ajax_request': true,
-            'recent_table': true},
+            'recent_table': true
+        },
         function (data) {
             if (data.success == true) {
                 $('#recentTable').html(data.options);
             }
-        });
+        }
+    );
 }
 
 // Performed on load
@@ -352,8 +353,7 @@ $(document).ready(function(){
     $('#clear_fast_filter').click(clear_fast_filter);
     $('#fast_filter').focus(function (evt) {evt.target.select();});
     $('#fast_filter').keyup(function (evt) {fast_filter(evt.target.value);});
-
-    /* Jump to recent table */
+    // Jump to recent table
     $('#recentTable').change(function() {
         if (this.value != '') {
             var arr = jQuery.parseJSON(this.value);
@@ -362,26 +362,19 @@ $(document).ready(function(){
             window.parent.refreshMain($('#LeftDefaultTabTable')[0].value);
         }
     });
-
-    /* Create table */
+    // Create table
     $('#newtable a.ajax').click(function(event){
         event.preventDefault();
-        /*Getting the url */
+        // Getting the url
         var url = $('#newtable a').attr("href");
         if (url.substring(0, 15) == "tbl_create.php?") {
              url = url.substring(15);
         }
         url = url +"&num_fields=&ajax_request=true";
-        /*Creating a div on the frame_content frame */
+        // Creating a div on the frame_content frame
         var div = parent.frame_content.$('<div id="create_table_dialog"></div>');
         var target = "tbl_create.php";
 
-        /*
-         * Calling to the createTableDialog function
-         * (needs to be done in the context of frame_content in order
-         *  for the qtip tooltips to work)
-         * */
         parent.frame_content.PMA_createTableDialog(div , url , target);
     });//end of create new table
 });//end of document get ready
-
