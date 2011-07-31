@@ -70,6 +70,28 @@ button {
 /******************************************************************************/
 /* specific elements */
 
+/* Button for collapsing the frame */
+div#collapse_frame .collapse_top {
+    top: -1px;
+    position: fixed;
+    <?php echo $right; ?>: 1px;
+    margin: 0;
+}
+div#collapse_frame .collapse_bottom {
+    bottom: 1px;
+    position: fixed;
+    <?php echo $right; ?>: 1px;
+    margin: 0;
+}
+div#collapse_frame div div {
+    cursor: pointer;
+    padding: 0.2em 0.3em;
+    color: #444;
+    font-weight: bold;
+    background: #ccc;
+    position: relative;
+}
+
 div#pmalogo {
     <?php //better echo $GLOBALS['cfg']['logoBGC']; ?>
     background-color: <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;

@@ -634,6 +634,28 @@ form.login label {
 /******************************************************************************/
 /* specific elements */
 
+/* Button for collapsing the frame */
+div#collapse_frame .collapse_top {
+    top: -1px;
+    position: fixed;
+    <?php echo $left; ?>: 0;
+    margin: 0;
+}
+div#collapse_frame .collapse_bottom {
+    position: fixed;
+    bottom: 0;
+    <?php echo $left; ?>: 0;
+    margin: 0;
+}
+div#collapse_frame div div {
+    cursor: pointer;
+    padding: 0.2em 0.3em;
+    color: #444;
+    font-weight: bold;
+    background: #ccc;
+    position: relative;
+}
+
 /* topmenu */
 ul#topmenu, ul#topmenu2, ul.tabs {
     font-weight:        bold;

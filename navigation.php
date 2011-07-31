@@ -110,38 +110,6 @@ require_once './libraries/header_http.inc.php';
     echo PMA_includeJS('navigation.js');
     echo PMA_includeJS('functions.js');
     echo PMA_includeJS('messages.php');
-    // Append the theme id to this url to invalidate the cache on a theme change
-    echo PMA_includeJS('get_image.js.php?theme=' . urlencode($_SESSION['PMA_Theme']->getId()));
-    ?>
-    <script type="text/javascript">
-    // <![CDATA[
-    // INIT PMA_setFrameSize
-    var onloadCnt = 0;
-    var onLoadHandler = window.onload;
-    var resizeHandler = window.onresize;
-    window.document.onresize  = resizeHandler;
-    window.onload = function() {
-        if (onloadCnt == 0) {
-            if (typeof(onLoadHandler) == "function") {
-                onLoadHandler();
-            }
-            if (typeof(PMA_setFrameSize) != 'undefined' && typeof(PMA_setFrameSize) == 'function') {
-                PMA_setFrameSize();
-            }
-            onloadCnt++;
-        }
-    };
-    window.onresize = function() {
-        if (typeof(resizeHandler) == "function") {
-            resizeHandler();
-        }
-        if (typeof(PMA_saveFrameSize) != 'undefined' && typeof(PMA_saveFrameSize) == 'function') {
-            PMA_saveFrameSize();
-        }
-    };
-    // ]]>
-    </script>
-    <?php
     /*
      * remove horizontal scroll bar bug in IE 6 by forcing a vertical scroll bar
      */
