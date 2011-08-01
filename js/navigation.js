@@ -64,6 +64,13 @@ var PMA_resizeHandler = {
      */
     width: undefined,
     /**
+     * @var string An html snippet with buttons for collapsing the frame
+     */
+    html: "<div id='collapse_frame' style='display:none;'>"
+        + "<div class='collapse_top'><div>%s</div></div>"
+        + "<div class='collapse_bottom'><div>%s</div></div>"
+        + "</div>",
+    /**
      * Initializes this Objects
      *
      * @return nothing
@@ -71,38 +78,10 @@ var PMA_resizeHandler = {
     init: function () {
         this.cookie_name = 'navigation_frame_width';
         if (window.parent.frames[0] != undefined && window.parent.frames[1] != undefined) { // if we have two frames
-            var elm = "<div id='collapse_frame' style='display:none;'>";
-            elm    += "<div class='collapse_top'><div>%s</div></div>";
-            elm    += "<div class='collapse_bottom'><div>%s</div></div>";
-            elm    += "</div>";
-            if (parent.parent.text_dir == 'ltr') {
-                var $f0 = $(window.parent.frames[0].document);
-                var $f1 = $(window.parent.frames[1].document);
-            } else {
-                var $f0 = $(window.parent.frames[1].document);
-                var $f1 = $(window.parent.frames[0].document);
-            }
-            /**
-             * @var function func A local function that attaches the
-             *                    'collapse' buttons to both the
-             *                    navigation and the content frames
-             */
-            var func = function ($obj, label) {
-                $obj.find('div#collapse_frame').remove();
-                $obj.find('body').append(elm.replace(/%s/g, label));
-                $obj.find('div#collapse_frame > div').each(function () {
-                    $(this).click(function () {
-                        PMA_resizeHandler.collapse();
-                    });
-                });
-            };
-            func($f0, '«');
-            this.left = $f0.find('div#collapse_frame');
-            func($f1, '»');
-            this.right = $f1.find('div#collapse_frame');
+            this.attach(true);
         }
-        if ($f0.find('div#collapse_frame').length + $f1.find('div#collapse_frame').length == 2) {
-            $f0.find('div#collapse_frame').show();
+        if (this.left.length + this.right.length == 2) {
+            this.left.show();
             // ready
             this.main();
             setInterval('PMA_resizeHandler.main()', 600);
@@ -111,12 +90,46 @@ var PMA_resizeHandler = {
             return false;
         }
     },
+    attach: function (init) {
+        if (parent.parent.text_dir == 'ltr') {
+            var $f0 = $(window.parent.frames[0].document);
+            var $f1 = $(window.parent.frames[1].document);
+        } else {
+            var $f0 = $(window.parent.frames[1].document);
+            var $f1 = $(window.parent.frames[0].document);
+        }
+        if (init) {
+            this.bind($f0, '«', this.html);
+            this.left = $f0.find('div#collapse_frame');
+            this.bind($f1, '»', this.html);
+            this.right = $f1.find('div#collapse_frame');
+        } else {
+            if ($f1.find('div#collapse_frame').length == 0) {
+                this.bind($f1, '»', this.html);
+                this.right = $f1.find('div#collapse_frame');
+            }
+        }
+    },
+    /**
+     * Attaches the 'collapse' buttons to both the navigation and the content frames
+     */
+    bind: function ($obj, label, html) {
+            $obj.find('div#collapse_frame').remove();
+            $obj.find('body').append(html.replace(/%s/g, label));
+            $obj.find('div#collapse_frame > div').each(function () {
+                $(this).click(function () {
+                    PMA_resizeHandler.collapse();
+                });
+            });
+        }
+    },
     /**
      * Main function, it is called at regular interval
      *
      * @return nothing
      */
     main: function () {
+        this.attach(false);
         if (this.width == undefined) {
             // If it's the first time that this function has ever been called
             this.setWidth(PMA_cookie.get(this.cookie_name), false, false);
@@ -150,6 +163,8 @@ var PMA_resizeHandler = {
                 // show/hide 'collapse' buttons as necessary
                 this.left.show('slow');
                 this.right.hide();
+            } else if (! this.right.is(':visible')) {
+                this.right.show();
             }
         }
     },
