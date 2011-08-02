@@ -114,14 +114,13 @@ var PMA_resizeHandler = {
      * Attaches the 'collapse' buttons to both the navigation and the content frames
      */
     bind: function ($obj, label, html) {
-            $obj.find('div#collapse_frame').remove();
-            $obj.find('body').append(html.replace(/%s/g, label));
-            $obj.find('div#collapse_frame > div').each(function () {
-                $(this).click(function () {
-                    PMA_resizeHandler.collapse();
-                });
+        $obj.find('div#collapse_frame').remove();
+        $obj.find('body').append(html.replace(/%s/g, label));
+        $obj.find('div#collapse_frame > div').each(function () {
+            $(this).click(function () {
+                PMA_resizeHandler.collapse();
             });
-        }
+        });
     },
     /**
      * Main function, it is called at regular interval
