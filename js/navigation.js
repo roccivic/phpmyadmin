@@ -80,7 +80,7 @@ var PMA_resizeHandler = {
         if (window.parent.frames[0] != undefined && window.parent.frames[1] != undefined) { // if we have two frames
             this.attach(true);
         }
-        if (this.left.length + this.right.length == 2) {
+        if (this.left && this.right && (this.left.length + this.right.length == 2)) {
             this.left.show();
             // ready
             this.main();
@@ -145,13 +145,6 @@ var PMA_resizeHandler = {
             this.width.cookie = PMA_cookie.get(this.cookie_name);
             if (this.width.actual != this.width.previous) {
                 this.setWidth(this.width.actual, false, true);
-            }
-            if (this.width.cookie != null
-                && this.width.cookie > 0
-                && parent.document != document
-                && this.width.cookie != this.width.actual
-            ) {
-                this.setWidth(this.width.cookie, true, false);
             }
         } else {
             var width = this.getWidth();
