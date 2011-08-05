@@ -139,14 +139,14 @@ class PMA_RecentTable
             $this->saveToDb();
         }
 
-        $html = '<option value="">(' . __('Recent tables') . ') ...</option>';
+        $html = '            <option value="">(' . __('Recent tables') . ') ...</option>' . "\n";
         if (count($this->tables)) {
             foreach ($this->tables as $table) {
-                $html .= '<option value="' . htmlspecialchars(json_encode($table)) . '">' .
+                $html .= '           <option value="' . htmlspecialchars(json_encode($table)) . '">' .
                          htmlspecialchars('`' . $table['db'] . '`.`' . $table['table'] . '`') . '</option>';
             }
         } else {
-            $html .= '<option value="">' . __('There are no recent tables') . '</option>';
+            $html .= '            <option value="">' . __('There are no recent tables') . '</option>' . "\n";
         }
         return $html;
     }
@@ -158,12 +158,12 @@ class PMA_RecentTable
      */
     public function getHtmlSelect()
     {
-        $html  = '<input type="hidden" name="goto" id="LeftDefaultTabTable" value="' .
-                         htmlspecialchars($GLOBALS['cfg']['LeftDefaultTabTable']) . '" />';
-        $html .= '<select name="selected_recent_table" id="recentTable">';
+        $html  = '        <input type="hidden" name="goto" id="LeftDefaultTabTable" value="' .
+                         htmlspecialchars($GLOBALS['cfg']['LeftDefaultTabTable']) . '" />' . "\n";
+        $html .= '        <select name="table" id="recentTable">' . "\n";
         $html .= $this->getHtmlSelectOption();
-        $html .= '</select>';
-
+        $html .= '        </select>';
+        
         return $html;
     }
 
