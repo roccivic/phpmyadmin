@@ -5,36 +5,20 @@
 
 /**
  * opens/closes (hides/shows) tree elements
- *
- * @param   string  id          id of the element in the DOM
- * @param   boolean only_open   do not close/hide element
  */
-function toggle(id, only_open)
-{
-    var el = document.getElementById('subel' + id);
-    if (! el) {
-        return false;
-    }
-    var img = document.getElementById('el' + id + 'Img');
-    if (el.style.display == 'none' || only_open) {
-        el.style.display = '';
-        if (img) {
-            var newimg = PMA_getImage('b_minus.png');
-            img.className = newimg.attr('class');
-            img.src = newimg.attr('src');
-            img.alt = '-';
-        }
-    } else {
-        el.style.display = 'none';
-        if (img) {
-            var newimg = PMA_getImage('b_plus.png');
-            img.className = newimg.attr('class');
-            img.src = newimg.attr('src');
-            img.alt = '+';
-        }
-    }
-    return true;
-}
+$(document).ready(function() {
+	$('#navigation_tree img.expander').live('click', function(event) {
+		event.stopImmediatePropagation();
+		var $children = $(this).parent().parent().children('ul');
+		if ($(this).is('.ic_b_plus')) {
+			$(this).removeClass('ic_b_plus').addClass('ic_b_minus');
+			$children.show('fast');
+		} else {
+			$(this).removeClass('ic_b_minus').addClass('ic_b_plus');
+			$children.hide('fast');
+		}
+	});
+});
 
 /**
  * @var Object PMA_resizeHandler Handles the resizing of the navigation

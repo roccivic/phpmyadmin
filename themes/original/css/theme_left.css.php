@@ -67,8 +67,33 @@ button {
 /******************************************************************************/
 /* classes */
 
+.nowrap {
+    white-space:        nowrap;
+}
+
+.expander {
+	cursor: pointer;
+}
+
 /******************************************************************************/
 /* specific elements */
+
+#navigation_tree {
+	padding: 1em 0 0 0;
+}
+#navigation_tree ul {
+    padding-left: 0.5em;
+    padding-bottom: 0.2em;
+    margin-bottom: 0.1em;
+    list-style-type: none;
+}
+#navigation_tree ul ul {
+    border-left: 1px dotted gray;
+    border-bottom: 1px dotted gray;
+}
+#navigation_tree img {
+	margin: 0;
+}
 
 /* Button for collapsing the frame */
 div#collapse_frame .collapse_top {
