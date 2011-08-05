@@ -110,7 +110,13 @@ class CollapsibleTree {
         } else {
             $retval .= PMA_getIcon('null.png');
         }
+        if ($node->type == Node::CONTAINER) {
+            $retval .= "<i>";
+        }
         $retval .= "{$node->icon}{$node->name}";
+        if ($node->type == Node::CONTAINER) {
+            $retval .= "</i>";
+        }
         if ($recursive && $hasChildren) {
             $retval .= "\n" . $indent ."  <ul style='display: none;'>\n";
             $children = $node->children;
