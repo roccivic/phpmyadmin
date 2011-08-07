@@ -79,7 +79,7 @@ class navigation {
         $retval .= '    <link rel="stylesheet" type="text/css"' . PHP_EOL;
         $retval .= '          href="phpmyadmin.css.php?' . PMA_generate_common_url('', '');
         $retval .= '&amp;js_frame=left&amp;nocache=' . $GLOBALS['PMA_Config']->getThemeUniqueValue() . '" />' . PHP_EOL;
-        $retval .= PMA_includeJS('jquery/jquery-1.6.1.js');
+        $retval .= PMA_includeJS('jquery/jquery-1.6.2.js');
         $retval .= PMA_includeJS('jquery/jquery-ui-1.8.custom.js');
         $retval .= PMA_includeJS('navigation.js');
 //        $retval .= PMA_includeJS('functions.js');
