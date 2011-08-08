@@ -79,7 +79,14 @@ button {
 /* specific elements */
 
 #navigation_tree {
+    color: black;
 	padding: 1em 0 0 0;
+}
+#navigation_tree a {
+    color: black;
+}
+#navigation_tree a:hover {
+    text-decoration: underline;
 }
 #navigation_tree ul {
     padding-left: 0.5em;

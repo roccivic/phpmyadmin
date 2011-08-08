@@ -88,6 +88,12 @@ button {
     color: #444;
 	padding: 1em 0 0 0;
 }
+#navigation_tree a {
+    color: #444;
+}
+#navigation_tree a:hover {
+    text-decoration: underline;
+}
 #navigation_tree ul {
     padding-left: 0.5em;
     padding-bottom: 0.2em;
