@@ -250,107 +250,122 @@ class navigation {
         $tree->setRootSeparator('_', 10);
 
         /* Databases */
-        $db_list   = PMA_DBI_fetch_result("SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA` #WHERE `SCHEMA_NAME` = 'test'");
-        $dbs       = $tree->addList($db_list);
-                     $tree->setIcon(PMA_getIcon('s_db.png'), $dbs);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
-                            'icon' => 'db_operations.php?server=' . $server . '&db=%1$s&token=' . $token
-                        ),
-                        $dbs
-                    );
+        $query = "SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
+        $databases = $tree->addList($query, true);
+        $tree->setIcon(PMA_getIcon('s_db.png'), $databases);
+        $tree->setLinks(
+            array(
+                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_operations.php?server=' . $server . '&db=%1$s&token=' . $token
+            ),
+            $databases
+        );
 
         /* Tables */
-        $tb_list   = PMA_DBI_fetch_result("SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`TABLES`");
-        $tbl_cont  = $tree->addContainer(__('Tables'), $dbs, '_');
-                     $tree->setIcon(PMA_getIcon('b_browse.png'), $tbl_cont);
-                     $tree->setLinks(
-                        array('text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token),
-                        $tbl_cont
-                    );
-        $tables    = $tree->addList($tb_list, $tbl_cont);
-                     $tree->setIcon(PMA_getIcon('b_browse.png'), $tables);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
-                            'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
-                        ),
-                        $tables
-                    );
+        $table_container = $tree->addContainer(__('Tables'), $databases, '_');
+        $tree->setIcon(PMA_getIcon('b_browse.png'), $table_container);
+        $tree->setLinks(
+            array(
+                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
+            ),
+            $table_container
+        );
+        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`TABLES`";
+        $tables = $tree->addList($query, true, $table_container);
+        $tree->setIcon(PMA_getIcon('b_browse.png'), $tables);
+        $tree->setLinks(
+        array(
+                'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
+                'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
+            ),
+            $tables
+        );
 
         /* Views */
-        $vw_list   = PMA_DBI_fetch_result("SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`VIEWS`");
-        $view_cont = $tree->addContainer(__('Views'), $dbs, '_');
-                     $tree->setIcon(PMA_getIcon('b_views.png'), $view_cont);
-                     $tree->setLinks(
-                        array('text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token),
-                        $view_cont
-                    );
-        $views     = $tree->addList($vw_list, $view_cont);
-                     $tree->setIcon(PMA_getIcon('b_views.png'), $views);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
-                            'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
-                        ),
-                        $views
-                    );
+        $views_container = $tree->addContainer(__('Views'), $databases, '_');
+        $tree->setIcon(PMA_getIcon('b_views.png'), $views_container);
+        $tree->setLinks(
+            array(
+                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token
+            ),
+            $views_container
+        );
+        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`VIEWS`";
+        $views = $tree->addList($query, true, $views_container);
+        $tree->setIcon(PMA_getIcon('b_views.png'), $views);
+        $tree->setLinks(
+            array(
+                'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
+                'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
+            ),
+            $views
+        );
 
         /* Routines */
-        $rt_list   = PMA_DBI_fetch_result("SELECT `ROUTINE_NAME` AS `name`,`ROUTINE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`ROUTINES`");
-        $rout_cont = $tree->addContainer(__('Routines'), $dbs);
-                     $tree->setIcon(PMA_getIcon('b_routines.png'), $rout_cont);
-                     $tree->setLinks(
-                        array('text' => 'db_routines.php?server=' . $server . '&db=%1$s&token=' . $token),
-                        $rout_cont
-                    );
-        $routines  = $tree->addList($rt_list, $rout_cont);
-                     $tree->setIcon(PMA_getIcon('b_routines.png'), $routines);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                            'icon' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-                        ),
-                        $routines
-                    );
+        $routines_container = $tree->addContainer(__('Routines'), $databases);
+        $tree->setIcon(PMA_getIcon('b_routines.png'), $routines_container);
+        $tree->setLinks(
+            array(
+                'text' => 'db_routines.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_routines.php?server=' . $server . '&db=%1$s&token=' . $token
+            ),
+            $routines_container
+        );
+        $query = "SELECT `ROUTINE_NAME` AS `name`,`ROUTINE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`ROUTINES`";
+        $routines = $tree->addList($query, true, $routines_container);
+        $tree->setIcon(PMA_getIcon('b_routines.png'), $routines);
+        $tree->setLinks(
+            array(
+                'text' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
+                'icon' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
+            ),
+            $routines
+        );
 
         /* Events */
-        $ev_list   = PMA_DBI_fetch_result("SELECT `EVENT_NAME` AS `name`,`EVENT_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`EVENTS`");
-        $evn_cont  = $tree->addContainer(__('Events'), $dbs);
-                     $tree->setIcon(PMA_getIcon('b_events.png'), $evn_cont);
-                     $tree->setLinks(
-                        array('text' => 'db_events.php?server=' . $server . '&db=%1$s&token=' . $token),
-                        $evn_cont
-                    );
-        $events    = $tree->addList($ev_list, $evn_cont);
-                     $tree->setIcon(PMA_getIcon('b_events.png'), $events);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                            'icon' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-                        ),
-                        $events
-                    );
+        $events_container = $tree->addContainer(__('Events'), $databases);
+        $tree->setIcon(PMA_getIcon('b_events.png'), $events_container);
+        $tree->setLinks(
+            array(
+                'text' => 'db_events.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_events.php?server=' . $server . '&db=%1$s&token=' . $token
+            ),
+            $events_container
+        );
+        $query = "SELECT `EVENT_NAME` AS `name`,`EVENT_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`EVENTS`";
+        $events = $tree->addList($query, true, $events_container);
+        $tree->setIcon(PMA_getIcon('b_events.png'), $events);
+        $tree->setLinks(
+            array(
+                'text' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
+                'icon' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
+            ),
+            $events
+        );
 
         /* Triggers */
-        $tr_list   = PMA_DBI_fetch_result("SELECT `TRIGGER_NAME` AS `name`,`EVENT_OBJECT_SCHEMA` AS `parent_1` "
-                                        . "FROM `INFORMATION_SCHEMA`.`TRIGGERS`");
-        $tri_cont  = $tree->addContainer(__('Triggers'), $dbs);
-                     $tree->setIcon(PMA_getIcon('b_triggers.png'), $tri_cont);
-                     $tree->setLinks(
-                        array('text' => 'db_triggers.php?server=' . $server . '&db=%1$s&token=' . $token),
-                        $tri_cont
-                    );
-        $triggers  = $tree->addList($tr_list, $tri_cont);
-                     $tree->setIcon(PMA_getIcon('b_triggers.png'), $triggers);
-                     $tree->setLinks(
-                        array(
-                            'text' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                            'icon' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-                        ),
-                        $triggers
-                    );
+        $triggers_container = $tree->addContainer(__('Triggers'), $databases);
+        $tree->setIcon(PMA_getIcon('b_triggers.png'), $triggers_container);
+        $tree->setLinks(
+            array(
+                'text' => 'db_triggers.php?server=' . $server . '&db=%1$s&token=' . $token,
+                'icon' => 'db_triggers.php?server=' . $server . '&db=%1$s&token=' . $token
+            ),
+            $triggers_container
+        );
+        $query = "SELECT `TRIGGER_NAME` AS `name`,`EVENT_OBJECT_SCHEMA` AS `parent_1` "
+               . "FROM `INFORMATION_SCHEMA`.`TRIGGERS`";
+        $triggers = $tree->addList($query, true, $triggers_container);
+        $tree->setIcon(PMA_getIcon('b_triggers.png'), $triggers);
+        $tree->setLinks(
+            array(
+                'text' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
+                'icon' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
+            ),
+            $triggers
+        );
 
         /* Render the tree */
         $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;

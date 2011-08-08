@@ -11,8 +11,11 @@ class CollapsibleTree {
         $this->tree = $node;
         return 0;
     }
-    public function addList($data, $parent = 0)
+    public function addList($data, $is_query, $parent = 0)
     {
+        if ($is_query) {
+            $data = PMA_DBI_fetch_result($data);
+        }
         $new_id = ++$this->id;
         foreach ($data as $key => $value) { // FIXME: this could be more efficient
             $parents = $this->tree->find($parent);
