@@ -24,25 +24,6 @@ function setDb(new_db)
     //alert('setDb(' + new_db + ')');
     if (new_db != db) {
         // db has changed
-        //alert( new_db + '(' + new_db.length + ') : ' + db );
-
-        var old_db = db;
-        db = new_db;
-
-        // the db name as an id exists only when LeftFrameLight is false
-        if (window.frame_navigation.document.getElementById(db) == null) {
-            // happens when LeftFrameLight is true
-            // db is unknown, reload complete left frame
-            refreshNavigation();
-        } else {
-            // happens when LeftFrameLight is false
-            unmarkDbTable(old_db);
-            markDbTable(db);
-        }
-
-        // TODO: add code to expand db in lightview mode
-
-        // refresh querywindow
         refreshQuerywindow();
     }
 }
@@ -57,19 +38,6 @@ function setTable(new_table)
     //alert('setTable(' + new_table + ')');
     if (new_table != table) {
         // table has changed
-        //alert( new_table + '(' + new_table.length + ') : ' + table );
-
-        table = new_table;
-
-        if (window.frame_navigation.document.getElementById(db + '.' + table) == null
-         && table != '') {
-            // table is unknown, reload complete left frame
-            refreshNavigation();
-
-        }
-        // TODO: add code to expand table in lightview mode
-
-        // refresh querywindow
         refreshQuerywindow();
     }
 }
@@ -138,43 +106,6 @@ function refreshNavigation(force)
     }
 }
 
-function unmarkDbTable(db, table)
-{
-    var element_reference = window.frame_navigation.document.getElementById(db);
-    if (element_reference != null) {
-        $(element_reference).parent().removeClass('marked');
-    }
-
-    element_reference = window.frame_navigation.document.getElementById(db + '.' + table);
-    if (element_reference != null) {
-        $(element_reference).parent().removeClass('marked');
-    }
-}
-
-function markDbTable(db, table)
-{
-    var element_reference = window.frame_navigation.document.getElementById(db);
-    if (element_reference != null) {
-        $(element_reference).parent().addClass('marked');
-        // scrolldown
-        element_reference.focus();
-        // opera marks the text, we dont want this ...
-        element_reference.blur();
-    }
-
-    element_reference = window.frame_navigation.document.getElementById(db + '.' + table);
-    if (element_reference != null) {
-        $(element_reference).parent().addClass('marked');
-        // scrolldown
-        element_reference.focus();
-        // opera marks the text, we dont want this ...
-        element_reference.blur();
-    }
-
-    // return to main frame ...
-    window.frame_content.focus();
-}
-
 /**
  * sets current selected server, table and db (called from libraries/footer.inc.php)
  */
@@ -196,15 +127,6 @@ function setAll( new_lang, new_collation_connection, new_server, new_db, new_tab
         var old_table = table;
         db        = new_db;
         table     = new_table;
-
-        if (window.frame_navigation.document.getElementById(db) == null
-          && window.frame_navigation.document.getElementById(db + '.' + table) == null ) {
-            // table or db is unknown, reload complete left frame
-            refreshNavigation();
-        } else {
-            unmarkDbTable(old_db, old_table);
-            markDbTable(db, table);
-        }
 
         // TODO: add code to expand db in lightview mode
 
