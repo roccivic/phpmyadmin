@@ -14,7 +14,7 @@ class CollapsibleTree {
     public function addList($data, $parent = 0)
     {
         $new_id = ++$this->id;
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) { // FIXME: this could be more efficient
             $parents = $this->tree->find($parent);
             foreach ($parents as $elm) {
                 if (is_array($value)) {
@@ -80,6 +80,12 @@ class CollapsibleTree {
             $node->icon = $img;
         }
     }
+    public function setLinks($links, $id)
+    {
+        foreach ($this->tree->find($id) as $node) {
+            $node->links = $links;
+        }
+    }
     public function renderState()
     {
 
@@ -113,7 +119,26 @@ class CollapsibleTree {
         if ($node->type == Node::CONTAINER) {
             $retval .= "<i>";
         }
-        $retval .= "{$node->icon}{$node->name}";
+        if (isset($node->links['icon'])) {
+            $args = array();
+            foreach ($node->parents(true) as $parent) {
+                $args[] = $parent->real_name;
+            }
+            $link = vsprintf($node->links['icon'], $args);
+            $retval .= "<a href='$link'>{$node->icon}</a>";
+        } else {
+            $retval .= "{$node->icon}";
+        }
+        if (isset($node->links['text'])) {
+            $args = array();
+            foreach ($node->parents(true) as $parent) {
+                $args[] = $parent->real_name;
+            }
+            $link = vsprintf($node->links['text'], $args);
+            $retval .= "<a href='$link'>{$node->name}</a>";
+        } else {
+            $retval .= "{$node->name}";
+        }
         if ($node->type == Node::CONTAINER) {
             $retval .= "</i>";
         }
@@ -183,12 +208,14 @@ class CollapsibleTree {
                     $groups[$key]->parent = $node;
                     $groups[$key]->separator = $node->separator;
                     $groups[$key]->separator_depth = $node->separator_depth - 1;
-                    $groups[$key]->icon = PMA_getIcon('b_group.png', '', false, false, true);
+                    $groups[$key]->icon = PMA_getIcon('b_group.png', '', false, true);
                     $node->addChild($groups[$key]);
                     foreach ($node->children as $child) { // FIXME: this could be more efficient
                         if (substr($child->name, 0, strlen($key)) == $key && $child->type == Node::OBJECT) {
                             $new_child = new Node(substr($child->name, strlen($key)), $node->id, Node::OBJECT);
+                            $new_child->real_name = $child->real_name;
                             $new_child->icon = $child->icon;
+                            $new_child->links = $child->links;
                             $new_child->parent = $groups[$key];
                             $groups[$key]->addChild($new_child);
                             foreach ($child->children as $elm) {

@@ -5,7 +5,9 @@ class Node {
     const OBJECT = 1;
     private $id;
     private $icon;
+    private $links;
     private $name;
+    private $real_name;
     private $type;
     private $parent;
     private $separator = '';
@@ -14,6 +16,7 @@ class Node {
     public function __construct($name, $id, $type)
     {
         $this->name = $name;
+        $this->real_name = $name;
         $this->id = $id;
         $this->type = $type;
     }
@@ -25,7 +28,9 @@ class Node {
     {
         switch ($a) {
         case 'icon':
+        case 'links':
         case 'parent':
+        case 'real_name':
         case 'separator':
         case 'separator_depth':
             $this->$a = $b;
@@ -80,18 +85,22 @@ class Node {
         }
         return $depth;
     }
-    /*public function parents()
+    public function parents($self = false)
     {
-        static $parents = array();
-        if (empty($parents)) {
-            $parent = $this->parent;
-            while (isset($parent)) {
+        $parents = array();
+        if ($self && $this->type != Node::CONTAINER) {
+            $parents[] = $this;
+            $self = false;
+        }
+        $parent = $this->parent;
+        while (isset($parent)) {
+            if ($parent->type != Node::CONTAINER) {
                 $parents[] = $parent;
-                $parent = $parent->parent;
             }
+            $parent = $parent->parent;
         }
         return $parents;
-    }*/
+    }
     public function hasChildren($count_empty_containers = true)
     {
         $retval = false;
