@@ -275,7 +275,7 @@ class navigation {
             ),
             $table_container
         );
-        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`TABLES`";
+        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_TYPE`!='VIEW'";
         $tables = $tree->addList($query, true, $table_container);
         $tree->setIcon(PMA_getIcon('b_browse.png'), $tables);
         $tree->setLinks(
