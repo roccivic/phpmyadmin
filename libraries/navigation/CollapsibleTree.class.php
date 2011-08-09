@@ -5,15 +5,36 @@ class CollapsibleTree {
     private $id = 0;
     private $separator = '';
     private $tree;
+    private $path = array();
+    private $filter = '';
     public function __construct()
     {
         $node = new Node('root', 0, Node::CONTAINER);
         $this->tree = $node;
+        if (isset($_REQUEST['path'])) {
+            $path = explode('.', $_REQUEST['path']);
+            foreach ($path as $key => $value) {
+                $path[$key] = base64_decode($value);
+            }
+            $this->path = $path;
+        }
+        if (isset($_REQUEST['filter'])) {
+            $this->filter = $_REQUEST['filter'];
+        }
         return 0;
     }
     public function addList($data, $is_query, $parent = 0)
     {
         if ($is_query) {
+            if (! empty($this->filter) && $GLOBALS['cfg']['LeftFrameLight']) {
+                $this->filter = PMA_sqlAddSlashes($this->filter);
+                $last_parent = substr_count($data, 'parent_');
+                if ($last_parent > 0) {
+                    $data .= " HAVING `parent_$last_parent`='{$this->filter}'";
+                }
+            } else if ($GLOBALS['cfg']['LeftFrameLight'] && $parent != $this->tree->id) {
+                return false;
+            }
             $data = PMA_DBI_fetch_result($data);
         }
         $new_id = ++$this->id;
@@ -68,10 +89,6 @@ class CollapsibleTree {
         }
         return $new_id;
     }
-    public function setPath($path)
-    {
-
-    }
     public function setRootSeparator($value, $depth = 1)
     {
         $this->tree->separator = $value;
@@ -89,33 +106,70 @@ class CollapsibleTree {
             $node->links = $links;
         }
     }
-    public function renderState()
+    public function renderTree()
     {
-
+        $this->groupTree();
+        $retval = "<ul>\n";
+        $children = $this->tree->children;
+        usort($children, array('CollapsibleTree', 'sortNode'));
+        $this->setVisibility();
+        foreach ($children as $child) {
+            $retval .= $this->renderNodeFromObject($child, true);
+        }
+        $retval .= "</ul>\n";
+        return $retval;
     }
-    public function renderNode()
+    public function renderPath()
     {
-        /*$retval = '';
-        $elms = $this->tree->find($id);
-        foreach ($elms as $elm) {
-            if ($elm->name == $name) {
-                foreach ($elm->children as $child) {
-                    $retval .= $this->renderNodeFromObject($child);
-                }
-                break;
+        $retval = false;
+        $this->groupTree();
+        $node = $this->tree;
+        foreach ($this->path as $key => $value) {
+            $child = $node->getChild($value);
+            if ($child !== false) {
+                $node = $child;
             }
         }
-        return $retval;*/
+        if ($child !== false) {
+            $retval = "<ul style='display: none;'>\n";
+            $children = $node->children;
+            usort($children, array('CollapsibleTree', 'sortNode'));
+            $this->setVisibility();
+            foreach ($children as $child) {
+                $retval .= $this->renderNodeFromObject($child, true);
+            }
+            $retval .= "</ul>\n";
+        }
+        return $retval;
     }
     public function renderNodeFromObject($node, $recursive = -1, $indent = '  ')
     {
         if ($node->type == Node::CONTAINER && count($node->children) == 0) {
             return '';
         }
-        $retval  = $indent . "<li class='nowrap'>";
+        $retval = $indent . "<li class='nowrap'>";
         $hasChildren = $node->hasChildren(false);
-        if ($hasChildren) {
-            $retval .= str_replace('class="', 'class="expander ', PMA_getIcon('b_plus.png'));
+        if ($hasChildren || ($GLOBALS['cfg']['LeftFrameLight'] && $node->real_parent()->id == 0)) {
+            $path = array();
+            foreach ($node->parents(true, true) as $parent) {
+                $path[] = urlencode(base64_encode($parent->name));
+            }
+            $path = implode('.', array_reverse($path));
+            if ($filter = $node->filter()) {
+                $path .= '&amp;filter=' . urlencode($filter);
+            }
+            $link    = "navigation.php?" . PMA_generate_common_url() . "&path=$path";
+            $ajax    = '';
+            if ($GLOBALS['cfg']['AjaxEnable']) {
+                $ajax = ' ajax';
+            }
+            $loaded = '';
+            if ($GLOBALS['is_ajax_request'] || $GLOBALS['cfg']['LeftFrameLight'] != true) {
+                $loaded = ' loaded';
+            }
+            $retval .= "<a class='expander$ajax$loaded' target='_self' href='$link'>";
+            $retval .= PMA_getIcon('b_plus.png');
+            $retval .= "</a>";
         } else {
             $retval .= PMA_getIcon('null.png');
         }
@@ -125,7 +179,7 @@ class CollapsibleTree {
         if (isset($node->links['icon'])) {
             $args = array();
             foreach ($node->parents(true) as $parent) {
-                $args[] = $parent->real_name;
+                $args[] = urlencode($parent->real_name);
             }
             $link = vsprintf($node->links['icon'], $args);
             $retval .= "<a href='$link'>{$node->icon}</a>";
@@ -135,18 +189,23 @@ class CollapsibleTree {
         if (isset($node->links['text'])) {
             $args = array();
             foreach ($node->parents(true) as $parent) {
-                $args[] = $parent->real_name;
+                $args[] = urlencode($parent->real_name);
             }
             $link = vsprintf($node->links['text'], $args);
-            $retval .= "<a href='$link'>{$node->name}</a>";
+            $retval .= "<a href='$link'>" . htmlspecialchars($node->real_name) . "</a>";
         } else {
             $retval .= "{$node->name}";
         }
         if ($node->type == Node::CONTAINER) {
             $retval .= "</i>";
         }
+        $retval .= str_replace('class="', 'style="display:none;" class="throbber ', PMA_getIcon('ajax_clock_small.gif', '', false, true));
         if ($recursive && $hasChildren) {
-            $retval .= "\n" . $indent ."  <ul style='display: none;'>\n";
+            $hide = '';
+            if ($node->visible == false) {
+                $hide = " style='display: none;'";
+            }
+            $retval .= "\n" . $indent ."  <ul$hide>\n";
             $children = $node->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
             foreach ($children as $child) {
@@ -157,17 +216,16 @@ class CollapsibleTree {
         $retval .= "</li>\n";
         return $retval;
     }
-    public function renderTree()
+    private function setVisibility($to_tree = true)
     {
-        $this->groupTree();
-        $retval = "<ul>\n";
-        $children = $this->tree->children;
-        usort($children, array('CollapsibleTree', 'sortNode'));
-        foreach ($children as $child) {
-            $retval .= $this->renderNodeFromObject($child, true);
+        $node = $this->tree;
+        foreach ($this->path as $key => $value) {
+            $child = $node->getChild($value);
+            if ($child !== false) {
+                $child->visible = true;
+                $node = $child;
+            }
         }
-        $retval .= "</ul>\n";
-        return $retval;
     }
     public function groupTree($node = null)
     {

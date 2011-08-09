@@ -7,16 +7,37 @@
  * opens/closes (hides/shows) tree elements
  */
 $(document).ready(function() {
-	$('#navigation_tree img.expander').live('click', function(event) {
-		event.stopImmediatePropagation();
-		var $children = $(this).parent().parent().children('ul');
-		if ($(this).is('.ic_b_plus')) {
-			$(this).removeClass('ic_b_plus').addClass('ic_b_minus');
-			$children.show('fast');
-		} else {
-			$(this).removeClass('ic_b_minus').addClass('ic_b_plus');
-			$children.hide('fast');
-		}
+	$('#navigation_tree a.expander').live('click', function(event) {
+        if ($(this).hasClass('ajax') || $('#navigation_tree').hasClass('light') != true) {
+            event.preventDefault();
+	        event.stopImmediatePropagation();
+            var $this = $(this);
+	        var $children = $this.parent().children('ul');
+            var $icon = $this.find('img');
+            if ($this.hasClass('loaded')) {
+		        if ($icon.is('.ic_b_plus')) {
+			        $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
+			        $children.show('fast');
+		        } else {
+			        $icon.removeClass('ic_b_minus').addClass('ic_b_plus');
+			        $children.hide('fast');
+		        }
+            } else {
+                var $destination = $this.closest('li');
+                $this.parent().find('.throbber').css('background-position', '9999px 9999px').show();
+                $.get($this.attr('href'), {'ajax_request': true, 'getTree': true}, function (data) {
+                    if (data.success === true) {
+                        $this.addClass('loaded');
+                        $destination.append(data.message);
+		                $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
+		                $destination.find('ul').first().show('fast');
+                        $this.parent().find('.throbber').hide();
+                    } else {
+                        $this.parent().find('.throbber').hide();
+                    }
+                });
+            }
+        }
 	});
 });
 

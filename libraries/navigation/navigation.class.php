@@ -54,8 +54,12 @@ class navigation {
     private function requests()
     {
         // Check if it is an ajax request to reload the recent tables list.
-        if ($GLOBALS['is_ajax_request'] && $_REQUEST['recent_table']) {
+        if ($GLOBALS['is_ajax_request'] && isset($_REQUEST['recent_table'])) {
             PMA_ajaxResponse('', true, array('options' => PMA_RecentTable::getInstance()->getHtmlSelectOption()));
+        }
+        // Check if it is an ajax request to load a part of the navigation tree
+        if ($GLOBALS['is_ajax_request'] && isset($_REQUEST['getTree'])) {
+            $this->tree(true);
         }
     }
 
@@ -82,8 +86,8 @@ class navigation {
         $retval .= PMA_includeJS('jquery/jquery-1.6.2.js');
         $retval .= PMA_includeJS('jquery/jquery-ui-1.8.custom.js');
         $retval .= PMA_includeJS('navigation.js');
-//        $retval .= PMA_includeJS('functions.js');
-//        $retval .= PMA_includeJS('messages.php');
+        $retval .= PMA_includeJS('functions.js');
+        $retval .= PMA_includeJS('messages.php');
         // remove horizontal scroll bar bug in IE 6 by forcing a vertical scroll bar
         $retval .= '    <!--[if IE 6]>' . PHP_EOL;
         $retval .= '    <style type="text/css">' . PHP_EOL;
@@ -241,7 +245,7 @@ class navigation {
         return $retval;
     }
 
-    private function tree()
+    private function tree($ajax = false)
     {
         global $server, $token;
 
@@ -368,11 +372,23 @@ class navigation {
         );
 
         /* Render the tree */
-        $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
-        $retval .= "<div id='navigation_tree'>\n";
-        $retval .= $tree->renderTree();
-        $retval .= "</div>\n";
-        $retval .= '<!-- NAVIGATION TREE END -->' . PHP_EOL;
+        if ($ajax) {
+            if ($retval = $tree->renderPath()) {
+                PMA_ajaxResponse($retval, true);
+            } else {
+                PMA_ajaxResponse('', false);
+            }
+        } else {
+            $light = '';
+            if ($GLOBALS['cfg']['LeftFrameLight']) {
+                $light = " class='light'";
+            }
+            $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
+            $retval .= "<div id='navigation_tree'$light>\n";
+            $retval .= $tree->renderTree();
+            $retval .= "</div>\n";
+            $retval .= '<!-- NAVIGATION TREE END -->' . PHP_EOL;
+        }
 
         return $retval;
     }

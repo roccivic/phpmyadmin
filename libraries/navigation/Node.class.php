@@ -3,16 +3,17 @@
 class Node {
     const CONTAINER = 0;
     const OBJECT = 1;
-    private $id;
+    private $children = array();
     private $icon;
+    private $id;
     private $links;
     private $name;
-    private $real_name;
-    private $type;
     private $parent;
+    private $real_name;
     private $separator = '';
     private $separator_depth = 1;
-    private $children = array();
+    private $type;
+    private $visible = false;
     public function __construct($name, $id, $type)
     {
         $this->name = $name;
@@ -33,6 +34,7 @@ class Node {
         case 'real_name':
         case 'separator':
         case 'separator_depth':
+        case 'visible':
             $this->$a = $b;
             return true;
         default:
@@ -85,16 +87,16 @@ class Node {
         }
         return $depth;
     }
-    public function parents($self = false)
+    public function parents($self = false, $containers = false)
     {
         $parents = array();
-        if ($self && $this->type != Node::CONTAINER) {
+        if ($self && ($this->type != Node::CONTAINER || $containers)) {
             $parents[] = $this;
             $self = false;
         }
         $parent = $this->parent;
         while (isset($parent)) {
-            if ($parent->type != Node::CONTAINER) {
+            if ($parent->type != Node::CONTAINER || $containers) {
                 $parents[] = $parent;
             }
             $parent = $parent->parent;
@@ -124,6 +126,38 @@ class Node {
     public function siblings()
     {
         return $this->parent->children;
+    }
+    /**
+     * Returns the name of the furthest parent that is
+     * not a container or itself, if there are none.
+     */
+    public function filter()
+    {
+        $name = false;
+        $parent = $this;
+        while (isset($parent)) {
+            if ($parent->type != Node::CONTAINER) {
+                $name = $parent->real_name;
+            }
+            $parent = $parent->parent;
+        }
+        return $name;
+    }
+    public function real_parent()
+    {
+        $retval = $this;
+        $parent = $this->parent;
+        while (isset($parent)) {
+            if ($parent->type == Node::OBJECT) {
+                $retval = $parent;
+                break;
+            } else if ($parent->id == 0) {
+                $retval = $parent;
+                break;
+            }
+            $parent = $parent->parent;
+        }
+        return $retval;
     }
 }
 ?>
