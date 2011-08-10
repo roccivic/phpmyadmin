@@ -382,6 +382,44 @@ class navigation {
             $triggers
         );
 
+        /* Table Columns */
+        if ($GLOBALS['cfg']['LeftFrameLight'] && $GLOBALS['is_ajax_request']) {
+            $column_container = $tree->addContainer(
+                __('Columns'),
+                $tables
+            );
+            $tree->setIcon(PMA_getIcon('s_vars.png', '', false, true), $column_container);
+            $query = "SELECT `COLUMN_NAME` AS `name`, `TABLE_NAME` AS `parent_1`, `TABLE_SCHEMA` AS `parent_2` FROM `INFORMATION_SCHEMA`.`COLUMNS`";
+            $columns = $tree->addList($query, true, $column_container);
+            $tree->setIcon(PMA_getIcon('s_vars.png', '', false, true), $columns);
+            $tree->setLinks(
+            array(
+                    'text' => 'tbl_alter?server=' . $server . '&db=%3$s&table=%2$s&field=%1$s&token=' . $token,
+                    'icon' => 'tbl_alter?server=' . $server . '&db=%3$s&table=%2$s&field=%1$s&token=' . $token,
+                ),
+                $columns
+            );
+        }
+
+        /* Table Indexes */
+        if ($GLOBALS['cfg']['LeftFrameLight'] && $GLOBALS['is_ajax_request']) {
+            $index_container = $tree->addContainer(
+                __('Indexes'),
+                $tables
+            );
+            $tree->setIcon(PMA_getIcon('b_primary.png', '', false, true), $index_container);
+            $query = "SELECT DISTINCT `CONSTRAINT_NAME` AS `name`, `TABLE_NAME` AS `parent_1`, `TABLE_SCHEMA` AS `parent_2` FROM `INFORMATION_SCHEMA`.`KEY_COLUMN_USAGE`";
+            $indexes = $tree->addList($query, true, $index_container);
+            $tree->setIcon(PMA_getIcon('b_primary.png', '', false, true), $indexes);
+            $tree->setLinks(
+            array(
+                    'text' => 'tbl_indexes.php?server=' . $server . '&db=%3$s&table=%2$s&index=%1$s&token=' . $token,
+                    'icon' => 'tbl_indexes.php?server=' . $server . '&db=%3$s&table=%2$s&index=%1$s&token=' . $token
+                ),
+                $indexes
+            );
+        }
+
         /* Render the tree */
         if ($ajax) {
             if ($retval = $tree->renderPath()) {
