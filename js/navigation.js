@@ -25,6 +25,7 @@ $(document).ready(function() {
             } else {
                 var $destination = $this.closest('li');
                 $this.parent().find('.throbber').css('background-position', '9999px 9999px').show();
+                $icon.hide();
                 $.get($this.attr('href'), {'ajax_request': true, 'getTree': true}, function (data) {
                     if (data.success === true) {
                         $this.addClass('loaded');
@@ -32,8 +33,10 @@ $(document).ready(function() {
 		                $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
 		                $destination.find('ul').first().show('fast');
                         $this.parent().find('.throbber').hide();
+                        $icon.show();
                     } else {
                         $this.parent().find('.throbber').hide();
+                        $icon.show();
                     }
                 });
             }

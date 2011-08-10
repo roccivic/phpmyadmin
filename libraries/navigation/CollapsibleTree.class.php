@@ -173,6 +173,7 @@ class CollapsibleTree {
         } else {
             $retval .= PMA_getIcon('null.png');
         }
+        $retval .= str_replace('class="', 'style="display:none;" class="throbber ', PMA_getIcon('ajax_clock_small.gif', '', false, true));
         if ($node->type == Node::CONTAINER) {
             $retval .= "<i>";
         }
@@ -199,7 +200,6 @@ class CollapsibleTree {
         if ($node->type == Node::CONTAINER) {
             $retval .= "</i>";
         }
-        $retval .= str_replace('class="', 'style="display:none;" class="throbber ', PMA_getIcon('ajax_clock_small.gif', '', false, true));
         if ($recursive && $hasChildren) {
             $hide = '';
             if ($node->visible == false) {
