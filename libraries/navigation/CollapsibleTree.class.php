@@ -9,8 +9,7 @@ class CollapsibleTree {
     private $filter = '';
     public function __construct()
     {
-        $node = new Node('root', 0, Node::CONTAINER);
-        $this->tree = $node;
+        // Get the active node
         if (isset($_REQUEST['path'])) {
             $path = explode('.', $_REQUEST['path']);
             foreach ($path as $key => $value) {
@@ -18,12 +17,16 @@ class CollapsibleTree {
             }
             $this->path = $path;
         }
+        // Get the argument used in the WHERE clause for query optimisation
         if (isset($_REQUEST['filter'])) {
             $this->filter = $_REQUEST['filter'];
         }
+        // Initialise the tree by creating a root node
+        $node = new Node('root', 0, Node::CONTAINER);
+        $this->tree = $node;
         return 0;
     }
-    public function addList($data, $is_query, $parent = 0)
+    public function addList($data, $is_query, $parent = 0, $limit_pos = 0, $limit_length = false)
     {
         if ($is_query) {
             if (! empty($this->filter) && $GLOBALS['cfg']['LeftFrameLight']) {
@@ -34,6 +37,9 @@ class CollapsibleTree {
                 }
             } else if ($GLOBALS['cfg']['LeftFrameLight'] && $parent != $this->tree->id) {
                 return false;
+            }
+            if ($limit_length !== false) {
+                $data .= " LIMIT $limit_pos,$limit_length";
             }
             $data = PMA_DBI_fetch_result($data);
         }

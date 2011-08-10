@@ -5,6 +5,7 @@ class navigation {
      * Variables
      */
     private $buffer;
+    private $pos;
 
     /**
      * Public methods
@@ -20,6 +21,21 @@ class navigation {
             // avoid putting here $db because it could display a db name
             // to which the next user does not have access
             $GLOBALS['query_url'] = PMA_generate_common_url();
+        }
+        // Keep the offset of the db list in session before closing it
+        if (! isset($_SESSION['tmp_user_values']['navi_limit_offset'])) {
+            $_SESSION['tmp_user_values']['navi_limit_offset'] = 0;
+        }
+        $this->pos = $_SESSION['tmp_user_values']['navi_limit_offset'];
+        if (isset($_REQUEST['pos'])) {
+            $pos = (int) $_REQUEST['pos'];
+            $_SESSION['tmp_user_values']['navi_limit_offset'] = $pos;
+            $this->pos = $pos;
+        }
+        // free the session file, for the other frames to be loaded
+        // but only if debugging is not enabled
+        if (empty($_SESSION['debug'])) {
+            session_write_close();
         }
         $this->render();
     }
@@ -264,7 +280,11 @@ class navigation {
 
         /* Databases */
         $query = "SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
-        $databases = $tree->addList($query, true);
+        if ($ajax) {
+            $databases = $tree->addList($query, true);
+        } else {
+            $databases = $tree->addList($query, true, 0, $this->pos, $GLOBALS['cfg']['MaxDbList']);
+        }
         $tree->setIcon(PMA_getIcon('s_db.png'), $databases);
         $tree->setLinks(
             array(
@@ -440,7 +460,23 @@ class navigation {
             if ($GLOBALS['cfg']['LeftFrameLight']) {
                 $light = " class='light'";
             }
+            $_url_params = array('pos' => $this->pos);
+            $num_db = PMA_DBI_fetch_value("SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`SCHEMATA`");
+            ob_start();
+            PMA_listNavigator(
+                $num_db,
+                $this->pos,
+                $_url_params,
+                'navigation.php',
+                'frame_navigation',
+                $GLOBALS['cfg']['MaxDbList']
+            );
+            $list = ob_get_contents();
+            ob_end_clean();
             $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
+            $retval .= '<!-- DATABASE PAGINATION START -->' . PHP_EOL;
+            $retval .= $list;
+            $retval .= '<!-- DATABASE PAGINATION END -->' . PHP_EOL;
             $retval .= "<div id='navigation_tree'$light>\n";
             $retval .= $tree->renderTree();
             $retval .= "</div>\n";
