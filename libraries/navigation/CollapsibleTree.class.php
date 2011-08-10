@@ -183,15 +183,17 @@ class CollapsibleTree {
         if ($node->type == Node::CONTAINER) {
             $retval .= "<i>";
         }
-        if (isset($node->links['icon'])) {
-            $args = array();
-            foreach ($node->parents(true) as $parent) {
-                $args[] = urlencode($parent->real_name);
+        if ($GLOBALS['cfg']['NavigationBarIconic']) {
+            if (isset($node->links['icon'])) {
+                $args = array();
+                foreach ($node->parents(true) as $parent) {
+                    $args[] = urlencode($parent->real_name);
+                }
+                $link = vsprintf($node->links['icon'], $args);
+                $retval .= "<a href='$link'>{$node->icon}</a>";
+            } else {
+                $retval .= "{$node->icon}";
             }
-            $link = vsprintf($node->links['icon'], $args);
-            $retval .= "<a href='$link'>{$node->icon}</a>";
-        } else {
-            $retval .= "{$node->icon}";
         }
         if (isset($node->links['text'])) {
             $args = array();

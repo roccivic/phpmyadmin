@@ -162,7 +162,7 @@ class navigation {
         $retval = '<!-- LINKS START -->' . PHP_EOL;
         $retval .= '<div id="leftframelinks">' . PHP_EOL;
         $retval .= '    <a href="main.php?' . $GLOBALS['query_url'] . '" title="' . __('Home') . '">';
-        if ($GLOBALS['cfg']['MainPageIconic']) {
+        if ($GLOBALS['cfg']['NavigationBarIconic']) {
             $retval .= '<img class="icon ic_b_home" src="themes/dot.gif" alt="' . __('Home') . '" /></a>' . PHP_EOL;
         } else {
             $retval .= __('Home') . '</a>' . PHP_EOL;
@@ -175,7 +175,7 @@ class navigation {
                 $retval .= '    <a href="index.php?' . $GLOBALS['query_url'] . '&amp;old_usr=';
                 $retval .= urlencode($GLOBALS['PHP_AUTH_USER']) . '" target="_parent"';
                 $retval .= ' title="' . __('Log out') . '" >';
-                if ($GLOBALS['cfg']['MainPageIconic']) {
+                if ($GLOBALS['cfg']['NavigationBarIconic']) {
                        $retval .= '<img class="icon ic_s_loggoff" src="themes/dot.gif" alt="' . __('Log out') . '" /></a>' . PHP_EOL;
                 } else {
                     $retval .= __('Log out') . '</a>' . PHP_EOL;
@@ -185,7 +185,7 @@ class navigation {
             $retval .= '    <a href="querywindow.php?' . PMA_generate_common_url($GLOBALS['db'], $GLOBALS['table']) . '&amp;no_js=true"';
             $retval .= ' title="' . __('Query window') . '"';
             $retval .= ' onclick="javascript:if (window.parent.open_querywindow()) return false;">';
-            if ($GLOBALS['cfg']['MainPageIconic']) {
+            if ($GLOBALS['cfg']['NavigationBarIconic']) {
                 $retval .= '<img class="icon ic_b_selboard" src="themes/dot.gif" alt="' . __('Query window') . '" /></a>' . PHP_EOL;
             } else {
                 $retval .= __('Query window') . '</a>' . PHP_EOL;
@@ -194,14 +194,14 @@ class navigation {
         }
         $retval .= '    <a href="Documentation.html" target="documentation"';
         $retval .= ' title="' . __('phpMyAdmin documentation') . '" >';
-        if ($GLOBALS['cfg']['MainPageIconic']) {
+        if ($GLOBALS['cfg']['NavigationBarIconic']) {
             $retval .= '<img class="icon ic_b_docs" src="themes/dot.gif"';
             $retval .= ' alt="' . __('phpMyAdmin documentation') . '" /></a>' . PHP_EOL;
         } else {
             $retval .= __('phpMyAdmin documentation') . '</a>' . PHP_EOL;
             $retval .= '    <br />' . PHP_EOL;
         }
-        if ($GLOBALS['cfg']['MainPageIconic']) {
+        if ($GLOBALS['cfg']['NavigationBarIconic']) {
             $retval .= '    ' . PMA_showMySQLDocu('', '', true) . PHP_EOL;
         } else {
             // PMA_showMySQLDocu always spits out an icon,
@@ -219,7 +219,7 @@ class navigation {
             $params['db'] = $GLOBALS['db'];
         }
         $retval .= '    <a href="navigation.php?' . PMA_generate_common_url($params) . '" target="frame_navigation">';
-        if ($GLOBALS['cfg']['MainPageIconic']) {
+        if ($GLOBALS['cfg']['NavigationBarIconic']) {
             $retval .= '<img class="icon ic_s_reload" src="themes/dot.gif"';
             $retval .= ' title="' . __('Reload navigation frame') . '"';
             $retval .= ' alt="' . __('Reload navigation frame') . '" /></a>' . PHP_EOL;
