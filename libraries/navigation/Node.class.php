@@ -143,21 +143,5 @@ class Node {
         }
         return $name;
     }
-    public function real_parent()
-    {
-        $retval = $this;
-        $parent = $this->parent;
-        while (isset($parent)) {
-            if ($parent->type == Node::OBJECT) {
-                $retval = $parent;
-                break;
-            } else if ($parent->id == 0) {
-                $retval = $parent;
-                break;
-            }
-            $parent = $parent->parent;
-        }
-        return $retval;
-    }
 }
 ?>

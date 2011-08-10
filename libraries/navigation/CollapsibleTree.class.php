@@ -149,7 +149,7 @@ class CollapsibleTree {
         }
         $retval = $indent . "<li class='nowrap'>";
         $hasChildren = $node->hasChildren(false);
-        if ($hasChildren || ($GLOBALS['cfg']['LeftFrameLight'] && $node->real_parent()->id == 0)) {
+        if ($hasChildren || ($GLOBALS['cfg']['LeftFrameLight'] && $node->filter() == $node->real_name)) {
             $path = array();
             foreach ($node->parents(true, true) as $parent) {
                 $path[] = urlencode(base64_encode($parent->name));
@@ -164,7 +164,7 @@ class CollapsibleTree {
                 $ajax = ' ajax';
             }
             $loaded = '';
-            if ($GLOBALS['is_ajax_request'] || $GLOBALS['cfg']['LeftFrameLight'] != true) {
+            if ($GLOBALS['is_ajax_request'] || $GLOBALS['cfg']['LeftFrameLight'] != true || $node->type == Node::CONTAINER) {
                 $loaded = ' loaded';
             }
             $retval .= "<a class='expander$ajax$loaded' target='_self' href='$link'>";
