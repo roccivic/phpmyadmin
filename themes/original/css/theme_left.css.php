@@ -130,9 +130,10 @@ div#pmalogo {
     padding:.3em;
 }
 
-div#recentTableList {
+div#recentTableList,
+div#serverChoice {
     text-align: center;
-    margin-bottom: 0.5em;
+    margin: 0.5em 1em 0 1em;
 }
 
 div#recentTableList select {

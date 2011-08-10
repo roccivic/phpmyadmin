@@ -233,7 +233,7 @@ if (top != self) {
         echo '>';
 
         include_once './libraries/select_server.lib.php';
-        PMA_select_server(false, false);
+        echo PMA_select_server(false, false);
 
         echo '</select></div>';
     } else {

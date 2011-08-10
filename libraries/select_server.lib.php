@@ -14,6 +14,7 @@
  */
 function PMA_select_server($not_only_options, $ommit_fieldset)
 {
+    $retval = '';
     // Show as list?
     if ($not_only_options) {
         $list = $GLOBALS['cfg']['DisplayServersList'];
@@ -23,19 +24,19 @@ function PMA_select_server($not_only_options, $ommit_fieldset)
     }
 
     if ($not_only_options) {
-        echo '<form method="post" action="index.php" target="_parent">';
-        echo PMA_generate_common_hidden_inputs();
+        $retval .= '<form method="post" action="index.php" target="_parent">';
+        $retval .= PMA_generate_common_hidden_inputs();
 
         if (! $ommit_fieldset) {
-            echo '<fieldset>';
+            $retval .= '<fieldset>';
         }
-        echo '<label for="select_server">' . __('Current Server') . ':</label> ';
+        $retval .= '<label for="select_server">' . __('Current Server') . ':</label> ';
 
-        echo '<select name="server" id="select_server" class="autosubmit">';
-        echo '<option value="">(' . __('Servers') . ') ...</option>' . "\n";
+        $retval .= '<select name="server" id="select_server" class="autosubmit">';
+        $retval .= '<option value="">(' . __('Servers') . ') ...</option>' . "\n";
     } elseif ($list) {
-        echo __('Current Server') . ':<br />';
-        echo '<ul id="list_server">';
+        $retval .= __('Current Server') . ':<br />';
+        $retval .= '<ul id="list_server">';
     }
 
     foreach ($GLOBALS['cfg']['Servers'] as $key => $server) {
@@ -69,35 +70,36 @@ function PMA_select_server($not_only_options, $ommit_fieldset)
         }
 
         if ($list) {
-            echo '<li>';
+        $retval .= '<li>';
             if ($selected) {
-                echo '<strong>' . htmlspecialchars($label) . '</strong>';
+                $retval .= '<strong>' . htmlspecialchars($label) . '</strong>';
             } else {
 
-                echo '<a class="item" href="index.php'
+                $retval .= '<a class="item" href="index.php'
                     . PMA_generate_common_url(array('server' => $key))
                     . '" target="_top">' . htmlspecialchars($label) . '</a>';
             }
-            echo '</li>';
+            $retval .= '</li>';
         } else {
-            echo '<option value="' . $key . '" '
-                . ($selected ? ' selected="selected"' : '') . '>'
-                . htmlspecialchars($label) . '</option>' . "\n";
+            $retval .= '<option value="' . $key . '" ';
+            $retval .= ($selected ? ' selected="selected"' : '') . '>';
+            $retval .= htmlspecialchars($label) . '</option>' . "\n";
         }
     } // end while
 
     if ($not_only_options) {
-        echo '</select>';
+        $retval .= '</select>';
         // Show submit button if we have just one server (this happens with no default)
-        echo '<noscript>';
-        echo '<input type="submit" value="' . __('Go') . '" />';
-        echo '</noscript>';
+        $retval .= '<noscript>';
+        $retval .= '<input type="submit" value="' . __('Go') . '" />';
+        $retval .= '</noscript>';
         if (! $ommit_fieldset) {
-            echo '</fieldset>';
+            $retval .= '</fieldset>';
         }
-        echo '</form>';
+        $retval .= '</form>';
     } elseif ($list) {
-        echo '</ul>';
+        $retval .= '</ul>';
     }
+    return $retval;
 }
 ?>

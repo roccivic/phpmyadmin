@@ -216,13 +216,21 @@ class navigation {
         return $retval;
     }
 
+    /**
+     * Displays the MySQL servers choice form
+     */
     private function serverChoice()
     {
-        /**
-         * Displays the MySQL servers choice form
-         */
-        // FIXME
-        return '';
+        $retval = '';
+        if ($GLOBALS['cfg']['LeftDisplayServers']) {
+            require_once './libraries/select_server.lib.php';
+            $retval .= '<!-- SERVER CHOICE START -->' . PHP_EOL;
+            $retval .= '<div id="serverChoice">' . PHP_EOL;
+            $retval .= PMA_select_server(true, true) . PHP_EOL;
+            $retval .= '</div>' . PHP_EOL;
+            $retval .= '<!-- SERVER CHOICE END -->' . PHP_EOL;
+        }
+        return $retval;
     }
 
     private function recent()

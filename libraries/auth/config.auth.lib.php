@@ -120,7 +120,7 @@ function PMA_auth_fails()
         include_once './libraries/select_server.lib.php';
         echo '<tr>' . "\n";
         echo ' <td>' . "\n";
-        PMA_select_server(true, true);
+        echo PMA_select_server(true, true);
         echo ' </td>' . "\n";
         echo '</tr>' . "\n";
     }

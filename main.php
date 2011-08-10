@@ -72,7 +72,7 @@ if ($server > 0
      && (count($cfg['Servers']) > 1 || $server == 0 && count($cfg['Servers']) == 1)) {
         echo '<li id="li_select_server">';
         include_once './libraries/select_server.lib.php';
-        PMA_select_server(true, true);
+        echo PMA_select_server(true, true);
         echo '</li>';
     }
 

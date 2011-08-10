@@ -138,9 +138,10 @@ div#pmalogo {
     <?php //better echo $GLOBALS['cfg']['logoBGC']; ?>
 }
 
-div#recentTableList {
+div#recentTableList,
+div#serverChoice {
     text-align: center;
-    margin: 20px 10px 0px 10px;
+    margin: 0.5em 1em 0 1em;
 }
 
 div#recentTableList select {
