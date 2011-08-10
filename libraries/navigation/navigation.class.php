@@ -251,7 +251,8 @@ class navigation {
 
         /* Init */
         $tree      = new CollapsibleTree();
-        $tree->setRootSeparator('_', 10);
+        $separator = ! empty($GLOBALS['cfg']['LeftFrameDBTree']) ? $GLOBALS['cfg']['LeftFrameDBSeparator'] : '';
+        $tree->setRootSeparator($separator, 1000);
 
         /* Databases */
         $query = "SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
@@ -266,7 +267,12 @@ class navigation {
         );
 
         /* Tables */
-        $table_container = $tree->addContainer(__('Tables'), $databases, '_');
+        $table_container = $tree->addContainer(
+            __('Tables'),
+            $databases,
+            $GLOBALS['cfg']['LeftFrameTableSeparator'],
+            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
+        );
         $tree->setIcon(PMA_getIcon('b_browse.png'), $table_container);
         $tree->setLinks(
             array(
@@ -287,7 +293,12 @@ class navigation {
         );
 
         /* Views */
-        $views_container = $tree->addContainer(__('Views'), $databases, '_');
+        $views_container = $tree->addContainer(
+            __('Views'),
+            $databases,
+            $GLOBALS['cfg']['LeftFrameTableSeparator'],
+            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
+        );
         $tree->setIcon(PMA_getIcon('b_views.png'), $views_container);
         $tree->setLinks(
             array(
