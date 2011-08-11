@@ -44,9 +44,9 @@ class CollapsibleTree {
             $data = PMA_DBI_fetch_result($data);
         }
         $new_id = ++$this->id;
-        foreach ($data as $key => $value) { // FIXME: this could be more efficient
-            $parents = $this->tree->find($parent);
-            foreach ($parents as $elm) {
+        $parents = $this->tree->find($parent);
+        foreach ($parents as $elm) { // FIXME: this loop must be more efficient
+            foreach ($data as $key => $value) {
                 if (is_array($value)) {
                     $name = $value['name'];
                     $ancestors = $value;
@@ -78,6 +78,7 @@ class CollapsibleTree {
                 $node = new Node($name, $new_id, Node::OBJECT);
                 $node->parent = $elm;
                 $elm->addChild($node);
+                unset($data[$key]);
             }
         }
         return $new_id;
