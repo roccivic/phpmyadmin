@@ -311,7 +311,7 @@ class navigation {
         $tree->setLinks(
         array(
                 'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
-                'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
+                'icon' => $GLOBALS['cfg']['LeftDefaultTabTable'] . '?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
             ),
             $tables
         );
