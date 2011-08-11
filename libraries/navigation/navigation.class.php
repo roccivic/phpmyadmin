@@ -280,11 +280,7 @@ class navigation {
 
         /* Databases */
         $query = "SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
-        if ($ajax) {
-            $databases = $tree->addList($query, true);
-        } else {
-            $databases = $tree->addList($query, true, 0, $this->pos, $GLOBALS['cfg']['MaxDbList']);
-        }
+        $databases = $tree->addList($query, true, 0, $this->pos, $GLOBALS['cfg']['MaxDbList']);
         $tree->setIcon(PMA_getIcon('s_db.png'), $databases);
         $tree->setLinks(
             array(
