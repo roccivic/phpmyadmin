@@ -1,6 +1,11 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
-class navigation {
+/**
+ * the navigation frame - displays server, db and table selection tree
+ *
+ * @package phpMyAdmin-Navigation
+ */
+class Navigation {
     /**
      * Variables
      */
@@ -274,190 +279,25 @@ class navigation {
         global $server, $token;
 
         /* Init */
-        $tree      = new CollapsibleTree();
-        $separator = ! empty($GLOBALS['cfg']['LeftFrameDBTree']) ? $GLOBALS['cfg']['LeftFrameDBSeparator'] : '';
-        $tree->setRootSeparator($separator, 1000);
-
-        /* Databases */
-        $query = "SELECT `SCHEMA_NAME` AS `name` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
-        $databases = $tree->addList($query, true, 0, $this->pos, $GLOBALS['cfg']['MaxDbList']);
-        $tree->setIcon(PMA_getIcon('s_db.png'), $databases);
-        $tree->setLinks(
-            array(
-                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_operations.php?server=' . $server . '&db=%1$s&token=' . $token
-            ),
-            $databases
-        );
-
-        /* Tables */
-        $table_container = $tree->addContainer(
-            __('Tables'),
-            $databases,
-            $GLOBALS['cfg']['LeftFrameTableSeparator'],
-            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
-        );
-        $tree->setIcon(PMA_getIcon('b_browse.png'), $table_container);
-        $tree->setLinks(
-            array(
-                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
-            ),
-            $table_container
-        );
-        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_TYPE`!='VIEW'";
-        $tables = $tree->addList($query, true, $table_container);
-        $tree->setIcon(PMA_getIcon('b_browse.png'), $tables);
-        $tree->setLinks(
-        array(
-                'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
-                'icon' => $GLOBALS['cfg']['LeftDefaultTabTable'] . '?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
-            ),
-            $tables
-        );
-
-        /* Views */
-        $views_container = $tree->addContainer(
-            __('Views'),
-            $databases,
-            $GLOBALS['cfg']['LeftFrameTableSeparator'],
-            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
-        );
-        $tree->setIcon(PMA_getIcon('b_views.png'), $views_container);
-        $tree->setLinks(
-            array(
-                'text' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_structure.php?server=' . $server . '&db=%1$s&token=' . $token
-            ),
-            $views_container
-        );
-        $query = "SELECT `TABLE_NAME` AS `name`,`TABLE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`VIEWS`";
-        $views = $tree->addList($query, true, $views_container);
-        $tree->setIcon(PMA_getIcon('b_views.png'), $views);
-        $tree->setLinks(
-            array(
-                'text' => 'sql.php?server=' . $server . '&db=%2$s&table=%1$s&pos=0&token=' . $token,
-                'icon' => 'tbl_structure.php?server=' . $server . '&db=%2$s&table=%1$s&token=' . $token
-            ),
-            $views
-        );
-
-        /* Routines */
-        $routines_container = $tree->addContainer(__('Routines'), $databases);
-        $tree->setIcon(PMA_getIcon('b_routines.png'), $routines_container);
-        $tree->setLinks(
-            array(
-                'text' => 'db_routines.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_routines.php?server=' . $server . '&db=%1$s&token=' . $token
-            ),
-            $routines_container
-        );
-        $query = "SELECT `ROUTINE_NAME` AS `name`,`ROUTINE_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`ROUTINES`";
-        $routines = $tree->addList($query, true, $routines_container);
-        $tree->setIcon(PMA_getIcon('b_routines.png'), $routines);
-        $tree->setLinks(
-            array(
-                'text' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                'icon' => 'db_routines.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-            ),
-            $routines
-        );
-
-        /* Events */
-        $events_container = $tree->addContainer(__('Events'), $databases);
-        $tree->setIcon(PMA_getIcon('b_events.png'), $events_container);
-        $tree->setLinks(
-            array(
-                'text' => 'db_events.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_events.php?server=' . $server . '&db=%1$s&token=' . $token
-            ),
-            $events_container
-        );
-        $query = "SELECT `EVENT_NAME` AS `name`,`EVENT_SCHEMA` AS `parent_1` FROM `INFORMATION_SCHEMA`.`EVENTS`";
-        $events = $tree->addList($query, true, $events_container);
-        $tree->setIcon(PMA_getIcon('b_events.png'), $events);
-        $tree->setLinks(
-            array(
-                'text' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                'icon' => 'db_events.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-            ),
-            $events
-        );
-
-        /* Triggers */
-        $triggers_container = $tree->addContainer(__('Triggers'), $databases);
-        $tree->setIcon(PMA_getIcon('b_triggers.png'), $triggers_container);
-        $tree->setLinks(
-            array(
-                'text' => 'db_triggers.php?server=' . $server . '&db=%1$s&token=' . $token,
-                'icon' => 'db_triggers.php?server=' . $server . '&db=%1$s&token=' . $token
-            ),
-            $triggers_container
-        );
-        $query = "SELECT `TRIGGER_NAME` AS `name`,`EVENT_OBJECT_SCHEMA` AS `parent_1` "
-               . "FROM `INFORMATION_SCHEMA`.`TRIGGERS`";
-        $triggers = $tree->addList($query, true, $triggers_container);
-        $tree->setIcon(PMA_getIcon('b_triggers.png'), $triggers);
-        $tree->setLinks(
-            array(
-                'text' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&edit_item=1&token=' . $token,
-                'icon' => 'db_triggers.php?server=' . $server . '&db=%2$s&item_name=%1$s&export_item=1&token=' . $token,
-            ),
-            $triggers
-        );
-
-        /* Table Columns */
-        if ($GLOBALS['cfg']['LeftFrameLight'] && $GLOBALS['is_ajax_request']) {
-            $column_container = $tree->addContainer(
-                __('Columns'),
-                $tables
-            );
-            $tree->setIcon(PMA_getIcon('s_vars.png', '', false, true), $column_container);
-            $query = "SELECT `COLUMN_NAME` AS `name`, `TABLE_NAME` AS `parent_1`, `TABLE_SCHEMA` AS `parent_2` FROM `INFORMATION_SCHEMA`.`COLUMNS`";
-            $columns = $tree->addList($query, true, $column_container);
-            $tree->setIcon(PMA_getIcon('s_vars.png', '', false, true), $columns);
-            $tree->setLinks(
-            array(
-                    'text' => 'tbl_alter?server=' . $server . '&db=%3$s&table=%2$s&field=%1$s&token=' . $token,
-                    'icon' => 'tbl_alter?server=' . $server . '&db=%3$s&table=%2$s&field=%1$s&token=' . $token,
-                ),
-                $columns
-            );
-        }
-
-        /* Table Indexes */
-        if ($GLOBALS['cfg']['LeftFrameLight'] && $GLOBALS['is_ajax_request']) {
-            $index_container = $tree->addContainer(
-                __('Indexes'),
-                $tables
-            );
-            $tree->setIcon(PMA_getIcon('b_primary.png', '', false, true), $index_container);
-            $query = "SELECT DISTINCT `CONSTRAINT_NAME` AS `name`, `TABLE_NAME` AS `parent_1`, `TABLE_SCHEMA` AS `parent_2` FROM `INFORMATION_SCHEMA`.`KEY_COLUMN_USAGE`";
-            $indexes = $tree->addList($query, true, $index_container);
-            $tree->setIcon(PMA_getIcon('b_primary.png', '', false, true), $indexes);
-            $tree->setLinks(
-            array(
-                    'text' => 'tbl_indexes.php?server=' . $server . '&db=%3$s&table=%2$s&index=%1$s&token=' . $token,
-                    'icon' => 'tbl_indexes.php?server=' . $server . '&db=%3$s&table=%2$s&index=%1$s&token=' . $token
-                ),
-                $indexes
-            );
-        }
+        $tree = new CollapsibleTree($this->pos);
 
         /* Render the tree */
         if ($ajax) {
-            if ($retval = $tree->renderPath()) {
-                PMA_ajaxResponse($retval, true);
+            if ($responce = $tree->renderPath()) {
+                PMA_ajaxResponse($responce, true);
             } else {
                 PMA_ajaxResponse('', false);
             }
         } else {
+            $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
             $light = '';
             if ($GLOBALS['cfg']['LeftFrameLight']) {
                 $light = " class='light'";
             }
             $_url_params = array('pos' => $this->pos);
-            $num_db = PMA_DBI_fetch_value("SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`SCHEMATA`");
+            $num_db = PMA_DBI_fetch_value(
+                "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`SCHEMATA`"
+            );
             ob_start();
             PMA_listNavigator(
                 $num_db,
@@ -469,16 +309,20 @@ class navigation {
             );
             $list = ob_get_contents();
             ob_end_clean();
-            $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
-            $retval .= '<!-- DATABASE PAGINATION START -->' . PHP_EOL;
-            $retval .= $list;
-            $retval .= '<!-- DATABASE PAGINATION END -->' . PHP_EOL;
+            if (! empty($list)) {
+                $retval .= '<!-- DATABASE PAGINATION START -->' . PHP_EOL;
+                $retval .= $list;
+                $retval .= '<!-- DATABASE PAGINATION END -->' . PHP_EOL;
+            }
             $retval .= "<div id='navigation_tree'$light>\n";
-            $retval .= $tree->renderTree();
+            if ($GLOBALS['cfg']['LeftFrameLight']) {
+                $retval .= $tree->renderState();
+            } else {
+                $retval .= $tree->renderTree();
+            }
             $retval .= "</div>\n";
             $retval .= '<!-- NAVIGATION TREE END -->' . PHP_EOL;
         }
-
         return $retval;
     }
 }

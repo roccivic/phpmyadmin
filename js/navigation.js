@@ -1,10 +1,13 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * function used in or for navigation frame
+ *
+ * @package phpMyAdmin-Navigation
  */
 
 /**
  * opens/closes (hides/shows) tree elements
+ * loads data via ajax, if possible
  */
 $(document).ready(function() {
 	$('#navigation_tree a.expander').live('click', function(event) {

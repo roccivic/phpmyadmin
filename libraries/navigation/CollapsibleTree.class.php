@@ -1,177 +1,360 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
+/**
+ * Displays a collapsible of database objects in the navigation frame
+ *
+ * @package phpMyAdmin-Navigation
+ */
 class CollapsibleTree {
-    const PARENT_INDEX_PREFIX = 'parent_';
-    private $id = 0;
     private $separator = '';
     private $tree;
-    private $path = array();
-    private $filter = '';
-    public function __construct()
+    private $a_path = array();
+    private $v_path = array();
+    private $pos;
+
+    public function __construct($pos)
     {
+        // Save the position at which we are in the database list
+        $this->pos = $pos;
         // Get the active node
-        if (isset($_REQUEST['path'])) {
-            $path = explode('.', $_REQUEST['path']);
-            foreach ($path as $key => $value) {
-                $path[$key] = base64_decode($value);
+        if (isset($_REQUEST['a_path'])) {
+            $a_path = explode('.', $_REQUEST['a_path']);
+            foreach ($a_path as $key => $value) {
+                $a_path[$key] = base64_decode($value);
             }
-            $this->path = $path;
+            $this->a_path = $a_path;
         }
-        // Get the argument used in the WHERE clause for query optimisation
-        if (isset($_REQUEST['filter'])) {
-            $this->filter = $_REQUEST['filter'];
+        if (isset($_REQUEST['v_path'])) {
+            $v_path = explode('.', $_REQUEST['v_path']);
+            foreach ($v_path as $key => $value) {
+                $v_path[$key] = base64_decode($value);
+            }
+            $this->v_path = $v_path;
         }
         // Initialise the tree by creating a root node
         $node = new Node('root', 0, Node::CONTAINER);
         $this->tree = $node;
-        return 0;
-    }
-    public function addList($data, $is_query, $parent = 0, $limit_pos = 0, $limit_length = false)
-    {
-        if ($is_query) {
-            if (! empty($this->filter) && $GLOBALS['cfg']['LeftFrameLight']) {
-                $this->filter = PMA_sqlAddSlashes($this->filter);
-                $last_parent = substr_count($data, 'parent_');
-                if ($last_parent > 0) {
-                    $data .= " HAVING `parent_$last_parent`='{$this->filter}'";
-                }
-            } else if ($GLOBALS['cfg']['LeftFrameLight'] && $parent != $this->tree->id) {
-                return false;
-            }
-            if ($limit_length !== false) {
-                $data .= " LIMIT $limit_pos,$limit_length";
-            }
-            $data = PMA_DBI_fetch_result($data);
+        if ($GLOBALS['cfg']['LeftFrameDBTree']) {
+            $this->tree->separator = $GLOBALS['cfg']['LeftFrameDBSeparator'];
+            $this->tree->separator_depth = 10000;
         }
-        $new_id = ++$this->id;
-        $parents = $this->tree->find($parent);
-        foreach ($parents as $elm) { // FIXME: this loop must be more efficient
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $name = $value['name'];
-                    $ancestors = $value;
-                    unset($ancestors['name']);
-                    $success = true;
-                    $working_node = $elm;
-                    $height = 1;
-                    while (count($ancestors) >= $height) {
-                        if ($working_node->type == Node::CONTAINER) {
-                            $working_node = $working_node->parent;
-                            continue;
-                        }
-                        $index = self::PARENT_INDEX_PREFIX . $height;
-                        if (isset($ancestors[$index]) && $ancestors[$index] == $working_node->name) {
-                            $working_node = $working_node->parent;
-                            $height++;
-                            continue;
-                        } else {
-                            $success = false;
-                            break;
-                        }
-                    }
-                    if (! $success) {
-                        continue;
-                    }
+    }
+
+    private function buildTree()
+    {
+        foreach (TreeData::getData('databases', null, null, 0) as $db) {
+            $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
+        }
+        foreach ($this->tree->children as $child) {
+            $containers = $this->addDbContainers($child);
+            foreach ($containers as $key => $value) {
+                foreach (TreeData::getData($key, $child->real_name) as $item) {
+                    $this->addObject($item, $value, TreeData::getOptions($key));
+                }
+            }
+        }
+    }
+
+    private function buildPath()
+    {
+        $retval = $this->tree;
+        foreach (TreeData::getData('databases', null, null, 0) as $db) {
+            $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
+        }
+        if (count($this->a_path) > 1) {
+            array_shift($this->a_path); // remove 'root'
+            $db = $this->tree->getChild($this->a_path[0]);
+            $retval = $db;
+            $containers = $this->addDbContainers($db);
+            array_shift($this->a_path); // remove db
+            if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers)) {
+                $container = $db->getChild($this->a_path[0], true);
+                $retval = $container;
+                foreach (TreeData::getData($this->a_path[0], $db->real_name) as $item) {
+                    $this->addObject($item, $container, TreeData::getOptions($this->a_path[0]));
+                }
+                if (count($this->a_path) > 1 && $this->a_path[0] != 'tables') {
+                    $retval = false;
                 } else {
-                    $name = $value;
+                    array_shift($this->a_path); // remove container
+                    if (count($this->a_path) > 0) {
+                        $table = $container->getChild($this->a_path[0], true);
+                        $retval = $table;
+                        $containers = $this->addTableContainers($table);
+                        array_shift($this->a_path); // remove table
+                        if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers)) {
+                            $container = $table->getChild($this->a_path[0], true);
+                            $retval = $container;
+                            foreach (TreeData::getData($this->a_path[0], $db->real_name, $table->real_name) as $item) {
+                                $this->addObject($item, $container, TreeData::getOptions($this->a_path[0]));
+                            }
+                            if (count($this->a_path) > 1) {
+                                $retval = false;
+                            }
+                        }
+                    }
                 }
-                $node = new Node($name, $new_id, Node::OBJECT);
-                $node->parent = $elm;
-                $elm->addChild($node);
-                unset($data[$key]);
             }
         }
-        return $new_id;
+        return $retval;
     }
-    public function addContainer($name, $parent = 0, $separator = '', $separator_depth = 1)
+
+    private function addObject($name, $parent, $options = array())
     {
-        $new_id = ++$this->id;
-        $parents = $this->tree->find($parent);
-        foreach ($parents as $elm) {
-            $node = new Node($name, $new_id, Node::CONTAINER);
-            $node->separator = $separator;
-            $node->separator_depth = $separator_depth;
-            $node->parent = $elm;
-            $elm->addChild($node);
+        $node = new Node($name, Node::OBJECT);
+        $node->parent = $parent;
+        $parent->addChild($node);
+        if (isset($options['icon'])) {
+            $node->icon = $options['icon'];
         }
-        return $new_id;
+        if (isset($options['links'])) {
+            $node->links = $options['links'];
+        }
+        return $node;
     }
-    public function setRootSeparator($value, $depth = 1)
+
+    private function addContainer($name, $parent, $icon = null, $separator = '', $separator_depth = 1)
     {
-        $this->tree->separator = $value;
-        $this->tree->separator_depth = $depth;
+        $node = new Node($name, Node::CONTAINER);
+        $node->separator = $separator;
+        $node->separator_depth = $separator_depth;
+        $node->parent = $parent;
+        $parent->addChild($node);
+        if (isset($icon)) {
+            $node->icon = $icon;
+        }
+        return $node;
     }
-    public function setIcon($img, $id)
+
+    private function addTableContainers($table)
     {
-        foreach ($this->tree->find($id) as $node) {
-            $node->icon = $img;
+        $retval = array();
+        // Columns
+        $container = $this->addContainer(
+            __('Columns'),
+            $table,
+            PMA_getIcon('s_vars.png', '', false, true)
+        );
+        $container->real_name = 'columns';
+        $retval['columns'] = $container;
+        // Indexes
+        $container = $this->addContainer(
+            __('Indexes'),
+            $table,
+            PMA_getIcon('b_primary.png', '', false, true)
+        );
+        $container->real_name = 'indexes';
+        $retval['indexes'] = $container;
+
+        return $retval;
+    }
+
+    private function addDbContainers($db)
+    {
+        $retval = array();
+        // Tables
+        $container = $this->addContainer(
+            __('Tables'),
+            $db,
+            PMA_getIcon('b_browse.png'),
+            $GLOBALS['cfg']['LeftFrameTableSeparator'],
+            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
+        );
+        $container->real_name = 'tables';
+        $retval['tables'] = $container;
+        // Views
+        $container = $this->addContainer(
+            __('Views'),
+            $db,
+            PMA_getIcon('b_views.png')
+        );
+        $container->real_name = 'views';
+        $retval['views'] = $container;
+        // Functions
+        $container = $this->addContainer(
+            __('Functions'),
+            $db,
+            PMA_getIcon('b_routines.png')
+        );
+        $container->real_name = 'functions';
+        $retval['functions'] = $container;
+        // Procedures
+        $container = $this->addContainer(
+            __('Procedures'),
+            $db,
+            PMA_getIcon('b_routines.png')
+        );
+        $container->real_name = 'procedures';
+        $retval['procedures'] = $container;
+        // Triggers
+        $container = $this->addContainer(
+            __('Triggers'),
+            $db,
+            PMA_getIcon('b_triggers.png')
+        );
+        $container->real_name = 'triggers';
+        $retval['triggers'] = $container;
+        // Events
+        $container = $this->addContainer(
+            __('Events'),
+            $db,
+            PMA_getIcon('b_events.png')
+        );
+        $container->real_name = 'events';
+        $retval['events'] = $container;
+
+        return $retval;
+    }
+
+    public function groupTree($node = null)
+    {
+        if (! isset($node)) {
+            $node = $this->tree;
+        }
+        $this->groupNode($node);
+        foreach ($node->children as $child) {
+            $this->groupNode($child);
+            $this->groupTree($child);
         }
     }
-    public function setLinks($links, $id)
+
+    public function groupNode($node)
     {
-        foreach ($this->tree->find($id) as $node) {
-            $node->links = $links;
+        if ($node->type == Node::CONTAINER) {
+            $prefixes = array();
+            foreach ($node->children as $child) {
+                if (strlen($node->separator) && $node->separator_depth > 0) {
+                    $separator = $node->separator;
+                    $sep_pos = strpos($child->name, $separator);
+                    if ($sep_pos != false && $sep_pos != strlen($child->name)) {
+                        $sep_pos++;
+                        $prefix = substr($child->name, 0, $sep_pos);
+                        if (! isset($prefixes[$prefix])) {
+                            $prefixes[$prefix] = 1;
+                        } else {
+                            $prefixes[$prefix]++;
+                        }
+                    }
+                }
+            }
+            foreach ($prefixes as $key => $value) {
+                if ($value == 1) {
+                    unset($prefixes[$key]);
+                }
+            }
+            if (count($prefixes)) {
+                $groups = array();
+                foreach ($prefixes as $key => $value) {
+                    $groups[$key] = new Node($key, Node::CONTAINER, true);
+                    $groups[$key]->parent = $node;
+                    $groups[$key]->separator = $node->separator;
+                    $groups[$key]->separator_depth = $node->separator_depth - 1;
+                    $groups[$key]->icon = $GLOBALS['cfg']['NavigationBarIconic'] ? PMA_getIcon('b_group.png', '', false, true) : '';
+                    $node->addChild($groups[$key]);
+                    foreach ($node->children as $child) { // FIXME: this could be more efficient
+                        if (substr($child->name, 0, strlen($key)) == $key && $child->type == Node::OBJECT) {
+                            $new_child = new Node(substr($child->name, strlen($key)), Node::OBJECT);
+                            $new_child->real_name = $child->real_name;
+                            $new_child->icon = $child->icon;
+                            $new_child->links = $child->links;
+                            $new_child->parent = $groups[$key];
+                            $groups[$key]->addChild($new_child);
+                            foreach ($child->children as $elm) {
+                                $new_child->addChild($elm);
+                                $elm->parent = $new_child;
+                            }
+                            $node->removeChild($child->name);
+                        }
+                    }
+                }
+                foreach ($prefixes as $key => $value) {
+                    $this->groupNode($groups[$key]);
+                }
+            }
         }
     }
+
     public function renderTree()
     {
+        $this->buildTree();
         $this->groupTree();
         $retval = "<ul>\n";
         $children = $this->tree->children;
         usort($children, array('CollapsibleTree', 'sortNode'));
         $this->setVisibility();
         foreach ($children as $child) {
-            $retval .= $this->renderNodeFromObject($child, true);
+            $retval .= $this->renderNode($child, true);
         }
         $retval .= "</ul>\n";
         return $retval;
     }
-    public function renderPath()
+
+    public function renderState()
     {
-        $retval = false;
-        $this->groupTree();
-        $node = $this->tree;
-        foreach ($this->path as $key => $value) {
-            $child = $node->getChild($value);
-            if ($child !== false) {
-                $node = $child;
-            }
-        }
-        if ($child !== false) {
-            $retval = "<ul style='display: none;'>\n";
-            $children = $node->children;
+        $node = $this->buildPath();
+        if ($node === false) {
+            $retval = false;
+        } else {
+            $this->groupTree();
+            $retval = "<ul>\n";
+            $children = $this->tree->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
-            $this->setVisibility();
+        $this->setVisibility();
             foreach ($children as $child) {
-                $retval .= $this->renderNodeFromObject($child, true);
+                $retval .= $this->renderNode($child, true);
             }
             $retval .= "</ul>\n";
         }
         return $retval;
     }
-    public function renderNodeFromObject($node, $recursive = -1, $indent = '  ')
+
+    public function renderPath()
     {
-        if ($node->type == Node::CONTAINER && count($node->children) == 0) {
+        $node = $this->buildPath();
+        if ($node === false) {
+            $retval = false;
+        } else {
+            $this->groupTree();
+            $retval = "<ul style='display: none;'>\n";
+            $children = $node->children;
+            usort($children, array('CollapsibleTree', 'sortNode'));
+            foreach ($children as $child) {
+                $retval .= $this->renderNode($child, true);
+            }
+            $retval .= "</ul>\n";
+        }
+        return $retval;
+    }
+
+    public function renderNode($node, $recursive = -1, $indent = '  ')
+    {
+        if (   $node->type == Node::CONTAINER
+            && count($node->children) == 0
+            && $GLOBALS['is_ajax_request'] != true
+            && $GLOBALS['cfg']['LeftFrameLight'] != true
+        ) {
             return '';
         }
         $retval = $indent . "<li class='nowrap'>";
         $hasChildren = $node->hasChildren(false);
-        if ($hasChildren || ($GLOBALS['cfg']['LeftFrameLight'] && $node->filter() == $node->real_name)) {
-            $path = array();
-            foreach ($node->parents(true, true) as $parent) {
-                $path[] = urlencode(base64_encode($parent->name));
+        if ($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight']) {
+            $a_path = array();
+            foreach ($node->parents(true, true, false) as $parent) {
+                $a_path[] = urlencode(base64_encode($parent->real_name));
             }
-            $path = implode('.', array_reverse($path));
-            if ($filter = $node->filter()) {
-                $path .= '&amp;filter=' . urlencode($filter);
+            $a_path = implode('.', array_reverse($a_path));
+            $v_path = array();
+            foreach ($node->parents(true, true, true) as $parent) {
+                $v_path[] = urlencode(base64_encode($parent->name));
             }
-            $link    = "navigation.php?" . PMA_generate_common_url() . "&path=$path";
+            $v_path = implode('.', array_reverse($v_path));
+            $link    = "navigation.php?" . PMA_generate_common_url() . "&a_path=$a_path&v_path=$v_path&XDEBUG_PROFILE";
             $ajax    = '';
             if ($GLOBALS['cfg']['AjaxEnable']) {
                 $ajax = ' ajax';
             }
             $loaded = '';
-            if ($GLOBALS['is_ajax_request'] || $GLOBALS['cfg']['LeftFrameLight'] != true || $node->type == Node::CONTAINER) {
+            if ($node->is_group || $GLOBALS['cfg']['LeftFrameLight'] != true) {
                 $loaded = ' loaded';
             }
             $retval .= "<a class='expander$ajax$loaded' target='_self' href='$link'>";
@@ -209,26 +392,31 @@ class CollapsibleTree {
         if ($node->type == Node::CONTAINER) {
             $retval .= "</i>";
         }
-        if ($recursive && $hasChildren) {
+        if ($recursive) {
             $hide = '';
             if ($node->visible == false) {
                 $hide = " style='display: none;'";
             }
-            $retval .= "\n" . $indent ."  <ul$hide>\n";
             $children = $node->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
+            $buffer = '';
             foreach ($children as $child) {
-                $retval .= $this->renderNodeFromObject($child, true, $indent . '    ');
+                $buffer .= $this->renderNode($child, true, $indent . '    ');
             }
-            $retval .= $indent . "  </ul>\n" . $indent;
+            if (! empty($buffer)) {
+                $retval .= "\n" . $indent ."  <ul$hide>\n";
+                $retval .= $buffer;
+                $retval .= $indent . "  </ul>\n" . $indent;
+            }
         }
         $retval .= "</li>\n";
         return $retval;
     }
-    private function setVisibility($to_tree = true)
+
+    private function setVisibility()
     {
         $node = $this->tree;
-        foreach ($this->path as $key => $value) {
+        foreach ($this->v_path as $key => $value) {
             $child = $node->getChild($value);
             if ($child !== false) {
                 $child->visible = true;
@@ -236,82 +424,7 @@ class CollapsibleTree {
             }
         }
     }
-    public function groupTree($node = null)
-    {
-        if (! isset($node)) {
-            $node = $this->tree;
-        }
-        $this->groupNode($node);
-        foreach ($node->children as $child) {
-            $this->groupNode($child);
-            $this->groupTree($child);
-        }
-    }
-    public function groupNode($node)
-    {
-        if ($node->type == Node::CONTAINER) {
-            $prefixes = array();
-            foreach ($node->children as $child) {
-                if (strlen($node->separator) && $node->separator_depth > 0) {
-                    $separator = $node->separator;
-                    $sep_pos = strpos($child->name, $separator);
-                    if ($sep_pos != false && $sep_pos != strlen($child->name)) {
-                        $sep_pos++;
-                        $prefix = substr($child->name, 0, $sep_pos);
-                        if (! isset($prefixes[$prefix])) {
-                            $prefixes[$prefix] = 1;
-                        } else {
-                            $prefixes[$prefix]++;
-                        }
-                    }
-                }
-            }
-            foreach ($prefixes as $key => $value) {
-                if ($value == 1) {
-                    unset($prefixes[$key]);
-                }
-            }
-            if (count($prefixes)) {
-                $groups = array();
-                foreach ($prefixes as $key => $value) {
-                    $groups[$key] = new Node($key, $node->id + 100000, Node::CONTAINER);
-                    $groups[$key]->parent = $node;
-                    $groups[$key]->separator = $node->separator;
-                    $groups[$key]->separator_depth = $node->separator_depth - 1;
-                    $groups[$key]->icon = PMA_getIcon('b_group.png', '', false, true);
-                    $node->addChild($groups[$key]);
-                    foreach ($node->children as $child) { // FIXME: this could be more efficient
-                        if (substr($child->name, 0, strlen($key)) == $key && $child->type == Node::OBJECT) {
-                            $new_child = new Node(substr($child->name, strlen($key)), $node->id, Node::OBJECT);
-                            $new_child->real_name = $child->real_name;
-                            $new_child->icon = $child->icon;
-                            $new_child->links = $child->links;
-                            $new_child->parent = $groups[$key];
-                            $groups[$key]->addChild($new_child);
-                            foreach ($child->children as $elm) {
-                                $new_child->addChild($elm);
-                                $elm->parent = $new_child;
-                            }
-                            $node->removeChild($child->name);
-                        }
-                    }
-                }
-                foreach ($prefixes as $key => $value) {
-                    $this->groupNode($groups[$key]);
-                }
-            }
-        }
-    }
-    public function dumpTree($obj)
-    {
-        ob_start();
-        var_dump($this->tree);
-        $data = ob_get_contents();
-        ob_end_clean();
-        $data = str_replace(' ', '&nbsp;&nbsp;', $data);
-        $data = nl2br($data);
-        echo $data;
-    }
+
     static public function sortNode($a, $b) {
         if ($GLOBALS['cfg']['NaturalOrder']) {
             return strnatcmp($a->name, $b->name);
