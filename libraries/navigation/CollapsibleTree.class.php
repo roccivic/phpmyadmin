@@ -375,7 +375,7 @@ class CollapsibleTree {
             }
             $container = '';
             if ($node->type == Node::CONTAINER) {
-                $loaded = ' container';
+                $container = ' container';
             }
             $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
             $retval .= PMA_getIcon('b_plus.png');
