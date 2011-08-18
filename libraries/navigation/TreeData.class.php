@@ -131,6 +131,129 @@ class TreeData {
         return $retval;
     }
 
+    static public function getPresence($type, $db = null, $table = null)
+    {
+        $retval = 0;
+        switch ($type) {
+        case 'tables':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `TABLE_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
+                $query .= "WHERE `TABLE_SCHEMA`='$db' ";
+                $query .= "AND `TABLE_TYPE`='BASE TABLE' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW FULL TABLES FROM $db ";
+                $query .= "WHERE `Table_type`='BASE TABLE'";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'views':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `TABLE_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
+                $query .= "WHERE `TABLE_SCHEMA`='$db' ";
+                $query .= "AND `TABLE_TYPE`!='BASE TABLE' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW FULL TABLES FROM $db ";
+                $query .= "WHERE `Table_type`!='BASE TABLE'";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'procedures':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `ROUTINE_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
+                $query .= "WHERE `ROUTINE_SCHEMA`='$db'";
+                $query .= "AND `ROUTINE_TYPE`='PROCEDURE' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SHOW PROCEDURE STATUS WHERE `Db`='$db'";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'functions':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `ROUTINE_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
+                $query .= "WHERE `ROUTINE_SCHEMA`='$db' ";
+                $query .= "AND `ROUTINE_TYPE`='FUNCTION' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SHOW FUNCTION STATUS WHERE `Db`='$db'";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'triggers':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `TRIGGER_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
+                $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW TRIGGERS FROM $db";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'events':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `EVENT_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`EVENTS` ";
+                $query .= "WHERE `EVENT_SCHEMA`='$db' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW EVENTS FROM $db";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'columns':
+            if (! $GLOBALS['cfg']['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $table  = PMA_sqlAddSlashes($table);
+                $query  = "SELECT `COLUMN_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`COLUMNS` ";
+                $query .= "WHERE `TABLE_NAME`='$table' ";
+                $query .= "AND `TABLE_SCHEMA`='$db' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $table  = PMA_backquote($table);
+                $query  = "SHOW COLUMNS FROM $table FROM $db";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'indexes':
+            $db     = PMA_backquote($db);
+            $table  = PMA_backquote($table);
+            $query  = "SHOW INDEXES FROM $table FROM $db";
+            $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            break;
+        default:
+            break;
+        }
+        return $retval;
+    }
+
     /* Data providers */
     static public function getData($type, $db = null, $table = null, $pos = null)
     {

@@ -80,7 +80,7 @@ class CollapsibleTree {
                     if (count($this->a_path) > 0) {
                         $table = $container->getChild($this->a_path[0], true);
                         $retval = $table;
-                        $containers = $this->addTableContainers($table);
+                        $containers = $this->addTableContainers($db, $table);
                         array_shift($this->a_path); // remove table
                         if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers)) {
                             $container = $table->getChild($this->a_path[0], true);
@@ -126,25 +126,29 @@ class CollapsibleTree {
         return $node;
     }
 
-    private function addTableContainers($table)
+    private function addTableContainers($db, $table)
     {
         $retval = array();
         // Columns
-        $container = $this->addContainer(
-            __('Columns'),
-            $table,
-            PMA_getIcon('s_vars.png', '', false, true)
-        );
-        $container->real_name = 'columns';
-        $retval['columns'] = $container;
-        // Indexes
-        $container = $this->addContainer(
-            __('Indexes'),
-            $table,
-            PMA_getIcon('b_primary.png', '', false, true)
-        );
-        $container->real_name = 'indexes';
-        $retval['indexes'] = $container;
+        if (TreeData::getPresence('columns', $db->real_name, $table->real_name)) {
+            $container = $this->addContainer(
+                __('Columns'),
+                $table,
+                PMA_getIcon('s_vars.png', '', false, true)
+            );
+            $container->real_name = 'columns';
+            $retval['columns'] = $container;
+        }
+        if (TreeData::getPresence('indexes', $db->real_name, $table->real_name)) {
+            // Indexes
+            $container = $this->addContainer(
+                __('Indexes'),
+                $table,
+                PMA_getIcon('b_primary.png', '', false, true)
+            );
+            $container->real_name = 'indexes';
+            $retval['indexes'] = $container;
+        }
 
         return $retval;
     }
@@ -152,56 +156,68 @@ class CollapsibleTree {
     private function addDbContainers($db)
     {
         $retval = array();
-        // Tables
-        $container = $this->addContainer(
-            __('Tables'),
-            $db,
-            PMA_getIcon('b_browse.png'),
-            $GLOBALS['cfg']['LeftFrameTableSeparator'],
-            (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
-        );
-        $container->real_name = 'tables';
-        $retval['tables'] = $container;
-        // Views
-        $container = $this->addContainer(
-            __('Views'),
-            $db,
-            PMA_getIcon('b_views.png')
-        );
-        $container->real_name = 'views';
-        $retval['views'] = $container;
-        // Functions
-        $container = $this->addContainer(
-            __('Functions'),
-            $db,
-            PMA_getIcon('b_routines.png')
-        );
-        $container->real_name = 'functions';
-        $retval['functions'] = $container;
-        // Procedures
-        $container = $this->addContainer(
-            __('Procedures'),
-            $db,
-            PMA_getIcon('b_routines.png')
-        );
-        $container->real_name = 'procedures';
-        $retval['procedures'] = $container;
-        // Triggers
-        $container = $this->addContainer(
-            __('Triggers'),
-            $db,
-            PMA_getIcon('b_triggers.png')
-        );
-        $container->real_name = 'triggers';
-        $retval['triggers'] = $container;
-        // Events
-        $container = $this->addContainer(
-            __('Events'),
-            $db,
-            PMA_getIcon('b_events.png')
-        );
-        $container->real_name = 'events';
-        $retval['events'] = $container;
+        if (TreeData::getPresence('tables', $db->real_name)) {
+            // Tables
+            $container = $this->addContainer(
+                __('Tables'),
+                $db,
+                PMA_getIcon('b_browse.png'),
+                $GLOBALS['cfg']['LeftFrameTableSeparator'],
+                (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
+            );
+            $container->real_name = 'tables';
+            $retval['tables'] = $container;
+        }
+        if (TreeData::getPresence('views', $db->real_name)) {
+            // Views
+            $container = $this->addContainer(
+                __('Views'),
+                $db,
+                PMA_getIcon('b_views.png')
+            );
+            $container->real_name = 'views';
+            $retval['views'] = $container;
+        }
+        if (TreeData::getPresence('functions', $db->real_name)) {
+            // Functions
+            $container = $this->addContainer(
+                __('Functions'),
+                $db,
+                PMA_getIcon('b_routines.png')
+            );
+            $container->real_name = 'functions';
+            $retval['functions'] = $container;
+        }
+        if (TreeData::getPresence('procedures', $db->real_name)) {
+            // Procedures
+            $container = $this->addContainer(
+                __('Procedures'),
+                $db,
+                PMA_getIcon('b_routines.png')
+            );
+            $container->real_name = 'procedures';
+            $retval['procedures'] = $container;
+        }
+        if (TreeData::getPresence('triggers', $db->real_name)) {
+            // Triggers
+            $container = $this->addContainer(
+                __('Triggers'),
+                $db,
+                PMA_getIcon('b_triggers.png')
+            );
+            $container->real_name = 'triggers';
+            $retval['triggers'] = $container;
+        }
+        if (TreeData::getPresence('events', $db->real_name)) {
+            // Events
+            $container = $this->addContainer(
+                __('Events'),
+                $db,
+                PMA_getIcon('b_events.png')
+            );
+            $container->real_name = 'events';
+            $retval['events'] = $container;
+        }
 
         return $retval;
     }
