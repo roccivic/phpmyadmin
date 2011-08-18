@@ -373,7 +373,11 @@ class CollapsibleTree {
             if ($node->is_group || $GLOBALS['cfg']['LeftFrameLight'] != true) {
                 $loaded = ' loaded';
             }
-            $retval .= "<a class='expander$ajax$loaded' target='_self' href='$link'>";
+            $container = '';
+            if ($node->type == Node::CONTAINER) {
+                $loaded = ' container';
+            }
+            $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
             $retval .= PMA_getIcon('b_plus.png');
             $retval .= "</a>";
         } else {

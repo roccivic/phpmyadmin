@@ -37,6 +37,9 @@ $(document).ready(function() {
 		                $destination.find('ul').first().show('fast');
                         $this.parent().find('.throbber').hide();
                         $icon.show();
+                        if ($destination.find('ul > li').length == 1) {
+                            $destination.find('ul > li').find('a.expander.container').click();
+                        }
                     } else {
                         $this.parent().find('.throbber').hide();
                         $icon.show();
