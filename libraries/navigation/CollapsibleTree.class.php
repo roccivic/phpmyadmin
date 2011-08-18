@@ -353,7 +353,8 @@ class CollapsibleTree {
         }
         $retval = $indent . "<li class='nowrap'>";
         $hasChildren = $node->hasChildren(false);
-        if ($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight']) {
+        $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
+        if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight']) && ! in_array($node->parent->real_name, $sterile)) {
             $a_path = array();
             foreach ($node->parents(true, true, false) as $parent) {
                 $a_path[] = urlencode(base64_encode($parent->real_name));
