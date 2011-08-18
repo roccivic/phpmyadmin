@@ -123,21 +123,5 @@ class Node {
     {
         return $this->parent->children;
     }
-    /**
-     * Returns the name of the furthest parent that is
-     * not a container or itself, if there are none.
-     */
-    public function filter()
-    {
-        $name = false;
-        $parent = $this;
-        while (isset($parent)) {
-            if ($parent->type != Node::CONTAINER) {
-                $name = $parent->real_name;
-            }
-            $parent = $parent->parent;
-        }
-        return $name;
-    }
 }
 ?>
