@@ -122,7 +122,7 @@ class TreeData {
                             . '&db=%3$s&table=%2$s&index=%1$s'
                             . '&token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('s_vars.png', '', false, true)
+                'icon' => PMA_getIcon('b_primary.png', '', false, true)
             );
             break;
         default:
