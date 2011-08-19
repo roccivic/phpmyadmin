@@ -24,6 +24,7 @@ function setDb(new_db)
     //alert('setDb(' + new_db + ')');
     if (new_db != db) {
         // db has changed
+        db = new_db;
         refreshQuerywindow();
     }
 }
@@ -38,6 +39,7 @@ function setTable(new_table)
     //alert('setTable(' + new_table + ')');
     if (new_table != table) {
         // table has changed
+        table = new_table;
         refreshQuerywindow();
     }
 }
@@ -119,17 +121,12 @@ function setAll( new_lang, new_collation_connection, new_server, new_db, new_tab
         table  = new_table;
         collation_connection  = new_collation_connection;
         lang  = new_lang;
-        token  = new_token;
+        token = new_token;
         refreshNavigation();
     } else if (new_db != db || new_table != table) {
         // save new db and table
-        var old_db    = db;
-        var old_table = table;
-        db        = new_db;
-        table     = new_table;
-
-        // TODO: add code to expand db in lightview mode
-
+        db    = new_db;
+        table = new_table;
         // refresh querywindow
         refreshQuerywindow();
     }
