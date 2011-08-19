@@ -14,9 +14,9 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'db_structure.php?server=' . $GLOBALS['server']
-                            . '&db=%1$s&token=' . $GLOBALS['token'],
+                            . '&amp;db=%1$s&amp;token=' . $GLOBALS['token'],
                     'icon' => 'db_operations.php?server=' . $GLOBALS['server']
-                            . '&db=%1$s&token=' . $GLOBALS['token']
+                            . '&amp;db=%1$s&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('s_db.png')
             );
@@ -25,11 +25,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'sql.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&table=%1$s'
-                            . '&pos=0&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;table=%1$s'
+                            . '&amp;pos=0&amp;token=' . $GLOBALS['token'],
                     'icon' => $GLOBALS['cfg']['LeftDefaultTabTable']
                             . '?server=' . $GLOBALS['server']
-                            . '&db=%2$s&table=%1$s&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;table=%1$s&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_browse.png')
             );
@@ -38,11 +38,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'sql.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&table=%1$s&pos=0'
-                            . '&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;table=%1$s&amp;pos=0'
+                            . '&amp;token=' . $GLOBALS['token'],
                     'icon' => 'tbl_structure.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&table=%1$s'
-                            . '&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;table=%1$s'
+                            . '&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_views.png')
             );
@@ -51,11 +51,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'db_routines.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&item_type=FUNCTION'
-                            . '&edit_item=1&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=FUNCTION'
+                            . '&amp;edit_item=1&amp;token=' . $GLOBALS['token'],
                     'icon' => 'db_routines.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&item_type=FUNCTION'
-                            . '&export_item=1&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=FUNCTION'
+                            . '&amp;export_item=1&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_routines.png')
             );
@@ -64,11 +64,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'db_routines.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&item_type=PROCEDURE'
-                            . '&edit_item=1&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=PROCEDURE'
+                            . '&amp;edit_item=1&amp;token=' . $GLOBALS['token'],
                     'icon' => 'db_routines.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&item_type=PROCEDURE'
-                            . '&export_item=1&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=PROCEDURE'
+                            . '&amp;export_item=1&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_routines.png')
             );
@@ -77,11 +77,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'db_triggers.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&edit_item=1'
-                            . '&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;edit_item=1'
+                            . '&amp;token=' . $GLOBALS['token'],
                     'icon' => 'db_triggers.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&export_item=1'
-                            . '&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
+                            . '&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_triggers.png')
             );
@@ -90,11 +90,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'db_events.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&edit_item=1'
-                            . '&token=' . $GLOBALS['token'],
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;edit_item=1'
+                            . '&amp;token=' . $GLOBALS['token'],
                     'icon' => 'db_events.php?server=' . $GLOBALS['server']
-                            . '&db=%2$s&item_name=%1$s&export_item=1'
-                            . '&token=' . $GLOBALS['token']
+                            . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
+                            . '&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_events.png')
             );
@@ -103,11 +103,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'tbl_alter.php?server=' . $GLOBALS['server']
-                            . '&db=%3$s&table=%2$s&field=%1$s'
-                            . '&token=' . $GLOBALS['token'],
+                            . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
+                            . '&amp;token=' . $GLOBALS['token'],
                     'icon' => 'tbl_alter.php?server=' . $GLOBALS['server']
-                            . '&db=%3$s&table=%2$s&field=%1$s'
-                            . '&token=' . $GLOBALS['token']
+                            . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
+                            . '&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('s_vars.png', '', false, true)
             );
@@ -116,11 +116,11 @@ class TreeData {
             $retval = array(
                 'links' => array(
                     'text' => 'tbl_indexes.php?server=' . $GLOBALS['server']
-                            . '&db=%3$s&table=%2$s&index=%1$s'
-                            . '&token=' . $GLOBALS['token'],
+                            . '&amp;db=%3$s&amp;table=%2$s&amp;index=%1$s'
+                            . '&amp;token=' . $GLOBALS['token'],
                     'icon' => 'tbl_indexes.php?server=' . $GLOBALS['server']
-                            . '&db=%3$s&table=%2$s&index=%1$s'
-                            . '&token=' . $GLOBALS['token']
+                            . '&amp;db=%3$s&amp;table=%2$s&amp;index=%1$s'
+                            . '&amp;token=' . $GLOBALS['token']
                 ),
                 'icon' => PMA_getIcon('b_primary.png', '', false, true)
             );

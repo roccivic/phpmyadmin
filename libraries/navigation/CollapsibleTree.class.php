@@ -315,7 +315,7 @@ class CollapsibleTree {
             $retval = "<ul>\n";
             $children = $this->tree->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
-        $this->setVisibility();
+            $this->setVisibility();
             foreach ($children as $child) {
                 $retval .= $this->renderNode($child, true);
             }
@@ -359,7 +359,9 @@ class CollapsibleTree {
         $retval = $indent . "<li class='nowrap'>";
         $hasChildren = $node->hasChildren(false);
         $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
-        if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight']) && ! in_array($node->parent->real_name, $sterile)) {
+        if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight'])
+            && ! in_array($node->parent->real_name, $sterile)
+        ) {
             $a_path = array();
             foreach ($node->parents(true, true, false) as $parent) {
                 $a_path[] = urlencode(base64_encode($parent->real_name));
@@ -370,7 +372,7 @@ class CollapsibleTree {
                 $v_path[] = urlencode(base64_encode($parent->name));
             }
             $v_path = implode('.', array_reverse($v_path));
-            $link    = "navigation.php?" . PMA_generate_common_url() . "&a_path=$a_path&v_path=$v_path&XDEBUG_PROFILE";
+            $link    = "navigation.php?" . PMA_generate_common_url() . "&amp;a_path=$a_path&amp;v_path=$v_path&amp;XDEBUG_PROFILE";
             $ajax    = '';
             if ($GLOBALS['cfg']['AjaxEnable']) {
                 $ajax = ' ajax';
