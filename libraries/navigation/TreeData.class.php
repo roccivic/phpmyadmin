@@ -136,7 +136,7 @@ class TreeData {
         $retval = 0;
         switch ($type) {
         case 'tables':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TABLE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
@@ -152,7 +152,7 @@ class TreeData {
             }
             break;
         case 'views':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TABLE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
@@ -168,7 +168,7 @@ class TreeData {
             }
             break;
         case 'procedures':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `ROUTINE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
@@ -183,7 +183,7 @@ class TreeData {
             }
             break;
         case 'functions':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `ROUTINE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
@@ -198,7 +198,7 @@ class TreeData {
             }
             break;
         case 'triggers':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TRIGGER_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
@@ -212,7 +212,7 @@ class TreeData {
             }
             break;
         case 'events':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `EVENT_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`EVENTS` ";
@@ -226,7 +226,7 @@ class TreeData {
             }
             break;
         case 'columns':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $table  = PMA_sqlAddSlashes($table);
                 $query  = "SELECT `COLUMN_NAME` AS `name` ";
@@ -261,7 +261,7 @@ class TreeData {
         $retval = array();
         switch ($type) {
         case 'databases':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $query  = "SELECT `SCHEMA_NAME` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`SCHEMATA` ";
                 $query .= "LIMIT $pos, {$GLOBALS['cfg']['MaxDbList']}";
@@ -269,13 +269,14 @@ class TreeData {
             } else {
                 $query = "SHOW DATABASES";
                 $temp = PMA_DBI_fetch_result($query);
-                for ($i=$pos; $i<$GLOBALS['cfg']['MaxDbList']; $i++) {
+                $num = min($GLOBALS['cfg']['MaxDbList'], count($temp));
+                for ($i=$pos; $i<$num; $i++) {
                     $retval[] = $temp[$i];
                 }
             }
             break;
         case 'tables':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TABLE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
@@ -295,7 +296,7 @@ class TreeData {
             }
             break;
         case 'views':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TABLE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
@@ -315,7 +316,7 @@ class TreeData {
             }
             break;
         case 'procedures':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `ROUTINE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
@@ -334,7 +335,7 @@ class TreeData {
             }
             break;
         case 'functions':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `ROUTINE_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
@@ -353,7 +354,7 @@ class TreeData {
             }
             break;
         case 'triggers':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `TRIGGER_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
@@ -371,7 +372,7 @@ class TreeData {
             }
             break;
         case 'events':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $query  = "SELECT `EVENT_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`EVENTS` ";
@@ -389,7 +390,7 @@ class TreeData {
             }
             break;
         case 'columns':
-            if (! $GLOBALS['cfg']['DisableIS']) {
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
                 $table  = PMA_sqlAddSlashes($table);
                 $query  = "SELECT `COLUMN_NAME` AS `name` ";
