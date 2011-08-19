@@ -42,7 +42,7 @@ class CollapsibleTree {
 
     private function buildTree()
     {
-        foreach (TreeData::getData('databases', null, null, 0) as $db) {
+        foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
             $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
         }
         foreach ($this->tree->children as $child) {
@@ -58,7 +58,7 @@ class CollapsibleTree {
     private function buildPath()
     {
         $retval = $this->tree;
-        foreach (TreeData::getData('databases', null, null, 0) as $db) {
+        foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
             $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
         }
         if (count($this->a_path) > 1) {
