@@ -432,14 +432,13 @@ class CollapsibleTree {
                 $buffer .= $this->renderNode($child, true, $indent . '    ');
             }
             if (! empty($buffer)) {
+                $retval .= "\n" . $indent ."  <ul$hide>\n";
                 if ($GLOBALS['cfg']['LeftFrameLight'] != true
                     && ($node->real_name == 'tables' || $node->real_name == 'views')
                     && $node->numChildren() >= (int)$GLOBALS['cfg']['LeftDisplayTableFilterMinimum']
                 ) {
-                    $fast_filter = $this->fastFilterHtml();
+                    $retval .= $this->fastFilterHtml();
                 }
-                $retval .= "\n" . $indent ."  <ul$hide>\n";
-                $retval .= $fast_filter;
                 $retval .= $buffer;
                 $retval .= $indent . "  </ul>\n" . $indent;
             }
