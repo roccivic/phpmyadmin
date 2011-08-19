@@ -119,6 +119,18 @@ class Node {
         }
         return $retval;
     }
+    public function numChildren()
+    {
+        $retval = 0;
+        foreach ($this->children as $child) {
+            if ($child->type == Node::OBJECT) {
+                $retval++;
+            } else {
+                $retval += $child->numChildren();
+            }
+        }
+        return $retval;
+    }
     public function siblings()
     {
         return $this->parent->children;

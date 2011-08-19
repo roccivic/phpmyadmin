@@ -332,6 +332,11 @@ class CollapsibleTree {
         } else {
             $this->groupTree();
             $retval = "<ul style='display: none;'>\n";
+            if (($node->real_name == 'tables' || $node->real_name == 'views')
+                && $node->numChildren() >= (int)$GLOBALS['cfg']['LeftDisplayTableFilterMinimum']) {
+                // fast filter
+                $retval .= $this->fastFilterHtml();
+            }
             $children = $node->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
             foreach ($children as $child) {
@@ -425,7 +430,14 @@ class CollapsibleTree {
                 $buffer .= $this->renderNode($child, true, $indent . '    ');
             }
             if (! empty($buffer)) {
+                if ($GLOBALS['cfg']['LeftFrameLight'] != true
+                    && ($node->real_name == 'tables' || $node->real_name == 'views')
+                    && $node->numChildren() >= (int)$GLOBALS['cfg']['LeftDisplayTableFilterMinimum']
+                ) {
+                    $fast_filter = $this->fastFilterHtml();
+                }
                 $retval .= "\n" . $indent ."  <ul$hide>\n";
+                $retval .= $fast_filter;
                 $retval .= $buffer;
                 $retval .= $indent . "  </ul>\n" . $indent;
             }
@@ -444,6 +456,15 @@ class CollapsibleTree {
                 $node = $child;
             }
         }
+    }
+
+    private function fastFilterHtml()
+    {
+        $retval  = "<li class='fast_filter'>";
+        $retval .= "<input value='" . __('filter tables by name') . "' />";
+        $retval .= "<span title='" . __('Clear Fast Filter') . "'>X</span>";
+        $retval .= "</li>";
+        return $retval;
     }
 
     static public function sortNode($a, $b) {

@@ -312,36 +312,6 @@ var PMA_cookie = {
 };
 
 /**
- * hide all LI elements with second A tag which doesn`t contain requested value
- *
- * @param   string  value    requested value
- */
-function fast_filter(value)
-{
-    lowercase_value = value.toLowerCase();
-    $("#subel0 a[class!='tableicon']").each(function(idx,elem){
-        $elem = $(elem);
-        // .indexOf is case sensitive so convert to lowercase to compare
-        if (value && $elem.html().toLowerCase().indexOf(lowercase_value) == -1) {
-            $elem.parent().hide();
-        } else {
-            $elem.parents('li').show();
-        }
-    });
-}
-
-/**
- * Clears fast filter.
- */
-function clear_fast_filter()
-{
-    var elm = $('#NavFilter input');
-    elm.val('');
-    fast_filter('');
-    elm.focus();
-}
-
-/**
  * Reloads the recent tables list.
  */
 function PMA_reloadRecentTable() {
@@ -365,16 +335,54 @@ function PMA_reloadRecentTable() {
 $(document).ready(function(){
     // Frame resize handler
     PMA_resizeHandler.init();
-    // Display filter
-    $('#NavFilter').css('display', 'inline');
-    $('input[id="fast_filter"]').focus(function() {
-        if($(this).attr("value") === "filter tables by name") {
-            clear_fast_filter();
+
+    // Bind "clear fast filter"
+    $('li.fast_filter > span').live('click', function () {
+        // Clear the input and apply the fast filter with empty input
+        var value = $(this).prev()[0].defaultValue;
+        $(this).prev().val(value).trigger('keyup');
+    });
+    // Bind "fast filter"
+    $('li.fast_filter > input').live('focus', function () {
+        if ($(this).val() == this.defaultValue) {
+            $(this).val('');
+        } else {
+            $(this).select();
         }
     });
-    $('#clear_fast_filter').click(clear_fast_filter);
-    $('#fast_filter').focus(function (evt) {evt.target.select();});
-    $('#fast_filter').keyup(function (evt) {fast_filter(evt.target.value);});
+    $('li.fast_filter > input').live('blur', function () {
+        if ($(this).val() == '') {
+            $(this).val(this.defaultValue);
+        }
+    });
+    $('li.fast_filter > input').live('keyup', function () {
+        var $obj = $(this).parent().parent();
+        var str = '';
+        if ($(this).val() != this.defaultValue) {
+            str = $(this).val().toLowerCase();
+        }
+        $obj.find('li > a').not('.container').each(function () {
+            if ($(this).text().toLowerCase().indexOf(str) != -1) {
+                $(this).parent().show().removeClass('hidden');
+            } else {
+                $(this).parent().hide().addClass('hidden');
+            }
+        });
+        var container_filter = function ($curr, str) {
+            $curr.children('li').children('a.container').each(function () {
+                var $group = $(this).parent().children('ul');
+                if ($group.children('li').children('a.container').length > 0) {
+                    container_filter($group); // recursive
+                }
+                $group.parent().show().removeClass('hidden');
+                if ($group.children().not('.hidden').length == 0) {
+                    $group.parent().hide().addClass('hidden');
+                }
+            });
+        };
+        container_filter($obj, str);
+    });
+
     // Jump to recent table
     $('#recentTable').change(function() {
         if (this.value != '') {
@@ -384,19 +392,4 @@ $(document).ready(function(){
             window.parent.refreshMain($('#LeftDefaultTabTable')[0].value);
         }
     });
-    // Create table
-    $('#newtable a.ajax').click(function(event){
-        event.preventDefault();
-        // Getting the url
-        var url = $('#newtable a').attr("href");
-        if (url.substring(0, 15) == "tbl_create.php?") {
-             url = url.substring(15);
-        }
-        url = url +"&num_fields=&ajax_request=true";
-        // Creating a div on the frame_content frame
-        var div = parent.frame_content.$('<div id="create_table_dialog"></div>');
-        var target = "tbl_create.php";
-
-        parent.frame_content.PMA_createTableDialog(div , url , target);
-    });//end of create new table
 });//end of document get ready

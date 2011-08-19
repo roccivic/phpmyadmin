@@ -125,12 +125,19 @@ div#leftframelinks a img.icon {
 #navigation_tree img {
 	margin: 0;
 }
-/* FIXME
-#navigation_tree ul li a:hover {
-    background: <?php echo $GLOBALS['cfg']['NaviPointerBackground']; ?>;
-    color: <?php echo $GLOBALS['cfg']['NaviPointerColor']; ?>;
+
+/* Fast filter */
+li.fast_filter input {
+    width: 100%;
 }
-*/
+li.fast_filter span {
+    position: relative;
+    <?php echo $right; ?>: 1.5em;
+    padding: 0.2em;
+    cursor: pointer;
+    font-weight: bold;
+    color: #800;
+}
 
 /* Button for collapsing the frame */
 div#collapse_frame .collapse_top {
