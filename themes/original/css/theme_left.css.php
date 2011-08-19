@@ -29,7 +29,7 @@ body {
     background:         <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
     color:              <?php echo $GLOBALS['cfg']['NaviColor']; ?>;
     margin:             0;
-    padding:            0.2em 0.2em 0.2em 0.2em;
+    padding:            0;
 }
 
 a img {
@@ -102,7 +102,7 @@ div#leftframelinks a img.icon {
 
 /* Navigation tree*/
 #navigation_tree {
-    margin: 0.5em 1em 0 1em;
+    margin: 0.5em 0 0 1em;
     color: black;
 }
 #navigation_tree a {

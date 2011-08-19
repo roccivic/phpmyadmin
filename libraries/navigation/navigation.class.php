@@ -290,10 +290,6 @@ class Navigation {
             }
         } else {
             $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
-            $light = '';
-            if ($GLOBALS['cfg']['LeftFrameLight']) {
-                $light = " class='light'";
-            }
             $_url_params = array('pos' => $this->pos);
             $num_db = PMA_DBI_fetch_value(
                 "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`SCHEMATA`"
@@ -314,7 +310,14 @@ class Navigation {
                 $retval .= $list;
                 $retval .= '<!-- DATABASE PAGINATION END -->' . PHP_EOL;
             }
-            $retval .= "<div id='navigation_tree'$light>\n";
+            $classes = "";
+            if ($GLOBALS['cfg']['LeftFrameLight']) {
+                $classes .= "light";
+            }
+            if ($GLOBALS['cfg']['LeftPointerEnable']) {
+                $classes .= " highlight";
+            }
+            $retval .= "<div id='navigation_tree' class='$classes'>\n";
             if ($GLOBALS['cfg']['LeftFrameLight']) {
                 $retval .= $tree->renderState();
             } else {

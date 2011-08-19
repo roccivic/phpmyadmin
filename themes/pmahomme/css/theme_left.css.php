@@ -102,7 +102,7 @@ div#leftframelinks a img.icon {
 
 /* Navigation tree*/
 #navigation_tree {
-    margin: 5px 10px 0px 10px;
+    margin: 5px 0 0 10px;
     color: #444;
 }
 #navigation_tree a {

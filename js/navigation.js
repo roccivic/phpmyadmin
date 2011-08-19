@@ -336,6 +336,16 @@ $(document).ready(function(){
     // Frame resize handler
     PMA_resizeHandler.init();
 
+    // Node highlighting
+	$('#navigation_tree.highlight li:not(.fast_filter)').live('mouseover', function () {
+        if ($('li:visible', this).length == 0) {
+            $(this).css('background', '#ddd');
+        }
+    });
+	$('#navigation_tree.highlight li:not(.fast_filter)').live('mouseout', function () {
+        $(this).css('background', '');
+    });
+
     // Bind "clear fast filter"
     $('li.fast_filter > span').live('click', function () {
         // Clear the input and apply the fast filter with empty input
