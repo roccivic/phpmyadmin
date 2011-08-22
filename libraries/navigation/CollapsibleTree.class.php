@@ -1,17 +1,47 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * Displays a collapsible of database objects in the navigation frame
+ * Functionality for the navigation tree in the left frame
  *
  * @package phpMyAdmin-Navigation
  */
+/**
+ * Displays a collapsible of database objects in the navigation frame
+ */
 class CollapsibleTree {
-    private $separator = '';
+    /**
+     * @var Node Reference to the root node of the tree
+     */
     private $tree;
+
+    /**
+     * @var array The actual path to the active node from the tree
+     *            This does not inlude nodes created after the grouping
+     *            of nodes has been performed
+     */
     private $a_path = array();
+
+    /**
+     * @var array The virtual path to the active node from the tree
+     *            This includes nodes created after the grouping of
+     *            nodes has been performed
+     */
     private $v_path = array();
+
+    /**
+     * @var int Position in the list of databases,
+     *          used for pagination
+     */
     private $pos;
 
+    /**
+     * Initialises the class
+     *
+     * @param int $pos Position in the list of databases,
+     *                 used for pagination
+     *
+     * @return nothing
+     */
     public function __construct($pos)
     {
         // Save the position at which we are in the database list
@@ -40,6 +70,11 @@ class CollapsibleTree {
         }
     }
 
+    /**
+     * Generates the tree structure for when "Light mode" is off
+     *
+     * @return nothing
+     */
     private function buildTree()
     {
         foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
@@ -55,6 +90,11 @@ class CollapsibleTree {
         }
     }
 
+    /**
+     * Generates the tree structure for when "Light mode" is on
+     *
+     * @return Node|false The active node or false in case of failure
+     */
     private function buildPath()
     {
         $retval = $this->tree;
@@ -99,6 +139,17 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Adds an object to the tree
+     *
+     * @param string $name    The name of the new object
+     * @param Node   $parent  A reference to the node to which
+     *                        to attach the new object
+     * @param array  $options An array of options
+     *                        See TreeData.class.php for more info
+     *
+     * @return Node New node
+     */
     private function addObject($name, $parent, $options = array())
     {
         $node = new Node($name, Node::OBJECT);
@@ -113,6 +164,19 @@ class CollapsibleTree {
         return $node;
     }
 
+    /**
+     * Adds a container to the tree
+     *
+     * @param string $name            The name of the new object
+     * @param Node   $parent          A reference to the node to which
+     *                                to attach the new object
+     * @param string $icon            An IMG tag, used for rendering
+     * @param string $separator       This string is used to group nodes
+     * @param int    $separator_depth How many time to recursively apply
+     *                                the grouping function
+     *
+     * @return Node New node
+     */
     private function addContainer($name, $parent, $icon = null, $separator = '', $separator_depth = 1)
     {
         $node = new Node($name, Node::CONTAINER);
@@ -126,6 +190,16 @@ class CollapsibleTree {
         return $node;
     }
 
+    /**
+     * Adds containers to a node that is a table
+     *
+     * @param Node $db    The database node, only the name of this
+     *                    node is used for fetching information
+     * @param Node $table The table node, new containers will be
+     *                    attached to this node
+     *
+     * @return array An array of new nodes
+     */
     private function addTableContainers($db, $table)
     {
         $retval = array();
@@ -153,6 +227,15 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Adds containers to a node that is a database
+     *
+     * @param Node $db The database node, the name of this node
+     *                 is used for fetching information and new
+     *                 containers will be attached to this node
+     *
+     * @return array An array of new nodes
+     */
     private function addDbContainers($db)
     {
         $retval = array();
@@ -222,6 +305,16 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Recursively groups tree nodes given a sperarator
+     *
+     * @param null|Node $node The node to group or null
+     *                        to group the whole tree. If
+     *                        passed as an argument, $node
+     *                        must be of type CONTAINER
+     *
+     * @return nothing
+     */
     public function groupTree($node = null)
     {
         if (! isset($node)) {
@@ -234,6 +327,13 @@ class CollapsibleTree {
         }
     }
 
+    /**
+     * Recursively groups tree nodes given a sperarator
+     *
+     * @param null|Node $node The node to group
+     *
+     * @return nothing
+     */
     public function groupNode($node)
     {
         if ($node->type == Node::CONTAINER) {
@@ -290,6 +390,12 @@ class CollapsibleTree {
         }
     }
 
+    /**
+     * Renders the whole tree for display
+     * Used in non-light mode
+     *
+     * @return string HTML code for the navigation tree
+     */
     public function renderTree()
     {
         $this->buildTree();
@@ -305,6 +411,12 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Renders a state of the tree, used in light mode when
+     * either JavaScript and/or Ajax are disabled
+     *
+     * @return string HTML code for the navigation tree
+     */
     public function renderState()
     {
         $node = $this->buildPath();
@@ -324,6 +436,12 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Renders a part of the tree, used for Ajax
+     * requests in light mode
+     *
+     * @return string HTML code for the navigation tree
+     */
     public function renderPath()
     {
         $node = $this->buildPath();
@@ -347,6 +465,16 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Renders a single node or a branch of the tree
+     *
+     * @param Node     $node      The node to render
+     * @param int|bool $recursive Bool: Whether to render a single node or a branch
+     *                            Int: How many levels deep to render
+     * @param string   $indent    String used for indentation of output
+     *
+     * @return string HTML code for the tree node or branch
+     */
     public function renderNode($node, $recursive = -1, $indent = '  ')
     {
         if (   $node->type == Node::CONTAINER
@@ -447,6 +575,11 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Makes some nodes visible based on the which node is active
+     *
+     * @return nothing
+     */
     private function setVisibility()
     {
         $node = $this->tree;
@@ -459,6 +592,11 @@ class CollapsibleTree {
         }
     }
 
+    /**
+     * Generates the HTML code for displaying the fast filter for tables
+     *
+     * @return string LI element used for the fast filter
+     */
     private function fastFilterHtml()
     {
         $retval  = "<li class='fast_filter'>";
@@ -468,6 +606,14 @@ class CollapsibleTree {
         return $retval;
     }
 
+    /**
+     * Called by usort() for sorting the nodes in a container
+     *
+     * @param Node $a The first element used in the comparison
+     * @param Node $b The second element used in the comparison
+     *
+     * @return int See strnatcmp() and strcmp()
+     */
     static public function sortNode($a, $b) {
         if ($GLOBALS['cfg']['NaturalOrder']) {
             return strnatcmp($a->name, $b->name);

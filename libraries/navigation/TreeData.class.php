@@ -1,12 +1,21 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * Provides the data required for generating the navigation tree
+ * Data for the navigation tree in the left frame
  *
  * @package phpMyAdmin-Navigation
  */
+/**
+ * Provides the data required for generating the navigation tree
+ */
 class TreeData {
-    /* Option providers */
+    /**
+     * Options provider
+     *
+     * @param string $type The type of item for which to get options
+     *
+     * @return array An array of options
+     */
     static public function getOptions($type)
     {
         switch ($type) {
@@ -131,6 +140,15 @@ class TreeData {
         return $retval;
     }
 
+    /**
+     * Checks if a particular child of a table or of a database has children
+     *
+     * @param string $type  The type of item to look for
+     * @param string $db    The name of the database where to look for items
+     * @param string $table The name of the table where to look for items
+     *
+     * @return int 0, if no children are found, a positive number otherwise
+     */
     static public function getPresence($type, $db = null, $table = null)
     {
         $retval = 0;
@@ -254,7 +272,16 @@ class TreeData {
         return $retval;
     }
 
-    /* Data providers */
+    /**
+     * Returns data for a container in the navigation tree
+     *
+     * @param string $type  The type of item
+     * @param string $db    The name of the database where to look for items
+     * @param string $table The name of the table where to look for items
+     * @param int    $pos   List offset, only used for retreiving databases
+     *
+     * @return array An array of items
+     */
     static public function getData($type, $db = null, $table = null, $pos = null)
     {
         // TODO: some input validation

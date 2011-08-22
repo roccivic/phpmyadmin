@@ -1,23 +1,28 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * the navigation frame - displays server, db and table selection tree
+ * Functionality for the navigation frame
  *
  * @package phpMyAdmin-Navigation
  */
+/**
+ * the navigation frame - displays server, db and table selection tree
+ */
 class Navigation {
     /**
-     * Variables
+     * @var int Position in the list of databases,
+     *          used for pagination
      */
-    private $buffer;
     private $pos;
 
     /**
-     * Public methods
+     * Initialises the class, handles incoming requests
+     * and fires up rendering of the output
+     *
+     * return nothing
      */
     public function __construct()
     {
-        $this->buffer = '';
         // Select the database if there is only one on current server
         if ($GLOBALS['server'] && ! strlen($GLOBALS['db'])) {
             $GLOBALS['db'] = $GLOBALS['pma']->databases->getSingleItem();
@@ -42,35 +47,57 @@ class Navigation {
         if (empty($_SESSION['debug'])) {
             session_write_close();
         }
+        $this->requests();
         $this->render();
     }
 
+    /**
+     * Empty setter prevents external access to the class
+     *
+     * @param string $a Variable name - does nothing
+     * @param string $b Variable value - does nothing
+     *
+     * return bool Always false
+     */
     public function __set($a, $b)
     {
         return false;
     }
 
+    /**
+     * Empty getter prevents external access to the class
+     *
+     * @param string $a Variable name - does nothing
+     *
+     * return bool Always false
+     */
     public function __get($a)
     {
         return false;
     }
 
+    /**
+     * Renders the navigation
+     *
+     * return nothing
+     */
     public function render()
     {
-        $this->requests();
-        $this->buffer .= $this->header();
-        $this->buffer .= $this->logo();
-        $this->buffer .= $this->links();
-        $this->buffer .= $this->serverChoice();
-        $this->buffer .= $this->recent();
-        $this->buffer .= $this->tree();
-        echo $this->buffer;
+        $buffer .= $this->header();
+        $buffer .= $this->logo();
+        $buffer .= $this->links();
+        $buffer .= $this->serverChoice();
+        $buffer .= $this->recent();
+        $buffer .= $this->tree();
+        echo $buffer;
         echo '</body></html>';
         exit;
     }
 
     /**
-     * Private methods
+     * Handles incoming (ajax) requests
+     *
+     * return nothing
      */
     private function requests()
     {
@@ -84,6 +111,11 @@ class Navigation {
         }
     }
 
+    /**
+     * Start the output
+     *
+     * return string HTML code with HTML and HEAD tags, and the start BODY tag
+     */
     private function header()
     {
         // Display the frame
@@ -122,6 +154,12 @@ class Navigation {
         return $retval;
     }
 
+    /**
+     * Create the code for displaying the phpMyAdmin
+     * logo based on configuration settings
+     *
+     * return string HTML code for the logo
+     */
     private function logo()
     {
         $retval = '<!-- LOGO START -->' . PHP_EOL;
@@ -162,6 +200,12 @@ class Navigation {
         return $retval;
     }
 
+    /**
+     * Creates the code for displaying the links
+     * at the top of the navigation frame
+     *
+     * return string HTML code for the links
+     */
     private function links()
     {
         $retval = '<!-- LINKS START -->' . PHP_EOL;
@@ -239,6 +283,8 @@ class Navigation {
 
     /**
      * Displays the MySQL servers choice form
+     *
+     * return string HTML code for the MySQL servers choice
      */
     private function serverChoice()
     {
@@ -254,6 +300,11 @@ class Navigation {
         return $retval;
     }
 
+    /**
+     * Displays a drop-down choice of most recently used tables
+     *
+     * return string HTML code for the Recent tables
+     */
     private function recent()
     {
         $retval = '';
@@ -274,6 +325,13 @@ class Navigation {
         return $retval;
     }
 
+    /**
+     * Displays the navigation tree, or part of it
+     *
+     * @param bool $ajax Whether called from an AJAX request
+     *
+     * @return string The navigation tree
+     */
     private function tree($ajax = false)
     {
         global $server, $token;
