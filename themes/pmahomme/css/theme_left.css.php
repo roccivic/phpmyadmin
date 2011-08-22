@@ -127,6 +127,9 @@ div#leftframelinks a img.icon {
 }
 
 /* Fast filter */
+li.fast_filter {
+    padding-<?php echo $right; ?>: 10px;
+}
 li.fast_filter input {
     width: 100%;
 }
