@@ -62,7 +62,7 @@ class CollapsibleTree {
             $this->v_path = $v_path;
         }
         // Initialise the tree by creating a root node
-        $node = new Node('root', 0, Node::CONTAINER);
+        $node = new Node('root', Node::CONTAINER);
         $this->tree = $node;
         if ($GLOBALS['cfg']['LeftFrameDBTree']) {
             $this->tree->separator = $GLOBALS['cfg']['LeftFrameDBSeparator'];

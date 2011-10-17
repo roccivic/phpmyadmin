@@ -100,7 +100,7 @@ class Node {
             $this->real_name = $name;
             if ($type === 0 || $type === 1) {
                 $this->type = $type;
-                if (is_bool($group)) {
+                if (is_bool($is_group)) {
                     $this->is_group = $is_group;
                     return true;
                 }
