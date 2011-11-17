@@ -114,12 +114,10 @@ div#leftframelinks a img.icon {
 }
 #navigation_tree ul {
     clear: both;
-    padding-<?php echo $left; ?>: 0;
+    padding: 0;
     list-style-type: none;
 }
 #navigation_tree ul ul {
-    background: url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>dot.gif) repeat-y 0.75em;
-    padding-<?php echo $left; ?>: 1.5em;
     position: relative;
 }
 #navigation_tree li {
@@ -156,7 +154,7 @@ div#leftframelinks a img.icon {
     height: 0.75em;
     bottom: 0;
     left: 0.75em;
-    border-left: 1px solid #666;
+    border-<?php echo $left; ?>: 1px solid #666;
 }
 #navigation_tree div.block a {
     position: absolute;
@@ -172,16 +170,26 @@ div#leftframelinks a img.icon {
 #navigation_tree li.last > ul {
     background: none;
 }
-#navigation_tree a {
+#navigation_tree li > a, #navigation_tree li > i {
     line-height: 1.5em;
     height: 1.5em;
+    padding-<?php echo $left; ?>: 0.3em;
+}
+#navigation_tree .list_container {
+    border-<?php echo $left; ?>: 1px solid #666;
+    margin-<?php echo $left; ?>: 0.75em;
+    padding-<?php echo $left; ?>: 0.75em;
+}
+#navigation_tree .last > .list_container {
+    border-<?php echo $left; ?>: 0 solid #666;
 }
 
 /* Fast filter */
 li.fast_filter {
-    background: url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>dot.gif) repeat-y 0.75em;
-    padding-<?php echo $left; ?>: 1.5em;
+    padding-<?php echo $left; ?>: 0.75em;
+    margin-<?php echo $left; ?>: 0.75em;
     padding-<?php echo $right; ?>: 10px;
+    border-<?php echo $left; ?>: 1px solid #666;
 }
 li.fast_filter input {
     width: 100%;

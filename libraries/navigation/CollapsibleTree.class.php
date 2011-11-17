@@ -400,7 +400,7 @@ class CollapsibleTree {
     {
         $this->buildTree();
         $this->groupTree();
-        $retval = "<ul>\n";
+        $retval = "<div><ul>\n";
         $children = $this->tree->children;
         usort($children, array('CollapsibleTree', 'sortNode'));
         $this->setVisibility();
@@ -411,7 +411,7 @@ class CollapsibleTree {
                 $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
             }
         }
-        $retval .= "</ul>\n";
+        $retval .= "</ul></div>\n";
         return $retval;
     }
 
@@ -429,7 +429,7 @@ class CollapsibleTree {
         } else {
             $this->groupTree();
             $retval  = PMA_getImage('ajax_clock_small.gif', __('Loading'), array('style' => 'display: none;', 'class' => 'throbber'));
-            $retval .= "<ul>\n";
+            $retval .= "<div><ul>\n";
             $children = $this->tree->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
             $this->setVisibility();
@@ -440,7 +440,7 @@ class CollapsibleTree {
                     $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
                 }
             }
-            $retval .= "</ul>\n";
+            $retval .= "</ul></div>\n";
         }
         return $retval;
     }
@@ -458,7 +458,7 @@ class CollapsibleTree {
             $retval = false;
         } else {
             $this->groupTree();
-            $retval = "<ul style='display: none;'>\n";
+            $retval = "<div class='list_container' style='display: none;'><ul>\n";
             if (($node->real_name == 'tables' || $node->real_name == 'views')
                 && $node->numChildren() >= (int)$GLOBALS['cfg']['LeftDisplayTableFilterMinimum']) {
                 // fast filter
@@ -473,7 +473,7 @@ class CollapsibleTree {
                     $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
                 }
             }
-            $retval .= "</ul>\n";
+            $retval .= "</ul></div>\n";
         }
         return $retval;
     }
@@ -592,7 +592,7 @@ class CollapsibleTree {
                 }
             }
             if (! empty($buffer)) {
-                $retval .= "\n" . $indent ."  <ul$hide>\n";
+                $retval .= "\n" . $indent ."  <div$hide class='list_container'><ul>\n";
                 if ($GLOBALS['cfg']['LeftFrameLight'] != true
                     && ($node->real_name == 'tables' || $node->real_name == 'views')
                     && $node->numChildren() >= (int)$GLOBALS['cfg']['LeftDisplayTableFilterMinimum']
@@ -600,7 +600,7 @@ class CollapsibleTree {
                     $retval .= $this->fastFilterHtml();
                 }
                 $retval .= $buffer;
-                $retval .= $indent . "  </ul>\n" . $indent;
+                $retval .= $indent . "  </ul></div>\n" . $indent;
             }
         }
         $retval .= "    <div style='clear: both;'></div>";

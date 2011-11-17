@@ -15,7 +15,7 @@ $(document).ready(function() {
             event.preventDefault();
 	        event.stopImmediatePropagation();
             var $this = $(this);
-	        var $children = $this.parent().parent().children('ul');
+	        var $children = $this.closest('li').children('div.list_container');
             var $icon = $this.parent().find('img');
             if ($this.hasClass('loaded')) {
 		        if ($icon.is('.ic_b_plus')) {
@@ -35,7 +35,7 @@ $(document).ready(function() {
                         $this.addClass('loaded');
                         $destination.append(data.message);
 		                $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
-		                $destination.find('ul').first().show('fast');
+		                $destination.children('div.list_container').show('fast');
                         if ($destination.find('ul > li').length == 1) {
                             $destination.find('ul > li').find('a.expander.container').click();
                         }
