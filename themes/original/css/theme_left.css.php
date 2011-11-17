@@ -113,21 +113,74 @@ div#leftframelinks a img.icon {
     text-decoration: underline;
 }
 #navigation_tree ul {
+    clear: both;
     padding-<?php echo $left; ?>: 0;
-    margin-bottom: 0.2em;
     list-style-type: none;
 }
 #navigation_tree ul ul {
-    padding-<?php echo $left; ?>: 0.5em;
-    border-<?php echo $left; ?>: 1px dotted <?php echo $GLOBALS['cfg']['NaviColor']; ?>;
-    border-bottom: 1px dotted <?php echo $GLOBALS['cfg']['NaviColor']; ?>;
+    background: url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>dot.gif) repeat-y 0.75em;
+    padding-<?php echo $left; ?>: 1.5em;
+    position: relative;
 }
+#navigation_tree li {
+    min-height: 16px;
+ }
 #navigation_tree img {
 	margin: 0;
+}
+#navigation_tree div.block {
+    position: relative;
+    width:1.5em;
+    height:1.5em;
+    min-width: 16px;
+    min-height: 16px;
+    float: <?php echo $left; ?>;
+}
+#navigation_tree div.block div {
+    width: 1.5em;
+    height: 1.5em;
+    min-width: 16px;
+    min-height: 16px;
+    position: absolute;
+    bottom: 0.7em;
+    <?php echo $left; ?>: 0.75em;
+    z-index: 0;
+}
+#navigation_tree div.block div.top {
+    border-<?php echo $left; ?>: 1px solid #666;
+}
+#navigation_tree div.block div.right {
+    border-bottom: 1px solid #666;
+}
+#navigation_tree div.block div.bottom {
+    height: 0.75em;
+    bottom: 0;
+    left: 0.75em;
+    border-left: 1px solid #666;
+}
+#navigation_tree div.block a {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 10;
+}
+#navigation_tree div.block img {
+    position: relative;
+    top: -7px;
+    left: -7px;
+}
+#navigation_tree li.last > ul {
+    background: none;
+}
+#navigation_tree a {
+    line-height: 1.5em;
+    height: 1.5em;
 }
 
 /* Fast filter */
 li.fast_filter {
+    background: url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>dot.gif) repeat-y 0.75em;
+    padding-<?php echo $left; ?>: 1.5em;
     padding-<?php echo $right; ?>: 10px;
 }
 li.fast_filter input {

@@ -27,7 +27,7 @@ class TreeData {
                     'icon' => 'db_operations.php?server=' . $GLOBALS['server']
                             . '&amp;db=%1$s&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('s_db.png')
+                'icon' => PMA_getImage('s_db.png')
             );
             break;
         case 'tables':
@@ -40,7 +40,7 @@ class TreeData {
                             . '?server=' . $GLOBALS['server']
                             . '&amp;db=%2$s&amp;table=%1$s&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_browse.png')
+                'icon' => PMA_getImage('b_browse.png')
             );
             break;
         case 'views':
@@ -53,7 +53,7 @@ class TreeData {
                             . '&amp;db=%2$s&amp;table=%1$s'
                             . '&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_views.png')
+                'icon' => PMA_getImage('b_views.png')
             );
             break;
         case 'functions':
@@ -66,7 +66,7 @@ class TreeData {
                             . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=FUNCTION'
                             . '&amp;export_item=1&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_routines.png')
+                'icon' => PMA_getImage('b_routines.png')
             );
             break;
         case 'procedures':
@@ -79,7 +79,7 @@ class TreeData {
                             . '&amp;db=%2$s&amp;item_name=%1$s&amp;item_type=PROCEDURE'
                             . '&amp;export_item=1&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_routines.png')
+                'icon' => PMA_getImage('b_routines.png')
             );
             break;
         case 'triggers':
@@ -92,7 +92,7 @@ class TreeData {
                             . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
                             . '&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_triggers.png')
+                'icon' => PMA_getImage('b_triggers.png')
             );
             break;
         case 'events':
@@ -105,7 +105,7 @@ class TreeData {
                             . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
                             . '&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_events.png')
+                'icon' => PMA_getImage('b_events.png')
             );
             break;
         case 'columns':
@@ -118,7 +118,7 @@ class TreeData {
                             . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
                             . '&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('s_vars.png', '', false, true)
+                'icon' => PMA_getImage('s_vars.png', '', false, true)
             );
             break;
         case 'indexes':
@@ -131,7 +131,7 @@ class TreeData {
                             . '&amp;db=%3$s&amp;table=%2$s&amp;index=%1$s'
                             . '&amp;token=' . $GLOBALS['token']
                 ),
-                'icon' => PMA_getIcon('b_primary.png', '', false, true)
+                'icon' => PMA_getImage('b_primary.png', '', false, true)
             );
             break;
         default:

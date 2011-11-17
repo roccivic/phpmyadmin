@@ -208,7 +208,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Columns'),
                 $table,
-                PMA_getIcon('s_vars.png', '', false, true)
+                PMA_getImage('s_vars.png')
             );
             $container->real_name = 'columns';
             $retval['columns'] = $container;
@@ -218,7 +218,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Indexes'),
                 $table,
-                PMA_getIcon('b_primary.png', '', false, true)
+                PMA_getImage('b_primary.png')
             );
             $container->real_name = 'indexes';
             $retval['indexes'] = $container;
@@ -244,7 +244,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Tables'),
                 $db,
-                PMA_getIcon('b_browse.png'),
+                PMA_getImage('b_browse.png'),
                 $GLOBALS['cfg']['LeftFrameTableSeparator'],
                 (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
             );
@@ -256,7 +256,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Views'),
                 $db,
-                PMA_getIcon('b_views.png')
+                PMA_getImage('b_views.png')
             );
             $container->real_name = 'views';
             $retval['views'] = $container;
@@ -266,7 +266,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Functions'),
                 $db,
-                PMA_getIcon('b_routines.png')
+                PMA_getImage('b_routines.png')
             );
             $container->real_name = 'functions';
             $retval['functions'] = $container;
@@ -276,7 +276,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Procedures'),
                 $db,
-                PMA_getIcon('b_routines.png')
+                PMA_getImage('b_routines.png')
             );
             $container->real_name = 'procedures';
             $retval['procedures'] = $container;
@@ -286,7 +286,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Triggers'),
                 $db,
-                PMA_getIcon('b_triggers.png')
+                PMA_getImage('b_triggers.png')
             );
             $container->real_name = 'triggers';
             $retval['triggers'] = $container;
@@ -296,7 +296,7 @@ class CollapsibleTree {
             $container = $this->addContainer(
                 __('Events'),
                 $db,
-                PMA_getIcon('b_events.png')
+                PMA_getImage('b_events.png')
             );
             $container->real_name = 'events';
             $retval['events'] = $container;
@@ -365,7 +365,7 @@ class CollapsibleTree {
                     $groups[$key]->parent = $node;
                     $groups[$key]->separator = $node->separator;
                     $groups[$key]->separator_depth = $node->separator_depth - 1;
-                    $groups[$key]->icon = $GLOBALS['cfg']['NavigationBarIconic'] ? PMA_getIcon('b_group.png', '', false, true) : '';
+                    $groups[$key]->icon = $GLOBALS['cfg']['NavigationBarIconic'] ? PMA_getImage('b_group.png') : '';
                     $node->addChild($groups[$key]);
                     foreach ($node->children as $child) { // FIXME: this could be more efficient
                         if (substr($child->name, 0, strlen($key)) == $key && $child->type == Node::OBJECT) {
@@ -404,8 +404,12 @@ class CollapsibleTree {
         $children = $this->tree->children;
         usort($children, array('CollapsibleTree', 'sortNode'));
         $this->setVisibility();
-        foreach ($children as $child) {
-            $retval .= $this->renderNode($child, true);
+        for ($i=0; $i<count($children); $i++) {
+            if ($i + 1 != count($children)) {
+                $retval .= $this->renderNode($children[$i], true, $indent . '    ');
+            } else {
+                $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+            }
         }
         $retval .= "</ul>\n";
         return $retval;
@@ -424,12 +428,17 @@ class CollapsibleTree {
             $retval = false;
         } else {
             $this->groupTree();
-            $retval = "<ul>\n";
+            $retval  = PMA_getImage('ajax_clock_small.gif', __('Loading'), array('style' => 'display: none;', 'class' => 'throbber'));
+            $retval .= "<ul>\n";
             $children = $this->tree->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
             $this->setVisibility();
-            foreach ($children as $child) {
-                $retval .= $this->renderNode($child, true);
+            for ($i=0; $i<count($children); $i++) {
+                if ($i + 1 != count($children)) {
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ');
+                } else {
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                }
             }
             $retval .= "</ul>\n";
         }
@@ -457,8 +466,12 @@ class CollapsibleTree {
             }
             $children = $node->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
-            foreach ($children as $child) {
-                $retval .= $this->renderNode($child, true);
+            for ($i=0; $i<count($children); $i++) {
+                if ($i + 1 != count($children)) {
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ');
+                } else {
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                }
             }
             $retval .= "</ul>\n";
         }
@@ -475,7 +488,7 @@ class CollapsibleTree {
      *
      * @return string HTML code for the tree node or branch
      */
-    public function renderNode($node, $recursive = -1, $indent = '  ')
+    public function renderNode($node, $recursive = -1, $indent = '  ', $last = false)
     {
         if (   $node->type == Node::CONTAINER
             && count($node->children) == 0
@@ -484,7 +497,12 @@ class CollapsibleTree {
         ) {
             return '';
         }
-        $retval = $indent . "<li class='nowrap'>";
+        if ($last) {
+            $last = ' last';
+        } else {
+            $last = '';
+        }
+        $retval = $indent . "<li class='nowrap$last'>";
         $hasChildren = $node->hasChildren(false);
         $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
         if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight'])
@@ -513,17 +531,26 @@ class CollapsibleTree {
             if ($node->type == Node::CONTAINER) {
                 $container = ' container';
             }
+            $retval .= "<div class='block'>";
+            $retval .= "<div class='top right'></div>";
+            if (! $last) {
+            $retval .= "<div class='bottom'></div>";
+            }
             $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
-            $retval .= PMA_getIcon('b_plus.png');
+            $retval .= PMA_getImage('b_plus.png');
             $retval .= "</a>";
+            $retval .= "</div>";
         } else {
-            $retval .= PMA_getIcon('null.png');
+            $retval .= "<div class='block'>";
+            $retval .= "<div class='top right'></div>";
+            $retval .= "</div>";
         }
-        $retval .= str_replace('class="', 'style="display:none;" class="throbber ', PMA_getIcon('ajax_clock_small.gif', '', false, true));
+
         if ($node->type == Node::CONTAINER) {
             $retval .= "<i>";
         }
         if ($GLOBALS['cfg']['NavigationBarIconic']) {
+            $retval .= "<div class='block'>";
             if (isset($node->links['icon'])) {
                 $args = array();
                 foreach ($node->parents(true) as $parent) {
@@ -532,8 +559,9 @@ class CollapsibleTree {
                 $link = vsprintf($node->links['icon'], $args);
                 $retval .= "<a href='$link'>{$node->icon}</a>";
             } else {
-                $retval .= "{$node->icon}";
+                $retval .= "<a>{$node->icon}</a>";
             }
+            $retval .= "</div>";
         }
         if (isset($node->links['text'])) {
             $args = array();
@@ -556,8 +584,12 @@ class CollapsibleTree {
             $children = $node->children;
             usort($children, array('CollapsibleTree', 'sortNode'));
             $buffer = '';
-            foreach ($children as $child) {
-                $buffer .= $this->renderNode($child, true, $indent . '    ');
+            for ($i=0; $i<count($children); $i++) {
+                if ($i + 1 != count($children)) {
+                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ');
+                } else {
+                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                }
             }
             if (! empty($buffer)) {
                 $retval .= "\n" . $indent ."  <ul$hide>\n";
@@ -571,6 +603,7 @@ class CollapsibleTree {
                 $retval .= $indent . "  </ul>\n" . $indent;
             }
         }
+        $retval .= "    <div style='clear: both;'></div>";
         $retval .= "</li>\n";
         return $retval;
     }
