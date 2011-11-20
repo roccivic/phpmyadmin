@@ -8,7 +8,7 @@
  */
 
 // unplanned execution path
-if (!defined('PMA_MINIMUM_COMMON')) {
+if (!defined('PMA_MINIMUM_COMMON') && !defined('TESTSUITE')) {
     exit();
 }
 ?>
@@ -20,6 +20,18 @@ html {
 
 input, select, textarea {
     font-size: 1em;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+
+    -moz-box-shadow:0 1px 2px #ddd;
+    -webkit-box-shadow:0 1px 2px #ddd;
+    box-shadow:0 1px 2px #ddd;
+
+    border:1px solid #aaa;
+    color:#333333;
+    padding:3px;
+    background:url(<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>input_bg.gif)
 }
 
 body {
@@ -33,7 +45,7 @@ body {
     padding:            0;
 }
 
-a img {
+img {
     border: 0;
 }
 
@@ -70,10 +82,6 @@ button {
 /******************************************************************************/
 /* specific elements */
 
-div#pmalogo {
-    <?php //better echo $GLOBALS['cfg']['logoBGC']; ?>
-}
-
 select#select_server,
 div#recentTableList select {
     width: 100%;
@@ -95,11 +103,6 @@ div#navidbpageselector select{
     margin: 0.2em;
 }
 
-div#leftframelinks a img.icon {
-    margin: 0.3em;
-    border: 0px;
-}
-
 /* Navigation tree*/
 #navigation_tree {
     margin: 5px 0 0 10px;
@@ -116,6 +119,7 @@ div#leftframelinks a img.icon {
     clear: both;
     padding: 0;
     list-style-type: none;
+    margin: 0;
 }
 #navigation_tree ul ul {
     position: relative;
@@ -138,7 +142,7 @@ div#leftframelinks a img.icon {
     width: 1.5em;
     height: 1.5em;
     min-width: 16px;
-    min-height: 16px;
+    min-height: 8px;
     position: absolute;
     bottom: 0.7em;
     <?php echo $left; ?>: 0.75em;

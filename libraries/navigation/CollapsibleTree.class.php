@@ -405,10 +405,12 @@ class CollapsibleTree {
         usort($children, array('CollapsibleTree', 'sortNode'));
         $this->setVisibility();
         for ($i=0; $i<count($children); $i++) {
-            if ($i + 1 != count($children)) {
+            if ($i == 0) {
+                $retval .= $this->renderNode($children[0], true, $indent . '    ', 'first');
+            } else if ($i + 1 != count($children)) {
                 $retval .= $this->renderNode($children[$i], true, $indent . '    ');
             } else {
-                $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                $retval .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
             }
         }
         $retval .= "</ul></div>\n";
@@ -434,10 +436,12 @@ class CollapsibleTree {
             usort($children, array('CollapsibleTree', 'sortNode'));
             $this->setVisibility();
             for ($i=0; $i<count($children); $i++) {
-                if ($i + 1 != count($children)) {
+                if ($i == 0) {
+                    $retval .= $this->renderNode($children[0], true, $indent . '    ', 'first');
+                } else if ($i + 1 != count($children)) {
                     $retval .= $this->renderNode($children[$i], true, $indent . '    ');
                 } else {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
                 }
             }
             $retval .= "</ul></div>\n";
@@ -470,7 +474,7 @@ class CollapsibleTree {
                 if ($i + 1 != count($children)) {
                     $retval .= $this->renderNode($children[$i], true, $indent . '    ');
                 } else {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
                 }
             }
             $retval .= "</ul></div>\n";
@@ -485,10 +489,11 @@ class CollapsibleTree {
      * @param int|bool $recursive Bool: Whether to render a single node or a branch
      *                            Int: How many levels deep to render
      * @param string   $indent    String used for indentation of output
+     * @param string   $class     An additional class for the list item
      *
      * @return string HTML code for the tree node or branch
      */
-    public function renderNode($node, $recursive = -1, $indent = '  ', $last = false)
+    public function renderNode($node, $recursive = -1, $indent = '  ', $class = '')
     {
         if (   $node->type == Node::CONTAINER
             && count($node->children) == 0
@@ -497,12 +502,7 @@ class CollapsibleTree {
         ) {
             return '';
         }
-        if ($last) {
-            $last = ' last';
-        } else {
-            $last = '';
-        }
-        $retval = $indent . "<li class='nowrap$last'>";
+        $retval = $indent . "<li class='nowrap" . ($class ? " $class" : '') . "'>";
         $hasChildren = $node->hasChildren(false);
         $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
         if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight'])
@@ -532,9 +532,9 @@ class CollapsibleTree {
                 $container = ' container';
             }
             $retval .= "<div class='block'>";
-            $retval .= "<div class='top right'></div>";
-            if (! $last) {
-            $retval .= "<div class='bottom'></div>";
+            $retval .= "<div class='" . ($class == 'first' ? '' : 'top ' ) . "right'></div>";
+            if ($class != 'last') {
+                $retval .= "<div class='bottom'></div>";
             }
             $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
             $retval .= PMA_getImage('b_plus.png');
@@ -588,7 +588,7 @@ class CollapsibleTree {
                 if ($i + 1 != count($children)) {
                     $buffer .= $this->renderNode($children[$i], true, $indent . '    ');
                 } else {
-                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', true);
+                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
                 }
             }
             if (! empty($buffer)) {

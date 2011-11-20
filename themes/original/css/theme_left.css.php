@@ -32,7 +32,7 @@ body {
     padding:            0;
 }
 
-a img {
+img {
     border: 0;
 }
 
@@ -69,12 +69,6 @@ button {
 /******************************************************************************/
 /* specific elements */
 
-div#pmalogo {
-    <?php //better echo $GLOBALS['cfg']['logoBGC']; ?>
-    background-color: <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
-    padding:.3em;
-}
-
 select#select_server,
 div#recentTableList select {
     width: 100%;
@@ -94,12 +88,6 @@ div#navidbpageselector a {
     color:              <?php echo $GLOBALS['cfg']['NaviColor']; ?>;
 }
 
-div#leftframelinks a img.icon {
-    margin:             0;
-    border:             0.1em solid <?php echo $GLOBALS['cfg']['NaviColor']; ?>;
-    padding:            2px;
-}
-
 /* Navigation tree*/
 #navigation_tree {
     margin: 0.5em 0 0 1em;
@@ -116,13 +104,14 @@ div#leftframelinks a img.icon {
     clear: both;
     padding: 0;
     list-style-type: none;
+    margin: 0;
 }
 #navigation_tree ul ul {
     position: relative;
 }
 #navigation_tree li {
     min-height: 16px;
- }
+}
 #navigation_tree img {
 	margin: 0;
 }
@@ -138,7 +127,7 @@ div#leftframelinks a img.icon {
     width: 1.5em;
     height: 1.5em;
     min-width: 16px;
-    min-height: 16px;
+    min-height: 8px;
     position: absolute;
     bottom: 0.7em;
     <?php echo $left; ?>: 0.75em;
