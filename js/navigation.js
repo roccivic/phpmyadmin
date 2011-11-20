@@ -71,6 +71,12 @@ var PMA_resizeHandler = {
      */
     collapsed: false,
     /**
+     * @var int collapse_padding Indicates by how many pixels the #serverinfo
+     *                           element was shifted right when the navigation
+     *                           frame was collapsed
+     */
+    collapse_padding: 0,
+    /**
      * @var object width Stores the widths of the navigation frame:
      *                   the actual width, as defined in the cookie
      *                   and an old recorded value
@@ -166,7 +172,7 @@ var PMA_resizeHandler = {
                 // is 'collapsed'. Change state to 'not collapsed'.
                 this.collapsed = false;
                 // show/hide 'collapse' buttons as necessary
-                this.left.show('slow');
+                this.left.show();
                 this.right.hide();
             } else if (! this.right.is(':visible')) {
                 this.right.show();
@@ -254,13 +260,18 @@ var PMA_resizeHandler = {
             this.collapsed = true;
             // show/hide 'collapse' buttons as necessary
             this.left.hide();
-            this.right.show('slow');
+            this.right.show();
+            var $s_info = $(parent.frame_content.document.getElementById('serverinfo'));
+            this.collapse_padding = $s_info.css('padding-left');
+            $s_info.css('padding-left', '2.2em');
         } else {
             this.setWidth(PMA_cookie.get(this.cookie_name), true);
             this.collapsed = false;
             // show/hide 'collapse' buttons as necessary
-            this.left.show('slow');
+            this.left.show();
             this.right.hide();
+            $(parent.frame_content.document.getElementById('serverinfo'))
+                .css('padding-left', this.collapse_padding);
         }
     }
 };

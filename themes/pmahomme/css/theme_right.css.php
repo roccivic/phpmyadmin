@@ -829,6 +829,7 @@ div#collapse_frame .collapse_bottom {
     margin: 0;
 }
 div#collapse_frame div div {
+    z-index: 600;
     cursor: pointer;
     padding: 0.2em 0.3em;
     color: #444;
