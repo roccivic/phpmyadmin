@@ -344,7 +344,7 @@ class Navigation {
             if ($responce = $tree->renderPath()) {
                 PMA_ajaxResponse($responce, true);
             } else {
-                PMA_ajaxResponse('', false);
+                PMA_ajaxResponse(__('An error has occured while loading the navigation tree'), false);
             }
         } else {
             $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;

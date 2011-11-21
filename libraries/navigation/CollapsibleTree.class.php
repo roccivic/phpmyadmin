@@ -107,11 +107,15 @@ class CollapsibleTree {
             $retval = $db;
             $containers = $this->addDbContainers($db);
             array_shift($this->a_path); // remove db
-            if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers)) {
-                $container = $db->getChild($this->a_path[0], true);
+            if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers) || count($containers) == 1) {
+                if (count($containers) == 1) {
+                    $container = array_shift($containers);
+                } else {
+                    $container = $db->getChild($this->a_path[0], true);
+                }
                 $retval = $container;
-                foreach (TreeData::getData($this->a_path[0], $db->real_name) as $item) {
-                    $this->addObject($item, $container, TreeData::getOptions($this->a_path[0]));
+                foreach (TreeData::getData($container->real_name, $db->real_name) as $item) {
+                    $this->addObject($item, $container, TreeData::getOptions($container->real_name));
                 }
                 if (count($this->a_path) > 1 && $this->a_path[0] != 'tables') {
                     $retval = false;
