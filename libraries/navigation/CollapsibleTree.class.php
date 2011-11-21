@@ -3,7 +3,7 @@
 /**
  * Functionality for the navigation tree in the left frame
  *
- * @package phpMyAdmin-Navigation
+ * @package PhpMyAdmin-Navigation
  */
 /**
  * Displays a collapsible of database objects in the navigation frame

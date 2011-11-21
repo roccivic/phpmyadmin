@@ -3,7 +3,7 @@
 /**
  * Functionality for the navigation tree in the left frame
  *
- * @package phpMyAdmin-Navigation
+ * @package PhpMyAdmin-Navigation
  */
 /**
  * The Node is the building block for the collapsible navigation tree

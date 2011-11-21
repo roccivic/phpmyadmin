@@ -3,7 +3,7 @@
 /**
  * Functionality for the navigation frame
  *
- * @package phpMyAdmin-Navigation
+ * @package PhpMyAdmin-Navigation
  */
 /**
  * the navigation frame - displays server, db and table selection tree

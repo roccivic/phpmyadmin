@@ -3,7 +3,7 @@
 /**
  * Data for the navigation tree in the left frame
  *
- * @package phpMyAdmin-Navigation
+ * @package PhpMyAdmin-Navigation
  */
 /**
  * Provides the data required for generating the navigation tree
