@@ -35,6 +35,12 @@ class CollapsibleTree {
     private $pos;
 
     /**
+     * @var bool Indicated whether the rest of the tree from the current
+     *           node down should be marked as loaded. Used only in AJAX requests
+     */
+    private $is_loaded = false;
+
+    /**
      * Initialises the class
      *
      * @param int $pos Position in the list of databases,
@@ -126,16 +132,15 @@ class CollapsibleTree {
                         $retval = $table;
                         $containers = $this->addTableContainers($db, $table);
                         array_shift($this->a_path); // remove table
-                        if (count($this->a_path) > 0 && array_key_exists($this->a_path[0], $containers)) {
-                            $container = $table->getChild($this->a_path[0], true);
-                            $retval = $container;
-                            foreach (TreeData::getData($this->a_path[0], $db->real_name, $table->real_name) as $item) {
-                                $this->addObject($item, $container, TreeData::getOptions($this->a_path[0]));
-                            }
-                            if (count($this->a_path) > 1) {
-                                $retval = false;
+                        if (count($this->a_path) > 0) {
+                            return false;
+                        }
+                        foreach ($containers as $container) {
+                            foreach (TreeData::getData($container->real_name, $db->real_name, $table->real_name) as $item) {
+                                $this->addObject($item, $container, TreeData::getOptions($container->real_name));
                             }
                         }
+                        $this->is_loaded = true;
                     }
                 }
             }
@@ -528,7 +533,7 @@ class CollapsibleTree {
                 $ajax = ' ajax';
             }
             $loaded = '';
-            if ($node->is_group || $GLOBALS['cfg']['LeftFrameLight'] != true) {
+            if ($node->is_group || $GLOBALS['cfg']['LeftFrameLight'] != true || $this->is_loaded) {
                 $loaded = ' loaded';
             }
             $container = '';

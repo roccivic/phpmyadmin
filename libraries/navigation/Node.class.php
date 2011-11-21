@@ -84,6 +84,12 @@ class Node {
     private $links;
 
     /**
+     * @var string If the node is a container, this indicates if
+     *             its children are already loaded
+     */
+    private $loaded = false;
+
+    /**
      * Initialises the class by setting the mandatory variables
      *
      * @param string $name     An identifier for the new node
