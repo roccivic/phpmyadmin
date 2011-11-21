@@ -62,18 +62,8 @@ form {
     display:            inline;
 }
 
-/* buttons in some browsers (eg. Konqueror) are block elements,
-   this breaks design */
-button {
-    display:            inline;
-}
-
 /******************************************************************************/
 /* classes */
-
-.nowrap {
-    white-space:        nowrap;
-}
 
 .expander {
 	cursor: pointer;
@@ -125,6 +115,8 @@ div#navidbpageselector select{
     position: relative;
 }
 #navigation_tree li {
+    white-space: nowrap;
+    clear: both;
     min-height: 16px;
 }
 #navigation_tree img {
@@ -138,7 +130,8 @@ div#navidbpageselector select{
     min-height: 16px;
     float: <?php echo $left; ?>;
 }
-#navigation_tree div.block div {
+#navigation_tree div.block i,
+#navigation_tree div.block b {
     width: 1.5em;
     height: 1.5em;
     min-width: 16px;
@@ -148,13 +141,16 @@ div#navidbpageselector select{
     <?php echo $left; ?>: 0.75em;
     z-index: 0;
 }
-#navigation_tree div.block div.top {
+#navigation_tree div.block i { /* Top and right segments for the tree element connections */
+    display: block;
     border-<?php echo $left; ?>: 1px solid #666;
-}
-#navigation_tree div.block div.right {
     border-bottom: 1px solid #666;
 }
-#navigation_tree div.block div.bottom {
+#navigation_tree div.block i.first { /* Removes top segment */
+    border-<?php echo $left; ?>: 0;
+}
+#navigation_tree div.block b { /* Bottom segment for the tree element connections */
+    display: block;
     height: 0.75em;
     bottom: 0;
     left: 0.75em;

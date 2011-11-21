@@ -506,7 +506,7 @@ class CollapsibleTree {
         ) {
             return '';
         }
-        $retval = $indent . "<li class='nowrap" . ($class ? " $class" : '') . "'>";
+        $retval = $indent . "<li" . ( $class ? " class='$class'" : '') . ">";
         $hasChildren = $node->hasChildren(false);
         $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
         if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight'])
@@ -522,7 +522,7 @@ class CollapsibleTree {
                 $v_path[] = urlencode(base64_encode($parent->name));
             }
             $v_path = implode('.', array_reverse($v_path));
-            $link    = "navigation.php?" . PMA_generate_common_url() . "&amp;a_path=$a_path&amp;v_path=$v_path&amp;XDEBUG_PROFILE";
+            $link    = "navigation.php?" . PMA_generate_common_url() . "&amp;a_path=$a_path&amp;v_path=$v_path";
             $ajax    = '';
             if ($GLOBALS['cfg']['AjaxEnable']) {
                 $ajax = ' ajax';
@@ -536,9 +536,9 @@ class CollapsibleTree {
                 $container = ' container';
             }
             $retval .= "<div class='block'>";
-            $retval .= "<div class='" . ($class == 'first' ? '' : 'top ' ) . "right'></div>";
+            $retval .= "<i" . ( $class == 'first' ? " class='first'" : '') . "></i>";
             if ($class != 'last') {
-                $retval .= "<div class='bottom'></div>";
+                $retval .= "<b></b>";
             }
             $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
             $retval .= PMA_getImage('b_plus.png');
@@ -546,7 +546,7 @@ class CollapsibleTree {
             $retval .= "</div>";
         } else {
             $retval .= "<div class='block'>";
-            $retval .= "<div class='top right'></div>";
+            $retval .= "<i" . ( $class == 'first' ? " class='first'" : '') . "></i>";
             $retval .= "</div>";
         }
 
@@ -607,7 +607,6 @@ class CollapsibleTree {
                 $retval .= $indent . "  </ul></div>\n" . $indent;
             }
         }
-        $retval .= "    <div style='clear: both;'></div>";
         $retval .= "</li>\n";
         return $retval;
     }
