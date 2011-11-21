@@ -83,7 +83,7 @@ class Navigation {
      */
     public function render()
     {
-        $buffer .= $this->header();
+        $buffer = $this->header();
         $buffer .= $this->logo();
         $buffer .= $this->links();
         $buffer .= $this->serverChoice();

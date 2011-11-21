@@ -446,11 +446,11 @@ class CollapsibleTree {
             $this->setVisibility();
             for ($i=0; $i<count($children); $i++) {
                 if ($i == 0) {
-                    $retval .= $this->renderNode($children[0], true, $indent . '    ', 'first');
+                    $retval .= $this->renderNode($children[0], true, '', 'first');
                 } else if ($i + 1 != count($children)) {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ');
+                    $retval .= $this->renderNode($children[$i], true, '');
                 } else {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
+                    $retval .= $this->renderNode($children[$i], true, '', 'last');
                 }
             }
             $retval .= "</ul></div>\n";
@@ -481,9 +481,9 @@ class CollapsibleTree {
             usort($children, array('CollapsibleTree', 'sortNode'));
             for ($i=0; $i<count($children); $i++) {
                 if ($i + 1 != count($children)) {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ');
+                    $retval .= $this->renderNode($children[$i], true, '');
                 } else {
-                    $retval .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
+                    $retval .= $this->renderNode($children[$i], true, '', 'last');
                 }
             }
             $retval .= "</ul></div>\n";
