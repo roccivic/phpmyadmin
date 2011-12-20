@@ -16,8 +16,18 @@ require_once './libraries/ob.lib.php';
 // Recent Tables List
 require_once './libraries/RecentTable.class.php';
 
-// The Node is the building block for the navigation tree
-require_once './libraries/navigation/Node.class.php';
+// The Nodes are the building blocks for the navigation tree
+require_once './libraries/navigation/Nodes/Node.class.php';
+// All of the below Nodes inherit from the base Node
+require_once './libraries/navigation/Nodes/Node_Column.class.php';
+require_once './libraries/navigation/Nodes/Node_Database.class.php';
+require_once './libraries/navigation/Nodes/Node_Event.class.php';
+require_once './libraries/navigation/Nodes/Node_Function.class.php';
+require_once './libraries/navigation/Nodes/Node_Index.class.php';
+require_once './libraries/navigation/Nodes/Node_Procedure.class.php';
+require_once './libraries/navigation/Nodes/Node_Table.class.php';
+require_once './libraries/navigation/Nodes/Node_Trigger.class.php';
+require_once './libraries/navigation/Nodes/Node_View.class.php';
 
 // Contains data necessary to generate the collapsible tree
 // such as SQL queries, links and icons

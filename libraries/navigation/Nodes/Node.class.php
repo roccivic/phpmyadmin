@@ -75,13 +75,13 @@ class Node {
     /**
      * @var string An IMG tag, used when rendering the node
      */
-    private $icon;
+    protected $icon;
 
     /**
      * @var Array An array of A tags, used when rendering the node
      *            The indexes in the array may be 'icon' and 'text'
      */
-    private $links;
+    protected $links;
 
     /**
      * @var string If the node is a container, this indicates if
@@ -99,7 +99,7 @@ class Node {
      *
      * @return bool Whether the initialisation was successful
      */
-    public function __construct($name, $type, $is_group = false)
+    public function __construct($name, $type = Node::OBJECT, $is_group = false)
     {
         if (! empty($name)) {
             $this->name      = $name;

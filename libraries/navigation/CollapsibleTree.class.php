@@ -84,13 +84,40 @@ class CollapsibleTree {
     private function buildTree()
     {
         foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
-            $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
+            $node = new Node_Database($db);
+            $node->parent = $this->tree;
+            $this->tree->addChild($node);
         }
         foreach ($this->tree->children as $child) {
             $containers = $this->addDbContainers($child);
             foreach ($containers as $key => $value) {
                 foreach (TreeData::getData($key, $child->real_name) as $item) {
-                    $this->addObject($item, $value, TreeData::getOptions($key));
+                    switch ($key) {
+                    case 'events':
+                        $node = new Node_Table($item);
+                        break;
+                    case 'functions':
+                        $node = new Node_Function($item);
+                        break;
+                    case 'procedures':
+                        $node = new Node_Procedure($item);
+                        break;
+                    case 'tables':
+                        $node = new Node_Table($item);
+                        break;
+                    case 'triggers':
+                        $node = new Node_Trigger($item);
+                        break;
+                    case 'views':
+                        $node = new Node_View($item);
+                        break;
+                    default:
+                        break;
+                    }
+                    if (isset($node)) {
+                        $node->parent = $value;
+                        $value->addChild($node);
+                    }
                 }
             }
         }
@@ -105,7 +132,9 @@ class CollapsibleTree {
     {
         $retval = $this->tree;
         foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
-            $this->addObject($db, $this->tree, TreeData::getOptions('databases'));
+            $node = new Node_Database($db);
+            $node->parent = $this->tree;
+            $this->tree->addChild($node);
         }
         if (count($this->a_path) > 1) {
             array_shift($this->a_path); // remove 'root'
@@ -121,7 +150,32 @@ class CollapsibleTree {
                 }
                 $retval = $container;
                 foreach (TreeData::getData($container->real_name, $db->real_name) as $item) {
-                    $this->addObject($item, $container, TreeData::getOptions($container->real_name));
+                    switch ($container->real_name) {
+                    case 'events':
+                        $node = new Node_Table($item);
+                        break;
+                    case 'functions':
+                        $node = new Node_Function($item);
+                        break;
+                    case 'procedures':
+                        $node = new Node_Procedure($item);
+                        break;
+                    case 'tables':
+                        $node = new Node_Table($item);
+                        break;
+                    case 'triggers':
+                        $node = new Node_Trigger($item);
+                        break;
+                    case 'views':
+                        $node = new Node_View($item);
+                        break;
+                    default:
+                        break;
+                    }
+                    if (isset($node)) {
+                        $node->parent = $container;
+                        $container->addChild($node);
+                    }
                 }
                 if (count($this->a_path) > 1 && $this->a_path[0] != 'tables') {
                     $retval = false;
@@ -137,7 +191,20 @@ class CollapsibleTree {
                         }
                         foreach ($containers as $container) {
                             foreach (TreeData::getData($container->real_name, $db->real_name, $table->real_name) as $item) {
-                                $this->addObject($item, $container, TreeData::getOptions($container->real_name));
+                                switch ($container->real_name) {
+                                case 'indexes':
+                                    $node = new Node_Index($item);
+                                    break;
+                                case 'columns':
+                                    $node = new Node_Column($item);
+                                    break;
+                                default:
+                                    break;
+                                }
+                                if (isset($node)) {
+                                    $node->parent = $container;
+                                    $container->addChild($node);
+                                }
                             }
                         }
                         $this->is_loaded = true;
@@ -146,31 +213,6 @@ class CollapsibleTree {
             }
         }
         return $retval;
-    }
-
-    /**
-     * Adds an object to the tree
-     *
-     * @param string $name    The name of the new object
-     * @param Node   $parent  A reference to the node to which
-     *                        to attach the new object
-     * @param array  $options An array of options
-     *                        See TreeData.class.php for more info
-     *
-     * @return Node New node
-     */
-    private function addObject($name, $parent, $options = array())
-    {
-        $node = new Node($name, Node::OBJECT);
-        $node->parent = $parent;
-        $parent->addChild($node);
-        if (isset($options['icon'])) {
-            $node->icon = $options['icon'];
-        }
-        if (isset($options['links'])) {
-            $node->links = $options['links'];
-        }
-        return $node;
     }
 
     /**
@@ -378,7 +420,7 @@ class CollapsibleTree {
                     $node->addChild($groups[$key]);
                     foreach ($node->children as $child) { // FIXME: this could be more efficient
                         if (substr($child->name, 0, strlen($key)) == $key && $child->type == Node::OBJECT) {
-                            $new_child = new Node(substr($child->name, strlen($key)), Node::OBJECT);
+                            $new_child = new Node(substr($child->name, strlen($key)));
                             $new_child->real_name = $child->real_name;
                             $new_child->icon = $child->icon;
                             $new_child->links = $child->links;

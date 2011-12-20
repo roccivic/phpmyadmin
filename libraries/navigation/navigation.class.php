@@ -83,7 +83,7 @@ class Navigation {
      */
     public function render()
     {
-        $buffer = $this->header();
+        $buffer  = $this->header();
         $buffer .= $this->logo();
         $buffer .= $this->links();
         $buffer .= $this->serverChoice();
@@ -341,10 +341,13 @@ class Navigation {
 
         /* Render the tree */
         if ($ajax) {
-            if ($responce = $tree->renderPath()) {
-                PMA_ajaxResponse($responce, true);
+            if ($response = $tree->renderPath()) {
+                PMA_ajaxResponse($response, true);
             } else {
-                PMA_ajaxResponse(__('An error has occured while loading the navigation tree'), false);
+                PMA_ajaxResponse(
+                    __('An error has occured while loading the navigation tree'),
+                    false
+                );
             }
         } else {
             $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
