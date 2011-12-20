@@ -29,10 +29,6 @@ require_once './libraries/navigation/Nodes/Node_Table.class.php';
 require_once './libraries/navigation/Nodes/Node_Trigger.class.php';
 require_once './libraries/navigation/Nodes/Node_View.class.php';
 
-// Contains data necessary to generate the collapsible tree
-// such as SQL queries, links and icons
-require_once './libraries/navigation/TreeData.class.php';
-
 // Generates a collapsible tree of database objects
 require_once './libraries/navigation/CollapsibleTree.class.php';
 

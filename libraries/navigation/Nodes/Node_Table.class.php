@@ -15,6 +15,87 @@ class Node_Table extends Node {
         );
         parent::__construct($name, $type, $is_group);
     }
+
+    public function getPresence($type)
+    {
+        $retval = 0;
+        $db = $this->realParent()->real_name;
+        $table = $this->real_name;
+        switch ($type) {
+        case 'columns':
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $table  = PMA_sqlAddSlashes($table);
+                $query  = "SELECT `COLUMN_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`COLUMNS` ";
+                $query .= "WHERE `TABLE_NAME`='$table' ";
+                $query .= "AND `TABLE_SCHEMA`='$db' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $table  = PMA_backquote($table);
+                $query  = "SHOW COLUMNS FROM $table FROM $db";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
+        case 'indexes':
+            $db     = PMA_backquote($db);
+            $table  = PMA_backquote($table);
+            $query  = "SHOW INDEXES FROM $table FROM $db";
+            $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            break;
+        default:
+            break;
+        }
+        return $retval;
+    }
+
+    public function getData($type)
+    {
+        $retval = array();
+        $db = $this->realParent()->real_name;
+        $table = $this->real_name;
+        switch ($type) {
+        case 'columns':
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $table  = PMA_sqlAddSlashes($table);
+                $query  = "SELECT `COLUMN_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`COLUMNS` ";
+                $query .= "WHERE `TABLE_NAME`='$table' ";
+                $query .= "AND `TABLE_SCHEMA`='$db'";
+                $retval = PMA_DBI_fetch_result($query);
+            } else {
+                $db     = PMA_backquote($db);
+                $table  = PMA_backquote($table);
+                $query  = "SHOW COLUMNS FROM $table FROM $db";
+                $handle = PMA_DBI_try_query($query);
+                if ($handle !== false) {
+                    while ($arr = PMA_DBI_fetch_assoc($handle)) {
+                        $retval[] = $arr['Field'];
+                    }
+                }
+            }
+            break;
+        case 'indexes':
+            $db     = PMA_backquote($db);
+            $table  = PMA_backquote($table);
+            $query  = "SHOW INDEXES FROM $table FROM $db";
+            $handle = PMA_DBI_try_query($query);
+            if ($handle !== false) {
+                while ($arr = PMA_DBI_fetch_assoc($handle)) {
+                    if (! in_array($arr['Key_name'], $retval)) {
+                        $retval[] = $arr['Key_name'];
+                    }
+                }
+            }
+            break;
+        default:
+            break;
+        }
+        return $retval;
+    }
 }
 
 ?>

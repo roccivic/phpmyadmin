@@ -241,6 +241,12 @@ class Node {
         return $parents;
     }
 
+    function realParent()
+    {
+        $retval = $this->parents();
+        return $retval[0];
+    }
+
     /**
      * This function checks if the node has children nodes associated with it
      *
@@ -280,6 +286,25 @@ class Node {
                 $retval++;
             } else {
                 $retval += $child->numChildren();
+            }
+        }
+        return $retval;
+    }
+
+    public function getData($pos)
+    {
+        $retval = array();
+        if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
+            $query  = "SELECT `SCHEMA_NAME` ";
+            $query .= "FROM `INFORMATION_SCHEMA`.`SCHEMATA` ";
+            $query .= "LIMIT $pos, {$GLOBALS['cfg']['MaxDbList']}";
+            $retval = PMA_DBI_fetch_result($query);
+        } else {
+            $query = "SHOW DATABASES";
+            $temp = PMA_DBI_fetch_result($query);
+            $num = min($GLOBALS['cfg']['MaxDbList'], count($temp));
+            for ($i=$pos; $i<$num; $i++) {
+                $retval[] = $temp[$i];
             }
         }
         return $retval;

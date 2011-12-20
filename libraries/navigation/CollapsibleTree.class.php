@@ -83,7 +83,7 @@ class CollapsibleTree {
      */
     private function buildTree()
     {
-        foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
+        foreach ($this->tree->getData($this->pos) as $db) {
             $node = new Node_Database($db);
             $node->parent = $this->tree;
             $this->tree->addChild($node);
@@ -91,7 +91,7 @@ class CollapsibleTree {
         foreach ($this->tree->children as $child) {
             $containers = $this->addDbContainers($child);
             foreach ($containers as $key => $value) {
-                foreach (TreeData::getData($key, $child->real_name) as $item) {
+                foreach ($child->getData($key) as $item) {
                     switch ($key) {
                     case 'events':
                         $node = new Node_Table($item);
@@ -131,7 +131,7 @@ class CollapsibleTree {
     private function buildPath()
     {
         $retval = $this->tree;
-        foreach (TreeData::getData('databases', null, null, $this->pos) as $db) {
+        foreach ($this->tree->getData($this->pos) as $db) {
             $node = new Node_Database($db);
             $node->parent = $this->tree;
             $this->tree->addChild($node);
@@ -149,7 +149,7 @@ class CollapsibleTree {
                     $container = $db->getChild($this->a_path[0], true);
                 }
                 $retval = $container;
-                foreach (TreeData::getData($container->real_name, $db->real_name) as $item) {
+                foreach ($db->getData($container->real_name) as $item) {
                     switch ($container->real_name) {
                     case 'events':
                         $node = new Node_Table($item);
@@ -190,7 +190,7 @@ class CollapsibleTree {
                             return false;
                         }
                         foreach ($containers as $container) {
-                            foreach (TreeData::getData($container->real_name, $db->real_name, $table->real_name) as $item) {
+                            foreach ($table->getData($container->real_name) as $item) {
                                 switch ($container->real_name) {
                                 case 'indexes':
                                     $node = new Node_Index($item);
@@ -255,7 +255,7 @@ class CollapsibleTree {
     {
         $retval = array();
         // Columns
-        if (TreeData::getPresence('columns', $db->real_name, $table->real_name)) {
+        if ($table->getPresence('columns')) {
             $container = $this->addContainer(
                 __('Columns'),
                 $table,
@@ -264,7 +264,7 @@ class CollapsibleTree {
             $container->real_name = 'columns';
             $retval['columns'] = $container;
         }
-        if (TreeData::getPresence('indexes', $db->real_name, $table->real_name)) {
+        if ($table->getPresence('indexes')) {
             // Indexes
             $container = $this->addContainer(
                 __('Indexes'),
@@ -290,7 +290,8 @@ class CollapsibleTree {
     private function addDbContainers($db)
     {
         $retval = array();
-        if (TreeData::getPresence('tables', $db->real_name)) {
+
+        if ($db->getPresence('tables')) {
             // Tables
             $container = $this->addContainer(
                 __('Tables'),
@@ -302,7 +303,7 @@ class CollapsibleTree {
             $container->real_name = 'tables';
             $retval['tables'] = $container;
         }
-        if (TreeData::getPresence('views', $db->real_name)) {
+        if ($db->getPresence('views')) {
             // Views
             $container = $this->addContainer(
                 __('Views'),
@@ -312,7 +313,7 @@ class CollapsibleTree {
             $container->real_name = 'views';
             $retval['views'] = $container;
         }
-        if (TreeData::getPresence('functions', $db->real_name)) {
+        if ($db->getPresence('functions')) {
             // Functions
             $container = $this->addContainer(
                 __('Functions'),
@@ -322,7 +323,7 @@ class CollapsibleTree {
             $container->real_name = 'functions';
             $retval['functions'] = $container;
         }
-        if (TreeData::getPresence('procedures', $db->real_name)) {
+        if ($db->getPresence('procedures')) {
             // Procedures
             $container = $this->addContainer(
                 __('Procedures'),
@@ -332,7 +333,7 @@ class CollapsibleTree {
             $container->real_name = 'procedures';
             $retval['procedures'] = $container;
         }
-        if (TreeData::getPresence('triggers', $db->real_name)) {
+        if ($db->getPresence('triggers')) {
             // Triggers
             $container = $this->addContainer(
                 __('Triggers'),
@@ -342,7 +343,7 @@ class CollapsibleTree {
             $container->real_name = 'triggers';
             $retval['triggers'] = $container;
         }
-        if (TreeData::getPresence('events', $db->real_name)) {
+        if ($db->getPresence('events')) {
             // Events
             $container = $this->addContainer(
                 __('Events'),
