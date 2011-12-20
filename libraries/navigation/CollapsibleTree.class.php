@@ -16,7 +16,7 @@ class CollapsibleTree {
 
     /**
      * @var array The actual path to the active node from the tree
-     *            This does not inlude nodes created after the grouping
+     *            This does not include nodes created after the grouping
      *            of nodes has been performed
      */
     private $a_path = array();
@@ -358,7 +358,7 @@ class CollapsibleTree {
     }
 
     /**
-     * Recursively groups tree nodes given a sperarator
+     * Recursively groups tree nodes given a separator
      *
      * @param null|Node $node The node to group or null
      *                        to group the whole tree. If
