@@ -94,7 +94,7 @@ class CollapsibleTree {
                 foreach ($child->getData($key) as $item) {
                     switch ($key) {
                     case 'events':
-                        $node = new Node_Table($item);
+                        $node = new Node_Event($item);
                         break;
                     case 'functions':
                         $node = new Node_Function($item);
@@ -152,7 +152,7 @@ class CollapsibleTree {
                 foreach ($db->getData($container->real_name) as $item) {
                     switch ($container->real_name) {
                     case 'events':
-                        $node = new Node_Table($item);
+                        $node = new Node_Event($item);
                         break;
                     case 'functions':
                         $node = new Node_Function($item);
