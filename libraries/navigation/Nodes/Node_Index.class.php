@@ -4,6 +4,7 @@ class Node_Index extends Node {
     
     public function __construct($name, $type = Node::OBJECT, $is_group = false)
     {
+        parent::__construct($name, $type, $is_group);
         $this->icon = PMA_getImage('b_primary.png');
         $this->links = array(
             'text' => 'tbl_indexes.php?server=' . $GLOBALS['server']
@@ -13,7 +14,6 @@ class Node_Index extends Node {
                     . '&amp;db=%3$s&amp;table=%2$s&amp;index=%1$s'
                     . '&amp;token=' . $GLOBALS['token']
         );
-        parent::__construct($name, $type, $is_group);
     }
 }
 

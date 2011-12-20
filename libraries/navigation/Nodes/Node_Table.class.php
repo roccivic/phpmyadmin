@@ -4,6 +4,7 @@ class Node_Table extends Node {
     
     public function __construct($name, $type = Node::OBJECT, $is_group = false)
     {
+        parent::__construct($name, $type, $is_group);
         $this->icon = PMA_getImage('b_browse.png');
         $this->links = array(
             'text' => 'sql.php?server=' . $GLOBALS['server']
@@ -13,7 +14,6 @@ class Node_Table extends Node {
                     . '?server=' . $GLOBALS['server']
                     . '&amp;db=%2$s&amp;table=%1$s&amp;token=' . $GLOBALS['token']
         );
-        parent::__construct($name, $type, $is_group);
     }
 
     public function getPresence($type)

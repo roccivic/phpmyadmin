@@ -184,7 +184,7 @@ class CollapsibleTree {
                     if (count($this->a_path) > 0) {
                         $table = $container->getChild($this->a_path[0], true);
                         $retval = $table;
-                        $containers = $this->addTableContainers($db, $table);
+                        $containers = $this->addTableContainers($table);
                         array_shift($this->a_path); // remove table
                         if (count($this->a_path) > 0) {
                             return false;
@@ -216,144 +216,64 @@ class CollapsibleTree {
     }
 
     /**
-     * Adds a container to the tree
-     *
-     * @param string $name            The name of the new object
-     * @param Node   $parent          A reference to the node to which
-     *                                to attach the new object
-     * @param string $icon            An IMG tag, used for rendering
-     * @param string $separator       This string is used to group nodes
-     * @param int    $separator_depth How many time to recursively apply
-     *                                the grouping function
-     *
-     * @return Node New node
-     */
-    private function addContainer($name, $parent, $icon = null, $separator = '', $separator_depth = 1)
-    {
-        $node = new Node($name, Node::CONTAINER);
-        $node->separator = $separator;
-        $node->separator_depth = $separator_depth;
-        $node->parent = $parent;
-        $parent->addChild($node);
-        if (isset($icon)) {
-            $node->icon = $icon;
-        }
-        return $node;
-    }
-
-    /**
      * Adds containers to a node that is a table
      *
-     * @param Node $db    The database node, only the name of this
-     *                    node is used for fetching information
      * @param Node $table The table node, new containers will be
      *                    attached to this node
      *
      * @return array An array of new nodes
      */
-    private function addTableContainers($db, $table)
+    private function addTableContainers($table)
     {
         $retval = array();
-        // Columns
         if ($table->getPresence('columns')) {
-            $container = $this->addContainer(
-                __('Columns'),
-                $table,
-                PMA_getImage('s_vars.png')
-            );
-            $container->real_name = 'columns';
-            $retval['columns'] = $container;
+            $retval['columns'] = new Node_Column_Container();
         }
         if ($table->getPresence('indexes')) {
-            // Indexes
-            $container = $this->addContainer(
-                __('Indexes'),
-                $table,
-                PMA_getImage('b_primary.png')
-            );
-            $container->real_name = 'indexes';
-            $retval['indexes'] = $container;
+            $retval['indexes'] = new Node_Index_Container();
         }
-
+        // Add all new Nodes to the tree
+        foreach ($retval as $node) {
+            $node->parent = $table;
+            $table->addChild($node);
+        }
         return $retval;
     }
 
     /**
      * Adds containers to a node that is a database
      *
-     * @param Node $db The database node, the name of this node
-     *                 is used for fetching information and new
-     *                 containers will be attached to this node
+     * @param Node $db The database node, new containers will be
+     *                 attached to this node
      *
      * @return array An array of new nodes
      */
     private function addDbContainers($db)
     {
         $retval = array();
-
         if ($db->getPresence('tables')) {
-            // Tables
-            $container = $this->addContainer(
-                __('Tables'),
-                $db,
-                PMA_getImage('b_browse.png'),
-                $GLOBALS['cfg']['LeftFrameTableSeparator'],
-                (int)($GLOBALS['cfg']['LeftFrameTableLevel'])
-            );
-            $container->real_name = 'tables';
-            $retval['tables'] = $container;
+            $retval['tables'] = new Node_Table_Container();
         }
         if ($db->getPresence('views')) {
-            // Views
-            $container = $this->addContainer(
-                __('Views'),
-                $db,
-                PMA_getImage('b_views.png')
-            );
-            $container->real_name = 'views';
-            $retval['views'] = $container;
+            $retval['views'] = new Node_View_Container();
         }
         if ($db->getPresence('functions')) {
-            // Functions
-            $container = $this->addContainer(
-                __('Functions'),
-                $db,
-                PMA_getImage('b_routines.png')
-            );
-            $container->real_name = 'functions';
-            $retval['functions'] = $container;
+            $retval['functions'] = new Node_Function_Container();
         }
         if ($db->getPresence('procedures')) {
-            // Procedures
-            $container = $this->addContainer(
-                __('Procedures'),
-                $db,
-                PMA_getImage('b_routines.png')
-            );
-            $container->real_name = 'procedures';
-            $retval['procedures'] = $container;
+            $retval['procedures'] = new Node_Procedure_Container();
         }
         if ($db->getPresence('triggers')) {
-            // Triggers
-            $container = $this->addContainer(
-                __('Triggers'),
-                $db,
-                PMA_getImage('b_triggers.png')
-            );
-            $container->real_name = 'triggers';
-            $retval['triggers'] = $container;
+            $retval['triggers'] = new Node_Trigger_Container();
         }
         if ($db->getPresence('events')) {
-            // Events
-            $container = $this->addContainer(
-                __('Events'),
-                $db,
-                PMA_getImage('b_events.png')
-            );
-            $container->real_name = 'events';
-            $retval['events'] = $container;
+            $retval['events'] = new Node_Event_Container();
         }
-
+        // Add all new Nodes to the tree
+        foreach ($retval as $node) {
+            $node->parent = $db;
+            $db->addChild($node);
+        }
         return $retval;
     }
 
@@ -621,7 +541,11 @@ class CollapsibleTree {
                 $args[] = urlencode($parent->real_name);
             }
             $link = vsprintf($node->links['text'], $args);
-            $retval .= "<a href='$link'>" . htmlspecialchars($node->real_name) . "</a>";
+            if ($node->type == Node::CONTAINER) {
+                $retval .= "<a href='$link'>" . htmlspecialchars($node->name) . "</a>";
+            } else {
+                $retval .= "<a href='$link'>" . htmlspecialchars($node->real_name) . "</a>";
+            }
         } else {
             $retval .= "{$node->name}";
         }
