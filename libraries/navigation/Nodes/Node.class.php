@@ -163,6 +163,7 @@ class Node {
     public function addChild($child)
     {
         $this->children[] = $child;
+        $child->parent = $this;
     }
 
     /**
@@ -194,7 +195,7 @@ class Node {
     }
 
     /**
-     * Removes a child node form this node
+     * Removes a child node from this node
      *
      * @param string $name The name of child to be removed
      *
@@ -241,6 +242,9 @@ class Node {
         return $parents;
     }
 
+    /**
+     * TODO: comment
+     */
     function realParent()
     {
         $retval = $this->parents();
@@ -291,6 +295,9 @@ class Node {
         return $retval;
     }
 
+    /**
+     * TODO: comment
+     */
     public function getData($pos)
     {
         $retval = array();
@@ -308,6 +315,14 @@ class Node {
             }
         }
         return $retval;
+    }
+
+    /**
+     * TODO: comment
+     */
+    public function getPresence()
+    {
+        return false;
     }
 }
 ?>

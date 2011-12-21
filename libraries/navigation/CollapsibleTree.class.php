@@ -85,7 +85,6 @@ class CollapsibleTree {
     {
         foreach ($this->tree->getData($this->pos) as $db) {
             $node = new Node_Database($db);
-            $node->parent = $this->tree;
             $this->tree->addChild($node);
         }
         foreach ($this->tree->children as $child) {
@@ -115,7 +114,6 @@ class CollapsibleTree {
                         break;
                     }
                     if (isset($node)) {
-                        $node->parent = $value;
                         $value->addChild($node);
                     }
                 }
@@ -133,7 +131,6 @@ class CollapsibleTree {
         $retval = $this->tree;
         foreach ($this->tree->getData($this->pos) as $db) {
             $node = new Node_Database($db);
-            $node->parent = $this->tree;
             $this->tree->addChild($node);
         }
         if (count($this->a_path) > 1) {
@@ -173,7 +170,6 @@ class CollapsibleTree {
                         break;
                     }
                     if (isset($node)) {
-                        $node->parent = $container;
                         $container->addChild($node);
                     }
                 }
@@ -202,7 +198,6 @@ class CollapsibleTree {
                                     break;
                                 }
                                 if (isset($node)) {
-                                    $node->parent = $container;
                                     $container->addChild($node);
                                 }
                             }
@@ -234,7 +229,6 @@ class CollapsibleTree {
         }
         // Add all new Nodes to the tree
         foreach ($retval as $node) {
-            $node->parent = $table;
             $table->addChild($node);
         }
         return $retval;
@@ -271,7 +265,6 @@ class CollapsibleTree {
         }
         // Add all new Nodes to the tree
         foreach ($retval as $node) {
-            $node->parent = $db;
             $db->addChild($node);
         }
         return $retval;
@@ -334,7 +327,6 @@ class CollapsibleTree {
                 $groups = array();
                 foreach ($prefixes as $key => $value) {
                     $groups[$key] = new Node($key, Node::CONTAINER, true);
-                    $groups[$key]->parent = $node;
                     $groups[$key]->separator = $node->separator;
                     $groups[$key]->separator_depth = $node->separator_depth - 1;
                     $groups[$key]->icon = $GLOBALS['cfg']['NavigationBarIconic'] ? PMA_getImage('b_group.png') : '';
@@ -345,11 +337,9 @@ class CollapsibleTree {
                             $new_child->real_name = $child->real_name;
                             $new_child->icon = $child->icon;
                             $new_child->links = $child->links;
-                            $new_child->parent = $groups[$key];
                             $groups[$key]->addChild($new_child);
                             foreach ($child->children as $elm) {
                                 $new_child->addChild($elm);
-                                $elm->parent = $new_child;
                             }
                             $node->removeChild($child->name);
                         }
@@ -622,7 +612,8 @@ class CollapsibleTree {
      *
      * @return int See strnatcmp() and strcmp()
      */
-    static public function sortNode($a, $b) {
+    static public function sortNode($a, $b)
+    {
         if ($GLOBALS['cfg']['NaturalOrder']) {
             return strnatcmp($a->name, $b->name);
         } else {
