@@ -182,9 +182,6 @@ class CollapsibleTree {
                         $retval = $table;
                         $containers = $this->addTableContainers($table);
                         array_shift($this->a_path); // remove table
-                        if (count($this->a_path) > 0) {
-                            return false;
-                        }
                         foreach ($containers as $container) {
                             foreach ($table->getData($container->real_name) as $item) {
                                 switch ($container->real_name) {
