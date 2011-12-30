@@ -15,7 +15,7 @@ class Node_Event_Container extends Node {
         $this->real_name = 'events';
 
         $new = new Node(__('New'));
-        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->icon = PMA_getImage('b_event_add.png', '');
         $new->links = array(
             'text' => 'db_events.php?server=' . $GLOBALS['server']
                     . '&amp;db=%2$s&amp;token=' . $GLOBALS['token']

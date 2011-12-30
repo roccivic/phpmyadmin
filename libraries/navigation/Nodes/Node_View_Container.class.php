@@ -15,11 +15,11 @@ class Node_View_Container extends Node {
         $this->real_name = 'views';
 
         $new = new Node(__('New'));
-        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->icon = PMA_getImage('b_view_add.png', '');
         $new->links = array(
-            'text' => 'tbl_create.php?server=' . $GLOBALS['server']
+            'text' => 'view_create.php?server=' . $GLOBALS['server']
                     . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
-            'icon' => 'tbl_create.php?server=' . $GLOBALS['server']
+            'icon' => 'view_create.php?server=' . $GLOBALS['server']
                     . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
         );
         $new->classes = 'new_view italics';
