@@ -489,7 +489,7 @@ class CollapsibleTree {
             }
             $retval .= "<div class='block'>";
             $retval .= "<i" . ( $class == 'first' ? " class='first'" : '') . "></i>";
-            if ($class != 'last') {
+            if (strpos($class, 'last') === false) {
                 $retval .= "<b></b>";
             }
             $retval .= "<a class='expander$ajax$loaded$container' target='_self' href='$link'>";
