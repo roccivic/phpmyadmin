@@ -104,9 +104,6 @@ class CollapsibleTree {
                     case 'tables':
                         $node = new Node_Table($item);
                         break;
-                    case 'triggers':
-                        $node = new Node_Trigger($item);
-                        break;
                     case 'views':
                         $node = new Node_View($item);
                         break;
@@ -160,9 +157,6 @@ class CollapsibleTree {
                     case 'tables':
                         $node = new Node_Table($item);
                         break;
-                    case 'triggers':
-                        $node = new Node_Trigger($item);
-                        break;
                     case 'views':
                         $node = new Node_View($item);
                         break;
@@ -190,6 +184,9 @@ class CollapsibleTree {
                                     break;
                                 case 'columns':
                                     $node = new Node_Column($item);
+                                    break;
+                                case 'triggers':
+                                    $node = new Node_Trigger($item);
                                     break;
                                 default:
                                     break;
@@ -224,6 +221,9 @@ class CollapsibleTree {
         if ($table->getPresence('indexes')) {
             $retval['indexes'] = new Node_Index_Container();
         }
+        if ($table->getPresence('triggers')) {
+            $retval['triggers'] = new Node_Trigger_Container();
+        }
         // Add all new Nodes to the tree
         foreach ($retval as $node) {
             $table->addChild($node);
@@ -253,9 +253,6 @@ class CollapsibleTree {
         }
         if ($db->getPresence('procedures')) {
             $retval['procedures'] = new Node_Procedure_Container();
-        }
-        if ($db->getPresence('triggers')) {
-            $retval['triggers'] = new Node_Trigger_Container();
         }
         if ($db->getPresence('events')) {
             $retval['events'] = new Node_Event_Container();
@@ -461,11 +458,11 @@ class CollapsibleTree {
         ) {
             return '';
         }
-        $retval = $indent . "<li" . ( $class ? " class='$class'" : '') . ">";
+        $retval = $indent . "<li" . ( $class || $node->classes ? " class='" . trim($class . ' ' . $node->classes) . "'" : '') . ">";
         $hasChildren = $node->hasChildren(false);
         $sterile = array('events', 'triggers', 'functions', 'procedures', 'views', 'columns', 'indexes');
         if (($GLOBALS['is_ajax_request'] || $hasChildren || $GLOBALS['cfg']['LeftFrameLight'])
-            && ! in_array($node->parent->real_name, $sterile)
+            && ! in_array($node->parent->real_name, $sterile) && ! preg_match('/^' . __('New') . '/', $node->real_name)
         ) {
             $a_path = array();
             foreach ($node->parents(true, true, false) as $parent) {
@@ -508,6 +505,7 @@ class CollapsibleTree {
         if ($node->type == Node::CONTAINER) {
             $retval .= "<i>";
         }
+        $ajax_class = $GLOBALS['is_ajax_request'] ? ' class="ajax"' : '';
         if ($GLOBALS['cfg']['NavigationBarIconic']) {
             $retval .= "<div class='block'>";
             if (isset($node->links['icon'])) {
@@ -516,7 +514,7 @@ class CollapsibleTree {
                     $args[] = urlencode($parent->real_name);
                 }
                 $link = vsprintf($node->links['icon'], $args);
-                $retval .= "<a href='$link'>{$node->icon}</a>";
+                $retval .= "<a$ajax_class href='$link'>{$node->icon}</a>";
             } else {
                 $retval .= "<a>{$node->icon}</a>";
             }
@@ -529,9 +527,9 @@ class CollapsibleTree {
             }
             $link = vsprintf($node->links['text'], $args);
             if ($node->type == Node::CONTAINER) {
-                $retval .= "<a href='$link'>" . htmlspecialchars($node->name) . "</a>";
+                $retval .= "<a$ajax_class href='$link'>" . htmlspecialchars($node->name) . "</a>";
             } else {
-                $retval .= "<a href='$link'>" . htmlspecialchars($node->real_name) . "</a>";
+                $retval .= "<a$ajax_class href='$link'>" . htmlspecialchars($node->real_name) . "</a>";
             }
         } else {
             $retval .= "{$node->name}";
@@ -549,9 +547,9 @@ class CollapsibleTree {
             $buffer = '';
             for ($i=0; $i<count($children); $i++) {
                 if ($i + 1 != count($children)) {
-                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ');
+                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', $this->classes);
                 } else {
-                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', 'last');
+                    $buffer .= $this->renderNode($children[$i], true, $indent . '    ', $this->classes . ' last');
                 }
             }
             if (! empty($buffer)) {

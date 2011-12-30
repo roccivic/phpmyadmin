@@ -45,6 +45,20 @@ class Node_Table extends Node {
             $query  = "SHOW INDEXES FROM $table FROM $db";
             $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
             break;
+        case 'triggers':
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `TRIGGER_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
+                $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db' ";
+                $query .= "LIMIT 1";
+                $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW TRIGGERS FROM $db";
+                $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
+            }
+            break;
         default:
             break;
         }
@@ -87,6 +101,24 @@ class Node_Table extends Node {
                 while ($arr = PMA_DBI_fetch_assoc($handle)) {
                     if (! in_array($arr['Key_name'], $retval)) {
                         $retval[] = $arr['Key_name'];
+                    }
+                }
+            }
+            break;
+        case 'triggers':
+            if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
+                $db     = PMA_sqlAddSlashes($db);
+                $query  = "SELECT `TRIGGER_NAME` AS `name` ";
+                $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
+                $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db'";
+                $retval = PMA_DBI_fetch_result($query);
+            } else {
+                $db     = PMA_backquote($db);
+                $query  = "SHOW TRIGGERS FROM $db";
+                $handle = PMA_DBI_try_query($query);
+                if ($handle !== false) {
+                    while ($arr = PMA_DBI_fetch_assoc($handle)) {
+                        $retval[] = $arr['Trigger'];
                     }
                 }
             }

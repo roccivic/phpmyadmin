@@ -8,12 +8,26 @@ class Node_Trigger_Container extends Node {
         $this->icon = PMA_getImage('b_triggers.png');
         $this->links = array(
             'text' => 'db_triggers.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $GLOBALS['token'],
+                    . '&amp;db=%3$s&amp;token=' . $GLOBALS['token'],
             'icon' => 'db_triggers.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $GLOBALS['token'],
+                    . '&amp;db=%3$s&amp;token=' . $GLOBALS['token'],
         );
         $this->real_name = 'triggers';
+
+        $new = new Node(__('New'));
+        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->links = array(
+            'text' => 'db_triggers.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%3$s&amp;token=' . $GLOBALS['token']
+                    . '&amp;add_item=1',
+            'icon' => 'db_triggers.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%3$s&amp;token=' . $GLOBALS['token']
+                    . '&amp;add_item=1',
+        );
+        $new->classes = 'new_trigger italics';
+        $this->addChild($new);
     }
+
 }
 
 ?>

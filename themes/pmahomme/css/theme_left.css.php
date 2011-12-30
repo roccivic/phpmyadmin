@@ -69,6 +69,10 @@ form {
 	cursor: pointer;
 }
 
+.italics {
+    font-style: italic;
+}
+
 /******************************************************************************/
 /* specific elements */
 

@@ -13,6 +13,17 @@ class Node_View_Container extends Node {
                     . '&amp;db=%1$s&amp;token=' . $GLOBALS['token'],
         );
         $this->real_name = 'views';
+
+        $new = new Node(__('New'));
+        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->links = array(
+            'text' => 'tbl_create.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
+            'icon' => 'tbl_create.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
+        );
+        $new->classes = 'new_view italics';
+        $this->addChild($new);
     }
 }
 

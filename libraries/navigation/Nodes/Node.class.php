@@ -90,6 +90,12 @@ class Node {
     private $loaded = false;
 
     /**
+     * @var string classes
+     */
+
+    public $classes = '';
+
+    /**
      * Initialises the class by setting the mandatory variables
      *
      * @param string $name     An identifier for the new node

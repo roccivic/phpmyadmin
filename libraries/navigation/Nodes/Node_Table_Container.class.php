@@ -15,6 +15,17 @@ class Node_Table_Container extends Node {
         $this->separator = $GLOBALS['cfg']['LeftFrameTableSeparator'];
         $this->separator_depth = (int)($GLOBALS['cfg']['LeftFrameTableLevel']);
         $this->real_name = 'tables';
+
+        $new = new Node(__('New'));
+        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->links = array(
+            'text' => 'tbl_create.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
+            'icon' => 'tbl_create.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%2$s&amp;token=' . $GLOBALS['token'],
+        );
+        $new->classes = 'new_table italics';
+        $this->addChild($new);
     }
 }
 

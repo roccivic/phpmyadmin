@@ -15,6 +15,21 @@ class Node_Column_Container extends Node {
                     . '&amp;token=' . $GLOBALS['token'],
         );
         $this->real_name = 'columns';
+
+        $new = new Node(__('New'));
+        $new->icon = PMA_getImage('b_snewtbl.png', '');
+        $new->links = array(
+            'text' => 'tbl_addfield.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%3$s&amp;table=%2$s'
+                    . '&amp;field_where=&after_field=&amp;'
+                    . 'token=' . $GLOBALS['token'],
+            'icon' => 'tbl_addfield.php?server=' . $GLOBALS['server']
+                    . '&amp;db=%3$s&amp;table=%2$s'
+                    . '&amp;field_where=&after_field=&amp;'
+                    . 'token=' . $GLOBALS['token'],
+        );
+        $new->classes = 'new_column italics';
+        $this->addChild($new);
     }
 }
 

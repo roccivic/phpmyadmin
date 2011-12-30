@@ -33,6 +33,7 @@ $(document).ready(function() {
                 $.get($this.attr('href'), {'ajax_request': true, 'getTree': true}, function (data) {
                     if (data.success === true) {
                         $this.addClass('loaded');
+                        $destination.find('div.list_container').remove(); // FIXME: Hack, there shouldn't be a list container there
                         $destination.append(data.message);
 		                $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
 		                $destination.children('div.list_container').show('fast');
@@ -411,4 +412,25 @@ $(document).ready(function(){
             window.parent.refreshMain($('#LeftDefaultTabTable')[0].value);
         }
     });
+
+    /* Create table */
+    $('li.new_table a.ajax').live('click', function(event){
+        event.preventDefault();
+        /*Getting the url */
+        var url = $('li.new_table a').attr("href");
+        if (url.substring(0, 15) == "tbl_create.php?") {
+             url = url.substring(15);
+        }
+        url = url +"&num_fields=&ajax_request=true";
+        /*Creating a div on the frame_content frame */
+        var div = parent.frame_content.$('<div id="create_table_dialog"></div>');
+        var target = "tbl_create.php";
+
+        /*
+         * Calling to the createTableDialog function
+         * (needs to be done in the context of frame_content in order
+         *  for the qtip tooltips to work)
+         * */
+        parent.frame_content.PMA_createTableDialog(div, url, target);
+    });//end of create new table
 });//end of document get ready
