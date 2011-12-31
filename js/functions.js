@@ -3644,6 +3644,62 @@ $(document).ready(function () {
 });
 
 /**
+ * Ajaxification for the "Create View" action
+ */
+$(document).ready(function () {
+    $('span.create_view a').live('click', function (e) {
+        e.preventDefault();
+        var $msg = PMA_ajaxShowMessage();
+        $.get($(this).attr('href') + '&ajax_request=1', function (data) {
+            PMA_ajaxRemoveMessage($msg);
+            var buttonOptions = {};
+            buttonOptions[PMA_messages['strGo']] = function () {
+                $msg = PMA_ajaxShowMessage();
+                $.get('view_create.php', $('#createViewDialog').find('form').serialize(), function (data) {
+                    PMA_ajaxRemoveMessage($msg);
+                    if (data.success === true) {
+                        $('#createViewDialog').dialog("close");
+                        $('#result_query').html(data.message);
+                    } else {
+                        PMA_ajaxShowMessage(data.error, false);
+                    }
+                });
+            };
+            buttonOptions[PMA_messages['strClose']] = function () {
+                $(this).dialog("close");
+            };
+            var $dialog = $('<div/>').attr('id', 'createViewDialog').append(data).dialog({
+                width: 500,
+                minWidth: 300,
+                maxWidth: 620,
+                modal: true,
+                buttons: buttonOptions,
+                title: $('legend', $(data)).html(),
+                close: function () {
+                    $(this).remove();
+                }
+            });
+            $dialog.find('legend').remove();
+            // Attach syntax highlited editor
+            var $elm = $dialog.find('textarea');
+            var opts = {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"};
+            CodeMirror.fromTextArea($elm[0], opts);
+            $('input:visible[type=text]', $dialog).first().focus();
+        });
+    });
+    /**
+     * Attach Ajax event handlers for input fields in the editor
+     * and used to submit the Ajax request when the ENTER key is pressed.
+     */
+    $('#createViewDialog').find('input, select').live('keydown', function (e) {
+        if (e.which === 13) { // 13 is the ENTER key
+            e.preventDefault();
+            $(this).closest('.ui-dialog').find('.ui-button:first').click();
+        }
+    }); // end $.live()
+});
+
+/**
  * Toggles row colors of a set of 'tr' elements starting from a given element
  * 
  * @param $start Starting element
