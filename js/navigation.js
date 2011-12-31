@@ -454,4 +454,25 @@ $(document).ready(function(){
          * */
         parent.frame_content.PMA_createViewDialog(div, url, target);
     });//end of create new table
+
+    /* Create index */
+    $('li.new_index a.ajax').live('click', function(event){
+        event.preventDefault();
+        /*Getting the url */
+        var url = $(this).attr("href");
+        if (url.substring(0, 16) == "view_create.php?") {
+             url = url.substring(16);
+        }
+        url = url +"&ajax_request=1";
+        /*Creating a div on the frame_content frame */
+        var $div = parent.frame_content.$('<div id="create_index_dialog"></div>');
+        var target = "view_create.php";
+
+        /*
+         * Calling to the createTableDialog function
+         * (needs to be done in the context of frame_content in order
+         *  for the qtip tooltips to work)
+         * */
+        parent.frame_content.PMA_createIndexDialog($div, url, target, PMA_messages['strAddIndex']);
+    });//end of create new table
 });//end of document get ready
