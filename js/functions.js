@@ -1502,6 +1502,7 @@ function PMA_createTableDialog( $div, url , target)
 
 }
 
+var PMA_createViewDialog_Codemirror = null;
 function PMA_createViewDialog($div, url, target)
 {
     var $msg = PMA_ajaxShowMessage();
@@ -1509,6 +1510,7 @@ function PMA_createViewDialog($div, url, target)
         PMA_ajaxRemoveMessage($msg);
         var buttonOptions = {};
         buttonOptions[PMA_messages['strGo']] = function () {
+            PMA_createViewDialog_Codemirror.save();
             $msg = PMA_ajaxShowMessage();
             $.get('view_create.php', $('#createViewDialog').find('form').serialize(), function (data) {
                 PMA_ajaxRemoveMessage($msg);
@@ -1538,7 +1540,7 @@ function PMA_createViewDialog($div, url, target)
         // Attach syntax highlited editor
         var $elm = $dialog.find('textarea');
         var opts = {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"};
-        CodeMirror.fromTextArea($elm[0], opts);
+        PMA_createViewDialog_Codemirror = CodeMirror.fromTextArea($elm[0], opts);
         $('input:visible[type=text]', $dialog).first().focus();
     });
 }
