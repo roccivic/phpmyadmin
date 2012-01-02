@@ -66,7 +66,46 @@ var RTE = {
      */
     postDialogShow: function () {
         // Nothing by default
-    } // end postDialogShow()
+    }, // end postDialogShow()
+
+
+    exportDialog: function ($this) {
+        var $msg = PMA_ajaxShowMessage();
+        // Fire the ajax request straight away
+        $.get($this.attr('href'), {'ajax_request': true}, function (data) {
+            if (data.success === true) {
+                PMA_ajaxRemoveMessage($msg);
+                /**
+                 * @var button_options  Object containing options for jQueryUI dialog buttons
+                 */
+                var button_options = {};
+                button_options[PMA_messages['strClose']] = function () {
+                    $(this).dialog("close").remove();
+                };
+                /**
+                 * Display the dialog to the user
+                 */
+                var $ajaxDialog = $('<div>' + data.message + '</div>').dialog({
+                                      width: 500,
+                                      buttons: button_options,
+                                      title: data.title
+                                  });
+                // Attach syntax highlited editor to export dialog
+                /**
+                 * @var    $elm    jQuery object containing the reference
+                 *                 to the Export textarea.
+                 */
+                var $elm = $ajaxDialog.find('textarea');
+                /**
+                 * @var    opts    Options to pass to the codemirror editor.
+                 */
+                var opts = {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"};
+                CodeMirror.fromTextArea($elm[0], opts);
+            } else {
+                PMA_ajaxShowMessage(data.error, false);
+            }
+        }); // end $.get()
+    }
 }; // end RTE namespace
 
 /**
@@ -267,43 +306,9 @@ $(document).ready(function () {
     /**
      * Attach Ajax event handlers for Export of Routines, Triggers and Events.
      */
-    $('a.ajax_export_anchor').live('click', function (event) {
+    $('a.ajax_export_anchor, li.trigger a.ajax img').live('click', function (event) {
         event.preventDefault();
-        var $msg = PMA_ajaxShowMessage();
-        // Fire the ajax request straight away
-        $.get($(this).attr('href'), {'ajax_request': true}, function (data) {
-            if (data.success === true) {
-                PMA_ajaxRemoveMessage($msg);
-                /**
-                 * @var button_options  Object containing options for jQueryUI dialog buttons
-                 */
-                var button_options = {};
-                button_options[PMA_messages['strClose']] = function () {
-                    $(this).dialog("close").remove();
-                };
-                /**
-                 * Display the dialog to the user
-                 */
-                var $ajaxDialog = $('<div>' + data.message + '</div>').dialog({
-                                      width: 500,
-                                      buttons: button_options,
-                                      title: data.title
-                                  });
-                // Attach syntax highlited editor to export dialog
-                /**
-                 * @var    $elm    jQuery object containing the reference
-                 *                 to the Export textarea.
-                 */
-                var $elm = $ajaxDialog.find('textarea');
-                /**
-                 * @var    opts    Options to pass to the codemirror editor.
-                 */
-                var opts = {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"};
-                CodeMirror.fromTextArea($elm[0], opts);
-            } else {
-                PMA_ajaxShowMessage(data.error, false);
-            }
-        }); // end $.get()
+        RTE.exportDialog($(this));
     }); // end $.live()
 
     /**

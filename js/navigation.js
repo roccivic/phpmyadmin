@@ -479,4 +479,10 @@ $(document).ready(function(){
         parent.frame_content.PMA_createIndexDialog($div, url, target, title);
     });//end of create new index
 
+
+    $('li.procedure a.ajax img, li.function a.ajax img, li.trigger a.ajax img, li.event a.ajax img').live('click', function (event) {
+        event.preventDefault();
+        parent.frame_content.RTE.exportDialog($(this).parent());
+    });
+
 });//end of document get ready
