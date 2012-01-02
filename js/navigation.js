@@ -413,7 +413,7 @@ $(document).ready(function(){
         }
     });
 
-    /* Create table */
+    /** Create table */
     $('li.new_table a.ajax').live('click', function(event){
         event.preventDefault();
         /*Getting the url */
@@ -434,7 +434,7 @@ $(document).ready(function(){
         parent.frame_content.PMA_createTableDialog(div, url, target);
     });//end of create new table
 
-    /* Create table */
+    /** Create view */
     $('li.new_view a.ajax').live('click', function(event){
         event.preventDefault();
         /*Getting the url */
@@ -448,14 +448,14 @@ $(document).ready(function(){
         var target = "view_create.php";
 
         /*
-         * Calling to the createTableDialog function
+         * Calling to the createViewDialog function
          * (needs to be done in the context of frame_content in order
          *  for the qtip tooltips to work)
          * */
         parent.frame_content.PMA_createViewDialog(div, url, target);
-    });//end of create new table
+    });//end of create new view
 
-    /* Create index */
+    /** Create or edit an index */
     $('li.new_index a.ajax, li.edit_index a.ajax').live('click', function(event){
         event.preventDefault();
         /*Getting the url */
@@ -472,17 +472,51 @@ $(document).ready(function(){
             : PMA_messages['strEditIndex'];
 
         /*
-         * Calling to the createTableDialog function
+         * Calling to the createIndexDialog function
          * (needs to be done in the context of frame_content in order
          *  for the qtip tooltips to work)
          * */
         parent.frame_content.PMA_createIndexDialog($div, url, target, title);
     });//end of create new index
 
-
-    $('li.procedure a.ajax img, li.function a.ajax img, li.trigger a.ajax img, li.event a.ajax img').live('click', function (event) {
+    /** Create a Routine, Trigger or Event */
+    $('li.new_procedure a.ajax, li.new_function a.ajax').live('click', function (event) {
         event.preventDefault();
-        parent.frame_content.RTE.exportDialog($(this).parent());
+        var dialog = new parent.frame_content.RTE('routine');
+        dialog.editorDialog(1, $(this).hasClass('ajax') ? $(this) : $(this).parent())
+    });
+    $('li.new_trigger a.ajax').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE('trigger');
+        dialog.editorDialog(1, $(this).hasClass('ajax') ? $(this) : $(this).parent())
+    });
+    $('li.new_event a.ajax').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE('event');
+        dialog.editorDialog(1, $(this).hasClass('ajax') ? $(this) : $(this).parent())
     });
 
+    /** Export Routines, Triggers and Events */
+    $('li.procedure > a.ajax, li.function > a.ajax').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE('routine');
+        dialog.editorDialog(0, $(this))
+    });
+    $('li.trigger > a.ajax').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE('trigger');
+        dialog.editorDialog(0, $(this))
+    });
+    $('li.event > a.ajax').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE('event');
+        dialog.editorDialog(0, $(this))
+    });
+
+    /** Export Routines, Triggers and Events */
+    $('li.procedure a.ajax img, li.function a.ajax img, li.trigger a.ajax img, li.event a.ajax img').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new parent.frame_content.RTE();
+        dialog.exportDialog($(this).parent())
+    });
 });//end of document get ready

@@ -38,7 +38,9 @@ $GLOBALS['js_include'][] = 'functions.js';
 $GLOBALS['js_include'][] = 'indexes.js';
 $GLOBALS['js_include'][] = 'codemirror/lib/codemirror.js';
 $GLOBALS['js_include'][] = 'codemirror/mode/mysql/mysql.js';
-$GLOBALS['js_include'][] = 'rte/common.js';
+$GLOBALS['js_include'][] = 'rte.js';
+$GLOBALS['js_include'][] = 'jquery/jquery-ui-1.8.16.custom.js';
+$GLOBALS['js_include'][] = 'jquery/timepicker.js';
 $GLOBALS['js_include'][] = 'jquery/jquery.qtip-1.0.0-rc3.js';
 $params = array('lang' => $GLOBALS['lang']);
 if (isset($GLOBALS['db'])) {
