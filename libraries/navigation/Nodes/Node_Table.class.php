@@ -48,14 +48,17 @@ class Node_Table extends Node {
         case 'triggers':
             if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
+                $table  = PMA_sqlAddSlashes($table);
                 $query  = "SELECT `TRIGGER_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
                 $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db' ";
+                $query .= "AND `EVENT_OBJECT_TABLE`='$table' ";
                 $query .= "LIMIT 1";
                 $retval = PMA_DBI_fetch_value($query) === false ? 0 : 1;
             } else {
                 $db     = PMA_backquote($db);
-                $query  = "SHOW TRIGGERS FROM $db";
+                $table  = PMA_sqlAddSlashes($table);
+                $query  = "SHOW TRIGGERS FROM $db WHERE `Table` = '$table'";
                 $retval = PMA_DBI_num_rows(PMA_DBI_try_query($query));
             }
             break;
@@ -108,13 +111,16 @@ class Node_Table extends Node {
         case 'triggers':
             if (! $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['DisableIS']) {
                 $db     = PMA_sqlAddSlashes($db);
+                $table  = PMA_sqlAddSlashes($table);
                 $query  = "SELECT `TRIGGER_NAME` AS `name` ";
                 $query .= "FROM `INFORMATION_SCHEMA`.`TRIGGERS` ";
-                $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db'";
+                $query .= "WHERE `EVENT_OBJECT_SCHEMA`='$db' ";
+                $query .= "AND `EVENT_OBJECT_TABLE`='$table'";
                 $retval = PMA_DBI_fetch_result($query);
             } else {
                 $db     = PMA_backquote($db);
-                $query  = "SHOW TRIGGERS FROM $db";
+                $table  = PMA_sqlAddSlashes($table);
+                $query  = "SHOW TRIGGERS FROM $db WHERE `Table` = '$table'";
                 $handle = PMA_DBI_try_query($query);
                 if ($handle !== false) {
                     while ($arr = PMA_DBI_fetch_assoc($handle)) {
