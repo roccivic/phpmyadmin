@@ -1531,7 +1531,7 @@ function PMA_createViewDialog($div, url, target)
         buttonOptions[PMA_messages['strClose']] = function () {
             $(this).dialog("close");
         };
-        var $dialog = $div.attr('id', 'createViewDialog').append(data).dialog({
+        var $dialog = $div.append(data).dialog({
             width: 500,
             minWidth: 300,
             maxWidth: 620,
@@ -1548,6 +1548,32 @@ function PMA_createViewDialog($div, url, target)
         var opts = {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"};
         PMA_createViewDialog_Codemirror = CodeMirror.fromTextArea($elm[0], opts);
         $('input:visible[type=text]', $dialog).first().focus();
+    });
+}
+
+function PMA_createColumnDialog($div, url, target)
+{
+    var $msg = PMA_ajaxShowMessage();
+    $.get(target, url, function (data) {
+        PMA_ajaxRemoveMessage($msg);
+        var buttonOptions = {};
+        buttonOptions[PMA_messages['strClose']] = function () {
+            $(this).dialog("close");
+        };
+        var $dialog = $div
+            .append(data)
+            .dialog({
+                width: 900,
+                modal: true,
+                open: PMA_verifyColumnsProperties,
+                title: PMA_messages['strAddColumns'],
+                buttons: buttonOptions,
+                close: function () {
+                    $(this).remove();
+                }
+            });
+        $('input:visible[type=text]', $dialog).first().focus();
+        PMA_convertFootnotesToTooltips($div);
     });
 }
 
@@ -2290,7 +2316,7 @@ $(document).ready(function() {
         /**
          *  @var    the_form    object referring to the export form
          */
-        var $form = $("#append_fields_form");
+        var $form = $(this).closest('form');
 
         /*
          * First validate the form; if there is a problem, avoid submitting it
@@ -2316,25 +2342,23 @@ $(document).ready(function() {
                         $("#sqlqueryresults").html(data.sql_query);
                         $("#result_query .notice").remove();
                         $("#result_query").prepend((data.message));
-                        if ($("#change_column_dialog").length > 0) {
-                            $("#change_column_dialog").dialog("close").remove();
-                        } else if ($("#add_columns").length > 0) {
-                            $("#add_columns").dialog("close").remove();
-                        }
+                        $form.closest('div.ui-dialog').dialog('close').remove();
                         /*Reload the field form*/
-                        $.post($("#fieldsForm").attr('action'), $("#fieldsForm").serialize()+"&ajax_request=true", function(form_data) {
-                            $("#fieldsForm").remove();
-                            $("#addColumns").remove();
-                            var $temp_div = $("<div id='temp_div'><div>").append(form_data);
-                            if ($("#sqlqueryresults").length != 0) {
-                                $temp_div.find("#fieldsForm").insertAfter("#sqlqueryresults");
-                            } else {
-                                $temp_div.find("#fieldsForm").insertAfter(".error");
-                            }
-                            $temp_div.find("#addColumns").insertBefore("iframe.IE_hack");
-                            /*Call the function to display the more options in table*/
-                            displayMoreTableOpts();
-                        });
+                        if ($("#fieldsForm").length) {
+                            $.post($("#fieldsForm").attr('action'), $("#fieldsForm").serialize()+"&ajax_request=true", function(form_data) {
+                                $("#fieldsForm").remove();
+                                $("#addColumns").remove();
+                                var $temp_div = $("<div id='temp_div'><div>").append(form_data);
+                                if ($("#sqlqueryresults").length != 0) {
+                                    $temp_div.find("#fieldsForm").insertAfter("#sqlqueryresults");
+                                } else {
+                                    $temp_div.find("#fieldsForm").insertAfter(".error");
+                                }
+                                $temp_div.find("#addColumns").insertBefore("iframe.IE_hack");
+                                /*Call the function to display the more options in table**/
+                                displayMoreTableOpts();
+                            });
+                        }
                     } else {
                         var $temp_div = $("<div id='temp_div'><div>").append(data);
                         var $error = $temp_div.find(".error code").addClass("error");

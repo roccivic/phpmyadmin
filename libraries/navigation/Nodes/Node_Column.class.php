@@ -14,6 +14,7 @@ class Node_Column extends Node {
                     . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
                     . '&amp;token=' . $GLOBALS['token']
         );
+        $this->classes = 'column';
     }
 }
 

@@ -479,6 +479,48 @@ $(document).ready(function(){
         parent.frame_content.PMA_createIndexDialog($div, url, target, title);
     });//end of create new index
 
+    /** Create column */
+    $('li.new_column a.ajax').live('click', function(event){
+        event.preventDefault();
+        /*Getting the url */
+        var url = $(this).attr("href");
+        if (url.substring(0, 16) == "tbl_addfield.php?") {
+             url = url.substring(16);
+        }
+        url = url +"&ajax_request=1";
+        /*Creating a div on the frame_content frame */
+        var div = parent.frame_content.$('<div id="create_column_dialog"></div>');
+        var target = "tbl_addfield.php";
+
+        /*
+         * Calling to the createViewDialog function
+         * (needs to be done in the context of frame_content in order
+         *  for the qtip tooltips to work)
+         * */
+        parent.frame_content.PMA_createColumnDialog(div, url, target);
+    });//end of create new column
+
+    /** Edit column */
+    $('li.column a.ajax').live('click', function(event){
+        event.preventDefault();
+        /*Getting the url */
+        var url = $(this).attr("href");
+        if (url.substring(0, 16) == "tbl_alter.php?") {
+             url = url.substring(16);
+        }
+        url = url +"&ajax_request=1";
+        /*Creating a div on the frame_content frame */
+        var div = parent.frame_content.$('<div id="createColumnDialog"></div>');
+        var target = "tbl_alter.php";
+
+        /*
+         * Calling to the createViewDialog function
+         * (needs to be done in the context of frame_content in order
+         *  for the qtip tooltips to work)
+         * */
+        parent.frame_content.PMA_createColumnDialog(div, url, target);
+    });//end of create new column
+
     /** Create a Routine, Trigger or Event */
     $('li.new_procedure a.ajax, li.new_function a.ajax').live('click', function (event) {
         event.preventDefault();
