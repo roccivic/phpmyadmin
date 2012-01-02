@@ -456,7 +456,7 @@ $(document).ready(function(){
     });//end of create new table
 
     /* Create index */
-    $('li.new_index a.ajax').live('click', function(event){
+    $('li.new_index a.ajax, li.edit_index a.ajax').live('click', function(event){
         event.preventDefault();
         /*Getting the url */
         var url = $(this).attr("href");
@@ -465,14 +465,18 @@ $(document).ready(function(){
         }
         url = url +"&ajax_request=1";
         /*Creating a div on the frame_content frame */
-        var $div = parent.frame_content.$('<div id="create_index_dialog"></div>');
+        var $div = parent.frame_content.$('<div id="edit_index_dialog"></div>');
         var target = "view_create.php";
+        var title = $(this).closest('li').hasClass('new_index')
+            ? PMA_messages['strAddIndex']
+            : PMA_messages['strEditIndex'];
 
         /*
          * Calling to the createTableDialog function
          * (needs to be done in the context of frame_content in order
          *  for the qtip tooltips to work)
          * */
-        parent.frame_content.PMA_createIndexDialog($div, url, target, PMA_messages['strAddIndex']);
-    });//end of create new table
+        parent.frame_content.PMA_createIndexDialog($div, url, target, title);
+    });//end of create new index
+
 });//end of document get ready

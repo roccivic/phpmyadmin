@@ -1512,11 +1512,17 @@ function PMA_createViewDialog($div, url, target)
         buttonOptions[PMA_messages['strGo']] = function () {
             PMA_createViewDialog_Codemirror.save();
             $msg = PMA_ajaxShowMessage();
-            $.get('view_create.php', $('#createViewDialog').find('form').serialize(), function (data) {
+            var $this = $(this);
+            $.get('view_create.php', $this.find('form').serialize(), function (data) {
                 PMA_ajaxRemoveMessage($msg);
+                if ($("#sqlqueryresults").length != 0) {
+                    $("#sqlqueryresults").remove();
+                }
                 if (data.success === true) {
-                    $('#createViewDialog').dialog("close");
-                    $('#result_query').html(data.message);
+                    $("<div id='sqlqueryresults'></div>")
+                        .append(data.message)
+                        .insertAfter("#floating_menubar");
+                    $this.dialog("close");
                 } else {
                     PMA_ajaxShowMessage(data.error, false);
                 }
@@ -1545,6 +1551,28 @@ function PMA_createViewDialog($div, url, target)
     });
 }
 
+/**
+ * Handler for adding more columns to an index in the editor
+ */
+$('#index_frm input[type=submit]').live('click', function(event) {
+    event.preventDefault();
+    var rows_to_add = $(this)
+        .closest('fieldset')
+        .find('.slider')
+        .slider('value');
+    while (rows_to_add--) {
+        var $newrow = $(this)
+            .closest('form')
+            .find('#index_columns tbody > tr:first')
+            .clone()
+            .appendTo(
+                $(this).closest('form').find('#index_columns tbody')
+            );
+        $newrow.find(':input').each(function() {
+            $(this).val('');
+        });
+    }
+});
 
 function PMA_createIndexDialog($div, url, target, title)
 {
@@ -1557,7 +1585,8 @@ function PMA_createIndexDialog($div, url, target, title)
         /**
          *  @var    the_form    object referring to the export form
          */
-        var $form = $("#index_frm");
+        var $this = $(this);
+        var $form = $this.find("form");
         PMA_prepareForAjaxRequest($form);
         //User wants to submit the form
         $.post($form.attr('action'), $form.serialize()+"&do_save_data=1", function(data) {
@@ -1566,8 +1595,9 @@ function PMA_createIndexDialog($div, url, target, title)
             }
             if (data.success == true) {
                 PMA_ajaxShowMessage(data.message);
-                $("<div id='sqlqueryresults'></div>").insertAfter("#floating_menubar");
-                $("#sqlqueryresults").html(data.sql_query);
+                $("<div id='sqlqueryresults'></div>")
+                    .append(data.sql_query)
+                    .insertAfter("#floating_menubar");
                 $("#result_query .notice").remove();
                 $("#result_query").prepend(data.message);
 
@@ -1575,9 +1605,7 @@ function PMA_createIndexDialog($div, url, target, title)
                 $("#table_index").remove();
                 var $temp_div = $("<div id='temp_div'><div>").append(data.index_table);
                 $temp_div.find("#table_index").insertAfter("#index_header");
-                if ($("#edit_index_dialog").length > 0) {
-                    $("#edit_index_dialog").dialog("close");
-                }
+                $this.dialog("close");
                 $('.no_indexes_defined').hide();
             } else if (data.error != undefined) {
                 var $temp_div = $("<div id='temp_div'><div>").append(data.error);

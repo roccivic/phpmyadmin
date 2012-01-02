@@ -35,6 +35,7 @@ if (! isset($page_title)) {
 $is_superuser    = function_exists('PMA_isSuperuser') && PMA_isSuperuser();
 
 $GLOBALS['js_include'][] = 'functions.js';
+$GLOBALS['js_include'][] = 'indexes.js';
 $GLOBALS['js_include'][] = 'codemirror/lib/codemirror.js';
 $GLOBALS['js_include'][] = 'codemirror/mode/mysql/mysql.js';
 $GLOBALS['js_include'][] = 'jquery/jquery.qtip-1.0.0-rc3.js';
