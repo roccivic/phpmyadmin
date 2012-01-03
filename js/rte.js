@@ -42,7 +42,6 @@ var COMMON = {
      *                            the jQueryUI dialog buttons
      */
     buttonOptions: {},
-    init: function () { },
     /**
      * Validate editor form fields.
      */
@@ -117,7 +116,6 @@ var COMMON = {
                  *                 to the Export textarea.
                  */
                 var $elm = $ajaxDialog.find('textarea');
-                that.init();
                 /**
                  * @var    opts    Options to pass to the codemirror editor.
                  */
@@ -270,7 +268,6 @@ var COMMON = {
                                     $(this).remove();
                                 }
                         });
-                that.init();
                 that.$ajaxDialog.find('input[name=item_name]').focus();
                 that.$ajaxDialog.find('input.datefield, input.datetimefield').each(function () {
                     PMA_addDatepicker($(this).css('width', '95%'));
