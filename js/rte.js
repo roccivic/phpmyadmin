@@ -597,6 +597,70 @@ ROUTINE = {
             $no_len.hide();
             break;
         }
+    },
+    executeDialog: function ($this) {
+        var that = this;
+        /**
+         * @var    $msg    jQuery object containing the reference to
+         *                 the AJAX message shown to the user
+         */
+        var $msg = PMA_ajaxShowMessage();
+        $.get($this.attr('href'), {'ajax_request': true}, function (data) {
+            if (data.success === true) {
+                PMA_ajaxRemoveMessage($msg);
+                // If 'data.dialog' is true we show a dialog with a form
+                // to get the input parameters for routine, otherwise
+                // we just show the results of the query
+                if (data.dialog) {
+                    // Define the function that is called when
+                    // the user presses the "Go" button
+                    that.buttonOptions[PMA_messages['strGo']] = function () {
+                        /**
+                         * @var    data    Form data to be sent in the AJAX request.
+                         */
+                        var data = $('form.rte_form').last().serialize();
+                        $msg = PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+                        $.post('db_routines.php', data, function (data) {
+                            if (data.success === true) {
+                                // Routine executed successfully
+                                PMA_ajaxRemoveMessage($msg);
+                                PMA_slidingMessage(data.message);
+                                $ajaxDialog.dialog('close');
+                            } else {
+                                PMA_ajaxShowMessage(data.error, false);
+                            }
+                        });
+                    };
+                    that.buttonOptions[PMA_messages['strClose']] = function () {
+                        $(this).dialog("close");
+                    };
+                    /**
+                     * Display the dialog to the user
+                     */
+                    $ajaxDialog = $('<div>' + data.message + '</div>').dialog({
+                        width: 650,
+                        buttons: that.buttonOptions,
+                        title: data.title,
+                        modal: true,
+                        close: function () {
+                            $(this).remove();
+                        }
+                    });
+                    $ajaxDialog.find('input[name^=params]').first().focus();
+                    /**
+                     * Attach the datepickers to the relevant form fields
+                     */
+                    $ajaxDialog.find('input.datefield, input.datetimefield').each(function () {
+                        PMA_addDatepicker($(this).css('width', '95%'));
+                    });
+                } else {
+                    // Routine executed successfully
+                    PMA_slidingMessage(data.message);
+                }
+            } else {
+                PMA_ajaxShowMessage(data.error, false);
+            }
+        }); // end $.get()
     }
 };
 
@@ -625,6 +689,15 @@ $(document).ready(function () {
         }
         var dialog = new RTE(type);
         dialog.editorDialog($(this).hasClass('ajax_add_anchor'), $(this));
+    }); // end $.live()
+
+    /**
+     * Attach Ajax event handlers for the Execute routine functionality.
+     */
+    $('a.ajax_exec_anchor').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new RTE('routine');
+        dialog.executeDialog($(this));
     }); // end $.live()
 
     /**
