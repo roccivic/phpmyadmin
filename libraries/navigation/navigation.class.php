@@ -351,7 +351,7 @@ class Navigation {
             }
         } else {
             $retval  = '<!-- NAVIGATION TREE START -->' . PHP_EOL;
-            $_url_params = array('pos' => $this->pos);
+            $_url_params = array('pos' => $this->pos, 'server' => $GLOBALS['server']);
             $num_db = PMA_DBI_fetch_value(
                 "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`SCHEMATA`"
             );

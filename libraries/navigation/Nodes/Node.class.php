@@ -315,7 +315,8 @@ class Node {
         } else {
             $query = "SHOW DATABASES";
             $temp = PMA_DBI_fetch_result($query);
-            $num = min($GLOBALS['cfg']['MaxDbList'], count($temp));
+            $num = min($GLOBALS['cfg']['MaxDbList'], count($temp)) + $pos;
+            $num = $num > count($temp) ? count($temp) : $num;
             for ($i=$pos; $i<$num; $i++) {
                 $retval[] = $temp[$i];
             }
