@@ -9,14 +9,15 @@
  * Toggles the hiding and showing of each plugin's options
  * according to the currently selected plugin from the dropdown list
  */
-function changePluginOpts() {
-    $(".format_specific_options").each(function() { 
+function changePluginOpts()
+{
+    $(".format_specific_options").each(function() {
         $(this).hide();
-    }); 
+    });
     var selected_plugin_name = $("#plugins option:selected").attr("value");
     $("#" + selected_plugin_name + "_options").fadeIn('slow');
     if(selected_plugin_name == "csv") {
-        $("#import_notification").text("Note: If the file contains multiple tables, they will be combined into one");
+        $("#import_notification").text(PMA_messages['strImportCSV']);
     } else {
         $("#import_notification").text("");
     }
@@ -26,24 +27,25 @@ function changePluginOpts() {
  * Toggles the hiding and showing of each plugin's options and sets the selected value
  * in the plugin dropdown list according to the format of the selected file
  */
-function matchFile(fname) {
+function matchFile(fname)
+{
     var fname_array = fname.toLowerCase().split(".");
     var len = fname_array.length;
-    if(len != 0) {
+    if (len != 0) {
         var extension = fname_array[len - 1];
         if (extension == "gz" || extension == "bz2" || extension == "zip") {
             len--;
         }
         // Only toggle if the format of the file can be imported
-        if($("select[name='format'] option[value='" + fname_array[len - 1] + "']").length == 1) {
+        if($("select[name='format'] option").filterByValue(fname_array[len - 1]).length == 1) {
             $("#plugins option:selected").removeAttr("selected");
-            $("select[name='format'] option[value='" + fname_array[len - 1] + "']").attr('selected', 'selected');
+            $("select[name='format'] option").filterByValue(fname_array[len - 1]).attr('selected', 'selected');
             changePluginOpts();
         }
     }
 }
 $(document).ready(function() {
-    // Initially display the options for the selected plugin 
+    // Initially display the options for the selected plugin
     changePluginOpts();
 
    // Whenever the selected plugin changes, change the options displayed

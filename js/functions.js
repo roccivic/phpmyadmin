@@ -1,6 +1,6 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * general function, usally for data manipulation pages
+ * general function, usually for data manipulation pages
  *
  */
 
@@ -15,10 +15,46 @@ var sql_box_locked = false;
 var only_once_elements = new Array();
 
 /**
- * @var ajax_message_init   boolean boolean that stores status of
- *      notification for PMA_ajaxShowNotification
+ * @var   int   ajax_message_count   Number of AJAX messages shown since page load
  */
-var ajax_message_init = false;
+var ajax_message_count = 0;
+
+/**
+ * @var codemirror_editor object containing CodeMirror editor
+ */
+var codemirror_editor = false;
+
+/**
+ * @var chart_activeTimeouts object active timeouts that refresh the charts. When disabling a realtime chart, this can be used to stop the continuous ajax requests
+ */
+var chart_activeTimeouts = new Object();
+
+/**
+ * Returns browser's viewport size, without accounting for scrollbars
+ *
+ * @param window wnd
+ */
+function getWindowSize(wnd) {
+    var vp = wnd || window;
+    return {
+        // most browsers || IE6-8 strict || failsafe
+        width: vp.innerWidth || (vp.documentElement !== undefined ? vp.documentElement.clientWidth : false) || $(vp).width(),
+        height: vp.innerHeight || (vp.documentElement !== undefined ? vp.documentElement.clientHeight : false) || $(vp).height()
+    };
+}
+
+/**
+ * Make sure that ajax requests will not be cached
+ * by appending a random variable to their parameters
+ */
+$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+    var nocache = new Date().getTime() + "" + Math.floor(Math.random() * 1000000);
+    if (typeof options.data == "string") {
+        options.data += "&_nocache=" + nocache;
+    } else if (typeof options.data == "object") {
+        options.data = $.extend(originalOptions.data, {'_nocache':nocache});
+    }
+});
 
 /**
  * Add a hidden field to the form to indicate that this will be an
@@ -26,7 +62,8 @@ var ajax_message_init = false;
  *
  * @param   object   the form
  */
-function PMA_prepareForAjaxRequest($form) {
+function PMA_prepareForAjaxRequest($form)
+{
     if (! $form.find('input:hidden').is('#ajax_request_hidden')) {
         $form.append('<input type="hidden" id="ajax_request_hidden" name="ajax_request" value="true" />');
     }
@@ -39,7 +76,8 @@ function PMA_prepareForAjaxRequest($form) {
  *
  * @return  boolean  always true
  */
-function suggestPassword(passwd_form) {
+function suggestPassword(passwd_form)
+{
     // restrict the password to just letters and numbers to avoid problems:
     // "editors and viewers regard the password as multiple words and
     // things like double click no longer work"
@@ -59,7 +97,8 @@ function suggestPassword(passwd_form) {
 /**
  * Version string to integer conversion.
  */
-function parseVersionString (str) {
+function parseVersionString (str)
+{
     if (typeof(str) != 'string') { return false; }
     var add = 0;
     // Parse possible alpha/beta/rc/
@@ -89,10 +128,11 @@ function parseVersionString (str) {
 /**
  * Indicates current available version on main page.
  */
-function PMA_current_version() {
+function PMA_current_version()
+{
     var current = parseVersionString(pmaversion);
     var latest = parseVersionString(PMA_latest_version);
-    $('#li_pma_version').append(PMA_messages['strLatestAvailable'] + ' ' + PMA_latest_version);
+    var version_information_message = PMA_messages['strLatestAvailable'] + ' ' + PMA_latest_version;
     if (latest > current) {
         var message = $.sprintf(PMA_messages['strNewerVersion'], PMA_latest_version, PMA_latest_date);
         if (Math.floor(latest / 10000) == Math.floor(current / 10000)) {
@@ -103,6 +143,10 @@ function PMA_current_version() {
         }
         $('#maincontainer').after('<div class="' + klass + '">' + message + '</div>');
     }
+    if (latest == current) {
+        version_information_message = ' (' + PMA_messages['strUpToDate'] + ')';
+    }
+    $('#li_pma_version').append(version_information_message);
 }
 
 /**
@@ -111,7 +155,8 @@ function PMA_current_version() {
  *
  */
 
-function displayPasswordGenerateButton() {
+function displayPasswordGenerateButton()
+{
     $('#tr_element_before_generate_password').parent().append('<tr><td>' + PMA_messages['strGeneratePassword'] + '</td><td><input type="button" id="button_generate_password" value="' + PMA_messages['strGenerate'] + '" onclick="suggestPassword(this.form)" /><input type="text" name="generated_pw" id="generated_pw" /></td></tr>');
     $('#div_element_before_generate_password').parent().append('<div class="item"><label for="button_generate_password">' + PMA_messages['strGeneratePassword'] + ':</label><span class="options"><input type="button" id="button_generate_password" value="' + PMA_messages['strGenerate'] + '" onclick="suggestPassword(this.form)" /></span><input type="text" name="generated_pw" id="generated_pw" /></div>');
 }
@@ -121,31 +166,39 @@ function displayPasswordGenerateButton() {
  *
  * @param   object  $this_element   a jQuery object pointing to the element
  */
-function PMA_addDatepicker($this_element) {
+function PMA_addDatepicker($this_element, options)
+{
     var showTimeOption = false;
     if ($this_element.is('.datetimefield')) {
         showTimeOption = true;
     }
 
-    $this_element
-        .datepicker({
+    var defaultOptions = {
         showOn: 'button',
         buttonImage: themeCalendarImage, // defined in js/messages.php
         buttonImageOnly: true,
-        duration: '',
-        time24h: true,
         stepMinutes: 1,
         stepHours: 1,
-        showTime: showTimeOption,
+        showSecond: true,
+        showTimepicker: showTimeOption,
+        showButtonPanel: false,
         dateFormat: 'yy-mm-dd', // yy means year with four digits
-        altTimeField: '',
+        timeFormat: 'hh:mm:ss',
+        altFieldTimeOnly: false,
+        showAnim: '',
         beforeShow: function(input, inst) {
             // Remember that we came from the datepicker; this is used
             // in tbl_change.js by verificationsAfterFieldChange()
             $this_element.data('comes_from', 'datepicker');
-        },
-        constrainInput: false
-     });
+
+            // Fix wrong timepicker z-index, doesn't work without timeout
+            setTimeout(function() {
+                $('#ui-timepicker-div').css('z-index',$('#ui-datepicker-div').css('z-index'))
+            },0);
+        }
+    };
+
+    $this_element.datetimepicker($.extend(defaultOptions, options));
 }
 
 /**
@@ -157,7 +210,8 @@ function PMA_addDatepicker($this_element) {
  * @param   boolean only_once   if true this is only done once
  *                              f.e. only on first focus
  */
-function selectContent( element, lock, only_once ) {
+function selectContent( element, lock, only_once )
+{
     if ( only_once && only_once_elements[element.name] ) {
         return;
     }
@@ -190,7 +244,14 @@ function confirmLink(theLink, theSqlQuery)
 
     var is_confirmed = confirm(PMA_messages['strDoYouReally'] + ' :\n' + theSqlQuery);
     if (is_confirmed) {
-        if ( typeof(theLink.href) != 'undefined' ) {
+        if ( $(theLink).hasClass('formLinkSubmit') ) {
+            var name = 'is_js_confirmed';
+            if ($(theLink).attr('href').indexOf('usesubform') != -1) {
+                name = 'subform[' + $(theLink).attr('href').substr('#').match(/usesubform\[(\d+)\]/i)[1] + '][is_js_confirmed]';
+            }
+
+            $(theLink).parents('form').append('<input type="hidden" name="' + name + '" value="1" />');
+        } else if ( typeof(theLink.href) != 'undefined' ) {
             theLink.href += '&is_js_confirmed=1';
         } else if ( typeof(theLink.form) != 'undefined' ) {
             theLink.form.action += '?is_js_confirmed=1';
@@ -199,31 +260,6 @@ function confirmLink(theLink, theSqlQuery)
 
     return is_confirmed;
 } // end of the 'confirmLink()' function
-
-
-/**
- * Displays a confirmation box before doing some action
- *
- * @param   object   the message to display
- *
- * @return  boolean  whether to run the query or not
- *
- * @todo used only by libraries/display_tbl.lib.php. figure out how it is used
- *       and replace with a jQuery equivalent
- */
-function confirmAction(theMessage)
-{
-    // TODO: Confirmation is not required in the configuration file
-    // or browser is Opera (crappy js implementation)
-    if (typeof(window.opera) != 'undefined') {
-        return true;
-    }
-
-    var is_confirmed = confirm(theMessage);
-
-    return is_confirmed;
-} // end of the 'confirmAction()' function
-
 
 /**
  * Displays an error message if a "DROP DATABASE" statement is submitted
@@ -245,59 +281,51 @@ function confirmQuery(theForm1, sqlQuery1)
         return true;
     }
 
-    // The replace function (js1.2) isn't supported
-    else if (typeof(sqlQuery1.value.replace) == 'undefined') {
-        return true;
-    }
-
-    // js1.2+ -> validation with regular expressions
-    else {
-        // "DROP DATABASE" statement isn't allowed
-        if (PMA_messages['strNoDropDatabases'] != '') {
-            var drop_re = new RegExp('(^|;)\\s*DROP\\s+(IF EXISTS\\s+)?DATABASE\\s', 'i');
-            if (drop_re.test(sqlQuery1.value)) {
-                alert(PMA_messages['strNoDropDatabases']);
-                theForm1.reset();
-                sqlQuery1.focus();
-                return false;
-            } // end if
+    // "DROP DATABASE" statement isn't allowed
+    if (PMA_messages['strNoDropDatabases'] != '') {
+        var drop_re = new RegExp('(^|;)\\s*DROP\\s+(IF EXISTS\\s+)?DATABASE\\s', 'i');
+        if (drop_re.test(sqlQuery1.value)) {
+            alert(PMA_messages['strNoDropDatabases']);
+            theForm1.reset();
+            sqlQuery1.focus();
+            return false;
         } // end if
+    } // end if
 
-        // Confirms a "DROP/DELETE/ALTER/TRUNCATE" statement
-        //
-        // TODO: find a way (if possible) to use the parser-analyser
-        // for this kind of verification
-        // For now, I just added a ^ to check for the statement at
-        // beginning of expression
+    // Confirms a "DROP/DELETE/ALTER/TRUNCATE" statement
+    //
+    // TODO: find a way (if possible) to use the parser-analyser
+    // for this kind of verification
+    // For now, I just added a ^ to check for the statement at
+    // beginning of expression
 
-        var do_confirm_re_0 = new RegExp('^\\s*DROP\\s+(IF EXISTS\\s+)?(TABLE|DATABASE|PROCEDURE)\\s', 'i');
-        var do_confirm_re_1 = new RegExp('^\\s*ALTER\\s+TABLE\\s+((`[^`]+`)|([A-Za-z0-9_$]+))\\s+DROP\\s', 'i');
-        var do_confirm_re_2 = new RegExp('^\\s*DELETE\\s+FROM\\s', 'i');
-        var do_confirm_re_3 = new RegExp('^\\s*TRUNCATE\\s', 'i');
+    var do_confirm_re_0 = new RegExp('^\\s*DROP\\s+(IF EXISTS\\s+)?(TABLE|DATABASE|PROCEDURE)\\s', 'i');
+    var do_confirm_re_1 = new RegExp('^\\s*ALTER\\s+TABLE\\s+((`[^`]+`)|([A-Za-z0-9_$]+))\\s+DROP\\s', 'i');
+    var do_confirm_re_2 = new RegExp('^\\s*DELETE\\s+FROM\\s', 'i');
+    var do_confirm_re_3 = new RegExp('^\\s*TRUNCATE\\s', 'i');
 
-        if (do_confirm_re_0.test(sqlQuery1.value)
-            || do_confirm_re_1.test(sqlQuery1.value)
-            || do_confirm_re_2.test(sqlQuery1.value)
-            || do_confirm_re_3.test(sqlQuery1.value)) {
-            var message      = (sqlQuery1.value.length > 100)
-                             ? sqlQuery1.value.substr(0, 100) + '\n    ...'
-                             : sqlQuery1.value;
-            var is_confirmed = confirm(PMA_messages['strDoYouReally'] + ' :\n' + message);
-            // statement is confirmed -> update the
-            // "is_js_confirmed" form field so the confirm test won't be
-            // run on the server side and allows to submit the form
-            if (is_confirmed) {
-                theForm1.elements['is_js_confirmed'].value = 1;
-                return true;
-            }
-            // statement is rejected -> do not submit the form
-            else {
-                window.focus();
-                sqlQuery1.focus();
-                return false;
-            } // end if (handle confirm box result)
-        } // end if (display confirm box)
-    } // end confirmation stuff
+    if (do_confirm_re_0.test(sqlQuery1.value)
+        || do_confirm_re_1.test(sqlQuery1.value)
+        || do_confirm_re_2.test(sqlQuery1.value)
+        || do_confirm_re_3.test(sqlQuery1.value)) {
+        var message      = (sqlQuery1.value.length > 100)
+                         ? sqlQuery1.value.substr(0, 100) + '\n    ...'
+                         : sqlQuery1.value;
+        var is_confirmed = confirm(PMA_messages['strDoYouReally'] + ' :\n' + message);
+        // statement is confirmed -> update the
+        // "is_js_confirmed" form field so the confirm test won't be
+        // run on the server side and allows to submit the form
+        if (is_confirmed) {
+            theForm1.elements['is_js_confirmed'].value = 1;
+            return true;
+        }
+        // statement is rejected -> do not submit the form
+        else {
+            window.focus();
+            sqlQuery1.focus();
+            return false;
+        } // end if (handle confirm box result)
+    } // end if (display confirm box)
 
     return true;
 } // end of the 'confirmQuery()' function
@@ -340,47 +368,31 @@ function checkSqlQuery(theForm)
     var sqlQuery = theForm.elements['sql_query'];
     var isEmpty  = 1;
 
-    // The replace function (js1.2) isn't supported -> basic tests
-    if (typeof(sqlQuery.value.replace) == 'undefined') {
-        isEmpty      = (sqlQuery.value == '') ? 1 : 0;
-        if (isEmpty && typeof(theForm.elements['sql_file']) != 'undefined') {
-            isEmpty  = (theForm.elements['sql_file'].value == '') ? 1 : 0;
-        }
-        if (isEmpty && typeof(theForm.elements['sql_localfile']) != 'undefined') {
-            isEmpty  = (theForm.elements['sql_localfile'].value == '') ? 1 : 0;
-        }
-        if (isEmpty && typeof(theForm.elements['id_bookmark']) != 'undefined') {
-            isEmpty  = (theForm.elements['id_bookmark'].value == null || theForm.elements['id_bookmark'].value == '');
+    var space_re = new RegExp('\\s+');
+    if (typeof(theForm.elements['sql_file']) != 'undefined' &&
+            theForm.elements['sql_file'].value.replace(space_re, '') != '') {
+        return true;
+    }
+    if (typeof(theForm.elements['sql_localfile']) != 'undefined' &&
+            theForm.elements['sql_localfile'].value.replace(space_re, '') != '') {
+        return true;
+    }
+    if (isEmpty && typeof(theForm.elements['id_bookmark']) != 'undefined' &&
+            (theForm.elements['id_bookmark'].value != null || theForm.elements['id_bookmark'].value != '') &&
+            theForm.elements['id_bookmark'].selectedIndex != 0
+            ) {
+        return true;
+    }
+    // Checks for "DROP/DELETE/ALTER" statements
+    if (sqlQuery.value.replace(space_re, '') != '') {
+        if (confirmQuery(theForm, sqlQuery)) {
+            return true;
+        } else {
+            return false;
         }
     }
-    // js1.2+ -> validation with regular expressions
-    else {
-        var space_re = new RegExp('\\s+');
-        if (typeof(theForm.elements['sql_file']) != 'undefined' &&
-                theForm.elements['sql_file'].value.replace(space_re, '') != '') {
-            return true;
-        }
-        if (typeof(theForm.elements['sql_localfile']) != 'undefined' &&
-                theForm.elements['sql_localfile'].value.replace(space_re, '') != '') {
-            return true;
-        }
-        if (isEmpty && typeof(theForm.elements['id_bookmark']) != 'undefined' &&
-                (theForm.elements['id_bookmark'].value != null || theForm.elements['id_bookmark'].value != '') &&
-                theForm.elements['id_bookmark'].selectedIndex != 0
-                ) {
-            return true;
-        }
-        // Checks for "DROP/DELETE/ALTER" statements
-        if (sqlQuery.value.replace(space_re, '') != '') {
-            if (confirmQuery(theForm, sqlQuery)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        theForm.reset();
-        isEmpty = 1;
-    }
+    theForm.reset();
+    isEmpty = 1;
 
     if (isEmpty) {
         sqlQuery.select();
@@ -403,19 +415,9 @@ function checkSqlQuery(theForm)
  */
 function emptyCheckTheField(theForm, theFieldName)
 {
-    var isEmpty  = 1;
     var theField = theForm.elements[theFieldName];
-    // Whether the replace function (js1.2) is supported or not
-    var isRegExp = (typeof(theField.value.replace) != 'undefined');
-
-    if (!isRegExp) {
-        isEmpty      = (theField.value == '') ? 1 : 0;
-    } else {
-        var space_re = new RegExp('\\s+');
-        isEmpty      = (theField.value.replace(space_re, '') == '') ? 1 : 0;
-    }
-
-    return isEmpty;
+    var space_re = new RegExp('\\s+');
+    return (theField.value.replace(space_re, '') == '') ? 1 : 0;
 } // end of the 'emptyCheckTheField()' function
 
 
@@ -532,123 +534,128 @@ function checkTableEditForm(theForm, fieldsCnt)
     return true;
 } // enf of the 'checkTableEditForm()' function
 
-
-/**
- * Ensures the choice between 'transmit', 'zipped', 'gzipped' and 'bzipped'
- * checkboxes is consistant
- *
- * @param   object   the form
- * @param   string   a code for the action that causes this function to be run
- *
- * @return  boolean  always true
- */
-function checkTransmitDump(theForm, theAction)
-{
-    var formElts = theForm.elements;
-
-    // 'zipped' option has been checked
-    if (theAction == 'zip' && formElts['zip'].checked) {
-        if (!formElts['asfile'].checked) {
-            theForm.elements['asfile'].checked = true;
-        }
-        if (typeof(formElts['gzip']) != 'undefined' && formElts['gzip'].checked) {
-            theForm.elements['gzip'].checked = false;
-        }
-        if (typeof(formElts['bzip']) != 'undefined' && formElts['bzip'].checked) {
-            theForm.elements['bzip'].checked = false;
-        }
-    }
-    // 'gzipped' option has been checked
-    else if (theAction == 'gzip' && formElts['gzip'].checked) {
-        if (!formElts['asfile'].checked) {
-            theForm.elements['asfile'].checked = true;
-        }
-        if (typeof(formElts['zip']) != 'undefined' && formElts['zip'].checked) {
-            theForm.elements['zip'].checked = false;
-        }
-        if (typeof(formElts['bzip']) != 'undefined' && formElts['bzip'].checked) {
-            theForm.elements['bzip'].checked = false;
-        }
-    }
-    // 'bzipped' option has been checked
-    else if (theAction == 'bzip' && formElts['bzip'].checked) {
-        if (!formElts['asfile'].checked) {
-            theForm.elements['asfile'].checked = true;
-        }
-        if (typeof(formElts['zip']) != 'undefined' && formElts['zip'].checked) {
-            theForm.elements['zip'].checked = false;
-        }
-        if (typeof(formElts['gzip']) != 'undefined' && formElts['gzip'].checked) {
-            theForm.elements['gzip'].checked = false;
-        }
-    }
-    // 'transmit' option has been unchecked
-    else if (theAction == 'transmit' && !formElts['asfile'].checked) {
-        if (typeof(formElts['zip']) != 'undefined' && formElts['zip'].checked) {
-            theForm.elements['zip'].checked = false;
-        }
-        if ((typeof(formElts['gzip']) != 'undefined' && formElts['gzip'].checked)) {
-            theForm.elements['gzip'].checked = false;
-        }
-        if ((typeof(formElts['bzip']) != 'undefined' && formElts['bzip'].checked)) {
-            theForm.elements['bzip'].checked = false;
-        }
-    }
-
-    return true;
-} // end of the 'checkTransmitDump()' function
-
 $(document).ready(function() {
     /**
      * Row marking in horizontal mode (use "live" so that it works also for
      * next pages reached via AJAX); a tr may have the class noclick to remove
      * this behavior.
      */
-    $('tr.odd:not(.noclick), tr.even:not(.noclick)').live('click',function(e) {
+    $('table:not(.noclick) tr.odd:not(.noclick), table:not(.noclick) tr.even:not(.noclick)').live('click',function(e) {
         // do not trigger when clicked on anchor
         if ($(e.target).is('a, img, a *')) {
             return;
         }
-        // XXX: FF fires two click events for <label> (label and checkbox), so we need to handle this differently
         var $tr = $(this);
-        var $checkbox = $tr.find(':checkbox');
-        if ($checkbox.length) {
-            // checkbox in a row, add or remove class depending on checkbox state
-            var checked = $checkbox.attr('checked');
-            if (!$(e.target).is(':checkbox, label')) {
-                checked = !checked;
-                $checkbox.attr('checked', checked);
-            }
-            if (checked) {
-                $tr.addClass('marked');
+
+        // make the table unselectable (to prevent default highlighting when shift+click)
+        //$tr.parents('table').noSelect();
+
+        if (!e.shiftKey || last_clicked_row == -1) {
+            // usual click
+
+            // XXX: FF fires two click events for <label> (label and checkbox), so we need to handle this differently
+            var $checkbox = $tr.find(':checkbox');
+            if ($checkbox.length) {
+                // checkbox in a row, add or remove class depending on checkbox state
+                var checked = $checkbox.attr('checked');
+                if (!$(e.target).is(':checkbox, label')) {
+                    checked = !checked;
+                    $checkbox.attr('checked', checked);
+                }
+                if (checked) {
+                    $tr.addClass('marked');
+                } else {
+                    $tr.removeClass('marked');
+                }
+                last_click_checked = checked;
             } else {
-                $tr.removeClass('marked');
+                // normaln data table, just toggle class
+                $tr.toggleClass('marked');
+                last_click_checked = false;
             }
+
+            // remember the last clicked row
+            last_clicked_row = last_click_checked ? $('tr.odd:not(.noclick), tr.even:not(.noclick)').index(this) : -1;
+            last_shift_clicked_row = -1;
         } else {
-            // normaln data table, just toggle class
-            $tr.toggleClass('marked');
+            // handle the shift click
+            PMA_clearSelection();
+            var start, end;
+
+            // clear last shift click result
+            if (last_shift_clicked_row >= 0) {
+                if (last_shift_clicked_row >= last_clicked_row) {
+                    start = last_clicked_row;
+                    end = last_shift_clicked_row;
+                } else {
+                    start = last_shift_clicked_row;
+                    end = last_clicked_row;
+                }
+                $tr.parent().find('tr.odd:not(.noclick), tr.even:not(.noclick)')
+                    .slice(start, end + 1)
+                    .removeClass('marked')
+                    .find(':checkbox')
+                    .attr('checked', false);
+            }
+
+            // handle new shift click
+            var curr_row = $('tr.odd:not(.noclick), tr.even:not(.noclick)').index(this);
+            if (curr_row >= last_clicked_row) {
+                start = last_clicked_row;
+                end = curr_row;
+            } else {
+                start = curr_row;
+                end = last_clicked_row;
+            }
+            $tr.parent().find('tr.odd:not(.noclick), tr.even:not(.noclick)')
+                .slice(start, end + 1)
+                .addClass('marked')
+                .find(':checkbox')
+                .attr('checked', true);
+
+            // remember the last shift clicked row
+            last_shift_clicked_row = curr_row;
         }
     });
 
     /**
      * Add a date/time picker to each element that needs it
+     * (only when timepicker.js is loaded)
      */
-    $('.datefield, .datetimefield').each(function() {
-        PMA_addDatepicker($(this));
-        });
-})
+    if ($.timepicker != undefined) {
+        $('.datefield, .datetimefield').each(function() {
+            PMA_addDatepicker($(this));
+            });
+    }
+});
+
+/**
+ * True if last click is to check a row.
+ */
+var last_click_checked = false;
+
+/**
+ * Zero-based index of last clicked row.
+ * Used to handle the shift + click event in the code above.
+ */
+var last_clicked_row = -1;
+
+/**
+ * Zero-based index of last shift clicked row.
+ */
+var last_shift_clicked_row = -1;
 
 /**
  * Row highlighting in horizontal mode (use "live"
  * so that it works also for pages reached via AJAX)
  */
-$(document).ready(function() {
-    $('tr.odd, tr.even').live('hover',function() {
+/*$(document).ready(function() {
+    $('tr.odd, tr.even').live('hover',function(event) {
         var $tr = $(this);
-        $tr.toggleClass('hover');
-        $tr.children().toggleClass('hover');
+        $tr.toggleClass('hover',event.type=='mouseover');
+        $tr.children().toggleClass('hover',event.type=='mouseover');
     });
-})
+})*/
 
 /**
  * This array is used to remember mark status of rows in browse mode
@@ -661,7 +668,8 @@ var marked_row = new Array;
  *
  * @param    container    DOM element
  */
-function markAllRows( container_id ) {
+function markAllRows( container_id )
+{
 
     $("#"+container_id).find("input:checkbox:enabled").attr('checked', 'checked')
     .parents("tr").addClass("marked");
@@ -674,7 +682,8 @@ function markAllRows( container_id ) {
  *
  * @param    container    DOM element
  */
-function unMarkAllRows( container_id ) {
+function unMarkAllRows( container_id )
+{
 
     $("#"+container_id).find("input:checkbox:enabled").removeAttr('checked')
     .parents("tr").removeClass("marked");
@@ -688,7 +697,8 @@ function unMarkAllRows( container_id ) {
  * @param   boolean  state         new value for checkbox (true or false)
  * @return  boolean  always true
  */
-function setCheckboxes( container_id, state ) {
+function setCheckboxes( container_id, state )
+{
 
     if(state) {
         $("#"+container_id).find("input:checkbox").attr('checked', 'checked');
@@ -715,15 +725,33 @@ function setSelectOptions(the_form, the_select, do_check)
     return true;
 } // end of the 'setSelectOptions()' function
 
+/**
+ * Sets current value for query box.
+ */
+function setQuery(query)
+{
+    if (codemirror_editor) {
+        codemirror_editor.setValue(query);
+    } else {
+        document.sqlform.sql_query.value = query;
+    }
+}
+
 
 /**
   * Create quick sql statements.
   *
   */
-function insertQuery(queryType) {
+function insertQuery(queryType)
+{
+    if (queryType == "clear") {
+        setQuery('');
+        return;
+    }
+
     var myQuery = document.sqlform.sql_query;
-    var myListBox = document.sqlform.dummy;
     var query = "";
+    var myListBox = document.sqlform.dummy;
     var table = document.sqlform.table.value;
 
     if (myListBox.options.length > 0) {
@@ -754,7 +782,7 @@ function insertQuery(queryType) {
         } else if(queryType == "delete") {
             query = "DELETE FROM `" + table + "` WHERE 1";
         }
-        document.sqlform.sql_query.value = query;
+        setQuery(query);
         sql_box_locked = false;
     }
 }
@@ -764,7 +792,8 @@ function insertQuery(queryType) {
   * Inserts multiple fields.
   *
   */
-function insertValueQuery() {
+function insertValueQuery()
+{
     var myQuery = document.sqlform.sql_query;
     var myListBox = document.sqlform.dummy;
 
@@ -773,16 +802,20 @@ function insertValueQuery() {
         var chaineAj = "";
         var NbSelect = 0;
         for(var i=0; i<myListBox.options.length; i++) {
-            if (myListBox.options[i].selected){
+            if (myListBox.options[i].selected) {
                 NbSelect++;
-                if (NbSelect > 1)
+                if (NbSelect > 1) {
                     chaineAj += ", ";
+                }
                 chaineAj += myListBox.options[i].value;
             }
         }
 
+        /* CodeMirror support */
+        if (codemirror_editor) {
+            codemirror_editor.replaceSelection(chaineAj);
         //IE support
-        if (document.selection) {
+        } else if (document.selection) {
             myQuery.focus();
             sel = document.selection.createRange();
             sel.text = chaineAj;
@@ -805,33 +838,16 @@ function insertValueQuery() {
 /**
   * listbox redirection
   */
-function goToUrl(selObj, goToLocation) {
+function goToUrl(selObj, goToLocation)
+{
     eval("document.location.href = '" + goToLocation + "pos=" + selObj.options[selObj.selectedIndex].value + "'");
-}
-
-/**
- * getElement
- */
-function getElement(e,f){
-    if(document.layers){
-        f=(f)?f:self;
-        if(f.document.layers[e]) {
-            return f.document.layers[e];
-        }
-        for(W=0;W<f.document.layers.length;W++) {
-            return(getElement(e,f.document.layers[W]));
-        }
-    }
-    if(document.all) {
-        return document.all[e];
-    }
-    return document.getElementById(e);
 }
 
 /**
   * Refresh the WYSIWYG scratchboard after changes have been made
   */
-function refreshDragOption(e) {
+function refreshDragOption(e)
+{
     var elm = $('#' + e);
     if (elm.css('visibility') == 'visible') {
         refreshLayout();
@@ -842,7 +858,8 @@ function refreshDragOption(e) {
 /**
   * Refresh/resize the WYSIWYG scratchboard
   */
-function refreshLayout() {
+function refreshLayout()
+{
     var elm = $('#pdflayout')
     var orientation = $('#orientation_opt').val();
     if($('#paper_opt').length==1){
@@ -864,7 +881,8 @@ function refreshLayout() {
 /**
   * Show/hide the WYSIWYG scratchboard
   */
-function ToggleDragDrop(e) {
+function ToggleDragDrop(e)
+{
     var elm = $('#' + e);
     if (elm.css('visibility') == 'hidden') {
         PDFinit(); /* Defined in pdf_pages.php */
@@ -882,7 +900,8 @@ function ToggleDragDrop(e) {
   * PDF scratchboard: When a position is entered manually, update
   * the fields inside the scratchboard.
   */
-function dragPlace(no, axis, value) {
+function dragPlace(no, axis, value)
+{
     var elm = $('#table_' + no);
     if (axis == 'x') {
         elm.css('left', value + 'px');
@@ -894,7 +913,8 @@ function dragPlace(no, axis, value) {
 /**
  * Returns paper sizes for a given format
  */
-function pdfPaperSize(format, axis) {
+function pdfPaperSize(format, axis)
+{
     switch (format.toUpperCase()) {
         case '4A0':
             if (axis == 'x') return 4767.87; else return 6740.79;
@@ -1061,12 +1081,14 @@ function pdfPaperSize(format, axis) {
 function popupBSMedia(url_params, bs_ref, m_type, is_cust_type, w_width, w_height)
 {
     // if width not specified, use default
-    if (w_width == undefined)
+    if (w_width == undefined) {
         w_width = 640;
+    }
 
     // if height not specified, use default
-    if (w_height == undefined)
+    if (w_height == undefined) {
         w_height = 480;
+    }
 
     // open popup window (for displaying video/playing audio)
     var mediaWin = window.open('bs_play_media.php?' + url_params + '&bs_reference=' + bs_ref + '&media_type=' + m_type + '&custom_type=' + is_cust_type, 'viewBSMedia', 'width=' + w_width + ', height=' + w_height + ', resizable=1, scrollbars=1, status=0');
@@ -1083,15 +1105,17 @@ function popupBSMedia(url_params, bs_ref, m_type, is_cust_type, w_width, w_heigh
 function requestMIMETypeChange(db, table, reference, current_mime_type)
 {
     // no mime type specified, set to default (nothing)
-    if (undefined == current_mime_type)
+    if (undefined == current_mime_type) {
         current_mime_type = "";
+    }
 
     // prompt user for new mime type
     var new_mime_type = prompt("Enter custom MIME type", current_mime_type);
 
     // if new mime_type is specified and is not the same as the previous type, request for mime type change
-    if (new_mime_type && new_mime_type != current_mime_type)
+    if (new_mime_type && new_mime_type != current_mime_type) {
         changeMIMEType(db, table, reference, new_mime_type);
+    }
 }
 
 /**
@@ -1117,11 +1141,8 @@ function changeMIMEType(db, table, reference, mime_type)
  */
 $(document).ready(function(){
     $(".inline_edit_sql").live('click', function(){
-        var server     = $(this).prev().find("input[name='server']").val();
-        var db         = $(this).prev().find("input[name='db']").val();
-        var table      = $(this).prev().find("input[name='table']").val();
-        var token      = $(this).prev().find("input[name='token']").val();
-        var sql_query  = $(this).prev().find("input[name='sql_query']").val();
+        var $form = $(this).prev();
+        var sql_query  = $form.find("input[name='sql_query']").val();
         var $inner_sql = $(this).parent().prev().find('.inner_sql');
         var old_text   = $inner_sql.html();
 
@@ -1129,32 +1150,22 @@ $(document).ready(function(){
         new_content    += "<input type=\"button\" class=\"btnSave\" value=\"" + PMA_messages['strGo'] + "\">\n";
         new_content    += "<input type=\"button\" class=\"btnDiscard\" value=\"" + PMA_messages['strCancel'] + "\">\n";
         $inner_sql.replaceWith(new_content);
-        $(".btnSave").each(function(){
-            $(this).click(function(){
-                sql_query = $(this).prev().val();
-                window.location.replace("import.php"
-                                      + "?server=" + encodeURIComponent(server)
-                                      + "&db=" + encodeURIComponent(db)
-                                      + "&table=" + encodeURIComponent(table)
-                                      + "&sql_query=" + encodeURIComponent(sql_query)
-                                      + "&show_query=1"
-                                      + "&token=" + token);
-            });
+        $(".btnSave").click(function(){
+            var sql_query = $(this).prev().val();
+            var $fake_form = $('<form>', {action: 'import.php', method: 'post'})
+                    .append($form.find("input[name=server], input[name=db], input[name=table], input[name=token]").clone())
+                    .append($('<input>', {type: 'hidden', name: 'show_query', value: 1}))
+                    .append($('<input>', {type: 'hidden', name: 'sql_query', value: sql_query}));
+            $fake_form.appendTo($('body')).submit();
         });
-        $(".btnDiscard").each(function(){
-            $(this).click(function(){
-                $(this).closest(".sql").html("<span class=\"syntax\"><span class=\"inner_sql\">" + old_text + "</span></span>");
-            });
+        $(".btnDiscard").click(function(){
+            $(this).closest(".sql").html("<span class=\"syntax\"><span class=\"inner_sql\">" + old_text + "</span></span>");
         });
         return false;
     });
 
     $('.sqlbutton').click(function(evt){
-        if (evt.target.id == 'clear') {
-            $('#sqlquery').val('');
-        } else {
-            insertQuery(evt.target.id);
-        }
+        insertQuery(evt.target.id);
         return false;
     });
 
@@ -1198,7 +1209,12 @@ $(document).ready(function(){
         }
     });
 
-    $('#sqlquery').focus();
+    $('#sqlquery').focus().keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            $("#sqlqueryform").submit();
+        }
+    });
+
     if ($('#input_username')) {
         if ($('#input_username').val() == '') {
             $('#input_username').focus();
@@ -1211,100 +1227,636 @@ $(document).ready(function(){
 /**
  * Show a message on the top of the page for an Ajax request
  *
- * @param   var     message     string containing the message to be shown.
+ * Sample usage:
+ *
+ * 1) var $msg = PMA_ajaxShowMessage();
+ * This will show a message that reads "Loading...". Such a message will not
+ * disappear automatically and cannot be dismissed by the user. To remove this
+ * message either the PMA_ajaxRemoveMessage($msg) function must be called or
+ * another message must be show with PMA_ajaxShowMessage() function.
+ *
+ * 2) var $msg = PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+ * This is a special case. The behaviour is same as above,
+ * just with a different message
+ *
+ * 3) var $msg = PMA_ajaxShowMessage('The operation was successful');
+ * This will show a message that will disappear automatically and it can also
+ * be dismissed by the user.
+ *
+ * 4) var $msg = PMA_ajaxShowMessage('Some error', false);
+ * This will show a message that will not disappear automatically, but it
+ * can be dismissed by the user after he has finished reading it.
+ *
+ * @param   string  message     string containing the message to be shown.
  *                              optional, defaults to 'Loading...'
- * @param   var     timeout     number of milliseconds for the message to be visible
- *                              optional, defaults to 5000
+ * @param   mixed   timeout     number of milliseconds for the message to be visible
+ *                              optional, defaults to 5000. If set to 'false', the
+ *                              notification will never disappear
+ * @return  jQuery object       jQuery Element that holds the message div
+ *                              this object can be passed to PMA_ajaxRemoveMessage()
+ *                              to remove the notification
  */
-
-function PMA_ajaxShowMessage(message, timeout) {
-
-    //Handle the case when a empty data.message is passed.  We don't want the empty message
-    if(message == '') {
+function PMA_ajaxShowMessage(message, timeout)
+{
+    /**
+     * @var self_closing Whether the notification will automatically disappear
+     */
+    var self_closing = true;
+    /**
+     * @var dismissable Whether the user will be able to remove
+     *                  the notification by clicking on it
+     */
+    var dismissable = true;
+    // Handle the case when a empty data.message is passed.
+    // We don't want the empty message
+    if (message == '') {
         return true;
+    } else if (! message) {
+        // If the message is undefined, show the default
+        message = PMA_messages['strLoading'];
+        dismissable = false;
+        self_closing = false;
+    } else if (message == PMA_messages['strProcessingRequest']) {
+        // This is another case where the message should not disappear
+        dismissable = false;
+        self_closing = false;
     }
-
+    // Figure out whether (or after how long) to remove the notification
+    if (timeout == undefined) {
+        timeout = 5000;
+    } else if (timeout === false) {
+        self_closing = false;
+    }
+    // Create a parent element for the AJAX messages, if necessary
+    if ($('#loading_parent').length == 0) {
+        $('<div id="loading_parent"></div>')
+        .prependTo("body");
+    }
+    // Update message count to create distinct message elements every time
+    ajax_message_count++;
+    // Remove all old messages, if any
+    $(".ajax_notification[id^=ajax_message_num]").remove();
     /**
-     * @var msg String containing the message that has to be displayed
-     * @default PMA_messages['strLoading']
+     * @var    $retval    a jQuery object containing the reference
+     *                    to the created AJAX message
      */
-    if(!message) {
-        var msg = PMA_messages['strLoading'];
-    }
-    else {
-        var msg = message;
-    }
-
-    /**
-     * @var timeout Number of milliseconds for which {@link msg} will be visible
-     * @default 5000 ms
-     */
-    if(!timeout) {
-        var to = 5000;
-    }
-    else {
-        var to = timeout;
-    }
-
-    if( !ajax_message_init) {
-        //For the first time this function is called, append a new div
-        $(function(){
-            $('<div id="loading_parent"></div>')
-            .insertBefore("#serverinfo");
-
-            $('<span id="loading" class="ajax_notification"></span>')
-            .appendTo("#loading_parent")
-            .html(msg)
-            .fadeIn('medium')
-            .delay(to)
-            .fadeOut('medium', function(){
-                $(this)
-                .html("") //Clear the message
-                .hide();
-            });
-        }, 'top.frame_content');
-        ajax_message_init = true;
-    }
-    else {
-        //Otherwise, just show the div again after inserting the message
-        $("#loading")
-        .stop(true, true)
-        .html(msg)
-        .fadeIn('medium')
-        .delay(to)
+    var $retval = $(
+            '<span class="ajax_notification" id="ajax_message_num_'
+            + ajax_message_count +
+            '"></span>'
+    )
+    .hide()
+    .appendTo("#loading_parent")
+    .html(message)
+    .fadeIn('medium');
+    // If the notification is self-closing we should create a callback to remove it
+    if (self_closing) {
+        $retval
+        .delay(timeout)
         .fadeOut('medium', function() {
-            $(this)
-            .html("")
-            .hide();
-        })
+            if ($(this).is('.dismissable')) {
+                // Here we should destroy the qtip instance, but
+                // due to a bug in qtip's implementation we can
+                // only hide it without throwing JS errors.
+                $(this).qtip('hide');
+            }
+            // Remove the notification
+            $(this).remove();
+        });
     }
-	
-	return $("#loading");
+    // If the notification is dismissable we need to add the relevant class to it
+    // and add a tooltip so that the users know that it can be removed
+    if (dismissable) {
+        $retval.addClass('dismissable').css('cursor', 'pointer');
+        /**
+         * @var qOpts Options for "Dismiss notification" tooltip
+         */
+        var qOpts = {
+            show: {
+                effect: { length: 0 },
+                delay: 0
+            },
+            hide: {
+                effect: { length: 0 },
+                delay: 0
+            }
+        };
+        /**
+         * Add a tooltip to the notification to let the user know that (s)he
+         * can dismiss the ajax notification by clicking on it.
+         */
+        PMA_createqTip($retval, PMA_messages['strDismiss'], qOpts);
+    }
+
+    return $retval;
 }
 
 /**
  * Removes the message shown for an Ajax operation when it's completed
+ *
+ * @param  jQuery object   jQuery Element that holds the notification
+ *
+ * @return nothing
  */
-function PMA_ajaxRemoveMessage($this_msgbox) {
-    $this_msgbox
-     .stop(true, true)
-     .fadeOut('medium', function() {
-        $this_msgbox.hide();
-     });
+function PMA_ajaxRemoveMessage($this_msgbox)
+{
+    if ($this_msgbox != undefined && $this_msgbox instanceof jQuery) {
+        $this_msgbox
+        .stop(true, true)
+        .fadeOut('medium');
+        if ($this_msgbox.is('.dismissable')) {
+            // Here we should destroy the qtip instance, but
+            // due to a bug in qtip's implementation we can
+            // only hide it without throwing JS errors.
+            $this_msgbox.qtip('hide');
+        } else {
+            $this_msgbox.remove();
+        }
+    }
 }
+
+$(document).ready(function() {
+    /**
+     * Allows the user to dismiss a notification
+     * created with PMA_ajaxShowMessage()
+     */
+    $('.ajax_notification.dismissable').live('click', function () {
+        PMA_ajaxRemoveMessage($(this));
+    });
+    /**
+     * The below two functions hide the "Dismiss notification" tooltip when a user
+     * is hovering a link or button that is inside an ajax message
+     */
+    $('.ajax_notification a, .ajax_notification button, .ajax_notification input')
+    .live('mouseover', function () {
+        $(this).parents('.ajax_notification').qtip('hide');
+    });
+    $('.ajax_notification a, .ajax_notification button, .ajax_notification input')
+    .live('mouseout', function () {
+        $(this).parents('.ajax_notification').qtip('show');
+    });
+});
 
 /**
  * Hides/shows the "Open in ENUM/SET editor" message, depending on the data type of the column currently selected
  */
-function PMA_showNoticeForEnum(selectElement) {
+function PMA_showNoticeForEnum(selectElement)
+{
     var enum_notice_id = selectElement.attr("id").split("_")[1];
     enum_notice_id += "_" + (parseInt(selectElement.attr("id").split("_")[2]) + 1);
-    var selectedType = selectElement.attr("value");
+    var selectedType = selectElement.val();
     if (selectedType == "ENUM" || selectedType == "SET") {
         $("p[id='enum_notice_" + enum_notice_id + "']").show();
     } else {
         $("p[id='enum_notice_" + enum_notice_id + "']").hide();
     }
+}
+
+/**
+ * Generates a dialog box to pop up the create_table form
+ */
+function PMA_createTableDialog( $div, url , target)
+{
+     /**
+     *  @var    button_options  Object that stores the options passed to jQueryUI
+     *                          dialog
+     */
+     var button_options = {};
+     // in the following function we need to use $(this)
+     button_options[PMA_messages['strCancel']] = function() {$(this).closest('.ui-dialog-content').dialog('close').remove();}
+
+     var button_options_error = {};
+     button_options_error[PMA_messages['strOK']] = function() {$(this).closest('.ui-dialog-content').dialog('close').remove();}
+
+     var $msgbox = PMA_ajaxShowMessage();
+
+     $.get( target , url ,  function(data) {
+         //in the case of an error, show the error message returned.
+         if (data.success != undefined && data.success == false) {
+             $div
+             .append(data.error)
+             .dialog({
+                 height: 230,
+                 width: 900,
+                 open: PMA_verifyColumnsProperties,
+                 buttons : button_options_error
+             })// end dialog options
+             //remove the redundant [Back] link in the error message.
+             .find('fieldset').remove();
+         } else {
+             var size = getWindowSize();
+             var timeout;
+             $div
+             .append(data)
+             .dialog({
+                 dialogClass: 'create-table',
+                 resizable: false,
+                 draggable: false,
+                 modal: true,
+                 stack: false,
+                 position: ['left','top'],
+                 width: size.width-10,
+                 height: size.height-10,
+                 open: function() {
+                     var dialog_id = $(this).attr('id');
+                     $(window).bind('resize.dialog-resizer', function() {
+                         clearTimeout(timeout);
+                         timeout = setTimeout(function() {
+                             var size = getWindowSize();
+                             $('#'+dialog_id).dialog('option', {
+                                 width: size.width-10,
+                                 height: size.height-10
+                             });
+                         }, 50);
+                     });
+
+                     var $wrapper = $('<div>', {'id': 'content-hide'}).hide();
+                     $('body > *:not(.ui-dialog)').wrapAll($wrapper);
+
+                     $(this)
+                         .scrollTop(0) // for Chrome
+                         .closest('.ui-dialog').css({
+                             left: 0,
+                             top: 0
+                         });
+
+                     PMA_verifyColumnsProperties();
+
+                     // move the Cancel button next to the Save button
+                     var $button_pane = $('.ui-dialog-buttonpane');
+                     var $cancel_button = $button_pane.find('.ui-button');
+                     var $save_button  = $('#create_table_form').find("input[name='do_save_data']");
+                     $cancel_button.insertAfter($save_button);
+                     $button_pane.hide();
+                 },
+                 close: function() {
+                     $(window).unbind('resize.dialog-resizer');
+                     $('#content-hide > *').unwrap();
+                 },
+                 buttons: button_options
+             }); // end dialog options
+         }
+         PMA_convertFootnotesToTooltips($div);
+         PMA_ajaxRemoveMessage($msgbox);
+     }); // end $.get()
+
+}
+
+/**
+ * Creates a highcharts chart in the given container
+ *
+ * @param   var     settings    object with highcharts properties that should be applied. (See also http://www.highcharts.com/ref/)
+ *                              requires at least settings.chart.renderTo and settings.series to be set.
+ *                              In addition there may be an additional property object 'realtime' that allows for realtime charting:
+ *                              realtime: {
+ *                                  url: adress to get the data from (will always add token, ajax_request=1 and chart_data=1 to the GET request)
+ *                                  type: the GET request will also add type=[value of the type property] to the request
+ *                                  callback: Callback function that should draw the point, it's called with 4 parameters in this order:
+ *                                      - the chart object
+ *                                      - the current response value of the GET request, JSON parsed
+ *                                      - the previous response value of the GET request, JSON parsed
+ *                                      - the number of added points
+ *                                  error: Callback function when the get request fails. TODO: Apply callback on timeouts aswell
+ *                              }
+ *
+ * @return  object   The created highcharts instance
+ */
+function PMA_createChart(passedSettings)
+{
+    var container = passedSettings.chart.renderTo;
+
+    var settings = {
+        chart: {
+            type: 'spline',
+            marginRight: 10,
+            backgroundColor: 'none',
+            events: {
+                /* Live charting support */
+                load: function() {
+                    var thisChart = this;
+                    var lastValue = null, curValue = null;
+                    var numLoadedPoints = 0, otherSum = 0;
+                    var diff;
+
+                    // No realtime updates for graphs that are being exported, and disabled when realtime is not set
+                    // Also don't do live charting if we don't have the server time
+                    if(thisChart.options.chart.forExport == true ||
+                        ! thisChart.options.realtime ||
+                        ! thisChart.options.realtime.callback ||
+                        ! server_time_diff) return;
+
+                    thisChart.options.realtime.timeoutCallBack = function() {
+                        thisChart.options.realtime.postRequest = $.post(
+                            thisChart.options.realtime.url,
+                            thisChart.options.realtime.postData,
+                            function(data) {
+                                try {
+                                    curValue = jQuery.parseJSON(data);
+                                } catch (err) {
+                                    if(thisChart.options.realtime.error)
+                                        thisChart.options.realtime.error(err);
+                                    return;
+                                }
+
+                                if (lastValue==null) {
+                                    diff = curValue.x - thisChart.xAxis[0].getExtremes().max;
+                                } else {
+                                    diff = parseInt(curValue.x - lastValue.x);
+                                }
+
+                                thisChart.xAxis[0].setExtremes(
+                                    thisChart.xAxis[0].getExtremes().min+diff,
+                                    thisChart.xAxis[0].getExtremes().max+diff,
+                                    false
+                                );
+
+                                thisChart.options.realtime.callback(thisChart,curValue,lastValue,numLoadedPoints);
+
+                                lastValue = curValue;
+                                numLoadedPoints++;
+
+                                // Timeout has been cleared => don't start a new timeout
+                                if (chart_activeTimeouts[container] == null) {
+                                    return;
+                                }
+
+                                chart_activeTimeouts[container] = setTimeout(
+                                    thisChart.options.realtime.timeoutCallBack,
+                                    thisChart.options.realtime.refreshRate
+                                );
+                        });
+                    }
+
+                    chart_activeTimeouts[container] = setTimeout(thisChart.options.realtime.timeoutCallBack, 5);
+                }
+            }
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    radius: 3
+                }
+            }
+        },
+        credits: {
+            enabled:false
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: PMA_messages['strTotalCount']
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function() {
+                    return '<b>' + this.series.name +'</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        exporting: {
+            enabled: true
+        },
+        series: []
+    }
+
+    /* Set/Get realtime chart default values */
+    if(passedSettings.realtime) {
+        if(!passedSettings.realtime.refreshRate) {
+            passedSettings.realtime.refreshRate = 5000;
+        }
+
+        if(!passedSettings.realtime.numMaxPoints) {
+            passedSettings.realtime.numMaxPoints = 30;
+        }
+
+        // Allow custom POST vars to be added
+        passedSettings.realtime.postData = $.extend(false,{ ajax_request: true, chart_data: 1, type: passedSettings.realtime.type },passedSettings.realtime.postData);
+
+        if(server_time_diff) {
+            settings.xAxis.min = new Date().getTime() - server_time_diff - passedSettings.realtime.numMaxPoints * passedSettings.realtime.refreshRate;
+            settings.xAxis.max = new Date().getTime() - server_time_diff + passedSettings.realtime.refreshRate;
+        }
+    }
+
+    // Overwrite/Merge default settings with passedsettings
+    $.extend(true,settings,passedSettings);
+
+    return new Highcharts.Chart(settings);
+}
+
+
+/*
+ * Creates a Profiling Chart. Used in sql.php and server_status.js
+ */
+function PMA_createProfilingChart(data, options)
+{
+    return PMA_createChart($.extend(true, {
+        chart: {
+            renderTo: 'profilingchart',
+            type: 'pie'
+        },
+        title: { text:'', margin:0 },
+        series: [{
+            type: 'pie',
+            name: PMA_messages['strQueryExecutionTime'],
+            data: data
+        }],
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    distance: 35,
+                    formatter: function() {
+                        return '<b>'+ this.point.name +'</b><br/>'+ Highcharts.numberFormat(this.percentage, 2) +' %';
+                   }
+                }
+            }
+        },
+        tooltip: {
+            formatter: function() {
+                return '<b>'+ this.point.name +'</b><br/>'+PMA_prettyProfilingNum(this.y)+'<br/>('+Highcharts.numberFormat(this.percentage, 2) +' %)';
+            }
+        }
+    },options));
+}
+
+/**
+ * Formats a profiling duration nicely (in us and ms time). Used in PMA_createProfilingChart() and server_status.js
+ *
+ * @param   integer     Number to be formatted, should be in the range of microsecond to second
+ * @param   integer     Acuracy, how many numbers right to the comma should be
+ * @return  string      The formatted number
+ */
+function PMA_prettyProfilingNum(num, acc)
+{
+    if (!acc) {
+        acc = 2;
+    }
+    acc = Math.pow(10,acc);
+    if (num * 1000 < 0.1) {
+        num = Math.round(acc * (num * 1000 * 1000)) / acc + 'µ';
+    } else if (num < 0.1) {
+        num = Math.round(acc * (num * 1000)) / acc + 'm';
+    } else {
+        num = Math.round(acc * num) / acc;
+    }
+
+    return num + 's';
+}
+
+
+/**
+ * Formats a SQL Query nicely with newlines and indentation. Depends on Codemirror and MySQL Mode!
+ *
+ * @param   string      Query to be formatted
+ * @return  string      The formatted query
+ */
+function PMA_SQLPrettyPrint(string)
+{
+    var mode = CodeMirror.getMode({},"text/x-mysql");
+    var stream = new CodeMirror.StringStream(string);
+    var state = mode.startState();
+    var token, tokens = [];
+    var output = '';
+    var tabs = function(cnt) {
+        var ret = '';
+        for (var i=0; i<4*cnt; i++)
+            ret += " ";
+        return ret;
+    };
+
+    // "root-level" statements
+    var statements = {
+        'select': ['select', 'from','on','where','having','limit','order by','group by'],
+        'update': ['update', 'set','where'],
+        'insert into': ['insert into', 'values']
+    };
+    // don't put spaces before these tokens
+    var spaceExceptionsBefore = { ';':true, ',': true, '.': true, '(': true };
+    // don't put spaces after these tokens
+    var spaceExceptionsAfter = { '.': true };
+
+    // Populate tokens array
+    var str='';
+    while (! stream.eol()) {
+        stream.start = stream.pos;
+        token = mode.token(stream, state);
+        if(token != null) {
+            tokens.push([token, stream.current().toLowerCase()]);
+        }
+    }
+
+    var currentStatement = tokens[0][1];
+
+    if(! statements[currentStatement]) {
+        return string;
+    }
+    // Holds all currently opened code blocks (statement, function or generic)
+    var blockStack = [];
+    // Holds the type of block from last iteration (the current is in blockStack[0])
+    var previousBlock;
+    // If a new code block is found, newBlock contains its type for one iteration and vice versa for endBlock
+    var newBlock, endBlock;
+    // How much to indent in the current line
+    var indentLevel = 0;
+    // Holds the "root-level" statements
+    var statementPart, lastStatementPart = statements[currentStatement][0];
+
+    blockStack.unshift('statement');
+
+    // Iterate through every token and format accordingly
+    for (var i = 0; i < tokens.length; i++) {
+        previousBlock = blockStack[0];
+
+        // New block => push to stack
+        if (tokens[i][1] == '(') {
+            if (i < tokens.length - 1 && tokens[i+1][0] == 'statement-verb') {
+                blockStack.unshift(newBlock = 'statement');
+            } else if (i > 0 && tokens[i-1][0] == 'builtin') {
+                blockStack.unshift(newBlock = 'function');
+            } else {
+                blockStack.unshift(newBlock = 'generic');
+            }
+        } else {
+            newBlock = null;
+        }
+
+        // Block end => pop from stack
+        if (tokens[i][1] == ')') {
+            endBlock = blockStack[0];
+            blockStack.shift();
+        } else {
+            endBlock = null;
+        }
+
+        // A subquery is starting
+        if (i > 0 && newBlock == 'statement') {
+            indentLevel++;
+            output += "\n" + tabs(indentLevel) + tokens[i][1] + ' ' + tokens[i+1][1].toUpperCase() + "\n" + tabs(indentLevel + 1);
+            currentStatement = tokens[i+1][1];
+            i++;
+            continue;
+        }
+
+        // A subquery is ending
+        if (endBlock == 'statement' && indentLevel > 0) {
+            output += "\n" + tabs(indentLevel);
+            indentLevel--;
+        }
+
+        // One less indentation for statement parts (from, where, order by, etc.) and a newline
+        statementPart = statements[currentStatement].indexOf(tokens[i][1]);
+        if (statementPart != -1) {
+            if (i > 0) output += "\n";
+            output += tabs(indentLevel) + tokens[i][1].toUpperCase();
+            output += "\n" + tabs(indentLevel + 1);
+            lastStatementPart = tokens[i][1];
+        }
+        // Normal indentatin and spaces for everything else
+        else {
+            if (! spaceExceptionsBefore[tokens[i][1]]
+               && ! (i > 0 && spaceExceptionsAfter[tokens[i-1][1]])
+               && output.charAt(output.length -1) != ' ' ) {
+                    output += " ";
+            }
+            if (tokens[i][0] == 'keyword') {
+                output += tokens[i][1].toUpperCase();
+            } else {
+                output += tokens[i][1];
+            }
+        }
+
+        // split columns in select and 'update set' clauses, but only inside statements blocks
+        if (( lastStatementPart == 'select' || lastStatementPart == 'where'  || lastStatementPart == 'set')
+            && tokens[i][1]==',' && blockStack[0] == 'statement') {
+
+            output += "\n" + tabs(indentLevel + 1);
+        }
+
+        // split conditions in where clauses, but only inside statements blocks
+        if (lastStatementPart == 'where'
+            && (tokens[i][1]=='and' || tokens[i][1]=='or' || tokens[i][1]=='xor')) {
+
+            if (blockStack[0] == 'statement') {
+                output += "\n" + tabs(indentLevel + 1);
+            }
+            // Todo: Also split and or blocks in newlines & identation++
+            //if(blockStack[0] == 'generic')
+             //   output += ...
+        }
+    }
+    return output;
 }
 
 /**
@@ -1401,59 +1953,22 @@ jQuery.fn.PMA_sort_table = function(text_selector) {
  */
 $(document).ready(function() {
 
-    /**
+     /**
      * Attach event handler to the submit action of the create table minimal form
      * and retrieve the full table form and display it in a dialog
-     *
-     * @uses    PMA_ajaxShowMessage()
      */
     $("#create_table_form_minimal.ajax").live('submit', function(event) {
         event.preventDefault();
         $form = $(this);
-
-        /* @todo Validate this form! */
-
-        /**
-         *  @var    button_options  Object that stores the options passed to jQueryUI
-         *                          dialog
-         */
-        var button_options = {};
-        // in the following function we need to use $(this)
-        button_options[PMA_messages['strCancel']] = function() {$(this).dialog('close').remove();}
-
-        var button_options_error = {};
-        button_options_error[PMA_messages['strOK']] = function() {$(this).dialog('close').remove();}
-
-        var $msgbox = PMA_ajaxShowMessage();
         PMA_prepareForAjaxRequest($form);
 
-        $.get($form.attr('action'), $form.serialize(), function(data) {
-            //in the case of an error, show the error message returned.
-            if (data.success != undefined && data.success == false) {
-                $('<div id="create_table_dialog"></div>')
-                .append(data.error)
-                .dialog({
-                    title: PMA_messages['strCreateTable'],
-                    height: 230,
-                    width: 900,
-                    open: PMA_verifyTypeOfAllColumns,
-                    buttons : button_options_error
-                })// end dialog options
-                //remove the redundant [Back] link in the error message.
-                .find('fieldset').remove();
-            } else {
-                $('<div id="create_table_dialog"></div>')
-                .append(data)
-                .dialog({
-                    title: PMA_messages['strCreateTable'],
-                    height: 600,
-                    width: 900,
-                    open: PMA_verifyTypeOfAllColumns,
-                    buttons : button_options
-                }); // end dialog options
-            }            
-            PMA_ajaxRemoveMessage($msgbox);
-        }) // end $.get()
+        /*variables which stores the common attributes*/
+        var url = $form.serialize();
+        var action = $form.attr('action');
+        var $div =  $('<div id="create_table_dialog"></div>');
+
+        /*Calling to the createTableDialog function*/
+        PMA_createTableDialog($div, url, action);
 
         // empty table name and number of columns from the minimal form
         $form.find('input[name=table],input[name=num_fields]').val('');
@@ -1538,6 +2053,9 @@ $(document).ready(function() {
 
                             //Sort the table
                             $(tables_table).PMA_sort_table('th');
+                            
+                            // Adjust summary row
+                            PMA_adjustTotals();
                         }
 
                         //Refresh navigation frame as a new table has been added
@@ -1591,8 +2109,8 @@ $(document).ready(function() {
             if ($("#create_table_div").length > 0) {
                 $("#create_table_div").html(data);
             }
-            PMA_verifyTypeOfAllColumns();
-            PMA_ajaxRemoveMessage($msgbox);    
+            PMA_verifyColumnsProperties();
+            PMA_ajaxRemoveMessage($msgbox);
         }) //end $.post()
 
     }) // end create table form (add fields)
@@ -1600,44 +2118,198 @@ $(document).ready(function() {
 }, 'top.frame_content'); //end $(document).ready for 'Create Table'
 
 /**
- * Attach Ajax event handlers for Drop Trigger.  Used on tbl_structure.php
- * @see $cfg['AjaxEnable']
+ * jQuery coding for 'Change Table' and 'Add Column'.  Used on tbl_structure.php *
+ * Attach Ajax Event handlers for Change Table
  */
 $(document).ready(function() {
-
-    $(".drop_trigger_anchor").live('click', function(event) {
+    /**
+     *Ajax action for submitting the "Column Change" and "Add Column" form
+    **/
+    $("#append_fields_form input[name=do_save_data]").live('click', function(event) {
         event.preventDefault();
-
-        $anchor = $(this);
         /**
-         * @var curr_row    Object reference to the current trigger's <tr>
+         *  @var    the_form    object referring to the export form
          */
-        var $curr_row = $anchor.parents('tr');
-        /**
-         * @var question    String containing the question to be asked for confirmation
+        var $form = $("#append_fields_form");
+
+        /*
+         * First validate the form; if there is a problem, avoid submitting it
+         *
+         * checkTableEditForm() needs a pure element and not a jQuery object,
+         * this is why we pass $form[0] as a parameter (the jQuery object
+         * is actually an array of DOM elements)
          */
-        var question = 'DROP TRIGGER IF EXISTS `' + $curr_row.children('td:first').text() + '`';
+        if (checkTableEditForm($form[0], $form.find('input[name=orig_num_fields]').val())) {
+            // OK, form passed validation step
+            if ($form.hasClass('ajax')) {
+                PMA_prepareForAjaxRequest($form);
+                //User wants to submit the form
+                $.post($form.attr('action'), $form.serialize()+"&do_save_data=Save", function(data) {
+                    if ($("#sqlqueryresults").length != 0) {
+                        $("#sqlqueryresults").remove();
+                    } else if ($(".error").length != 0) {
+                        $(".error").remove();
+                    }
+                    if (data.success == true) {
+                        PMA_ajaxShowMessage(data.message);
+                        $("<div id='sqlqueryresults'></div>").insertAfter("#floating_menubar");
+                        $("#sqlqueryresults").html(data.sql_query);
+                        $("#result_query .notice").remove();
+                        $("#result_query").prepend((data.message));
+                        if ($("#change_column_dialog").length > 0) {
+                            $("#change_column_dialog").dialog("close").remove();
+                        } else if ($("#add_columns").length > 0) {
+                            $("#add_columns").dialog("close").remove();
+                        }
+                        /*Reload the field form*/
+                        $.post($("#fieldsForm").attr('action'), $("#fieldsForm").serialize()+"&ajax_request=true", function(form_data) {
+                            $("#fieldsForm").remove();
+                            $("#addColumns").remove();
+                            var $temp_div = $("<div id='temp_div'><div>").append(form_data);
+                            if ($("#sqlqueryresults").length != 0) {
+                                $temp_div.find("#fieldsForm").insertAfter("#sqlqueryresults");
+                            } else {
+                                $temp_div.find("#fieldsForm").insertAfter(".error");
+                            }
+                            $temp_div.find("#addColumns").insertBefore("iframe.IE_hack");
+                            /*Call the function to display the more options in table*/
+                            displayMoreTableOpts();
+                        });
+                    } else {
+                        var $temp_div = $("<div id='temp_div'><div>").append(data);
+                        var $error = $temp_div.find(".error code").addClass("error");
+                        PMA_ajaxShowMessage($error, false);
+                    }
+                }) // end $.post()
+            } else {
+                // non-Ajax submit
+                $form.append('<input type="hidden" name="do_save_data" value="Save" />');
+                $form.submit();
+            }
+        }
+    }) // end change table button "do_save_data"
 
-        $anchor.PMA_confirm(question, $anchor.attr('href'), function(url) {
+}, 'top.frame_content'); //end $(document).ready for 'Change Table'
 
-            PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
-            $.get(url, {'is_js_confirmed': 1, 'ajax_request': true}, function(data) {
-                if(data.success == true) {
+/**
+ * jQuery coding for 'Table operations'.  Used on tbl_operations.php
+ * Attach Ajax Event handlers for Table operations
+ */
+$(document).ready(function() {
+    /**
+     *Ajax action for submitting the "Alter table order by"
+    **/
+    $("#alterTableOrderby.ajax").live('submit', function(event) {
+        event.preventDefault();
+        var $form = $(this);
+
+        PMA_prepareForAjaxRequest($form);
+        /*variables which stores the common attributes*/
+        $.post($form.attr('action'), $form.serialize()+"&submitorderby=Go", function(data) {
+            if ($("#sqlqueryresults").length != 0) {
+                $("#sqlqueryresults").remove();
+            }
+            if ($("#result_query").length != 0) {
+                $("#result_query").remove();
+            }
+            if (data.success == true) {
+                PMA_ajaxShowMessage(data.message);
+                $("<div id='sqlqueryresults'></div>").insertAfter("#floating_menubar");
+                $("#sqlqueryresults").html(data.sql_query);
+                $("#result_query .notice").remove();
+                $("#result_query").prepend((data.message));
+            } else {
+                var $temp_div = $("<div id='temp_div'></div>")
+                $temp_div.html(data.error);
+                var $error = $temp_div.find("code").addClass("error");
+                PMA_ajaxShowMessage($error, false);
+            }
+        }) // end $.post()
+    });//end of alterTableOrderby ajax submit
+
+    /**
+     *Ajax action for submitting the "Copy table"
+    **/
+    $("#copyTable.ajax input[name='submit_copy']").live('click', function(event) {
+        event.preventDefault();
+        var $form = $("#copyTable");
+        if($form.find("input[name='switch_to_new']").attr('checked')) {
+            $form.append('<input type="hidden" name="submit_copy" value="Go" />');
+            $form.removeClass('ajax');
+            $form.find("#ajax_request_hidden").remove();
+            $form.submit();
+        } else {
+            PMA_prepareForAjaxRequest($form);
+            /*variables which stores the common attributes*/
+            $.post($form.attr('action'), $form.serialize()+"&submit_copy=Go", function(data) {
+                if ($("#sqlqueryresults").length != 0) {
+                    $("#sqlqueryresults").remove();
+                }
+                if ($("#result_query").length != 0) {
+                    $("#result_query").remove();
+                }
+                if (data.success == true) {
                     PMA_ajaxShowMessage(data.message);
-                    $("#topmenucontainer")
-                    .next('div')
-                    .remove()
-                    .end()
-                    .after(data.sql_query);
-                    $curr_row.hide("medium").remove();
+                    $("<div id='sqlqueryresults'></div>").insertAfter("#floating_menubar");
+                    $("#sqlqueryresults").html(data.sql_query);
+                    $("#result_query .notice").remove();
+                    $("#result_query").prepend((data.message));
+                    $("#copyTable").find("select[name='target_db'] option").filterByValue(data.db).attr('selected', 'selected');
+
+                    //Refresh navigation frame when the table is coppied
+                    if (window.parent && window.parent.frame_navigation) {
+                        window.parent.frame_navigation.location.reload();
+                    }
+                } else {
+                    var $temp_div = $("<div id='temp_div'></div>");
+                    $temp_div.html(data.error);
+                    var $error = $temp_div.find("code").addClass("error");
+                    PMA_ajaxShowMessage($error, false);
                 }
-                else {
-                    PMA_ajaxShowMessage(data.error);
-                }
-            }) // end $.get()
-        }) // end $.PMA_confirm()
-    }) // end $().live()
-}, 'top.frame_content'); //end $(document).ready() for Drop Trigger
+            }) // end $.post()
+        }
+    });//end of copyTable ajax submit
+
+    /**
+     *Ajax events for actions in the "Table maintenance"
+    **/
+    $("#tbl_maintenance.ajax li a.maintain_action").live('click', function(event) {
+        event.preventDefault();
+        var $link = $(this);
+        var href = $link.attr("href");
+        href = href.split('?');
+        if ($("#sqlqueryresults").length != 0) {
+            $("#sqlqueryresults").remove();
+        }
+        if ($("#result_query").length != 0) {
+            $("#result_query").remove();
+        }
+        //variables which stores the common attributes
+        $.post(href[0], href[1]+"&ajax_request=true", function(data) {
+            if (data.success == undefined) {
+                var $temp_div = $("<div id='temp_div'></div>");
+                $temp_div.html(data);
+                var $success = $temp_div.find("#result_query .success");
+                PMA_ajaxShowMessage($success);
+                $("<div id='sqlqueryresults' class='ajax'></div>").insertAfter("#floating_menubar");
+                $("#sqlqueryresults").html(data);
+                PMA_init_slider();
+                $("#sqlqueryresults").children("fieldset").remove();
+            } else if (data.success == true ) {
+                PMA_ajaxShowMessage(data.message);
+                $("<div id='sqlqueryresults' class='ajax'></div>").insertAfter("#floating_menubar");
+                $("#sqlqueryresults").html(data.sql_query);
+            } else {
+                var $temp_div = $("<div id='temp_div'></div>");
+                $temp_div.html(data.error);
+                var $error = $temp_div.find("code").addClass("error");
+                PMA_ajaxShowMessage($error, false);
+            }
+        }) // end $.post()
+    });//end of table maintanance ajax click
+
+}, 'top.frame_content'); //end $(document).ready for 'Table operations'
+
 
 /**
  * Attach Ajax event handlers for Drop Database. Moved here from db_structure.js
@@ -1710,7 +2382,7 @@ $(document).ready(function() {
                 }
             }
             else {
-                PMA_ajaxShowMessage(data.error);
+                PMA_ajaxShowMessage(data.error, false);
             }
         }) // end $.post()
     }) // end $().live()
@@ -1742,7 +2414,7 @@ $(document).ready(function() {
             .dialog({
                 title: PMA_messages['strChangePassword'],
                 width: 600,
-                close: function(ev,ui) {$(this).remove();}, 
+                close: function(ev,ui) {$(this).remove();},
                 buttons : button_options,
                 beforeClose: function(ev,ui){ $('#change_password_anchor.dialog_active').removeClass('dialog_active').addClass('ajax')}
             })
@@ -1777,14 +2449,14 @@ $(document).ready(function() {
 
         $.post($(the_form).attr('action'), $(the_form).serialize() + '&change_pw='+ this_value, function(data) {
             if(data.success == true) {
-                $("#topmenucontainer").after(data.sql_query);
+                $("#floating_menubar").after(data.sql_query);
                 $("#change_password_dialog").hide().remove();
                 $("#edit_user_dialog").dialog("close").remove();
                 $('#change_password_anchor.dialog_active').removeClass('dialog_active').addClass('ajax');
-                PMA_ajaxRemoveMessage($msgbox); 
+                PMA_ajaxRemoveMessage($msgbox);
             }
             else {
-                PMA_ajaxShowMessage(data.error);
+                PMA_ajaxShowMessage(data.error, false);
             }
         }) // end $.post()
     }) // end handler for Change Password form submission
@@ -1797,55 +2469,64 @@ $(document).ready(function() {
 $(document).ready(function() {
     // is called here for normal page loads and also when opening
     // the Create table dialog
-    PMA_verifyTypeOfAllColumns();
+    PMA_verifyColumnsProperties();
     //
     // needs live() to work also in the Create Table dialog
     $("select[class='column_type']").live('change', function() {
         PMA_showNoticeForEnum($(this));
     });
+    $(".default_type").live('change', function() {
+        PMA_hideShowDefaultValue($(this));
+    });
 });
 
-function PMA_verifyTypeOfAllColumns() {
+function PMA_verifyColumnsProperties()
+{
     $("select[class='column_type']").each(function() {
         PMA_showNoticeForEnum($(this));
+    });
+    $(".default_type").each(function() {
+        PMA_hideShowDefaultValue($(this));
     });
 }
 
 /**
- * Closes the ENUM/SET editor and removes the data in it
+ * Hides/shows the default value input field, depending on the default type
  */
-function disable_popup() {
-    $("#popup_background").fadeOut("fast");
-    $("#enum_editor").fadeOut("fast");
-    // clear the data from the text boxes
-    $("#enum_editor #values input").remove();
-    $("#enum_editor input[type='hidden']").remove();
+function PMA_hideShowDefaultValue($default_type)
+{
+    if ($default_type.val() == 'USER_DEFINED') {
+        $default_type.siblings('.default_value').show().focus();
+    } else {
+        $default_type.siblings('.default_value').hide();
+    }
 }
 
+/**
+ * @var $enum_editor_dialog An object that points to the jQuery
+ *                          dialog of the ENUM/SET editor
+ */
+var $enum_editor_dialog = null;
 /**
  * Opens the ENUM/SET editor and controls its functions
  */
 $(document).ready(function() {
-    // Needs live() to work also in the Create table dialog
-    $("a[class='open_enum_editor']").live('click', function() {
-        // Center the popup
-        var windowWidth = document.documentElement.clientWidth;
-        var windowHeight = document.documentElement.clientHeight;
-        var popupWidth = windowWidth/2;
-        var popupHeight = windowHeight*0.8;
-        var popupOffsetTop = windowHeight/2 - popupHeight/2;
-        var popupOffsetLeft = windowWidth/2 - popupWidth/2;
-        $("#enum_editor").css({"position":"absolute", "top": popupOffsetTop, "left": popupOffsetLeft, "width": popupWidth, "height": popupHeight});
-
-        // Make it appear
-        $("#popup_background").css({"opacity":"0.7"});
-        $("#popup_background").fadeIn("fast");
-        $("#enum_editor").fadeIn("fast");
-
+    $("a.open_enum_editor").live('click', function() {
+        // Get the name of the column that is being edited
+        var colname = $(this).closest('tr').find('input:first').val();
+        // And use it to make up a title for the page
+        if (colname.length < 1) {
+            var title = PMA_messages['enum_newColumnVals'];
+        } else {
+            var title = PMA_messages['enum_columnVals'].replace(
+                /%s/,
+                '"' + decodeURIComponent(colname) + '"'
+            );
+        }
         // Get the values as a string
         var inputstring = $(this)
-            .parent()
-            .prev("input")
+            .closest('td')
+            .find("input")
             .val();
         // Escape html entities
         inputstring = $('<div/>')
@@ -1853,6 +2534,9 @@ $(document).ready(function() {
             .html();
         // Parse the values, escaping quotes and
         // slashes on the fly, into an array
+        //
+        // There is a PHP port of the below parser in enum_editor.php
+        // If you are fixing something here, you need to also update the PHP port.
         var values = [];
         var in_string = false;
         var curr, next, buffer = '';
@@ -1876,57 +2560,143 @@ $(document).ready(function() {
             }
         }
         if (buffer.length > 0) {
+            // The leftovers in the buffer are the last value (if any)
             values.push(buffer);
         }
-        // Add the parsed values to the editor
-        for (var i=0; i<values.length; i++) {
-            $("#enum_editor #values").append(
-                "<input type='text' value='" + values[i] + "' />"
-            );
+        var fields = '';
+        // If there are no values, maybe the user is about to make a
+        // new list so we add a few for him/her to get started with.
+        if (values.length == 0) {
+            values.push('','','','');
         }
-        // So we know which column's data is being edited
-        $("#enum_editor").append("<input type='hidden' value='" + $(this).parent().prev("input").attr("id") + "' />");
+        // Add the parsed values to the editor
+        var drop_icon = PMA_getImage('b_drop.png');
+        for (var i=0; i<values.length; i++) {
+            fields += "<tr><td>"
+                   + "<input type='text' value='" + values[i] + "'/>"
+                   + "</td><td class='drop'>"
+                   + drop_icon
+                   + "</td></tr>";
+        }
+        /**
+         * @var dialog HTML code for the ENUM/SET dialog
+         */
+        var dialog = "<div id='enum_editor'>"
+                   + "<fieldset>"
+                   + "<legend>" + title + "</legend>"
+                   + "<p>" + PMA_getImage('s_notice.png')
+                   + PMA_messages['enum_hint'] + "</p>"
+                   + "<table class='values'>" + fields + "</table>"
+                   + "</fieldset><fieldset class='tblFooters'>"
+                   + "<table class='add'><tr><td>"
+                   + "<div class='slider'></div>"
+                   + "</td><td>"
+                   + "<form><div><input type='submit' class='add_value' value='"
+                   + PMA_messages['enum_addValue'].replace(/%d/, 1)
+                   + "'/></div></form>"
+                   + "</td></tr></table>"
+                   + "<input type='hidden' value='" // So we know which column's data is being edited
+                   + $(this).closest('td').find("input").attr("id")
+                   + "' />"
+                   + "</fieldset>";
+                   + "</div>";
+        /**
+         * @var  Defines functions to be called when the buttons in
+         * the buttonOptions jQuery dialog bar are pressed
+         */
+        var buttonOptions = {};
+        buttonOptions[PMA_messages['strGo']] = function () {
+            // When the submit button is clicked,
+            // put the data back into the original form
+            var value_array = new Array();
+            $(this).find(".values input").each(function(index, elm) {
+                var val = elm.value.replace(/\\/g, '\\\\').replace(/'/g, "''");
+                value_array.push("'" + val + "'");
+            });
+            // get the Length/Values text field where this value belongs
+            var values_id = $(this).find("input[type='hidden']").attr("value");
+            $("input[id='" + values_id + "']").attr("value", value_array.join(","));
+            $(this).dialog("close");
+        };
+        buttonOptions[PMA_messages['strClose']] = function () {
+            $(this).dialog("close");
+        };
+        // Show the dialog
+        var width = parseInt(
+            (parseInt($('html').css('font-size'), 10)/13)*340,
+            10
+        );
+        if (! width) {
+            width = 340;
+        }
+        $enum_editor_dialog = $(dialog).dialog({
+            minWidth: width,
+            modal: true,
+            title: PMA_messages['enum_editor'],
+            buttons: buttonOptions,
+            open: function() {
+                // Focus the "Go" button after opening the dialog
+                $(this).closest('.ui-dialog').find('.ui-dialog-buttonpane button:first').focus();
+            },
+            close: function() {
+                $(this).remove();
+            }
+        });
+        // slider for choosing how many fields to add
+        $enum_editor_dialog.find(".slider").slider({
+            animate: true,
+            range: "min",
+            value: 1,
+            min: 1,
+            max: 9,
+            slide: function( event, ui ) {
+                $(this).closest('table').find('input[type=submit]').val(
+                    PMA_messages['enum_addValue'].replace(/%d/, ui.value)
+                );
+            }
+        });
+        // Focus the slider, otherwise it looks nearly transparent
+        $('.ui-slider-handle').addClass('ui-state-focus');
         return false;
     });
 
-    // If the "close" link is clicked, close the enum editor
-    // Needs live() to work also in the Create table dialog
-    $("a[class='close_enum_editor']").live('click', function() {
-        disable_popup();
-    });
-
-    // If the "cancel" link is clicked, close the enum editor
-    // Needs live() to work also in the Create table dialog
-    $("a[class='cancel_enum_editor']").live('click', function() {
-        disable_popup();
-    });
-
     // When "add a new value" is clicked, append an empty text field
-    // Needs live() to work also in the Create table dialog
-    $("a[class='add_value']").live('click', function() {
-        $("#enum_editor #values").append("<input type='text' />");
+    $("input.add_value").live('click', function(e) {
+        e.preventDefault();
+        var num_new_rows = $enum_editor_dialog.find("div.slider").slider('value');
+        while (num_new_rows--) {
+            $enum_editor_dialog.find('.values')
+                .append(
+                    "<tr style='display: none;'><td>"
+                  + "<input type='text' />"
+                  + "</td><td class='drop'>"
+                  + PMA_getImage('b_drop.png')
+                  + "</td></tr>"
+                )
+                .find('tr:last')
+                .show('fast');
+        }
     });
 
-    // When the submit button is clicked, put the data back into the original form
-    // Needs live() to work also in the Create table dialog
-    $("#enum_editor input[type='submit']").live('click', function() {
-        var value_array = new Array();
-        $.each($("#enum_editor #values input"), function(index, input_element) {
-            val = jQuery.trim(input_element.value);
-            if(val != "") {
-                value_array.push("'" + val.replace(/\\/g, '\\\\').replace(/'/g, "''") + "'");
-            }
+    // Removes the specified row from the enum editor
+    $("#enum_editor td.drop").live('click', function() {
+        $(this).closest('tr').hide('fast', function () {
+            $(this).remove();
         });
-        // get the Length/Values text field where this value belongs
-        var values_id = $("#enum_editor input[type='hidden']").attr("value");
-        $("input[id='" + values_id + "']").attr("value", value_array.join(","));
-        disable_popup();
-     });
+    });
+});
 
-    /**
-     * Hides certain table structure actions, replacing them with the word "More". They are displayed
-     * in a dropdown menu when the user hovers over the word "More."
-     */
+/**
+ * Hides certain table structure actions, replacing them
+ * with the word "More". They are displayed in a dropdown
+ * menu when the user hovers over the word "More."
+ */
+$(document).ready(function() {
+    displayMoreTableOpts();
+});
+
+function displayMoreTableOpts()
+{
     // Remove the actions from the table cells (they are available by default for JavaScript-disabled browsers)
     // if the table is not a view or information_schema (otherwise there is only one action to hide and there's no point)
     if($("input[type='hidden'][name='table_type']").val() == "table") {
@@ -1936,6 +2706,7 @@ $(document).ready(function() {
         $table.find("td[class='unique']").remove();
         $table.find("td[class='index']").remove();
         $table.find("td[class='fulltext']").remove();
+        $table.find("td[class='spatial']").remove();
         $table.find("th[class='action']").attr("colspan", 3);
 
         // Display the "more" text
@@ -1946,9 +2717,9 @@ $(document).ready(function() {
             // Optimize DOM querying
             var $this_dropdown = $(this);
              // The top offset must be set for IE even if it didn't change
-            var cell_right_edge_offset = $this_dropdown.parent().offset().left + $this_dropdown.parent().innerWidth();
+            var cell_right_edge_offset = $this_dropdown.parent().position().left + $this_dropdown.parent().innerWidth();
             var left_offset = cell_right_edge_offset - $this_dropdown.innerWidth();
-            var top_offset = $this_dropdown.parent().offset().top + $this_dropdown.parent().innerHeight();
+            var top_offset = $this_dropdown.parent().position().top + $this_dropdown.parent().innerHeight();
             $this_dropdown.offset({ top: top_offset, left: left_offset });
         });
 
@@ -1994,28 +2765,94 @@ $(document).ready(function() {
                 }
             });
     }
+
+}
+$(document).ready(function(){
+    PMA_convertFootnotesToTooltips();
 });
 
-/* Displays tooltips */
-$(document).ready(function() {
+/**
+ * Ensures indexes names are valid according to their type and, for a primary
+ * key, lock index name to 'PRIMARY'
+ * @param   string   form_id  Variable which parses the form name as
+ *                            the input
+ * @return  boolean  false    if there is no index form, true else
+ */
+function checkIndexName(form_id)
+{
+    if ($("#"+form_id).length == 0) {
+        return false;
+    }
+
+    // Gets the elements pointers
+    var $the_idx_name = $("#input_index_name");
+    var $the_idx_type = $("#select_index_type");
+
+    // Index is a primary key
+    if ($the_idx_type.find("option:selected").attr("value") == 'PRIMARY') {
+        $the_idx_name.attr("value", 'PRIMARY');
+        $the_idx_name.attr("disabled", true);
+    }
+
+    // Other cases
+    else {
+        if ($the_idx_name.attr("value") == 'PRIMARY') {
+            $the_idx_name.attr("value",  '');
+        }
+        $the_idx_name.attr("disabled", false);
+    }
+
+    return true;
+} // end of the 'checkIndexName()' function
+
+/**
+ * function to convert the footnotes to tooltips
+ *
+ * @param   jquery-Object   $div    a div jquery object which specifies the
+ *                                  domain for searching footnootes. If we
+ *                                  ommit this parameter the function searches
+ *                                  the footnotes in the whole body
+ **/
+function PMA_convertFootnotesToTooltips($div)
+{
     // Hide the footnotes from the footer (which are displayed for
     // JavaScript-disabled browsers) since the tooltip is sufficient
-    $(".footnotes").hide();
-    $(".footnotes span").each(function() {
+
+    if ($div == undefined || ! $div instanceof jQuery || $div.length == 0) {
+        $div = $("body");
+    }
+
+    $footnotes = $div.find(".footnotes");
+
+    $footnotes.hide();
+    $footnotes.find('span').each(function() {
         $(this).children("sup").remove();
     });
     // The border and padding must be removed otherwise a thin yellow box remains visible
-    $(".footnotes").css("border", "none");
-    $(".footnotes").css("padding", "0px");
+    $footnotes.css("border", "none");
+    $footnotes.css("padding", "0px");
 
     // Replace the superscripts with the help icon
-    $("sup[class='footnotemarker']").hide();
-    $("img[class='footnotemarker']").show();
+    $div.find("sup.footnotemarker").hide();
+    $div.find("img.footnotemarker").show();
 
-    $("img[class='footnotemarker']").each(function() {
-        var span_id = $(this).attr("id");
-        span_id = span_id.split("_")[1];
-        var tooltip_text = $(".footnotes span[id='footnote_" + span_id + "']").html();
+    $div.find("img.footnotemarker").each(function() {
+        var img_class = $(this).attr("class");
+        /** img contains two classes, as example "footnotemarker footnote_1".
+         *  We split it by second class and take it for the id of span
+        */
+        img_class = img_class.split(" ");
+        for (i = 0; i < img_class.length; i++) {
+            if (img_class[i].split("_")[0] == "footnote") {
+                var span_id = img_class[i].split("_")[1];
+            }
+        }
+        /**
+         * Now we get the #id of the span with span_id variable. As an example if we
+         * initially get the img class as "footnotemarker footnote_2", now we get
+         * #2 as the span_id. Using that we can find footnote_2 in footnotes.
+         * */
+        var tooltip_text = $footnotes.find("span[id='footnote_" + span_id + "']").html();
         $(this).qtip({
             content: tooltip_text,
             show: { delay: 0 },
@@ -2023,65 +2860,85 @@ $(document).ready(function() {
             style: { background: '#ffffcc' }
         });
     });
-});
+}
 
+/**
+ * This function handles the resizing of the content frame
+ * and adjusts the top menu according to the new size of the frame
+ */
 function menuResize()
 {
-    var cnt = $('#topmenu');
-    var wmax = cnt.innerWidth() - 5; // 5 px margin for jumping menu in Chrome
-    var submenu = cnt.find('.submenu');
-    var submenu_w = submenu.outerWidth(true);
-    var submenu_ul = submenu.find('ul');
-    var li = cnt.find('> li');
-    var li2 = submenu_ul.find('li');
-    var more_shown = li2.length > 0;
-    var w = more_shown ? submenu_w : 0;
+    var $cnt = $('#topmenu');
+    var wmax = $cnt.innerWidth() - 5; // 5 px margin for jumping menu in Chrome
+    var $submenu = $cnt.find('.submenu');
+    var submenu_w = $submenu.outerWidth(true);
+    var $submenu_ul = $submenu.find('ul');
+    var $li = $cnt.find('> li');
+    var $li2 = $submenu_ul.find('li');
+    var more_shown = $li2.length > 0;
 
-    // hide menu items
-    var hide_start = 0;
-    for (var i = 0; i < li.length-1; i++) { // li.length-1: skip .submenu element
-        var el = $(li[i]);
+    // Calculate the total width used by all the shown tabs
+    var total_len = more_shown ? submenu_w : 0;
+    for (var i = 0; i < $li.length-1; i++) {
+        total_len += $($li[i]).outerWidth(true);
+    }
+
+    // Now hide menu elements that don't fit into the menubar
+    var i = $li.length-1;
+    var hidden = false; // Whether we have hidden any tabs
+    while (total_len >= wmax && --i >= 0) { // Process the tabs backwards
+        hidden = true;
+        var el = $($li[i]);
         var el_width = el.outerWidth(true);
         el.data('width', el_width);
-        w += el_width;
-        if (w > wmax) {
-            w -= el_width;
-            if (w + submenu_w < wmax) {
-                hide_start = i;
-            } else {
-                hide_start = i-1;
-                w -= $(li[i-1]).data('width');
-            }
-            break;
+        if (! more_shown) {
+            total_len -= el_width;
+            el.prependTo($submenu_ul);
+            total_len += submenu_w;
+            more_shown = true;
+        } else {
+            total_len -= el_width;
+            el.prependTo($submenu_ul);
         }
     }
 
-    if (hide_start > 0) {
-        for (var i = hide_start; i < li.length-1; i++) {
-            $(li[i])[more_shown ? 'prependTo' : 'appendTo'](submenu_ul);
-        }
-        submenu.addClass('shown');
-    } else if (more_shown) {
-        w -= submenu_w;
-        // nothing hidden, maybe something can be restored
-        for (var i = 0; i < li2.length; i++) {
-            //console.log(li2[i], submenu_w);
-            w += $(li2[i]).data('width');
-            // item fits or (it is the last item and it would fit if More got removed)
-            if (w+submenu_w < wmax || (i == li2.length-1 && w < wmax)) {
-                $(li2[i]).insertBefore(submenu);
-                if (i == li2.length-1) {
-                    submenu.removeClass('shown');
-                }
-                continue;
+    // If we didn't hide any tabs, then there might be some space to show some
+    if (! hidden) {
+        // Show menu elements that do fit into the menubar
+        for (var i = 0; i < $li2.length; i++) {
+            total_len += $($li2[i]).data('width');
+            // item fits or (it is the last item
+            // and it would fit if More got removed)
+            if (total_len < wmax
+                || (i == $li2.length - 1 && total_len - submenu_w < wmax)
+            ) {
+                $($li2[i]).insertBefore($submenu);
+            } else {
+                break;
             }
-            break;
         }
     }
-    if (submenu.find('.tabactive').length) {
-        submenu.addClass('active').find('> a').removeClass('tab').addClass('tabactive');
+
+    // Show/hide the "More" tab as needed
+    if ($submenu_ul.find('li').length > 0) {
+        $submenu.addClass('shown');
     } else {
-        submenu.removeClass('active').find('> a').addClass('tab').removeClass('tabactive');
+        $submenu.removeClass('shown');
+    }
+
+    if ($cnt.find('> li').length == 1) {
+        // If there is only the "More" tab left, then we need
+        // to align the submenu to the left edge of the tab
+        $submenu_ul.removeClass().addClass('only');
+    } else {
+        // Otherwise we align the submenu to the right edge of the tab
+        $submenu_ul.removeClass().addClass('notonly');
+    }
+
+    if ($submenu.find('.tabactive').length) {
+        $submenu.addClass('active').find('> a').removeClass('tab').addClass('tabactive');
+    } else {
+        $submenu.removeClass('active').find('> a').addClass('tab').removeClass('tabactive');
     }
 }
 
@@ -2098,7 +2955,7 @@ $(function() {
         });
     var img = topmenu.find('li:first-child img');
     if (img.length) {
-        img.clone().attr('src', img.attr('src').replace(/\/[^\/]+$/, '/b_more.png')).prependTo(link);
+        $(PMA_getImage('b_more.png').toString()).prependTo(link);
     }
     var submenu = $('<li />', {'class': 'submenu'})
         .append(link)
@@ -2116,105 +2973,195 @@ $(function() {
     topmenu.append(submenu);
 
     // populate submenu and register resize event
-    $(window).resize(menuResize);
     menuResize();
+    $(window).resize(menuResize);
 });
-
-/**
- * For the checkboxes in browse mode, handles the shift/click (only works
- * in horizontal mode) and propagates the click to the "companion" checkbox
- * (in both horizontal and vertical). Works also for pages reached via AJAX.
- */
-$(document).ready(function() {
-    $('.multi_checkbox').live('click',function(e) {
-        var current_checkbox_id = this.id;
-        var left_checkbox_id = current_checkbox_id.replace('_right', '_left');
-        var right_checkbox_id = current_checkbox_id.replace('_left', '_right');
-        var other_checkbox_id = '';
-        if (current_checkbox_id == left_checkbox_id) {
-            other_checkbox_id = right_checkbox_id;
-        } else {
-            other_checkbox_id = left_checkbox_id;
-        }
-
-        var $current_checkbox = $('#' + current_checkbox_id);
-        var $other_checkbox = $('#' + other_checkbox_id);
-
-        if (e.shiftKey) {
-            var index_of_current_checkbox = $('.multi_checkbox').index($current_checkbox);
-            var $last_checkbox = $('.multi_checkbox').filter('.last_clicked');
-            var index_of_last_click = $('.multi_checkbox').index($last_checkbox);
-            $('.multi_checkbox')
-                .filter(function(index) {
-                    // the first clicked row can be on a row above or below the
-                    // shift-clicked row
-                    return (index_of_current_checkbox > index_of_last_click && index > index_of_last_click && index < index_of_current_checkbox)
-                     || (index_of_last_click > index_of_current_checkbox && index < index_of_last_click && index > index_of_current_checkbox);
-                })
-                .each(function(index) {
-                    var $intermediate_checkbox = $(this);
-                    if ($current_checkbox.is(':checked')) {
-                        $intermediate_checkbox.attr('checked', true);
-                    } else {
-                        $intermediate_checkbox.attr('checked', false);
-                    }
-                });
-        }
-
-        $('.multi_checkbox').removeClass('last_clicked');
-        $current_checkbox.addClass('last_clicked');
-
-        // When there is a checkbox on both ends of the row, propagate the
-        // click on one of them to the other one.
-        // (the default action has not been prevented so if we have
-        // just clicked, this "if" is true)
-        if ($current_checkbox.is(':checked')) {
-            $other_checkbox.attr('checked', true);
-        } else {
-            $other_checkbox.attr('checked', false);
-        }
-    });
-}) // end of $(document).ready() for multi checkbox
 
 /**
  * Get the row number from the classlist (for example, row_1)
  */
-function PMA_getRowNumber(classlist) {
-    return parseInt(classlist.split(/row_/)[1]);
+function PMA_getRowNumber(classlist)
+{
+    return parseInt(classlist.split(/\s+row_/)[1]);
 }
 
 /**
  * Changes status of slider
  */
-function PMA_set_status_label(id) {
-    if ($('#' + id).css('display') == 'none') {
-        $('#anchor_status_' + id).text('+ ');
-    } else {
-        $('#anchor_status_' + id).text('- ');
-    }
+function PMA_set_status_label($element)
+{
+    var text = $element.css('display') == 'none'
+        ? '+ '
+        : '- ';
+    $element.closest('.slide-wrapper').prev().find('span').text(text);
 }
 
 /**
  * Initializes slider effect.
  */
-function PMA_init_slider() {
-    $('.pma_auto_slider').each(function(idx, e) {
-        if ($(e).hasClass('slider_init_done')) return;
-        $(e).addClass('slider_init_done');
-        $('<span id="anchor_status_' + e.id + '"></span>')
-            .insertBefore(e);
-        PMA_set_status_label(e.id);
+function PMA_init_slider()
+{
+    $('.pma_auto_slider').each(function() {
+        var $this = $(this);
 
-        $('<a href="#' + e.id + '" id="anchor_' + e.id + '">' + e.title + '</a>')
-            .insertBefore(e)
+        if ($this.hasClass('slider_init_done')) {
+            return;
+        }
+        $this.addClass('slider_init_done');
+
+        var $wrapper = $('<div>', {'class': 'slide-wrapper'});
+        $wrapper.toggle($this.is(':visible'));
+        $('<a>', {href: '#'+this.id})
+            .text(this.title)
+            .prepend($('<span>'))
+            .insertBefore($this)
             .click(function() {
-                $('#' + e.id).toggle('clip', function() {
-                    PMA_set_status_label(e.id);
+                var $wrapper = $this.closest('.slide-wrapper');
+                var visible = $this.is(':visible');
+                if (!visible) {
+                    $wrapper.show();
+                }
+                $this[visible ? 'hide' : 'show']('blind', function() {
+                    $wrapper.toggle(!visible);
+                    PMA_set_status_label($this);
                 });
                 return false;
             });
+        $this.wrap($wrapper);
+        PMA_set_status_label($this);
     });
 }
+
+/**
+ * var  toggleButton  This is a function that creates a toggle
+ *                    sliding button given a jQuery reference
+ *                    to the correct DOM element
+ */
+var toggleButton = function ($obj) {
+    // In rtl mode the toggle switch is flipped horizontally
+    // so we need to take that into account
+    if ($('.text_direction', $obj).text() == 'ltr') {
+        var right = 'right';
+    } else {
+        var right = 'left';
+    }
+    /**
+     *  var  h  Height of the button, used to scale the
+     *          background image and position the layers
+     */
+    var h = $obj.height();
+    $('img', $obj).height(h);
+    $('table', $obj).css('bottom', h-1);
+    /**
+     *  var  on   Width of the "ON" part of the toggle switch
+     *  var  off  Width of the "OFF" part of the toggle switch
+     */
+    var on  = $('.toggleOn', $obj).width();
+    var off = $('.toggleOff', $obj).width();
+    // Make the "ON" and "OFF" parts of the switch the same size
+    // + 2 pixels to avoid overflowed
+    $('.toggleOn > div', $obj).width(Math.max(on, off) + 2);
+    $('.toggleOff > div', $obj).width(Math.max(on, off) + 2);
+    /**
+     *  var  w  Width of the central part of the switch
+     */
+    var w = parseInt(($('img', $obj).height() / 16) * 22, 10);
+    // Resize the central part of the switch on the top
+    // layer to match the background
+    $('table td:nth-child(2) > div', $obj).width(w);
+    /**
+     *  var  imgw    Width of the background image
+     *  var  tblw    Width of the foreground layer
+     *  var  offset  By how many pixels to move the background
+     *               image, so that it matches the top layer
+     */
+    var imgw = $('img', $obj).width();
+    var tblw = $('table', $obj).width();
+    var offset = parseInt(((imgw - tblw) / 2), 10);
+    // Move the background to match the layout of the top layer
+    $obj.find('img').css(right, offset);
+    /**
+     *  var  offw    Outer width of the "ON" part of the toggle switch
+     *  var  btnw    Outer width of the central part of the switch
+     */
+    var offw = $('.toggleOff', $obj).outerWidth();
+    var btnw = $('table td:nth-child(2)', $obj).outerWidth();
+    // Resize the main div so that exactly one side of
+    // the switch plus the central part fit into it.
+    $obj.width(offw + btnw + 2);
+    /**
+     *  var  move  How many pixels to move the
+     *             switch by when toggling
+     */
+    var move = $('.toggleOff', $obj).outerWidth();
+    // If the switch is initialized to the
+    // OFF state we need to move it now.
+    if ($('.container', $obj).hasClass('off')) {
+        if (right == 'right') {
+            $('table, img', $obj).animate({'left': '-=' + move + 'px'}, 0);
+        } else {
+            $('table, img', $obj).animate({'left': '+=' + move + 'px'}, 0);
+        }
+    }
+    // Attach an 'onclick' event to the switch
+    $('.container', $obj).click(function () {
+        if ($(this).hasClass('isActive')) {
+            return false;
+        } else {
+            $(this).addClass('isActive');
+        }
+        var $msg = PMA_ajaxShowMessage();
+        var $container = $(this);
+        var callback = $('.callback', this).text();
+        // Perform the actual toggle
+        if ($(this).hasClass('on')) {
+            if (right == 'right') {
+                var operator = '-=';
+            } else {
+                var operator = '+=';
+            }
+            var url = $(this).find('.toggleOff > span').text();
+            var removeClass = 'on';
+            var addClass = 'off';
+        } else {
+            if (right == 'right') {
+                var operator = '+=';
+            } else {
+                var operator = '-=';
+            }
+            var url = $(this).find('.toggleOn > span').text();
+            var removeClass = 'off';
+            var addClass = 'on';
+        }
+        $.post(url, {'ajax_request': true}, function(data) {
+            if(data.success == true) {
+                PMA_ajaxRemoveMessage($msg);
+                $container
+                .removeClass(removeClass)
+                .addClass(addClass)
+                .animate({'left': operator + move + 'px'}, function () {
+                    $container.removeClass('isActive');
+                });
+                eval(callback);
+            } else {
+                PMA_ajaxShowMessage(data.error, false);
+                $container.removeClass('isActive');
+            }
+        });
+    });
+};
+
+/**
+ * Initialise all toggle buttons
+ */
+$(window).load(function () {
+    $('.toggleAjax').each(function () {
+        $(this)
+        .show()
+        .find('.toggleButton')
+        toggleButton($(this));
+    });
+});
 
 /**
  * Vertical pointer
@@ -2223,10 +3170,10 @@ $(document).ready(function() {
     $('.vpointer').live('hover',
         //handlerInOut
         function(e) {
-        var $this_td = $(this);
-        var row_num = PMA_getRowNumber($this_td.attr('class'));
-        // for all td of the same vertical row, toggle hover
-        $('.vpointer').filter('.row_' + row_num).toggleClass('hover');
+            var $this_td = $(this);
+            var row_num = PMA_getRowNumber($this_td.attr('class'));
+            // for all td of the same vertical row, toggle hover
+            $('.vpointer').filter('.row_' + row_num).toggleClass('hover');
         }
         );
 }) // end of $(document).ready() for vertical pointer
@@ -2236,11 +3183,35 @@ $(document).ready(function() {
      * Vertical marker
      */
     $('.vmarker').live('click', function(e) {
+        // do not trigger when clicked on anchor
+        if ($(e.target).is('a, img, a *')) {
+            return;
+        }
+
         var $this_td = $(this);
         var row_num = PMA_getRowNumber($this_td.attr('class'));
-        // for all td of the same vertical row, toggle the marked class
-        $('.vmarker').filter('.row_' + row_num).toggleClass('marked');
-        });
+
+        // XXX: FF fires two click events for <label> (label and checkbox), so we need to handle this differently
+        var $tr = $(this);
+        var $checkbox = $('.vmarker').filter('.row_' + row_num + ':first').find(':checkbox');
+        if ($checkbox.length) {
+            // checkbox in a row, add or remove class depending on checkbox state
+            var checked = $checkbox.attr('checked');
+            if (!$(e.target).is(':checkbox, label')) {
+                checked = !checked;
+                $checkbox.attr('checked', checked);
+            }
+            // for all td of the same vertical row, toggle the marked class
+            if (checked) {
+                $('.vmarker').filter('.row_' + row_num).addClass('marked');
+            } else {
+                $('.vmarker').filter('.row_' + row_num).removeClass('marked');
+            }
+        } else {
+            // normaln data table, just toggle class
+            $('.vmarker').filter('.row_' + row_num).toggleClass('marked');
+        }
+    });
 
     /**
      * Reveal visual builder anchor
@@ -2284,24 +3255,344 @@ $(document).ready(function() {
     /**
      * Enables the text generated by PMA_linkOrButton() to be clickable
      */
-    $('.clickprevimage')
-        .css('color', function(index) {
-            return $('a').css('color');
-        })
-        .css('cursor', function(index) {
-            return $('a').css('cursor');
-        }) //todo: hover effect
-        .live('click',function(e) {
-            $this_span = $(this);
-            if ($this_span.closest('td').is('.inline_edit_anchor')) {
-            // this would bind a second click event to the inline edit
-            // anchor and would disturb its behavior
-            } else {
-                $this_span.parent().find('input:image').click();
-            }
-        });
+    $('a[class~="formLinkSubmit"]').live('click',function(e) {
+
+        if($(this).attr('href').indexOf('=') != -1) {
+            var data = $(this).attr('href').substr($(this).attr('href').indexOf('#')+1).split('=',2);
+            $(this).parents('form').append('<input type="hidden" name="' + data[0] + '" value="' + data[1] + '"/>');
+        }
+        $(this).parents('form').submit();
+        return false;
+    });
+
+    $('#update_recent_tables').ready(function() {
+        if (window.parent.frame_navigation != undefined
+            && window.parent.frame_navigation.PMA_reloadRecentTable != undefined)
+        {
+            window.parent.frame_navigation.PMA_reloadRecentTable();
+        }
+    });
 
 }) // end of $(document).ready()
+
+/**
+ * Creates a message inside an object with a sliding effect
+ *
+ * @param   msg    A string containing the text to display
+ * @param   $obj   a jQuery object containing the reference
+ *                 to the element where to put the message
+ *                 This is optional, if no element is
+ *                 provided, one will be created below the
+ *                 navigation links at the top of the page
+ *
+ * @return  bool   True on success, false on failure
+ */
+function PMA_slidingMessage(msg, $obj)
+{
+    if (msg == undefined || msg.length == 0) {
+        // Don't show an empty message
+        return false;
+    }
+    if ($obj == undefined || ! $obj instanceof jQuery || $obj.length == 0) {
+        // If the second argument was not supplied,
+        // we might have to create a new DOM node.
+        if ($('#PMA_slidingMessage').length == 0) {
+            $('#floating_menubar')
+            .after('<span id="PMA_slidingMessage" '
+                 + 'style="display: inline-block;"></span>');
+        }
+        $obj = $('#PMA_slidingMessage');
+    }
+    if ($obj.has('div').length > 0) {
+        // If there already is a message inside the
+        // target object, we must get rid of it
+        $obj
+        .find('div')
+        .first()
+        .fadeOut(function () {
+            $obj
+            .children()
+            .remove();
+            $obj
+            .append('<div style="display: none;">' + msg + '</div>')
+            .animate({
+                height: $obj.find('div').first().height()
+            })
+            .find('div')
+            .first()
+            .fadeIn();
+        });
+    } else {
+        // Object does not already have a message
+        // inside it, so we simply slide it down
+        var h = $obj
+                .width('100%')
+                .html('<div style="display: none;">' + msg + '</div>')
+                .find('div')
+                .first()
+                .height();
+        $obj
+        .find('div')
+        .first()
+        .css('height', 0)
+        .show()
+        .animate({
+                height: h
+            }, function() {
+            // Set the height of the parent
+            // to the height of the child
+            $obj
+            .height(
+                $obj
+                .find('div')
+                .first()
+                .height()
+            );
+        });
+    }
+    return true;
+} // end PMA_slidingMessage()
+
+/**
+ * Attach Ajax event handlers for Drop Table.
+ *
+ * @uses    $.PMA_confirm()
+ * @uses    PMA_ajaxShowMessage()
+ * @uses    window.parent.refreshNavigation()
+ * @uses    window.parent.refreshMain()
+ * @see $cfg['AjaxEnable']
+ */
+$(document).ready(function() {
+    $("#drop_tbl_anchor").live('click', function(event) {
+        event.preventDefault();
+
+        //context is top.frame_content, so we need to use window.parent.table to access the table var
+        /**
+         * @var question    String containing the question to be asked for confirmation
+         */
+        var question = PMA_messages['strDropTableStrongWarning'] + '\n' + PMA_messages['strDoYouReally'] + ' :\n' + 'DROP TABLE ' + window.parent.table;
+
+        $(this).PMA_confirm(question, $(this).attr('href') ,function(url) {
+
+            PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+            $.get(url, {'is_js_confirmed': '1', 'ajax_request': true}, function(data) {
+                //Database deleted successfully, refresh both the frames
+                window.parent.refreshNavigation();
+                window.parent.refreshMain();
+            }) // end $.get()
+        }); // end $.PMA_confirm()
+    }); //end of Drop Table Ajax action
+}) // end of $(document).ready() for Drop Table
+
+/**
+ * Attach Ajax event handlers for Truncate Table.
+ *
+ * @uses    $.PMA_confirm()
+ * @uses    PMA_ajaxShowMessage()
+ * @uses    window.parent.refreshNavigation()
+ * @uses    window.parent.refreshMain()
+ * @see $cfg['AjaxEnable']
+ */
+$(document).ready(function() {
+    $("#truncate_tbl_anchor.ajax").live('click', function(event) {
+        event.preventDefault();
+
+      //context is top.frame_content, so we need to use window.parent.table to access the table var
+        /**
+         * @var question    String containing the question to be asked for confirmation
+         */
+        var question = PMA_messages['strTruncateTableStrongWarning'] + '\n' + PMA_messages['strDoYouReally'] + ' :\n' + 'TRUNCATE TABLE ' + window.parent.table;
+
+        $(this).PMA_confirm(question, $(this).attr('href') ,function(url) {
+
+            PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
+            $.get(url, {'is_js_confirmed': '1', 'ajax_request': true}, function(data) {
+                if ($("#sqlqueryresults").length != 0) {
+                    $("#sqlqueryresults").remove();
+                }
+                if ($("#result_query").length != 0) {
+                    $("#result_query").remove();
+                }
+                if (data.success == true) {
+                    PMA_ajaxShowMessage(data.message);
+                    $("<div id='sqlqueryresults'></div>").insertAfter("#floating_menubar");
+                    $("#sqlqueryresults").html(data.sql_query);
+                } else {
+                    var $temp_div = $("<div id='temp_div'></div>")
+                    $temp_div.html(data.error);
+                    var $error = $temp_div.find("code").addClass("error");
+                    PMA_ajaxShowMessage($error, false);
+                }
+            }) // end $.get()
+        }); // end $.PMA_confirm()
+    }); //end of Truncate Table Ajax action
+}) // end of $(document).ready() for Truncate Table
+
+/**
+ * Attach CodeMirror2 editor to SQL edit area.
+ */
+$(document).ready(function() {
+    var elm = $('#sqlquery');
+    if (elm.length > 0 && typeof CodeMirror != 'undefined') {
+        codemirror_editor = CodeMirror.fromTextArea(elm[0], {lineNumbers: true, matchBrackets: true, indentUnit: 4, mode: "text/x-mysql"});
+    }
+});
+
+/**
+ * jQuery plugin to cancel selection in HTML code.
+ */
+(function ($) {
+    $.fn.noSelect = function (p) { //no select plugin by Paulo P.Marinas
+        var prevent = (p == null) ? true : p;
+        if (prevent) {
+            return this.each(function () {
+                if ($.browser.msie || $.browser.safari) $(this).bind('selectstart', function () {
+                    return false;
+                });
+                else if ($.browser.mozilla) {
+                    $(this).css('MozUserSelect', 'none');
+                    $('body').trigger('focus');
+                } else if ($.browser.opera) $(this).bind('mousedown', function () {
+                    return false;
+                });
+                else $(this).attr('unselectable', 'on');
+            });
+        } else {
+            return this.each(function () {
+                if ($.browser.msie || $.browser.safari) $(this).unbind('selectstart');
+                else if ($.browser.mozilla) $(this).css('MozUserSelect', 'inherit');
+                else if ($.browser.opera) $(this).unbind('mousedown');
+                else $(this).removeAttr('unselectable', 'on');
+            });
+        }
+    }; //end noSelect
+})(jQuery);
+
+/**
+ * jQuery plugin to correctly filter input fields by value, needed
+ * because some nasty values may break selector syntax
+ */
+(function ($) {
+    $.fn.filterByValue = function (value) {
+        return this.filter(function () {
+            return $(this).val() === value
+        });
+    };
+})(jQuery);
+
+/**
+ * Create default PMA tooltip for the element specified. The default appearance
+ * can be overriden by specifying optional "options" parameter (see qTip options).
+ */
+function PMA_createqTip($elements, content, options)
+{
+    if ($('#no_hint').length > 0) {
+        return;
+    }
+
+    var o = {
+        content: content,
+        style: {
+            classes: {
+                tooltip: 'normalqTip',
+                content: 'normalqTipContent'
+            },
+            name: 'dark'
+        },
+        position: {
+            target: 'mouse',
+            corner: { target: 'rightMiddle', tooltip: 'leftMiddle' },
+            adjust: { x: 10, y: 20 }
+        },
+        show: {
+            delay: 0,
+            effect: {
+                type: 'grow',
+                length: 150
+            }
+        },
+        hide: {
+            effect: {
+                type: 'grow',
+                length: 200
+            }
+        }
+    }
+
+    $elements.qtip($.extend(true, o, options));
+}
+
+/**
+ * Return value of a cell in a table.
+ */
+function PMA_getCellValue(td) {
+    if ($(td).is('.null')) {
+        return '';
+    } else if (! $(td).is('.to_be_saved') && $(td).data('original_data')) {
+        return $(td).data('original_data');
+    } else {
+        return $(td).text();
+    }
+}
+
+/* Loads a js file, an array may be passed as well */
+loadJavascript=function(file) {
+    if($.isArray(file)) {
+        for(var i=0; i<file.length; i++) {
+            $('head').append('<script type="text/javascript" src="'+file[i]+'"></script>');
+        }
+    } else {
+        $('head').append('<script type="text/javascript" src="'+file+'"></script>');
+    }
+};
+
+$(document).ready(function() {
+    /**
+     * Theme selector.
+     */
+    $('a.themeselect').live('click', function(e) {
+        window.open(
+            e.target,
+            'themes',
+            'left=10,top=20,width=510,height=350,scrollbars=yes,status=yes,resizable=yes'
+            );
+        return false;
+    });
+
+    /**
+     * Automatic form submission on change.
+     */
+    $('.autosubmit').change(function(e) {
+        e.target.form.submit();
+    });
+
+    /**
+     * Theme changer.
+     */
+    $('.take_theme').click(function(e) {
+        var what = this.name;
+        if (window.opener && window.opener.document.forms['setTheme'].elements['set_theme']) {
+            window.opener.document.forms['setTheme'].elements['set_theme'].value = what;
+            window.opener.document.forms['setTheme'].submit();
+            window.close();
+            return false;
+        }
+        return true;
+    });
+});
+
+/**
+ * Clear text selection
+ */
+function PMA_clearSelection() {
+    if(document.selection && document.selection.empty) {
+        document.selection.empty();
+    } else if(window.getSelection) {
+        var sel = window.getSelection();
+        if(sel.empty) sel.empty();
+        if(sel.removeAllRanges) sel.removeAllRanges();
+    }
+}
 
 /**
  * HTML escaping
@@ -2313,4 +3604,57 @@ function escapeHtml(unsafe) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+/**
+ * Print button
+ */
+function printPage()
+{
+    // Do print the page
+    if (typeof(window.print) != 'undefined') {
+        window.print();
+    }
+}
+
+$(document).ready(function() {
+    $('input#print').click(printPage);
+});
+
+/**
+ * Makes the breadcrumbs and the menu bar float at the top of the viewport
+ */
+$(document).ready(function () {
+    if ($("#floating_menubar").length && $('#PMA_disable_floating_menubar').length == 0) {
+        $("#floating_menubar")
+            .css({
+                'position': 'fixed',
+                'top': 0,
+                'left': 0,
+                'width': '100%',
+                'z-index': 500
+            })
+            .append($('#serverinfo'))
+            .append($('#topmenucontainer'));
+        $('body').css(
+            'padding-top',
+            $('#floating_menubar').outerHeight(true)
+        );
+    }
+});
+
+/**
+ * Toggles row colors of a set of 'tr' elements starting from a given element
+ * 
+ * @param $start Starting element
+ */
+function toggleRowColors($start) 
+{  
+    for (var $curr_row = $start; $curr_row.length > 0; $curr_row = $curr_row.next()) {
+        if ($curr_row.hasClass('odd')) {
+            $curr_row.removeClass('odd').addClass('even');
+        } else if ($curr_row.hasClass('even')) {
+            $curr_row.removeClass('even').addClass('odd');
+        }
+    }
 }

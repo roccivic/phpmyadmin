@@ -17,7 +17,8 @@ var pma_saveframesize_timeout = null;
  * @param   string  id          id of the element in the DOM
  * @param   boolean only_open   do not close/hide element
  */
-function toggle(id, only_open) {
+function toggle(id, only_open)
+{
     var el = document.getElementById('subel' + id);
     if (! el) {
         return false;
@@ -28,13 +29,17 @@ function toggle(id, only_open) {
     if (el.style.display == 'none' || only_open) {
         el.style.display = '';
         if (img) {
-            img.src = image_minus;
+            var newimg = PMA_getImage('b_minus.png');
+            img.className = newimg.attr('class');
+            img.src = newimg.attr('src');
             img.alt = '-';
         }
     } else {
         el.style.display = 'none';
         if (img) {
-            img.src = image_plus;
+            var newimg = PMA_getImage('b_plus.png');
+            img.className = newimg.attr('class');
+            img.src = newimg.attr('src');
             img.alt = '+';
         }
     }
@@ -58,7 +63,7 @@ function PMA_saveFrameSizeReal()
     if (parent.text_dir == 'ltr') {
         pma_navi_width = parseInt(parent.document.getElementById('mainFrameset').cols)
     } else {
-        pma_navi_width = parent.document.getElementById('mainFrameset').cols.match(/\d+$/) 
+        pma_navi_width = parent.document.getElementById('mainFrameset').cols.match(/\d+$/)
     }
     if ((pma_navi_width > 0) && (pma_navi_width != PMA_getCookie('pma_navi_width'))) {
         PMA_setCookie('pma_navi_width', pma_navi_width, expires);
@@ -104,7 +109,8 @@ function PMA_setFrameSize()
  * @param   string  name    name of the value to retrieve
  * @return  string  value   value for the given name from cookie
  */
-function PMA_getCookie(name) {
+function PMA_getCookie(name)
+{
     var start = document.cookie.indexOf(name + "=");
     var len = start + name.length + 1;
     if ((!start) && (name != document.cookie.substring(0, name.length))) {
@@ -130,7 +136,8 @@ function PMA_getCookie(name) {
  * @param   string  domain
  * @param   boolean secure
  */
-function PMA_setCookie(name, value, expires, path, domain, secure) {
+function PMA_setCookie(name, value, expires, path, domain, secure)
+{
     document.cookie = name + "=" + escape(value) +
         ( (expires) ? ";expires=" + expires.toGMTString() : "") +
         ( (path)    ? ";path=" + path : "") +
@@ -144,7 +151,8 @@ function PMA_setCookie(name, value, expires, path, domain, secure) {
  * @param   string  value    requested value
  *
  */
-function fast_filter(value){
+function fast_filter(value)
+{
     lowercase_value = value.toLowerCase();
     $("#subel0 a[class!='tableicon']").each(function(idx,elem){
         $elem = $(elem);
@@ -160,11 +168,29 @@ function fast_filter(value){
 /**
  * Clears fast filter.
  */
-function clear_fast_filter() {
+function clear_fast_filter()
+{
     var elm = $('#NavFilter input');
     elm.val('');
     fast_filter('');
     elm.focus();
+}
+
+/**
+ * Reloads the recent tables list.
+ */
+function PMA_reloadRecentTable()
+{
+    $.get('navigation.php', {
+            'token': window.parent.token,
+            'server': window.parent.server,
+            'ajax_request': true,
+            'recent_table': true},
+        function (data) {
+            if (data.success == true) {
+                $('#recentTable').html(data.options);
+            }
+        });
 }
 
 /* Performed on load */
@@ -179,4 +205,36 @@ $(document).ready(function(){
     $('#clear_fast_filter').click(clear_fast_filter);
     $('#fast_filter').focus(function (evt) {evt.target.select();});
     $('#fast_filter').keyup(function (evt) {fast_filter(evt.target.value);});
-});
+
+    /* Jump to recent table */
+    $('#recentTable').change(function() {
+        if (this.value != '') {
+            var arr = jQuery.parseJSON(this.value);
+            window.parent.setDb(arr['db']);
+            window.parent.setTable(arr['table']);
+            window.parent.refreshMain($('#LeftDefaultTabTable')[0].value);
+        }
+    });
+
+    /* Create table */
+    $('#newtable a.ajax').click(function(event){
+        event.preventDefault();
+        /*Getting the url */
+        var url = $('#newtable a').attr("href");
+        if (url.substring(0, 15) == "tbl_create.php?") {
+             url = url.substring(15);
+        }
+        url = url +"&num_fields=&ajax_request=true";
+        /*Creating a div on the frame_content frame */
+        var div = parent.frame_content.$('<div id="create_table_dialog"></div>');
+        var target = "tbl_create.php";
+
+        /*
+         * Calling to the createTableDialog function
+         * (needs to be done in the context of frame_content in order
+         *  for the qtip tooltips to work)
+         * */
+        parent.frame_content.PMA_createTableDialog(div , url , target);
+    });//end of create new table
+});//end of document get ready
+

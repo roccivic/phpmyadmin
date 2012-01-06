@@ -33,17 +33,17 @@ function showDetails(i, update_size, insert_size, remove_size, insert_index, rem
     // The image source is changed when the showDetails function is called.
     if ($img.hasClass('selected')) {
         if ($img.hasClass('struct_img')) {
-            $img.attr('src', pmaThemeImage + 'new_struct_selected.jpg');
+            $img.attr('src', pmaThemeImage + 'new_struct_selected.png');
         }
         if ($img.hasClass('data_img')) {
-            $img.attr('src', pmaThemeImage + 'new_data_selected.jpg');
+            $img.attr('src', pmaThemeImage + 'new_data_selected.png');
         }
     } else {
         if ($img.hasClass('struct_img')) {
-            $img.attr('src', pmaThemeImage + 'new_struct.jpg');
+            $img.attr('src', pmaThemeImage + 'new_struct.png');
         }
         if ($img.hasClass('data_img')) {
-            $img.attr('src', pmaThemeImage + 'new_data.jpg');
+            $img.attr('src', pmaThemeImage + 'new_data.png');
         }
     }
 
@@ -96,7 +96,8 @@ function showDetails(i, update_size, insert_size, remove_size, insert_index, rem
         insert_rows.align = "center";
 
         var tick_image = document.createElement("img");
-        tick_image.src = pmaThemeImage + "s_success.png";
+        tick_image.src = PMA_getImage('s_success.png').attr('src');
+        tick_image.className = PMA_getImage('s_success.png').attr('class');
 
         if (update_size == '' && insert_size == '' && remove_size == '') {
           /**
@@ -225,33 +226,23 @@ function showDetails(i, update_size, insert_size, remove_size, insert_index, rem
  */
 function ApplySelectedChanges(token)
 {
-    var div =  document.getElementById("list");
-    var table = div.getElementsByTagName('table')[0];
-    var table_body = table.getElementsByTagName('tbody')[0];
-    // Get all the rows from the details table
-    var table_rows = table_body.getElementsByTagName('tr');
-    var x = table_rows.length;
-    var i;
     /**
      Append the token at the beginning of the query string followed by
     Table_ids that shows that "Apply Selected Changes" button is pressed
     */
-    var append_string = "?token="+token+"&Table_ids="+1;
-    for(i=0; i<x; i++){
-           append_string += "&";
-           append_string += i+"="+table_rows[i].id;
+    var params = {
+        token: $('#synchronize_form input[name=token]').val(),
+        server: $('#synchronize_form input[name=server]').val(),
+        checked: $('#delete_rows').prop('checked') ? 'true' : 'false',
+        Table_ids: 1
+    };
+    var $rows = $('#list tbody tr');
+    for(var i = 0; i < $rows.length; i++) {
+        params[i] = $($rows[i]).attr('id');
     }
 
-    // Getting the value of checkbox delete_rows
-    var checkbox = document.getElementById("delete_rows");
-    if (checkbox.checked){
-        append_string += "&checked=true";
-    } else {
-         append_string += "&checked=false";
-    }
     //Appending the token and list of table ids in the URL
-    location.href += token;
-    location.href += append_string;
+    location.href += '?' + $.param(params);
 }
 
 
@@ -346,9 +337,9 @@ $(document).ready(function() {
             var $img = $(this);
             $img.addClass('hover');
             if ($img.hasClass('selected')) {
-                $img.attr('src', pmaThemeImage + 'new_struct_selected_hovered.jpg');
+                $img.attr('src', pmaThemeImage + 'new_struct_selected_hovered.png');
             } else {
-                $img.attr('src', pmaThemeImage + 'new_struct_hovered.jpg');
+                $img.attr('src', pmaThemeImage + 'new_struct_hovered.png');
             }
         },
         function() {
@@ -356,9 +347,9 @@ $(document).ready(function() {
             var $img = $(this);
             $img.removeClass('hover');
             if ($img.hasClass('selected')) {
-                $img.attr('src', pmaThemeImage + 'new_struct_selected.jpg');
+                $img.attr('src', pmaThemeImage + 'new_struct_selected.png');
             } else {
-                $img.attr('src', pmaThemeImage + 'new_struct.jpg');
+                $img.attr('src', pmaThemeImage + 'new_struct.png');
             }
         }
     );
@@ -369,9 +360,9 @@ $(document).ready(function() {
             var $img = $(this);
             $img.addClass('hover');
             if ($img.hasClass('selected')) {
-                $img.attr('src', pmaThemeImage + 'new_data_selected_hovered.jpg');
+                $img.attr('src', pmaThemeImage + 'new_data_selected_hovered.png');
             } else {
-                $img.attr('src', pmaThemeImage + 'new_data_hovered.jpg');
+                $img.attr('src', pmaThemeImage + 'new_data_hovered.png');
             }
         },
         function() {
@@ -379,9 +370,9 @@ $(document).ready(function() {
             var $img = $(this);
             $img.removeClass('hover');
             if ($img.hasClass('selected')) {
-                $img.attr('src', pmaThemeImage + 'new_data_selected.jpg');
+                $img.attr('src', pmaThemeImage + 'new_data_selected.png');
             } else {
-                $img.attr('src', pmaThemeImage + 'new_data.jpg');
+                $img.attr('src', pmaThemeImage + 'new_data.png');
             }
         }
     );
