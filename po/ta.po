@@ -11115,9 +11115,10 @@ msgstr ""
 msgid "Comment out these two lines if you do not need them."
 msgstr ""
 
-#: tbl_tracking.php:215
-msgid "SQL statements exported. Please copy the dump or execute it."
-msgstr ""
+#: server_status.php:516 server_status.php:561 server_status.php:626
+#: server_status.php:687
+msgid "per hour"
+msgstr "ஒரு மணி நேரத்திற்கு "
 
 #: tbl_tracking.php:246
 #, php-format
@@ -11145,17 +11146,13 @@ msgstr ""
 msgid "Show %s with dates from %s to %s by user %s %s"
 msgstr ""
 
-#: tbl_tracking.php:438
-msgid "Delete tracking data row from report"
-msgstr ""
+#: server_status.php:627
+msgid "per minute"
+msgstr "ஒரு நிமிடத்திற்கு "
 
-#: tbl_tracking.php:449
-msgid "No data"
-msgstr "தரவு இல்லை"
-
-#: tbl_tracking.php:459 tbl_tracking.php:516
-msgid "Date"
-msgstr "திகதி"
+#: server_status.php:628
+msgid "per second"
+msgstr "ஒரு வினாடிக்கு"
 
 #: tbl_tracking.php:461
 msgid "Data definition statement"

@@ -86,7 +86,7 @@ msgstr "వెళ్ళు"
 #: browse_foreigners.php:174 browse_foreigners.php:178
 #: libraries/Index.class.php:440 tbl_tracking.php:319
 msgid "Keyname"
-msgstr ""
+msgstr "కీలకపదం"
 
 #: browse_foreigners.php:175 browse_foreigners.php:177
 #: server_collations.php:54 server_collations.php:66 server_engines.php:55

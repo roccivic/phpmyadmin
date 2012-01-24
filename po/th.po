@@ -10168,17 +10168,17 @@ msgstr ""
 msgid "The total number of data writes."
 msgstr ""
 
-#: server_status.php:1341
-msgid "The amount of data written so far, in bytes."
-msgstr ""
+#: server_binlog.php:200
+msgid "Position"
+msgstr "ตำแหน่ง"
 
 #: server_status.php:1342
 msgid "The number of pages that have been written for doublewrite operations."
 msgstr ""
 
-#: server_status.php:1343
-msgid "The number of doublewrite operations that have been performed."
-msgstr ""
+#: server_binlog.php:203
+msgid "Original position"
+msgstr "ตำแหน่งเริ่มแรก"
 
 #: server_status.php:1344
 msgid ""
@@ -11747,20 +11747,17 @@ msgstr "ชนิดคำค้น"
 msgid "Tracking data manipulation successfully deleted"
 msgstr ""
 
-#: tbl_tracking.php:417
-msgid "Tracking statements"
-msgstr ""
+#: server_synchronize.php:429 server_synchronize.php:872
+msgid "Apply index(s)"
+msgstr "ดัชนี"
 
-#: tbl_tracking.php:433 tbl_tracking.php:561
-#, php-format
-msgid "Show %s with dates from %s to %s by user %s %s"
-msgstr ""
+#: server_synchronize.php:430 server_synchronize.php:873
+msgid "Update row(s)"
+msgstr "อัพเดทแถว"
 
-#: tbl_tracking.php:438
-#, fuzzy
-#| msgid "Delete tracking data for this table"
-msgid "Delete tracking data row from report"
-msgstr "ลบการติดตามตารางนี้"
+#: server_synchronize.php:431 server_synchronize.php:874
+msgid "Insert row(s)"
+msgstr "เพิ่มแถว"
 
 #: tbl_tracking.php:449
 #, fuzzy
@@ -11773,13 +11770,13 @@ msgstr "ไม่มีฐานข้อมูล"
 msgid "Date"
 msgstr "ข้อมูล"
 
-#: tbl_tracking.php:461
-msgid "Data definition statement"
-msgstr ""
+#: server_synchronize.php:444 server_synchronize.php:889
+msgid "Apply Selected Changes"
+msgstr "ใช้การเปลี่ยนแปลงที่เลือก"
 
-#: tbl_tracking.php:518
-msgid "Data manipulation statement"
-msgstr ""
+#: server_synchronize.php:446 server_synchronize.php:891
+msgid "Synchronize Databases"
+msgstr "ทำให้ฐานข้อมูลเท่ากัน"
 
 #: tbl_tracking.php:564
 msgid "SQL dump (file download)"
@@ -11873,14 +11870,9 @@ msgstr ""
 msgid "Get more themes!"
 msgstr ""
 
-#: transformation_overview.php:24
-msgid "Available MIME types"
-msgstr "MIME-types ที่มีอยู่"
-
-#: transformation_overview.php:37
-msgid ""
-"MIME types printed in italics do not have a separate transformation function"
-msgstr ""
+#: setup/frames/index.inc.php:212
+msgid "Display"
+msgstr "แสดง"
 
 #: transformation_overview.php:42
 msgid "Available transformations"
@@ -11893,26 +11885,22 @@ msgctxt "for MIME transformation"
 msgid "Description"
 msgstr "รายละเอียด"
 
-#: user_password.php:34
-msgid "You don't have sufficient privileges to be here right now!"
-msgstr "คุณไม่มีสิทธิที่จะเข้ามาตรงนี้!"
+#: setup/frames/index.inc.php:228
+msgid "Donate"
+msgstr "บริจาค"
 
-#: user_password.php:96
-msgid "The profile has been updated."
-msgstr "ปรับปรุงโพรไฟล์เรียบร้อยแล้ว"
-
-#: view_create.php:141
-msgid "VIEW name"
-msgstr ""
+#: setup/frames/servers.inc.php:28
+msgid "Edit server"
+msgstr "แก้ไข เครื่องแม่ข่าย"
 
 #: view_operations.php:91
 #, fuzzy
 msgid "Rename view to"
 msgstr "เปลี่ยนชื่อตารางเป็น"
 
-#: po/advisory_rules.php:5
-msgid "Uptime below one day"
-msgstr ""
+#: setup/lib/form_processing.lib.php:42
+msgid "Warning"
+msgstr "คำเตือน"
 
 #: po/advisory_rules.php:6
 msgid "Uptime is less than 1 day, performance tuning may not be accurate."
@@ -12522,10 +12510,24 @@ msgstr ""
 
 #: po/advisory_rules.php:153
 #, php-format
-msgid ""
-"%s%% of all temporary tables are being written to disk, this value should be "
-"below 25%%"
-msgstr ""
+msgid "Table %s has been flushed"
+msgstr "ล้างตาราง %s เรียบร้อยแล้ว"
+
+#: tbl_operations.php:664
+#, fuzzy
+#| msgid "Flush the table (\"FLUSH\")"
+msgid "Flush the table (FLUSH)"
+msgstr "ล้างตาราง (flush)"
+
+#: tbl_operations.php:673
+#, fuzzy
+#| msgid "Dumping data for table"
+msgid "Delete data or table"
+msgstr "dump ตาราง"
+
+#: tbl_operations.php:688
+msgid "Empty the table (TRUNCATE)"
+msgstr "ลบข้อมูลตาราง (TRUNCATE)"
 
 #: po/advisory_rules.php:155
 #, fuzzy
@@ -12552,9 +12554,9 @@ msgid ""
 "less than 1 per hour"
 msgstr ""
 
-#: po/advisory_rules.php:160
-msgid "MyISAM key buffer size"
-msgstr ""
+#: tbl_operations.php:740
+msgid "Analyze"
+msgstr "วิเคราะห์"
 
 #: po/advisory_rules.php:161
 msgid "Key buffer is not initialized. No MyISAM indexes will be cached."
