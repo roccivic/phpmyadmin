@@ -69,7 +69,7 @@ if (false !== $possibly_uploaded_val) {
     } elseif ($type == 'set') {
         if (! empty($_REQUEST['fields']['multi_edit'][$rownumber][$key])) {
             $val = implode(',', $_REQUEST['fields']['multi_edit'][$rownumber][$key]);
-            $val = "'" . PMA_sqlAddslashes($val) . "'";
+            $val = "'" . PMA_sqlAddSlashes($val) . "'";
         } else {
              $val = "''";
         }

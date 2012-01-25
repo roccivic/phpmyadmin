@@ -129,13 +129,12 @@ function PMA_tbl_getSubTabs()
  * @param int    $foreignMaxLimit Max limit of displaying foreign elements
  * @param array  $fields          Array of search criteria inputs
  * @param bool   $in_fbs          Whether we are in 'function based search'
- * @param bool   $in_edit         Whether in search mode
- *                                    or edit mode (used for zoom search)
+ * @param bool   $in_zoom_search_edit  Whether we are in zoom search edit 
  *
  * @return string HTML content for viewing foreing data and elements
  * for search criteria input.
  */
-function PMA_getForeignFields_Values($foreigners, $foreignData, $field, $tbl_fields_type, $i, $db, $table, $titles, $foreignMaxLimit, $fields, $in_fbs = false, $in_edit = false)
+function PMA_getForeignFields_Values($foreigners, $foreignData, $field, $tbl_fields_type, $i, $db, $table, $titles, $foreignMaxLimit, $fields, $in_fbs = false, $in_zoom_search_edit = false)
 {
     $str = '';
     if ($foreigners && isset($foreigners[$field]) && is_array($foreignData['disp_row'])) {
@@ -153,23 +152,18 @@ function PMA_getForeignFields_Values($foreigners, $foreignData, $field, $tbl_fie
 
     } elseif ($foreignData['foreign_link'] == true) {
         if (isset($fields[$i]) && is_string($fields[$i])) {
-         $str .= '<input type="text" id="fieldID_' . $i .'"name="fields[' . $i . ']" value="' . $fields[$i] . '"';
-             'id="field_' . md5($field) . '[' . $i .']"
-             class="textfield"/>' ;
+            $str .= '<input type="text" id="fieldID_' . $i . '" name="fields[' . $i . ']" value="' . $fields[$i] . '" id="field_' . md5($field) . '[' . $i .']" class="textfield" />' ;
         } else {
-         $str .= '<input type="text" id="fieldID_' . $i .'"name="fields[' . $i . ']"';
-             'id="field_' . md5($field) . '[' . $i .']"
-             class="textfield" />' ;
+            $str .= '<input type="text" id="fieldID_' . $i . '" name="fields[' . $i . ']" id="field_' . md5($field) . '[' . $i .']" class="textfield" />' ;
         }
- ?>
-    <?php $str .= '<script type="text/javascript">';
-        // <![CDATA[
-    $str .=  <<<EOT
+        $str .=  <<<EOT
 <a target="_blank" onclick="window.open(this.href, 'foreigners', 'width=640,height=240,scrollbars=yes'); return false" href="browse_foreigners.php?
 EOT;
-        $str .= '' . PMA_generate_common_url($db, $table) .  '&amp;field=' . urlencode($field) . '&amp;fieldkey=' . $i . '">' . str_replace("'", "\'", $titles['Browse']) . '</a>';
-        // ]]
-        $str .= '</script>';
+        $str .= '' . PMA_generate_common_url($db, $table) .  '&amp;field=' . urlencode($field) . '&amp;fieldkey=' . $i . '"';
+        if ($in_zoom_search_edit) {
+            $str .= ' class="browse_foreign"';
+        }
+        $str .= '>' . str_replace("'", "\'", $titles['Browse']) . '</a>';
 
     } elseif (in_array($tbl_fields_type[$i], PMA_getGISDatatypes())) {
         // g e o m e t r y
@@ -185,7 +179,7 @@ EOT;
         }
 
     } elseif (strncasecmp($tbl_fields_type[$i], 'enum', 4) == 0
-        || (strncasecmp($tbl_fields_type[$i], 'set', 3) == 0 && $in_edit)
+        || (strncasecmp($tbl_fields_type[$i], 'set', 3) == 0 && $in_zoom_search_edit)
     ) {
         // e n u m s   a n d   s e t s
 
@@ -198,8 +192,8 @@ EOT;
         $value = explode(', ', str_replace("'", '', substr($tbl_fields_type[$i], 5, -1)));
         $cnt_value = count($value);
 
-        if ((strncasecmp($tbl_fields_type[$i], 'enum', 4) && ! $in_edit)
-            || (strncasecmp($tbl_fields_type[$i], 'set', 3) && $in_edit)
+        if ((strncasecmp($tbl_fields_type[$i], 'enum', 4) && ! $in_zoom_search_edit)
+            || (strncasecmp($tbl_fields_type[$i], 'set', 3) && $in_zoom_search_edit)
         ) {
             $str .= '<select name="fields[' . ($i) . '][]" id="fieldID_' . $i .'">' . "\n";
         } else {

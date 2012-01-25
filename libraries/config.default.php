@@ -639,6 +639,13 @@ $cfg['SkipLockedTables'] = false;
 $cfg['ShowSQL'] = true;
 
 /**
+ * retain SQL input on Ajax execute
+ *
+ * @global boolean $cfg['RetainQueryEditor']
+ */
+$cfg['RetainQueryBox'] = false;
+
+/**
  * show a 'Drop database' link to normal users
  *
  * @global boolean $cfg['AllowUserDropDatabase']
@@ -1451,7 +1458,7 @@ $cfg['Export']['csv_enclosed'] = '"';
  *
  * @global string $cfg['Export']['csv_escaped']
  */
-$cfg['Export']['csv_escaped'] = '\\';
+$cfg['Export']['csv_escaped'] = '"';
 
 /**
  *
@@ -1948,7 +1955,7 @@ $cfg['Import']['csv_enclosed'] = '"';
  *
  * @global string $cfg['Import']['csv_escaped']
  */
-$cfg['Import']['csv_escaped'] = '\\';
+$cfg['Import']['csv_escaped'] = '"';
 
 /**
  *
