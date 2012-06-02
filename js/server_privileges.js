@@ -9,47 +9,6 @@
  *
  */
 
-/**
- * Validates the password field in a form
- *
- * @see     PMA_messages['strPasswordEmpty']
- * @see     PMA_messages['strPasswordNotSame']
- * @param object   the form
- * @return boolean  whether the field value is valid or not
- */
-function checkPassword(the_form)
-{
-    // Did the user select 'no password'?
-    if (typeof(the_form.elements['nopass']) != 'undefined'
-     && the_form.elements['nopass'][0].checked) {
-        return true;
-    } else if (typeof(the_form.elements['pred_password']) != 'undefined'
-     && (the_form.elements['pred_password'].value == 'none'
-      || the_form.elements['pred_password'].value == 'keep')) {
-        return true;
-    }
-
-    var password = the_form.elements['pma_pw'];
-    var password_repeat = the_form.elements['pma_pw2'];
-    var alert_msg = false;
-
-    if (password.value == '') {
-        alert_msg = PMA_messages['strPasswordEmpty'];
-    } else if (password.value != password_repeat.value) {
-        alert_msg = PMA_messages['strPasswordNotSame'];
-    }
-
-    if (alert_msg) {
-        alert(alert_msg);
-        password.value  = '';
-        password_repeat.value = '';
-        password.focus();
-        return false;
-    }
-
-    return true;
-} // end of the 'checkPassword()' function
-
 
 /**
  * Validates the "add a user" form
@@ -70,7 +29,7 @@ function checkAddUser(the_form)
         return false;
     }
 
-    return checkPassword(the_form);
+    return checkPassword($(the_form));
 } // end of the 'checkAddUser()' function
 
 /**
@@ -167,7 +126,6 @@ $(function() {
             var $form = $(this).find("form[name=usersForm]").last();
 
             if (! checkAddUser($form.get(0))) {
-                PMA_ajaxShowMessage(PMA_messages['strFormEmpty']);
                 return false;
             }
 
@@ -264,6 +222,15 @@ $(function() {
             PMA_convertFootnotesToTooltips($div);
             PMA_ajaxRemoveMessage($msgbox);
             $div.find("input[autofocus]").focus();
+
+            $div.find('form[name=usersForm]').bind('submit', function (e) {
+                e.preventDefault();
+                $(this)
+                    .closest('.ui-dialog')
+                    .find('.ui-dialog-buttonpane .ui-button')
+                    .first()
+                    .click();
+            });
         }); // end $.get()
 
     });//end of Add New User AJAX event handler
@@ -404,9 +371,15 @@ $(function() {
         /** @lends jQuery */
         event.preventDefault();
 
-        PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
-
         var $t = $(this);
+
+        if (($t.is('#change_password_form') || $t.is('.copyUserForm'))
+             && ! checkPassword($t)
+        ) {
+            return false;
+        }
+
+        PMA_ajaxShowMessage(PMA_messages['strProcessingRequest']);
 
         $t.append('<input type="hidden" name="ajax_request" value="true" />');
 
@@ -466,8 +439,7 @@ $(function() {
                 $("#usersForm")
                 .find('.current_row')
                 .removeClass('current_row');
-            }
-            else {
+            } else {
                 PMA_ajaxShowMessage(data.error, false);
             }
         });

@@ -2544,24 +2544,55 @@ $(function() {
 });  // end $() for Create Database
 
 /**
+ * Validates the password field in a form
+ *
+ * @see     PMA_messages['strPasswordEmpty']
+ * @see     PMA_messages['strPasswordNotSame']
+ * @param object   the form
+ * @return boolean  whether the field value is valid or not
+ */
+function checkPassword($the_form)
+{
+
+    var $pred = $the_form.find('#select_pred_password');
+
+    // Did the user select 'no password'?
+    if ($the_form.find('#nopass_1').is(':checked')) {
+        return true;
+    } else if ($pred.length && ($pred.val() == 'none' || $pred.val() == 'keep')) {
+        return true;
+    }
+
+    var $password = $the_form.find('input[name=pma_pw]');
+    var $password_repeat = $the_form.find('input[name=pma_pw2]');
+    var alert_msg = false;
+
+    if ($password.val() == '') {
+        alert_msg = PMA_messages['strPasswordEmpty'];
+    } else if ($password.val() != $password_repeat.val()) {
+        alert_msg = PMA_messages['strPasswordNotSame'];
+    }
+
+    if (alert_msg) {
+        alert(alert_msg);
+        $password.val('');
+        $password_repeat.val('');
+        $password.focus();
+        return false;
+    }
+
+    return true;
+} // end of the 'checkPassword()' function
+
+/**
  * Attach Ajax event handlers for 'Change Password' on main.php
  */
 $(function() {
-
-    /**
-     * Attach Ajax event handler on the change password anchor
-     * @see $cfg['AjaxEnable']
-     */
-    $('#change_password_anchor.dialog_active').live('click', function(event) {
-        event.preventDefault();
-        return false;
-        });
     $('#change_password_anchor.ajax').live('click', function(event) {
         event.preventDefault();
 
         var $msgbox = PMA_ajaxShowMessage();
 
-        $(this).removeClass('ajax').addClass('dialog_active');
         /**
          * @var button_options  Object containing options to be passed to jQueryUI's dialog
          */
@@ -2575,6 +2606,10 @@ $(function() {
              */
             var $the_form = $("#change_password_form");
 
+            if (! checkPassword($the_form)) {
+                return false;
+            }
+
             /**
              * @var this_value  String containing the value of the submit button.
              * Need to append this for the change password form on Server Privileges
@@ -2587,6 +2622,7 @@ $(function() {
 
             $.post($the_form.attr('action'), $the_form.serialize() + '&change_pw='+ this_value, function(data) {
                 if (data.success == true) {
+                    $('#result_query').remove();
                     $("#floating_menubar").after(data.sql_query);
                     $("#change_password_dialog").hide().remove();
                     $("#edit_user_dialog").dialog("close").remove();
@@ -2611,9 +2647,7 @@ $(function() {
                     $(this).remove();
                 },
                 buttons : button_options,
-                beforeClose: function(ev, ui) {
-                    $('#change_password_anchor.dialog_active').removeClass('dialog_active').addClass('ajax');
-                }
+                modal: true
             })
             .append(data);
             // for this dialog, we remove the fieldset wrapping due to double headings
@@ -2624,6 +2658,15 @@ $(function() {
             displayPasswordGenerateButton();
             $('#fieldset_change_password_footer').hide();
             PMA_ajaxRemoveMessage($msgbox);
+
+            $('#change_password_form').bind('submit', function (e) {
+                e.preventDefault();
+                $(this)
+                    .closest('.ui-dialog')
+                    .find('.ui-dialog-buttonpane .ui-button')
+                    .first()
+                    .click();
+            });
         }); // end $.get()
     }); // end handler for change password anchor
 
