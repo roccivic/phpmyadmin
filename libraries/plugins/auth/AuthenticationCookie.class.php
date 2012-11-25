@@ -75,35 +75,6 @@ class AuthenticationCookie extends AuthenticationPlugin
     {
         global $conn_error;
 
-        $response = PMA_Response::getInstance();
-        if ($response->isAjax()) {
-            $response->isSuccess(false);
-            if (! empty($conn_error)) {
-                $response->addJSON(
-                    'message',
-                    PMA_Message::error(
-                        $conn_error
-                    )
-                );
-            } else {
-                $response->addJSON(
-                    'message',
-                    PMA_Message::error(
-                        __('Your session has expired. Please login again.')
-                    )
-                );
-            }
-            exit;
-        }
-
-        /* Perform logout to custom URL */
-        if (! empty($_REQUEST['old_usr'])
-            && ! empty($GLOBALS['cfg']['Server']['LogoutURL'])
-        ) {
-            PMA_sendHeaderLocation($GLOBALS['cfg']['Server']['LogoutURL']);
-            exit;
-        }
-
         // No recall if blowfish secret is not configured as it would produce
         // garbage
         if ($GLOBALS['cfg']['LoginCookieRecall']
@@ -117,6 +88,60 @@ class AuthenticationCookie extends AuthenticationPlugin
             $default_server = '';
             // skip the IE autocomplete feature.
             $autocomplete   = ' autocomplete="off"';
+        }
+
+        $response = PMA_Response::getInstance();
+        if ($response->isAjax()) {
+            $response->isSuccess(false);
+            if (! empty($conn_error)) {
+                $response->addJSON(
+                    'message',
+                    PMA_Message::error(
+                        $conn_error
+                    )
+                );
+            } else {
+                $params = array();
+                if (! empty($GLOBALS['target'])) {
+                    $params['target'] = $GLOBALS['target'];
+                }
+                $response->addJSON(
+                    'message',
+                    PMA_Message::error(
+                        __('Your session has expired. Please login again.')
+                    )->getDisplay()
+                    . '<form action="index.php" method="post" id="loginform_mini" class="disableAjax">'
+                    . '<fieldset>'
+                    . PMA_Message::notice(
+                        __('This form will cause a full page reload. Any unsaved data will be lost.')
+
+                    )->getDisplay()
+                    . PMA_generate_common_hidden_inputs($params)
+                    . '<input type="text" name="pma_username" id="input_username" '
+                    . 'value="' . htmlspecialchars($default_user) . '" size="24"/>'
+                    . '<label for="input_username">' . __('Username:') . '</label>'
+                    . '<input type="password" name="pma_password" id="input_password"'
+                    . ' value="" size="24" class="textfield" />'
+                    . ' <label for="input_password">' . __('Password:') . '</label>'
+                    . '</fieldset>'
+                    . '<fieldset class="tblFooters">'
+                    . '<input onclick="$(\'#loading_parent\').remove()"'
+                    . ' type="button" value="' . __('Cancel') . '" />'
+                    . '<input type="submit" value="' . __('Go') . '" />'
+                    . '</fieldset>'
+                    . '</div>'
+                    . '</form>'
+                );
+            }
+            exit;
+        }
+
+        /* Perform logout to custom URL */
+        if (! empty($_REQUEST['old_usr'])
+            && ! empty($GLOBALS['cfg']['Server']['LogoutURL'])
+        ) {
+            PMA_sendHeaderLocation($GLOBALS['cfg']['Server']['LogoutURL']);
+            exit;
         }
 
         $cell_align = ($GLOBALS['text_dir'] == 'ltr') ? 'left' : 'right';

@@ -670,6 +670,19 @@ form.login label {
     font-weight: bolder;
 }
 
+#loginform_mini label {
+    float: <?php echo $right; ?>;
+    line-height: 2em;
+    height: 2em;
+    margin: 0.5em;
+}
+#loginform_mini input {
+    float: <?php echo $right; ?>;
+    width: 40%;
+    line-height: 2em;
+    margin: 0.5em;
+}
+
 .commented_column {
     border-bottom: 1px dashed black;
 }

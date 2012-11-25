@@ -1546,19 +1546,22 @@ $(function() {
      * Allows the user to dismiss a notification
      * created with PMA_ajaxShowMessage()
      */
-    $('span.ajax_notification.dismissable').live('click', function () {
-        PMA_ajaxRemoveMessage($(this));
+    $('span.ajax_notification.dismissable').live('click', function (event) {
+        var $target = $(event.target);
+        if ($target.closest('form').attr('id') !== 'loginform_mini') {
+            PMA_ajaxRemoveMessage($(this));
+        }
     });
     /**
      * The below two functions hide the "Dismiss notification" tooltip when a user
      * is hovering a link or button that is inside an ajax message
      */
-    $('span.ajax_notification a, span.ajax_notification button, span.ajax_notification input')
-    .live('mouseover', function () {
+    $('span.ajax_notification form, span.ajax_notification a, span.ajax_notification button, span.ajax_notification input')
+    .live('mouseover', function (event) {
         $(this).parents('span.ajax_notification').qtip('hide');
     });
-    $('span.ajax_notification a, span.ajax_notification button, span.ajax_notification input')
-    .live('mouseout', function () {
+    $('span.ajax_notification form, span.ajax_notification a, span.ajax_notification button, span.ajax_notification input')
+    .live('mouseout', function (event) {
         $(this).parents('span.ajax_notification').qtip('show');
     });
 });
