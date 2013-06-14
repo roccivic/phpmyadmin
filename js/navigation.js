@@ -213,68 +213,104 @@ $(function() {
 });
 
 /**
+ * This object allows you to reload the navigation or to retrieve
+ * the its current state.
+ */
+var PMA_navigationReloader = {
+    /**
+     * Reloads the whole navigation tree while preserving its state
+     *
+     * @param function the callback function
+     * @return void
+     */
+    reload: function (callback) {
+        this.makeAjaxRequest(this.getParams(), callback);
+    },
+    /**
+     * Retrieves the current state the navigation tree
+     * as an object of HTTP parameters
+     *
+     * @return object
+     */
+    getParams: function () {
+        var params = {
+            reload: true,
+            pos: $('#pma_navigation_tree').find('a.expander:first > span.pos').text()
+        };
+        // Traverse the navigation tree backwards to generate all the actual
+        // and virtual paths, as well as the positions in the pagination at
+        // various levels, if necessary.
+        var count = 0;
+        $('#pma_navigation_tree').find('a.expander:visible').each(function () {
+            if ($(this).find('img').is('.ic_b_minus')
+                && $(this).closest('li').find('div.list_container .ic_b_minus').length == 0
+            ) {
+                params['n' + count + '_aPath'] = $(this).find('span.aPath').text();
+                params['n' + count + '_vPath'] = $(this).find('span.vPath').text();
+
+                var pos2_name = $(this).find('span.pos2_name').text();
+                if (! pos2_name) {
+                    pos2_name = $(this)
+                        .parent()
+                        .parent()
+                        .find('span.pos2_name:last')
+                        .text();
+                }
+                var pos2_value = $(this).find('span.pos2_value').text();
+                if (! pos2_value) {
+                    pos2_value = $(this)
+                        .parent()
+                        .parent()
+                        .find('span.pos2_value:last')
+                        .text();
+                }
+
+                params['n' + count + '_pos2_name'] = pos2_name;
+                params['n' + count + '_pos2_value'] = pos2_value;
+
+                params['n' + count + '_pos3_name'] = $(this).find('span.pos3_name').text();
+                params['n' + count + '_pos3_value'] = $(this).find('span.pos3_value').text();
+                count++;
+            }
+        });
+        return params;
+    },
+    /**
+     * Given a state of the navigation tree, encoded as an object
+     * of HTTP parameters, this function reloads the navigation tree
+     *
+     * @param object HTTP parameters
+     * @param function the callback function
+     * @return void
+     */
+    makeAjaxRequest: function (params, callback) {
+        var $throbber = $('#pma_navigation .throbber')
+            .first()
+            .css('visibility', 'visible');
+        var url = $('#pma_navigation').find('a.navigation_url').attr('href');
+        $.post(url, params, function (data) {
+            $throbber.css('visibility', 'hidden');
+            if (data.success) {
+                $('#pma_navigation_tree').html(data.message).children('div').show();
+                // Fire the callback, if any
+                if (typeof callback === 'function') {
+                    callback.call();
+                }
+            } else {
+                PMA_ajaxShowMessage(data.error);
+            }
+        });
+    }
+};
+
+/**
  * Reloads the whole navigation tree while preserving its state
  *
- * @param  function     the callback function 
+ * @param function the callback function
  * @return void
  */
 function PMA_reloadNavigation(callback) {
-    var $throbber = $('#pma_navigation .throbber')
-        .first()
-        .css('visibility', 'visible');
-    var params = {
-        reload: true,
-        pos: $('#pma_navigation_tree').find('a.expander:first > span.pos').text()
-    };
-    // Traverse the navigation tree backwards to generate all the actual
-    // and virtual paths, as well as the positions in the pagination at
-    // various levels, if necessary.
-    var count = 0;
-    $('#pma_navigation_tree').find('a.expander:visible').each(function () {
-        if ($(this).find('img').is('.ic_b_minus')
-            && $(this).closest('li').find('div.list_container .ic_b_minus').length == 0
-        ) {
-            params['n' + count + '_aPath'] = $(this).find('span.aPath').text();
-            params['n' + count + '_vPath'] = $(this).find('span.vPath').text();
-
-            var pos2_name = $(this).find('span.pos2_name').text();
-            if (! pos2_name) {
-                pos2_name = $(this)
-                    .parent()
-                    .parent()
-                    .find('span.pos2_name:last')
-                    .text();
-            }
-            var pos2_value = $(this).find('span.pos2_value').text();
-            if (! pos2_value) {
-                pos2_value = $(this)
-                    .parent()
-                    .parent()
-                    .find('span.pos2_value:last')
-                    .text();
-            }
-
-            params['n' + count + '_pos2_name'] = pos2_name;
-            params['n' + count + '_pos2_value'] = pos2_value;
-
-            params['n' + count + '_pos3_name'] = $(this).find('span.pos3_name').text();
-            params['n' + count + '_pos3_value'] = $(this).find('span.pos3_value').text();
-            count++;
-        }
-    });
-    var url = $('#pma_navigation').find('a.navigation_url').attr('href');
-    $.post(url, params, function (data) {
-        $throbber.css('visibility', 'hidden');
-        if (data.success) {
-            $('#pma_navigation_tree').html(data.message).children('div').show();
-            // Fire the callback, if any
-            if (typeof callback === 'function') {
-                callback.call();
-            }
-        } else {
-            PMA_ajaxShowMessage(data.error);
-        }
-    });
+    PMA_navigationReloader.reload(callback);
 }
 
 /**
